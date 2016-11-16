@@ -1,0 +1,39 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools abx-toolbar-warning">
+      <h2>Nouvelle semaine</h2>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content" >
+    <label>Nom&nbsp:</label>
+    <ui-select
+        ng-model="$ctrl.vm.label"
+        search-enabled="false">
+      <ui-select-match 
+          class="ui-select-match"
+          placeholder="Semaine">
+        {{$select.selected.name}}
+      </ui-select-match>
+      <ui-select-choices 
+          class="ui-select-choices"
+          repeat="week in $ctrl.vm.yearWeek" >
+        <div ng-bind-html="week.name"></div>
+      </ui-select-choices>
+    </ui-select>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button 
+        ng-click="$ctrl.vm.cancel()" 
+        class="md-raised">
+      <md-icon 
+          md-svg-icon="action:cancel">
+      </md-icon>
+      Annuler
+    </md-button>
+    <md-button 
+        ng-click="$ctrl.vm.confirm($ctrl.vm.label)" 
+        class="md-raised md-primary">
+      Créer
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

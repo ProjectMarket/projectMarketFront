@@ -1,0 +1,24 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools abx-toolbar-warning">
+      <h2>Attention</h2>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content" ng-bind-html="::$ctrl.vm.textContent">
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button 
+      ng-click="$ctrl.vm.cancel()" 
+      class="md-raised">
+      <md-icon 
+        md-svg-icon="action:cancel">
+      </md-icon>
+      Annuler
+    </md-button>
+    <md-button 
+      ng-click="$ctrl.vm.confirm()" 
+      class="md-raised md-primary">
+      Continuer
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

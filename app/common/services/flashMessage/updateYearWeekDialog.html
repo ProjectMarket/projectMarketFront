@@ -1,0 +1,51 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools abx-toolbar-warning">
+      <h2>Modification de la semaine</h2>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content" >    
+      <label>Nouvelle semaine&nbsp:</label>
+      <ui-select
+          ng-required="true"
+          ng-model="$ctrl.vm.label"
+          search-enabled="false">
+        <ui-select-match 
+            class="ui-select-match"
+            placeholder="Semaine">
+          {{$select.selected.name}}
+        </ui-select-match>
+        <ui-select-choices 
+            class="ui-select-choices"
+            repeat="week in $ctrl.vm.yearWeek">
+          <div ng-bind-html="week.name"></div>
+        </ui-select-choices>
+      </ui-select>
+      <div>
+        <abx-form-group-title>Options de modification de semaine</abx-form-group-title>
+        <md-input-container>   
+          <md-radio-group name="updateMode" ng-model="$ctrl.vm.updateMode" ng-required="true">
+            <md-radio-button value="1">Uniquement cette semaine</md-radio-button>
+            <md-radio-button value="2">Cette semaine et les suivantes </md-radio-button>      
+          </md-radio-group>
+        </md-input-container>
+      </div>
+  </md-dialog-content>
+
+  <md-dialog-actions>
+    <md-button 
+        ng-click="$ctrl.vm.cancel()" 
+        class="md-raised">
+      <md-icon 
+          md-svg-icon="action:cancel">
+      </md-icon>
+      Annuler
+    </md-button>
+    <md-button 
+
+        ng-click="$ctrl.vm.confirm($ctrl.vm.label, $ctrl.vm.updateMode)" 
+        class="md-raised md-primary">
+      Modifier
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

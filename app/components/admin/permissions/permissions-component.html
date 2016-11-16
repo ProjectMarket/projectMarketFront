@@ -1,0 +1,119 @@
+<md-card ng-if="$ctrl.vm.canDisplayView" class="md-padding">
+  <h2>Gestion des accès à Isa</h2>
+
+  <div layout="column" layout-gt-sm="row" >
+    <!-- SchoolYearRolePermission -->
+    <md-card ng-if="$ctrl.vm.isAllowedManageCrudObjects.schoolYearRolePermission.read" flex layout-padding>
+      <md-card-title flex="none">
+        <md-card-title-text>
+          <span class="md-headline">Rôles autorisés à accéder à Isa</span>
+        </md-card-title-text>
+        <abx-help>
+          <p>Vous pouvez décider quels sont les rôles autorisés à accéder à Isa pour votre établissement pour l'année scolaire en cours.</p>
+          <p><strong>Le rôle administrateur est toujours autorisé à accéder à Isa.</strong></p>
+          <p><strong>Au début de chaque année scolaire, l'accès à Isa est interdit par défaut à tous les autres rôles.</strong></p>
+        </abx-help>
+      </md-card-title>
+      <md-card-content flex>
+        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.schoolYearRolePermissions" class="abx-message-error">
+          Une erreur est survenue. Vous ne pouvez pas visualiser les droits d'accès à Isa.
+        </div> 
+        <div ng-if="!$ctrl.vm.hasBackCrudObjectsError.schoolYearRolePermissions">
+          <div class="md-padding" md-whiteframe="1">
+            <md-switch ng-repeat="schoolYearRolePermission in $ctrl.vm.crudObjects.schoolYearRolePermission"
+                       ng-model="schoolYearRolePermission.value"
+                       aria-label="{{schoolYearRolePermission.role}}" 
+                       ng-disabled="!(
+                               (schoolYearRolePermission.value && (schoolYearRolePermission.frontEndAcl.delete || schoolYearRolePermission.id === undefined))
+                               ||
+                               (!schoolYearRolePermission.value && (schoolYearRolePermission.frontEndAcl.create || schoolYearRolePermission.id !== undefined))
+                               )">
+              {{schoolYearRolePermission.role| abxCommonProfileFilter:{withUCFirst:true}}}
+            </md-switch>
+          </div>
+          <md-switch ng-model="toggleSchoolYearRolesPermissions" ng-change="$ctrl.vm.toggle('schoolYearRolePermission', toggleSchoolYearRolesPermissions)">
+            <span ng-if="!toggleSchoolYearRolesPermissions">Tout activer</span>
+            <span ng-if="toggleSchoolYearRolesPermissions">Tout désactiver</span>
+          </md-switch>
+
+          <md-button ng-click="$ctrl.vm.saveSchoolYearRolePermission()" class="md-raised md-primary">
+            <md-icon md-svg-icon="action:save"></md-icon>
+            Enregistrer
+          </md-button>
+        </div>
+      </md-card-content>
+    </md-card>
+
+    <!--  Droits -->
+    <md-card ng-if="$ctrl.vm.isAllowedManageCrudObjects.classRolePermission.read" flex layout-padding>
+      <md-card-title flex="none">
+        <md-card-title-text>
+          <span class="md-headline">Gestion des droits</span>
+        </md-card-title-text>
+        <abx-help>
+          <p>Vous pouvez décider quels rôles sont autorisés à réaliser certaines actions.</p>
+          <p><strong>Au début de chaque année scolaire, ces droits sont réinitialisés en interdisant les actions aux rôles concernés.</strong></p>
+        </abx-help>
+      </md-card-title>
+      <md-card-content flex>
+        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.classRolePermission" class="abx-message-error" >
+          Une erreur est survenue. Vous ne pouvez pas gérer les droits d'Isa.
+        </div> 
+        <div ng-if="!$ctrl.vm.hasBackCrudObjectsError.classRolePermission">
+          <div class="md-padding" md-whiteframe="1">
+            <ul>
+              <li>
+                Emploi du temps
+                <ul>
+                  <li>
+                    Afficher
+                  <md-switch ng-repeat="(role, classRolePermission) in $ctrl.vm.crudObjects.classRolePermission.Lesson.read" ng-model="classRolePermission.value" aria-label="{{role}}"
+                             ng-disabled="!(
+                                     (classRolePermission.value && (classRolePermission.frontEndAcl.delete || classRolePermission.id === undefined))
+                                     ||
+                                     (!classRolePermission.value && (classRolePermission.frontEndAcl.create || classRolePermission.id !== undefined))
+                                     )">
+                    {{role| abxCommonProfileFilter:{withUCFirst:true}}}
+                  </md-switch>
+              </li>
+              <li>
+                Créer, modifier, supprimer
+              <md-switch ng-repeat="(role, classRolePermission) in $ctrl.vm.crudObjects.classRolePermission.Lesson.cud" ng-model="classRolePermission.value" aria-label="{{role}}"
+                         ng-disabled="!(
+                                     (classRolePermission.value && (classRolePermission.frontEndAcl.delete || classRolePermission.ids.length === 0))
+                                     ||
+                                     (!classRolePermission.value && (classRolePermission.frontEndAcl.create || classRolePermission.ids > 0))
+                                     )">
+                {{role| abxCommonProfileFilter:{withUCFirst:true}}}
+              </md-switch>
+              </li>
+            </ul>
+            </li>
+            <li>
+              Cahier de texte
+              <ul>
+                <li>
+                  Afficher
+                <md-switch ng-repeat="(role, classRolePermission) in $ctrl.vm.crudObjects.classRolePermission.Workbook.read" ng-model="classRolePermission.value" aria-label="{{role}}"
+                           ng-disabled="!(
+                                       (classRolePermission.value && (classRolePermission.frontEndAcl.delete || classRolePermission.id === undefined))
+                                       ||
+                                       (!classRolePermission.value && (classRolePermission.frontEndAcl.create || classRolePermission.id !== undefined))
+                                       )">
+                  {{role| abxCommonProfileFilter:{withUCFirst:true}}}
+                </md-switch>
+            </li>
+            </ul>
+            </li>
+            </ul>
+          </div>
+          <md-button ng-click="$ctrl.vm.saveClassRolePermission()" class="md-raised md-primary" >
+            <md-icon md-svg-icon="action:save"></md-icon>
+            Enregistrer
+          </md-button>
+        </div>
+      </md-card-content>
+    </md-card>
+  </div>
+
+</md-card>

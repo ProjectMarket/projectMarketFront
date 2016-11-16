@@ -1,0 +1,32 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools abx-toolbar-error">
+      <h2>Une erreur est survenue</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="$ctrl.vm.closeDialog()">
+        X
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content 
+    class="md-dialog-content">
+    <p class="md-body-2">
+      <span ng-bind-html="::$ctrl.vm.errorMessage"></span>
+      <span class="md-body-1" ng-if="$ctrl.vm.adviceMessage !== undefined && $ctrl.vm.adviceMessage.length > 0"><br>{{::$ctrl.vm.adviceMessage}}</span>
+    </p>
+    <div class="md-caption" ng-if="$ctrl.vm.technicalInfo.length > 0">
+      <strong>Informations techniques&nbsp;:</strong>
+      <div ng-if="$ctrl.vm.technicalInfo.length > 0">
+        <ul>
+          <li ng-repeat="info in $ctrl.vm.technicalInfo"><strong>{{info.key}}&nbsp;:</strong> {{info.label}}</li>
+        </ul>
+        <em>Ces informations ont normalement été envoyées au serveur pour aider à la résolution du problème.</em>
+      </div>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-click="$ctrl.vm.closeDialog()" class="md-raised">
+      OK
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

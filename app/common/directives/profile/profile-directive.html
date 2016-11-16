@@ -1,0 +1,21 @@
+<md-button ng-link="['./Core.profile']">
+  <div class="abx-name" layout="row" layout-align="start center">
+    <h3 class="md-toolbar-tools" flex>{{userIdentity| abxCommonUserNameFilter:"fn_ln"}}</h3>
+  </div>
+  <div layout="row" layout-align="start center" layout-wrap>
+    <md-icon md-svg-icon="avatars:svg-{{avatar}}" class="abx-avatar"></md-icon>
+
+    <div class="abx-role" layout="column" flex>
+      <div class="md-title">
+        <span>{{userRole| abxCommonProfileFilter:{sex:userIdentity.sex,withUCFirst:true} }}</span>
+        <span ng-if="userRole === 'ROLE_RESP'"> de l'élève</span>
+      </div>
+      <div class="md-title abx-ellipsis" flex ng-if="userRole === 'ROLE_RESP'">{{userStudent| abxCommonUserNameFilter:"fn_ln"}}</div>
+    </div>
+
+  </div>
+
+  <div class="abx-school" layout="row" layout-align="start center" layout-wrap layout-padding>
+    <div class="md-subhead abx-ellipsis" flex="100">{{userSchool| abxCommonSchoolFilter}}</div>
+  </div>
+</md-button>

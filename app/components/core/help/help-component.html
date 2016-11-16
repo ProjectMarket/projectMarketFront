@@ -1,0 +1,28 @@
+<md-card ng-if="$ctrl.vm.canDisplayView" layout-padding layout-margin>
+    <md-tabs md-dynamic-height md-border-bottom md-swipe-content="false">
+        <md-tab label="A propos">
+            <div ng-if="$ctrl.vm.hasBackError.versionning">
+                Une erreur est survenue. Vous ne pouvez pas visualiser les informations des versions d'ISA
+            </div>
+            <ul ng-if="!$ctrl.vm.hasBackError.versionning">
+                <li>
+                    Version du front
+                    <ul>
+                        <li>Révision&nbsp;: {{$ctrl.vm.frontVersion.revision}}</li>
+                        <li>Date de révision&nbsp;: {{$ctrl.vm.frontVersion.date| abxCommonDatetimeFilter:'shortDate'}}</li>
+                    </ul>
+                </li>
+                <li>
+                    Version du back
+                    <ul>
+                        <li>Version de l'application Java&nbsp;: {{$ctrl.vm.backVersion.version}}</li>
+                        <li>Build&nbsp;: {{$ctrl.vm.backVersion.buildNumber}}</li>
+                        <li>Base de données Aneto&nbsp;: {{$ctrl.vm.backVersion.aneto}}</li>
+                        <li>Base de données Isa&nbsp;: {{$ctrl.vm.backVersion.isa}}</li>
+                    </ul>
+                </li>
+
+            </ul>
+        </md-tab>
+    </md-tabs>
+</md-card>

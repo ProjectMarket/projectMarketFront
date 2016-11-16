@@ -1,0 +1,425 @@
+<md-card ng-if="$ctrl.vm.canDisplayView" class="md-padding">
+  <h2>Paramétrages de l'établissement</h2>
+
+  <!--  SchoolYear -->
+  <div layout="row" layout-xs="column" layout-sm="column">
+    <md-card ng-if="$ctrl.vm.isAllowedManageCrudObjects.schoolYear.read" layout-padding flex>
+      <md-card-title flex="none">
+        <md-card-title-text>
+          <span class="md-headline">Année scolaire</span>
+        </md-card-title-text>
+        <abx-help>
+          <p>L'année scolaire permet de faciliter la saisie de séances récurrentes dans l'agenda.</p>
+          <p>On pourra indiquer par exemple qu'un cours a lieu jusqu'à la fin de l'année scolaire.</p>
+          <p><strong>L'année scolaire est obligatoire pour utiliser Isa.</strong></p>
+        </abx-help>
+      </md-card-title>
+      <md-card-content flex>
+        <md-list>
+          <md-list-item ng-repeat="schoolYear in $ctrl.vm.crudObjects.schoolYear| orderBy: 'objectDisplayName'">
+            {{schoolYear.objectDisplayName}}
+            <md-menu>
+              <md-button 
+                ng-click="$mdOpenMenu($event)"
+                aria-label="Ouvrir le menu" 
+                class="md-icon-button">
+                <md-icon 
+                  md-menu-origin 
+                  md-svg-icon="action:menu">
+                </md-icon>
+              </md-button>
+              <md-menu-content>
+                <md-menu-item>
+                  <md-button ng-click="$ctrl.vm.menus('schoolYear', 'read', [schoolYear.id])">
+                    <md-icon 
+                      md-menu-align-target 
+                      md-svg-icon="action:read">
+                    </md-icon>
+                    Afficher
+                  </md-button>
+                </md-menu-item>
+                <md-menu-item ng-if="schoolYear.frontEndAcl.update">
+                  <md-button ng-click="$ctrl.vm.menus('schoolYear', 'update', [schoolYear.id])">
+                    <md-icon 
+                      md-menu-align-target 
+                      md-svg-icon="action:update">
+                    </md-icon>
+                    Modifier
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content> 
+            </md-menu>
+          </md-list-item>
+        </md-list>
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button
+          ng-if="$ctrl.vm.isAllowedManageCrudObjects.schoolYear.create"
+          ng-click="$ctrl.vm.menus('schoolYear', 'create', '-')"
+          class="md-raised"
+          aria-label="Créer">
+          <md-icon md-svg-icon="action:create"></md-icon>
+          Créer l'année scolaire
+        </md-button>
+      </md-card-actions>
+    </md-card>
+
+    <!--  PeriodType -->
+    <md-card ng-if="$ctrl.vm.isAllowedManageCrudObjects.periodType.read" layout-padding flex>
+      <md-card-title flex="none">
+        <md-card-title-text class="md-headline">Groupes de périodes</md-card-title-text>
+        <abx-help>
+          <p>Les groupes de périodes (trimestres, semestres...) permettent de faciliter la saisie de séances récurrentes dans l'agenda.</p>
+          <p>On pourra indiquer par exemple qu'un cours a lieu jusqu'à la fin du premier semestre
+            ou qu'il se déroulera les deuxième et troisième trimestres.</p>
+          <p><em>Les groupes de périodes ne sont pas obligatoires pour utiliser Isa.</em></p>
+        </abx-help>
+      </md-card-title>
+      <md-card-content flex>
+        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.periodTypes" class="abx-message-error">
+          Une erreur est survenue. Vous ne pouvez pas visualiser les groupes de périodes.
+        </div>
+        <abx-action-group ng-if="!$ctrl.vm.hasBackCrudObjectsError.periodTypes">
+          <md-list>
+            <md-list-item ng-repeat="periodType in $ctrl.vm.crudObjects.periodTypes| orderBy: 'objectDisplayName'">
+              <abx-action-group-select abx-options-id="periodType.id" abx-options-actions="{delete: periodType.frontEndAcl.delete}"></abx-action-group-select>
+              {{periodType.objectDisplayName}}
+              <md-menu>
+                <md-button 
+                  ng-click="$mdOpenMenu($event)"
+                  aria-label="Ouvrir le menu" 
+                  class="md-icon-button">
+                  <md-icon 
+                    md-menu-origin 
+                    md-svg-icon="action:menu">
+                  </md-icon>
+                </md-button>
+                <md-menu-content>
+                  <md-menu-item>
+                    <md-button ng-click="$ctrl.vm.menus('periodType', 'read', [periodType.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:read">
+                      </md-icon>
+                      Afficher
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="periodType.frontEndAcl.update">
+                    <md-button ng-click="$ctrl.vm.menus('periodType', 'update', [periodType.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:update">
+                      </md-icon>
+                      Modifier
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="$ctrl.vm.isAllowedManageCrudObjects.periodType.create">
+                    <md-button ng-click="$ctrl.vm.menus('periodType', 'create', [periodType.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:duplicate">
+                      </md-icon>
+                      Dupliquer
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="periodType.frontEndAcl.delete">
+                    <md-button ng-click="$ctrl.vm.menus('periodType', 'delete', [periodType.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:delete">
+                      </md-icon>
+                      Supprimer
+                    </md-button>
+                  </md-menu-item>
+                </md-menu-content> 
+              </md-menu>
+            </md-list-item>
+          </md-list>
+          <abx-action-group-bar>
+            <md-button ng-click="$ctrl.vm.menus('periodType', 'delete', getSelectedIds())" abx-action-group-bar-action="delete" class="md-raised">
+              <md-icon 
+                md-menu-align-target
+                md-svg-icon="action:delete">
+              </md-icon>
+              Supprimer
+            </md-button>
+          </abx-action-group-bar>
+        </abx-action-group>
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button
+          ng-if="$ctrl.vm.isAllowedManageCrudObjects.periodType.create"
+          ng-click="$ctrl.vm.menus('periodType', 'create', '-')"
+          class="md-raised"
+          aria-label="Créer">
+          <md-icon md-svg-icon="action:create"></md-icon>
+          Créer un groupe de périodes
+        </md-button>
+      </md-card-actions>
+    </md-card>
+  </div>
+
+  <!-- timetableContainer -->
+  <div layout="row" layout-xs="column" layout-sm="column">
+    <md-card ng-if="$ctrl.vm.isAllowedManageCrudObjects.timetableContainer.read" layout-padding flex>
+      <md-card-title flex="none">
+        <md-card-title-text class="md-headline">Groupes d'horaires</md-card-title-text>
+        <abx-help>
+          <p>Les horaires (M1, M2, S1...) permettent de faciliter la saisie de séances dans l'agenda.</p>
+          <p>On pourra indiquer par exemple qu'un cours commence en M1 et finit en M2.</p>
+          <p><em>Les groupes d'horaires ne sont pas obligatoires pour utiliser Isa.</em></p>
+        </abx-help>
+      </md-card-title>
+      <md-card-content flex>
+        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.timetableContainers" class="abx-message-error">
+          Une erreur est survenue. Vous ne pouvez pas visualiser les groupes d'horaires.
+        </div>
+        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.previousTimetableContainers" class="abx-message-error">
+          Une erreur est survenue. Vous ne pouvez pas visualiser les groupes d'horaires de l'année précédente.
+        </div>
+        <div ng-if="$ctrl.vm.crudObjects.previousTimetableContainers.length > 0">
+          <strong>{{$ctrl.vm.crudObjects.previousSchoolYear[0].objectDisplayName}}</strong>
+          <md-list>
+            <md-list-item ng-repeat="timetable in $ctrl.vm.crudObjects.previousTimetableContainers| orderBy: 'objectDisplayName'">            
+              {{timetable.objectDisplayName}}
+              <md-menu>
+                <md-button 
+                  ng-click="$mdOpenMenu($event)"
+                  aria-label="Ouvrir le menu" 
+                  class="md-icon-button">
+                  <md-icon 
+                    md-menu-origin 
+                    md-svg-icon="action:menu">
+                  </md-icon>
+                </md-button>
+                <md-menu-content>
+                  <md-menu-item>
+                    <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'read', [timetable.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:read">
+                      </md-icon>
+                      Afficher
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="timetable.frontEndAcl.update">
+                    <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'update', [timetable.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:update">
+                      </md-icon>
+                      Modifier
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="$ctrl.vm.isAllowedManageCrudObjects.timetableContainer.create">
+                    <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'create', [timetable.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:duplicate">
+                      </md-icon>
+                      Dupliquer
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="timetable.frontEndAcl.delete">
+                    <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'delete', [timetable.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:delete">
+                      </md-icon>
+                      Supprimer
+                    </md-button>
+                  </md-menu-item>
+                </md-menu-content> 
+              </md-menu>
+            </md-list-item>
+          </md-list>
+        </div>
+        <abx-action-group ng-if="!$ctrl.vm.hasBackCrudObjectsError.timetableContainers">
+          <strong>{{$ctrl.vm.crudObjects.schoolYear[0].objectDisplayName}}</strong>
+
+          <md-list>
+            <md-list-item ng-repeat="timetable in $ctrl.vm.crudObjects.timetableContainers| orderBy: 'objectDisplayName'">
+              <abx-action-group-select abx-options-id="timetable.id" abx-options-actions="{delete: timetable.frontEndAcl.delete}"></abx-action-group-select>
+              {{timetable.objectDisplayName}}
+              <md-menu>
+                <md-button 
+                  ng-click="$mdOpenMenu($event)"
+                  aria-label="Ouvrir le menu" 
+                  class="md-icon-button">
+                  <md-icon 
+                    md-menu-origin 
+                    md-svg-icon="action:menu">
+                  </md-icon>
+                </md-button>
+                <md-menu-content>
+                  <md-menu-item>
+                    <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'read', [timetable.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:read">
+                      </md-icon>
+                      Afficher
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="timetable.frontEndAcl.update">
+                    <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'update', [timetable.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:update">
+                      </md-icon>
+                      Modifier
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="$ctrl.vm.isAllowedManageCrudObjects.timetableContainer.create">
+                    <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'create', [timetable.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:duplicate">
+                      </md-icon>
+                      Dupliquer
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="timetable.frontEndAcl.delete">
+                    <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'delete', [timetable.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:delete">
+                      </md-icon>
+                      Supprimer
+                    </md-button>
+                  </md-menu-item>
+                </md-menu-content> 
+              </md-menu>
+            </md-list-item>
+          </md-list>
+          <abx-action-group-bar>
+            <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'delete', getSelectedIds())" abx-action-group-bar-action="delete" class="md-raised">
+              <md-icon 
+                md-menu-align-target
+                md-svg-icon="action:delete">
+              </md-icon>
+              Supprimer
+            </md-button>
+
+          </abx-action-group-bar>
+        </abx-action-group>
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button
+          ng-if="$ctrl.vm.isAllowedManageCrudObjects.timetableContainer.create"
+          ng-click="$ctrl.vm.menus('timetableContainer', 'create', '-')"
+          class="md-raised"
+          aria-label="Créer">
+          <md-icon md-svg-icon="action:create"></md-icon>
+          Créer un groupe d'horaires
+        </md-button>
+      </md-card-actions>
+    </md-card>
+
+    <!-- AlternatingWeek -->
+    <md-card ng-if="$ctrl.vm.isAllowedManageCrudObjects.alternatingWeeks.read" layout-padding flex>
+      <md-card-title flex="none">
+
+        <md-card-title-text class="md-headline">Alternances de semaines</md-card-title-text>
+        <abx-help>
+          <p>Les alternances de semaines (Semaines A, B, C, Rouge...) permettent de faciliter la saisie de séances récurrentes dans l'agenda.</p>
+          <p>On pourra indiquer par exemple qu'un cours a lieu les semaines A
+            ou qu'il se déroulera les semaines A et C.</p>
+          <p><em>Les alternances de semaines ne sont pas obligatoires pour utiliser Isa.</em></p>
+        </abx-help>
+      </md-card-title>
+      <md-card-content flex>
+        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.alternatingWeeks" class="abx-message-error">
+          Une erreur est survenue. Vous ne pouvez pas visualiser les alternances de semaines.
+        </div>
+        <abx-action-group ng-if="!$ctrl.vm.hasBackCrudObjectsError.alternatingWeeks">
+          <md-list>
+            <md-list-item ng-repeat="alternatingWeek in $ctrl.vm.crudObjects.alternatingWeeks| orderBy: 'objectDisplayName'">
+              <abx-action-group-select abx-options-id="alternatingWeek.id" abx-options-actions="{delete: alternatingWeek.frontEndAcl.delete}"></abx-action-group-select>
+              {{alternatingWeek.objectDisplayName}}
+              <md-menu>
+                <md-button 
+                  ng-click="$mdOpenMenu($event)"
+                  aria-label="Ouvrir le menu" 
+                  class="md-icon-button">
+                  <md-icon 
+                    md-menu-origin 
+                    md-svg-icon="action:menu">
+                  </md-icon>
+                </md-button>
+                <md-menu-content>
+                  <md-menu-item>
+                    <md-button ng-click="$ctrl.vm.menus('alternatingWeeks', 'read', [alternatingWeek.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:read">
+                      </md-icon>
+                      Afficher
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="alternatingWeek.frontEndAcl.update">
+                    <md-button ng-click="$ctrl.vm.menus('alternatingWeeks', 'update', [alternatingWeek.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:update">
+                      </md-icon>
+                      Modifier
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="$ctrl.vm.isAllowedManageCrudObjects.alternatingWeeks.create">
+                    <md-button ng-click="$ctrl.vm.menus('alternatingWeeks', 'create', [alternatingWeek.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:duplicate">
+                      </md-icon>
+                      Dupliquer
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item ng-if="alternatingWeek.frontEndAcl.delete">
+                    <md-button ng-click="$ctrl.vm.menus('alternatingWeeks', 'delete', [alternatingWeek.id])">
+                      <md-icon 
+                        md-menu-align-target 
+                        md-svg-icon="action:delete">
+                      </md-icon>
+                      Supprimer
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-divider></md-menu-divider>
+                  <md-menu-item>                   
+                    <md-button ng-click="$ctrl.vm.menus('yearWeek', undefined, [alternatingWeek.id])"> 
+                      <md-icon 
+                          md-menu-align-target 
+                          md-svg-icon="action:read">
+                      </md-icon>
+                      Afficher/Modifier la semaine
+                    </md-button>
+                  </md-menu-item>
+                  </md-menu-content>
+              </md-menu>
+            </md-list-item>
+          </md-list>
+          <abx-action-group-bar>
+            <md-button ng-click="$ctrl.vm.menus('alternatingWeeks', 'delete', getSelectedIds())" abx-action-group-bar-action="delete" class="md-raised">
+              <md-icon 
+                md-menu-align-target
+                md-svg-icon="action:delete">
+              </md-icon>
+              Supprimer
+            </md-button>
+          </abx-action-group-bar>
+        </abx-action-group>
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button
+          ng-if="$ctrl.vm.isAllowedManageCrudObjects.alternatingWeeks.create"
+          ng-click="$ctrl.vm.menus('alternatingWeeks', 'create', '-')"
+          class="md-raised"
+          aria-label="Créer">
+          <md-icon md-svg-icon="action:create"></md-icon>
+          Créer une alternance de semaines
+        </md-button>
+      </md-card-actions>
+    </md-card>
+  </div>
+
+</md-card>

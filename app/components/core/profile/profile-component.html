@@ -1,0 +1,167 @@
+<md-card>
+  <abx-form 
+    name="form" 
+    ng-submit="$ctrl.vm.connect()"
+    ng-if="$ctrl.vm.canDisplayView"
+    class="md-padding" layout-margin>
+
+    <abx-form-title>Sélection du profil</abx-form-title>
+
+    <!-- globalProfile -->
+    <abx-form-element-select ng-show="$ctrl.vm.globalProfiles.length > 1">
+      <label>Profil</label>
+      <ui-select
+        ng-model="$ctrl.vm.newProfile.globalProfile"
+        search-enabled="false">
+        <ui-select-match 
+          class="ui-select-match"
+          placeholder="Choisissez votre profil">
+          {{$select.selected| abxCommonProfileFilter:{withUCFirst:true} }}
+        </ui-select-match>
+        <ui-select-choices 
+          class="ui-select-choices"
+          repeat="option in $ctrl.vm.globalProfiles">
+          <div ng-bind-html="option | abxCommonProfileFilter:{withUCFirst:true}"></div>
+        </ui-select-choices>
+      </ui-select>
+    </abx-form-element-select>
+
+
+    <!-- student -->
+    <abx-form-element-select ng-show="$ctrl.vm.newProfile.globalProfile === 'responsible'
+                && $ctrl.vm.students.length > 1">
+      <label>Élève</label>
+      <ui-select
+        ng-model="$ctrl.vm.newProfile.studentUserId"
+        search-enabled="false">
+        <ui-select-match  
+          class="ui-select-match"
+          placeholder="Choisissez l'élève">
+          {{$select.selected| abxCommonUserNameFilter:'fn_ln'}}
+        </ui-select-match>
+        <ui-select-choices 
+          class="ui-select-choices"
+          repeat="option.userId as option in $ctrl.vm.students">
+          <div ng-bind-html="option| abxCommonUserNameFilter:'fn_ln'"></div>
+        </ui-select-choices>
+      </ui-select>
+    </abx-form-element-select>
+
+
+    <!-- roleType -->
+    <abx-form-element-select ng-show="$ctrl.vm.newProfile.globalProfile === 'staff'
+                && $ctrl.vm.roleTypes.length > 1">
+      <label>Type de rôle</label>
+      <ui-select
+        ng-model="$ctrl.vm.newProfile.roleType"
+        search-enabled="false">
+        <ui-select-match  
+          class="ui-select-match"
+          placeholder="Choisissez le type de rôle">
+          {{$select.selected| abxCommonProfileFilter:{withUCFirst:true} }}
+        </ui-select-match>
+        <ui-select-choices 
+          class="ui-select-choices"
+          repeat="option in $ctrl.vm.roleTypes">
+          <div ng-bind-html="option| abxCommonProfileFilter:{withUCFirst:true}"></div>
+        </ui-select-choices>
+      </ui-select>
+    </abx-form-element-select>
+
+    <!-- school -->
+    <abx-form-element-select ng-show="($ctrl.vm.newProfile.studentUserId !== undefined
+                    || $ctrl.vm.newProfile.globalProfile === 'student'
+                    || $ctrl.vm.newProfile.roleType === 'schoolRoleType')
+                    && $ctrl.vm.schools.length > 1">
+      <label>Établissement</label>
+      <ui-select
+        ng-model="$ctrl.vm.newProfile.schoolId"
+        search-enabled="$ctrl.vm.schools.length >= 5">
+        <ui-select-match  
+          class="ui-select-match"
+          placeholder="Choisissez l'établissement">
+          {{$select.selected| abxCommonSchoolFilter}}
+        </ui-select-match>
+        <ui-select-choices 
+          class="ui-select-choices"
+          repeat="option.schoolId as option in $ctrl.vm.schools| orderBy:uai | filter:$select.search">
+          <div ng-bind-html="option| abxCommonSchoolFilter | highlight:$select.search"></div>
+          <small ng-bind-html="'[' + option.uai + '] ' + option.city | highlight:$select.search"></small>
+        </ui-select-choices>
+      </ui-select>
+    </abx-form-element-select>
+
+    <!-- role -->
+    <abx-form-element-select ng-show="(($ctrl.vm.newProfile.roleType === 'schoolRoleType'
+                    && $ctrl.vm.newProfile.schoolId !== undefined)
+                    || $ctrl.vm.newProfile.roleType === 'globalRoleType')
+                    && $ctrl.vm.roles.length > 1">
+      <label>Rôle</label>
+      <ui-select
+        ng-model="$ctrl.vm.newProfile.role"
+        search-enabled="false">
+        <ui-select-match  
+          class="ui-select-match"
+          placeholder="Choisissez le rôle">
+          {{$select.selected| abxCommonProfileFilter:{sex:$ctrl.vm.userIdentity.sex,withUCFirst:true} }}
+        </ui-select-match>
+        <ui-select-choices 
+          class="ui-select-choices"
+          repeat="option in $ctrl.vm.roles| abxCommonOrderByRoleFilter">
+          <div ng-bind-html="option| abxCommonProfileFilter:{sex:$ctrl.vm.userIdentity.sex,withUCFirst:true}"></div>
+        </ui-select-choices>
+      </ui-select>
+    </abx-form-element-select>
+
+    <!-- globalSchool -->
+    <abx-form-element-select ng-show="$ctrl.vm.newProfile.roleType === 'globalRoleType' && $ctrl.vm.newProfile.role !== undefined">
+      <label>Établissement</label>
+      <ui-select ng-model="$ctrl.vm.newProfile.globalSchoolId">
+        <ui-select-match class="ui-select-match" placeholder="Tapez les premiers caractères de [UAI] Type d'établissement Nom établissement - Commune">
+          {{$select.selected.displayName}}
+        </ui-select-match>
+        <ui-select-choices class="ui-select-choices"
+          repeat="option.id as option in $ctrl.vm.globalSchools"
+          refresh="$ctrl.vm.getSchoolsByDisplayName($select.search)" refresh-delay="300">
+          <div ng-bind-html="option.displayName | highlight:$select.search"></div>
+        </ui-select-choices>
+      </ui-select>
+    </abx-form-element-select>
+    
+    
+    <p ng-if="$ctrl.vm.forbiddenRoles.rolesCount > 0">
+    <md-button ng-click="$ctrl.vm.showForbiddenRoles()">
+      Afficher 
+      {{$ctrl.vm.forbiddenRoles.rolesCount, plural, offset:0
+              =1 {mon rôle non autorisé}                      
+              other {mes rôles non autorisés}
+          }}
+          à accéder à Isa
+    </md-button>
+    </p>
+
+
+    <!-- toolbar -->
+    <abx-form-submit-toolbar>
+      
+
+      <md-button  abx-form-submit-button
+                  ng-show="$ctrl.vm.hasAlreadySelectedProfile"
+                  ng-click="$ctrl.vm.cancel()">
+        Annuler
+      </md-button>
+      <md-button abx-form-submit-button
+                 ng-show="(($ctrl.vm.newProfile.globalProfile === 'student'
+                                       || $ctrl.vm.newProfile.globalProfile === 'responsible')
+                                       && $ctrl.vm.newProfile.schoolId !== undefined)
+                                       || ($ctrl.vm.newProfile.globalProfile === 'staff'
+                                           && $ctrl.vm.newProfile.role !== undefined
+                                           && (($ctrl.vm.newProfile.roleType === 'schoolRoleType' && $ctrl.vm.newProfile.schoolId !== undefined)
+                                           || ($ctrl.vm.newProfile.roleType === 'globalRoleType' && $ctrl.vm.newProfile.globalSchoolId !== undefined)))"
+                 type="submit">
+        Choisir ce profil
+      </md-button>
+    </abx-form-submit-toolbar>
+
+  </abx-form>
+</md-card>

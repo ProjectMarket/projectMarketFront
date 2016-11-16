@@ -1,0 +1,36 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools abx-toolbar-warning">
+      <h2>Confirmer la suppression</h2>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    Êtes-vous 
+    {{$ctrl.vm.userSex, select,
+          f {sure}                      
+          other {sûr}
+    }}
+    de vouloir supprimer {{$ctrl.vm.textContent}}&nbsp;:
+    <ul>
+      <li ng-repeat="objectName in $ctrl.vm.objectsDisplayNames">{{objectName}}</li>
+    </ul>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button 
+      ng-click="$ctrl.vm.cancel()" 
+      class="md-raised">
+      <md-icon 
+        md-svg-icon="action:cancel">
+      </md-icon>
+      Annuler
+    </md-button>
+    <md-button 
+      ng-click="$ctrl.vm.confirm()" 
+      class="md-raised md-primary">
+      <md-icon 
+        md-svg-icon="action:delete">
+      </md-icon>
+      Supprimer
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

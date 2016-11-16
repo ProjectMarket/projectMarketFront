@@ -1,0 +1,11 @@
+@import '_layout/toolbar';
+@import '_layout/sidenav';
+@import '_layout/content';
+
+abx\.app-component {
+  background: transparent url("../img/background/confectionary.png");
+}
+
+.#{$prefix}-container {
+  overflow: hidden;
+}

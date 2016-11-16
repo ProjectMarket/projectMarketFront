@@ -1,0 +1,6 @@
+<div ng-show="vm.actionList.total > 0">
+  <md-checkbox ng-model="vm.checkUncheckAllValue" ng-change="vm.checkUncheckAll()"></md-checkbox>
+  <span ng-transclude>
+    checkUncheckAll = {{vm.checkUncheckAll}}
+  </span>
+</div>

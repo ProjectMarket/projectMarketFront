@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <base href="/">
+
+        <title>ISA</title>
+        <link rel="stylesheet" href="lib/material/angular-material.css">
+        <link href="lib/angular-ui-select/select.css" rel="stylesheet" type="text/css">
+        <link href="lib/select2/select2.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="lib/material-design-icons/css/materialdesignicons.min.css">
+        <link href="assets/css/main.css" rel="stylesheet" type="text/css">
+    </head>
+    <body ng-strict-di ng-class="abxMedia.getClass()" layout>
+
+    <abx.app-component layout="column" flex>Veuillez patienter…</abx.app-component>
+
+
+    <script src="local/abx-local-config.json.js"></script>
+    <script src="lib/jquery/jquery.js"></script>
+
+    <script src="app/abx.init.js"></script>
+
+    <script src="lib/stacktrace/stacktrace.min.js"></script>
+
+    <!--    <script src="https://code.angularjs.org/snapshot/angular.js"></script>
+    <script src="https://code.angularjs.org/snapshot/angular-cookies.js"></script>
+    <script src="https://code.angularjs.org/snapshot/angular-aria.js"></script>
+    <script src="https://code.angularjs.org/snapshot/angular-animate.js"></script>
+    <script src="https://code.angularjs.org/snapshot/angular-sanitize.js"></script>
+    <script src="https://code.angularjs.org/snapshot/angular-messages.js"></script>
+    <script src="https://code.angularjs.org/snapshot/angular-message-format.js"></script>-->
+
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-cookies.js"></script>
+    <script src="lib/angular/angular-aria.js"></script>
+    <script src="lib/angular/angular-animate.js"></script>
+    <script src="lib/angular/angular-sanitize.js"></script>
+    <script src="lib/angular/angular-messages.js"></script>
+    <script src="lib/angular/angular-message-format.js"></script>
+
+    <script src="lib/startswith/startswith.js"></script>
+    <script src="lib/componentRouter/angular_1_router.js"></script>
+
+    <script src="lib/material/angular-material.js"></script>
+    <script src="lib/mdColors/colors.js"></script>
+    <script src="app/common/directives/md/input/input-directive.js"></script>
+    <script src="app/common/directives/md/datepicker/datepicker-directive.js"></script>
+
+    <script src="lib/angular-ui-select/select.js"></script>
+    <script src="lib/angular-ui-mask/mask.js"></script>
+
+    <script src="lib/moment/moment.min.js"></script>
+    <script src="lib/moment/locales.min.js"></script>
+
+    <script src="app/abx-app-module.js"></script>
+    <script src="app/abx-app-value.js"></script>
+    <script src="app/abx-app.bootstrap.js"></script>
+    <script src="app/abx-app.config.js"></script>
+    <script src="app/abx-app.run.js"></script>
+    <script src="app/abx-app-component.js"></script>
+
+    <script src="app/common/common-module.js"></script>
+
+    <script src="app/common/services/config-service.js"></script>
+    <script src="app/common/services/time-service.js"></script>
+    <script src="app/common/services/stacktrace-service.js"></script>
+
+    <script src="app/common/values/componentsSecurity-value.js"></script>
+    <script src="app/common/values/version-value.js"></script>
+
+    <script src="app/common/services/cron-service.js"></script>
+    <script src="app/common/services/log-service.js"></script>
+    <script src="app/common/services/component-service.js"></script>
+
+    <script src="app/common/services/cache-service.js"></script>
+    <script src="app/common/services/cookie-service.js"></script>
+    <script src="app/common/services/router-service.js"></script>
+    <script src="app/common/services/exceptionHandler-service.js"></script>
+    <script src="app/common/services/auth-service.js"></script>
+    <script src="app/common/services/user-service.js"></script>
+    <script src="app/common/services/backComHandler-service.js"></script>
+    <script src="app/common/services/cacheBackManager-service.js"></script>
+    <script src="app/common/services/modelManager-service.js"></script>
+    <script src="app/common/services/acl-service.js"></script>
+    <script src="app/common/services/flashMessage/flashMessage-service.js"></script>
+
+    <script src="app/common/models/periodType-model.js"></script>
+    <script src="app/common/models/schoolYear-model.js"></script>
+    <script src="app/common/models/yearContainer-model.js"></script>
+    <script src="app/common/models/schoolYearRolePermission-model.js"></script>
+    <script src="app/common/models/classRolePermission-model.js"></script>
+    <script src="app/common/models/timetableContainer-model.js"></script>
+    <script src="app/common/models/alternatingWeeks-model.js"></script>
+
+    <script src="app/common/models/yearWeek-model.js" type="text/javascript"></script>
+    <script src="app/common/models/roles-model.js"></script>
+    <script src="app/common/models/userSchoolRoles-model.js"></script>
+    <script src="app/common/models/school-model.js"></script>
+
+    <script src="app/common/filters/properties-filter.js"></script>
+    <script src="app/common/filters/school-filter.js"></script>
+    <script src="app/common/filters/profile-filter.js"></script>
+    <script src="app/common/filters/userName-filter.js"></script>
+    <script src="app/common/filters/datetime-filter.js"></script>
+    <script src="app/common/filters/notInArray-filter.js"></script>
+    <script src="app/common/filters/orderByDatetime-filter.js"></script>
+    <script src="app/common/filters/orderByRole-filter.js"></script>
+    <script src="app/common/filters/selectedRole-filter.js"></script>
+
+    <script src="app/common/directives/action/list/list-directive.js"></script>
+    <script src="app/common/directives/action/group/group-directive.js"></script>
+    <script src="app/common/directives/action/group/bar/bar-directive.js"></script>
+    <script src="app/common/directives/action/group/bar/action/action-directive.js"></script>
+    <script src="app/common/directives/action/group/select/select-directive.js"></script>
+    <script src="app/common/directives/form/form-directive.js"></script>
+    <script src="app/common/directives/form/title/title-directive.js"></script>
+    <script src="app/common/directives/form/element/select/select-directive.js"></script>
+    <script src="app/common/directives/form/element/note/note-directive.js"></script>
+    <script src="app/common/directives/form/field/example/example-directive.js"></script>
+    <script src="app/common/directives/form/field/format/format-directive.js"></script>
+    <script src="app/common/directives/form/field/info/info-directive.js"></script>
+    <script src="app/common/directives/form/filter/datetime/datetime-directive.js"></script>
+    <script src="app/common/directives/form/group/group-directive.js"></script>
+    <script src="app/common/directives/form/group/title/title-directive.js"></script>
+    <script src="app/common/directives/form/submit/toolbar/toolbar-directive.js"></script>
+    <script src="app/common/directives/form/submit/button/button-directive.js"></script>
+    <script src="app/common/directives/form/validate/back/back.js"></script>
+    <script src="app/common/directives/profile/profile-directive.js"></script>
+    <script src="app/common/directives/help/help-directive.js"></script>
+    <script src="app/common/directives/read/read-directive.js"></script>
+    <script src="app/common/directives/read/actions/actions-directive.js"></script>
+    <script src="app/common/directives/read/field/name/name-directive.js"></script>
+    <script src="app/common/directives/read/group/group-directive.js"></script>
+    <script src="app/common/directives/read/group/title/title-directive.js"></script>
+    <script src="app/common/directives/read/title/title-directive.js"></script>
+
+    <script src="app/common/validators/time-validator.js" type="text/javascript"></script>
+
+    <script src="app/components/components-module.js"></script>
+
+    <script src="app/components/core/core-module.js"></script>
+    <script src="app/components/core/error/error-component.js"></script>
+    <script src="app/components/core/404/404-component.js"></script>
+    <script src="app/components/core/login/login-component.js"></script>
+    <script src="app/components/core/login-result/login-result-component.js"></script>
+    <script src="app/components/core/logout/logout-component.js"></script>
+    <script src="app/components/core/index/index-component.js"></script>
+    <script src="app/components/core/home/home-component.js"></script>
+    <script src="app/components/core/profile/profile-component.js"></script>
+    <script src="app/components/core/help/help-component.js"></script>
+
+
+    <script src="app/components/admin/admin-module.js"></script>
+    <script src="app/components/admin/settings/home/home-component.js"></script>
+    <script src="app/components/admin/settings/school-year/school-year-component.js"></script>
+    <script src="app/components/admin/settings/period-type/period-type-component.js"></script>
+    <script src="app/components/admin/settings/timetable-container/timetable-container-component.js"></script>  
+    <script src="app/components/admin/permissions/permissions-component.js"></script>
+    <script src="app/components/admin/user-school-roles/user-school-roles-component.js"></script>
+    <script src="app/components/admin/settings/alternating-weeks/alternating-weeks-component.js"></script>
+
+
+    <script src="app/components/dashboard/dashboard-module.js"></script>
+
+    <script src="app/components/admin/settings/year-week/year-week-component.js"></script>
+    <!--injectFromGulp-->
+</body>
+</html>

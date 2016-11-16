@@ -1,0 +1,23 @@
+{
+    "name": "isa-front-web",
+    "version": "1.0.0",
+    "keywords": ["util", "functional", "server", "client", "browser"],
+    "author": "rpoussin",
+    "contributors": [],
+    "dependencies": {
+    	"gulp": "*",
+    	"gulp-param": "*",
+    	"gulp-inject": "*",
+    	"gulp-concat": "*",
+    	"gulp-uglify": "*",
+    	"gulp-rename": "*",
+    	"gulp-replace": "*",
+    	"gulp-cssmin": "*",
+    	"gulp-clean": "*",
+    	"gulp-htmlmin": "*",
+    	"gulp-ng-annotate": "*",
+    	"gulp-json-editor": "*",
+    	"gulp-insert-lines": "*",
+        "fs": "*"
+    }
+}

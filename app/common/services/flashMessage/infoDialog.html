@@ -1,0 +1,18 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools abx-toolbar-info">
+      <h2>Aide</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="$ctrl.vm.closeDialog()">
+        X
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content" ng-bind-html="::$ctrl.vm.textContent">
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-click="$ctrl.vm.closeDialog()" class="md-raised">
+      OK
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,94 @@
+<md-card ng-if="$ctrl.vm.canDisplayView" layout-padding layout-margin>
+    <h2>Gestion des rôles et personnels d'Isa</h2>
+
+    <div layout="column" layout-gt-sm="row" ng-if="$ctrl.vm.isAllowedManageCrudObjects.userSchoolRoles.read">
+        <!-- SchoolYearRolePermission -->
+        <md-card flex layout-padding>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Gestion des rôles</span>
+                </md-card-title-text>
+                <abx-help>
+                    <p>Vous pouvez décider quels sont les rôles autorisés à accéder à Isa pour votre établissement pour l'année scolaire en cours.</p>
+                    <p><strong>Le rôle administrateur est toujours autorisé à accéder à Isa.</strong></p>
+                    <p><strong>Au début de chaque année scolaire, l'accès à Isa est interdit par défaut à tous les autres rôles.</strong></p>
+                </abx-help>
+            </md-card-title>
+            <div ng-if="$ctrl.vm.hasBackCrudObjectsError.userSchoolRoles" class="abx-message-error" >
+                Une erreur est survenue. Vous ne pouvez pas visualiser les rôles d'Isa.
+            </div> 
+            <md-card-content ng-if="!$ctrl.vm.hasBackCrudObjectsError.userSchoolRoles">
+                <div md-whiteframe="1">
+                    <table id="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th ng-repeat="(role, value) in $ctrl.vm.roles">
+                                    {{role| abxCommonProfileFilter:{withUCFirst:true}}}
+                        <md-checkbox ng-model="$ctrl.vm.roles[role]" aria-label="{{role}}"></md-checkbox>
+                        </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="staff in $ctrl.vm.crudObjects.userSchoolRoles| abxCommonSelectedRoleFilter:$ctrl.vm.roles">
+                                <td>{{staff| abxCommonUserNameFilter:'LN_fn'}}</td>
+                                <td ng-repeat="(role, value) in $ctrl.vm.roles" data-title="role">
+                        <md-checkbox ng-model="staff.roles[role].value" ng-disabled="!staff.roles[role].canEdit" aria-label="{{role}}"></md-checkbox>
+                        </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <md-button ng-click="$ctrl.vm.saveUserSchoolRoles()" class="md-raised md-primary" aria-label="Enregistrer">
+                    <md-icon md-svg-icon="action:save"></md-icon>
+                    Enregistrer
+                </md-button>
+
+            </md-card-content>
+        </md-card>
+    </div>
+    <div layout="column" layout-gt-sm="row" ng-if="$ctrl.vm.isAllowedManageCrudObjects.userSchoolRoles.read">
+        <abx-form name="$ctrl.vm.ngForm.StaffsLimited" ng-submit="$ctrl.vm.showAddUser()" flex layout="column">
+            <!--  Personnel Staff Limited -->
+            <md-card flex layout-padding>
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">Personnels ajoutés à l'établissement</span>
+                    </md-card-title-text>
+                    <abx-help>
+                        <p>Vous pouvez décider quels rôles sont autorisés à réaliser certaines actions.</p>
+                        <p><strong>Au début de chaque année scolaire, ces droits sont réinitialisés en interdisant les actions aux rôles concernés.</strong></p>
+                    </abx-help>
+                </md-card-title>
+                <div ng-if="$ctrl.vm.hasBackCrudObjectsError.userSchoolRoles" class="abx-message-error" >
+                    Une erreur est survenue. Vous ne pouvez pas visualiser les rôles d'Isa.
+                </div>
+                <md-card-content>
+                    <abx-action-group>
+                        <md-content ng-repeat="staffLimited in $ctrl.vm.crudObjects.staffsLimited">
+                            <!-- TODO Ajouter le sécurité suivant le droit de supprimer -->
+                            <abx-action-group-select abx-options-id="staffLimited.userId" abx-options-actions="{delete: true}"></abx-action-group-select>
+                                {{staffLimited| abxCommonUserNameFilter:'LN_fn'}}
+                        </md-content>
+                        <abx-action-group>
+                            <abx-action-group-bar layout-margin>
+                                <md-button ng-click="$ctrl.vm.deleteStaffsLimited(getSelectedIds())" abx-action-group-bar-action="delete" class="md-raised">
+                                    <md-icon 
+                                      md-menu-align-target
+                                      md-svg-icon="action:delete">
+                                    </md-icon>
+                                    Supprimer
+                                </md-button>
+                            </abx-action-group-bar>
+                        </abx-action-group>
+                        <md-button ng-click="$ctrl.vm.showAddUser()" class="md-raised md-primary" >
+                            <md-icon md-svg-icon="action:save"></md-icon>
+                            Ajouter un personnel
+                        </md-button>
+                </md-card-content>
+            </md-card>
+            </md-card>
+        </abx-form>
+    </div>
+</md-card>

@@ -1,0 +1,24 @@
+.#{$prefix}-form-validation-messages {
+  font-size: 11px;
+  color: darkred;
+  margin: 10px 0 0 25px;
+}
+.#{$prefix}-form-back-global-validation-messages {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 24px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2) 0s;
+}
+.#{$prefix}-form-back-validation-messages, .#{$prefix}-form-front-validation-messages {
+  font-size: 12px;
+  line-height: 14px;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2) 0s;
+}
+.#{$prefix}-form-front-validation-messages {
+  color: $color-warning;
+}
+.#{$prefix}-form-back-global-validation-messages, .#{$prefix}-form-back-validation-messages {
+  color: $color-error;
+}

@@ -1,0 +1,112 @@
+<md-card class="md-padding" layout-margin>
+  <div ng-if="$ctrl.vm.canDisplayView">
+
+    <div ng-switch="$ctrl.vm.routeParams.type">
+      <div ng-switch-when="auth">
+        <div ng-switch="$ctrl.vm.routeParams.code">
+          <div ng-switch-when="allRolesClosed">
+            <h1>Connexion impossible</h1>
+            <h3>Tous vos rôles sont fermés</h3>
+            <p>L'administrateur Isa de votre établissement n'a pas ouvert l'accès à l'application pour votre rôle (responsable, élève, enseignant...).</p>
+          </div>
+          <div ng-switch-when="badToken">
+            <h1>Erreur de session</h1>
+            <h3>Erreur de token</h3>
+            <p>La session de votre navigateur ne correspond plus à celle du serveur.</p>
+          </div>
+          <div ng-switch-when="login">
+            <h1>Connexion impossible</h1>
+            <h3>Erreur d'identification ou d'autorisation de votre compte</h3>
+            <p>Votre compte n'est pas autorisé à accéder à Isa.</p>
+          </div>
+          <div ng-switch-when="logout">
+            <h1>Déconnexion impossible</h1>
+            <h3>Erreur de déconnexion côté serveur backend</h3>
+            <p>La déconnexion d'Isa a échoué.</p>
+          </div>
+          <div ng-switch-when="noSessionInBackend">
+            <h1>Session expirée</h1>
+            <h3>Pas de session sur le serveur backend</h3>
+            <p>Vous avez été déconnecté en raison d'une durée d'inactivité trop longue.</p>
+          </div>
+        </div>
+      </div>
+      <div ng-switch-when="acl">
+        <div ng-switch="$ctrl.vm.routeParams.code">
+          <div ng-switch-when="load">
+            <h1>Oups&nbsp;! Une erreur est survenue</h1>
+            <h3>Erreur lors de la récupération des ACL depuis le serveur back</h3>
+            <p>Impossible de charger les informations sur les droits d'accès indispensables au fonctionnement d'Isa.</p>
+          </div>
+          <div ng-switch-when="configError">
+            <h1>Oups&nbsp;! Une erreur est survenue</h1>
+            <h3>Erreur lors de la récupération de la config de sécurité</h3>
+          </div>
+          <div ng-switch-when="forbidden">
+            <h1>Action interdite</h1>
+            <h3>Vous n'avez pas les droits pour effectuer cette action.</h3>
+          </div>
+          <div ng-switch-when="closedProfile">
+            <h1>Connexion impossible</h1>
+            <h3>Le profil que vous avez sélectionné n'est pas autorisé à accéder à cet établissement.</h3>
+            <p>Vous pouvez contacter l'administrateur Isa de l'établissement.</p>
+          </div>
+        </div>
+      </div>
+      <div ng-switch-when="profile">
+        <div ng-switch="$ctrl.vm.routeParams.code">
+          <div ng-switch-when="select">
+            <h1>Oups&nbsp;! Une erreur est survenue</h1>
+            <h3>Erreur lors de l'enregistrement du profil.</h3>
+          </div>
+        </div>
+      </div>
+      <div ng-switch-when="settings">
+        <h1>Paramétrage incorrect</h1>
+        <div ng-switch="$ctrl.vm.routeParams.code">
+          <div ng-switch-when="yearContainer">
+            <h3>YearContainer non paramétré</h3>
+            <p>Le container annuel n'a pas été paramétré par le sAdmin.</p>
+          </div>
+          <div ng-switch-when="schoolYear">
+            <h3>Année scolaire non paramétré</h3>
+            <p>L'année scolaire n'a pas été paramétrée par l'administrateur de l'établissement.</p>
+          </div>
+        </div>
+      </div>
+      <div ng-switch-when="backend">
+        <div ng-switch="$ctrl.vm.routeParams.code">
+          <div ng-switch-when="backend">
+            <h3>ARGHHHH ! Erreur lors de la communication avec le serveur back</h3>
+          </div>
+        </div>
+      </div>
+      <div ng-switch-when="404">
+        <h1>Oups&nbsp;! Une erreur est survenue</h1>
+        <div ng-switch="$ctrl.vm.routeParams.code">
+          <div ng-switch-when="params">
+            <h3>Les paramètres fournis dans l'URL sont incorrects.</h3>
+          </div>
+        </div>
+      </div>
+      <div ng-switch-when="global">
+        <h1>Oups&nbsp;! Une erreur est survenue</h1>
+        <div ng-switch="$ctrl.vm.routeParams.code">
+          <div ng-switch-when="fatal">
+            <h3>GLOUPSSSS ! Erreur fatale</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p><a ng-link="['Core.home']">Revenir à l'accueil</a></p>
+
+    <h4>Informations techniques</h4>
+    <ul class="md-caption">
+      <li>Type d'erreur&nbsp;: {{::$ctrl.vm.routeParams.type}}</li>
+      <li>Code d'erreur&nbsp;: {{::$ctrl.vm.routeParams.code}}</li>
+      <li>Date et heure de l'erreur&nbsp;: {{::$ctrl.vm.errorDate| abxCommonDatetimeFilter:'shortDateTime'}}</li>
+      <li>Timestamp de l'erreur&nbsp;: {{::$ctrl.vm.errorDate| abxCommonDatetimeFilter:'timestamp'}}</li>
+    </ul>
+  </div>
+</md-card>

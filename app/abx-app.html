@@ -1,0 +1,125 @@
+<md-toolbar class="abx-tootlbar md-hue-2" md-whiteframe="2">
+  <div class="md-toolbar-tools">
+    <md-button ng-if="$ctrl.vm.isConnected" ng-click="$ctrl.vm.toggleSidenav()" hide-gt-sm class="md-icon-button" aria-label="Affiche la barre de navigation">
+      <md-icon md-svg-icon="layout:menu" aria-label="Menu"></md-icon>
+    </md-button>
+    <span flex hide-gt-sm></span>
+    <h1>
+      <a ng-link="['Core.home']">ISA<span hide show-gt-sm>, Interface de Suivi des Apprentissages</span></a>
+    </h1>
+    <span flex></span>
+    <div hide show-gt-sm layout="row" layout-align="center center">
+      <md-button aria-label="help" class="md-icon-button" ng-link="['Core.help']">
+        <md-icon md-svg-icon="layout:help" aria-label="Aide"></md-icon>
+        <md-tooltip>Aide en ligne</md-tooltip>
+      </md-button>
+      <md-button ng-if="!$ctrl.vm.isConnected" aria-label="login" class="md-icon-button" ng-link="['Core.home']">
+        <md-icon md-svg-icon="layout:login" aria-label="Connexion"></md-icon>
+        <md-tooltip>Se connecter</md-tooltip>
+      </md-button>
+      <md-button ng-if="$ctrl.vm.isConnected" aria-label="logout" class="md-icon-button" ng-link="['Core.logout']">
+        <md-icon md-svg-icon="layout:logout" aria-label="Déconnexion"></md-icon>
+        <md-tooltip>Se déconnecter</md-tooltip>
+      </md-button>
+    </div>
+    <md-menu md-menu-origin md-position-mode="target-right bottom" hide-gt-sm>
+      <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button" aria-label="Ouvre le menu">
+        <md-icon md-svg-icon="layout:dots-vertical" aria-label="Menu"></md-icon>
+      </md-button>
+      <md-menu-content md-menu-align-target hide-gt-sm>
+        <md-menu-item>
+          <md-button aria-label="help" ng-link="['Core.home']">
+            <md-icon md-svg-icon="layout:help" aria-label="Aide"></md-icon>
+            Aide en ligne
+          </md-button>
+        </md-menu-item>
+        <md-menu-item ng-if="!$ctrl.vm.isConnected" >
+          <md-button aria-label="login" ng-link="['Core.home']">
+            <md-icon md-svg-icon="layout:login" aria-label="Connexion"></md-icon>
+            Se connecter
+          </md-button>
+        </md-menu-item>
+        <md-menu-item ng-if="$ctrl.vm.isConnected" >
+          <md-button aria-label="logout" ng-link="['Core.logout']">
+            <md-icon md-svg-icon="layout:logout" aria-label="Déconnexion"></md-icon>
+            Se déconnecter
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </div>
+</md-toolbar>
+
+<div class="abx-container" layout="row" flex>
+  <md-sidenav ng-if="$ctrl.vm.isConnected" class="abx-sidenav" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')"  md-whiteframe="1">
+    <md-toolbar class="abx-profile md-hue-1" flex="none">
+      <abx-profile layout="column"></abx-profile>
+    </md-toolbar>
+
+    <md-content>
+      <ul class="abx-menu">
+        <li ng-show="$ctrl.vm.isAllowedAccessToComponents['abx.core.homeComponent']">
+        <md-button ng-link="['Core.home']" ng-class="{'active' : $ctrl.vm.selectedModule === 'xxx'}">
+          <md-icon md-svg-icon="edt"></md-icon>
+          <span>Emploi du temps</span>
+        </md-button>
+        <md-divider></md-divider>
+        </li>
+        <li ng-show="$ctrl.vm.isAllowedAccessToComponents['abx.core.homeComponent']">
+        <md-button ng-link="['Core.home']" ng-class="{'active' : $ctrl.vm.selectedModule === 'xxx'}">
+          <md-icon md-svg-icon="cdt"></md-icon>
+          <span>Cahier de texte</span>
+        </md-button>
+        <md-divider></md-divider>
+        </li>
+        <li ng-show="$ctrl.vm.isAllowedAccessToComponents['abx.core.homeComponent']">
+        <md-button ng-link="['Core.home']" ng-class="{'active' : $ctrl.vm.selectedModule === 'xxx'}">
+          <md-icon md-svg-icon="todo"></md-icon>
+          <span>Travail à faire</span>
+        </md-button>
+        <md-divider></md-divider>
+        </li>
+        <li ng-show="$ctrl.vm.isAllowedAccessToComponents['abx.core.homeComponent']">
+        <md-button ng-link="['Core.home']" ng-class="{'active' : $ctrl.vm.selectedModule === 'xxx'}">
+          <md-icon md-svg-icon="ged"></md-icon>
+          <span>Gestion documentaire</span>
+        </md-button>
+        <md-divider></md-divider>
+        <li ng-show="$ctrl.vm.isAllowedAccessToComponents['abx.core.homeComponent']">
+        <md-button ng-link="['Core.home']" ng-class="{'active' : $ctrl.vm.selectedModule === 'xxx'}">
+          <md-icon md-svg-icon="gdg"></md-icon>
+          <span>Gestion des groupes</span>
+        </md-button>
+        <md-divider></md-divider>
+        </li>
+        <li ng-show="$ctrl.vm.isAllowedAccessToComponents['abx.admin.settings.homeComponent']">
+        <md-button ng-link="['Admin.settings.home']" ng-class="{'active' : $ctrl.vm.selectedModule === 'admin.settings'}">
+          <md-icon md-svg-icon="settings"></md-icon>
+          <span>Paramètres</span>
+        </md-button>
+        <md-divider></md-divider>
+        </li>
+        <li ng-show="$ctrl.vm.isAllowedAccessToComponents['abx.admin.permissionsComponent']">
+        <md-button ng-link="['Admin.permissions']" ng-class="{'active' : $ctrl.vm.selectedModule === 'admin.permissions'}">
+          <md-icon md-svg-icon="permissions"></md-icon>
+          <span>Droits</span>
+        </md-button>
+        <md-divider></md-divider>
+        </li>
+        <li ng-show="$ctrl.vm.isAllowedAccessToComponents['abx.admin.userSchoolRolesComponent']">
+        <md-button ng-link="['Admin.userSchoolRoles']" ng-class="{'active' : $ctrl.vm.isSelected('/admin/roles')}">
+          <md-icon md-svg-icon="roles"></md-icon>
+          <span>Rôles</span>
+        </md-button>
+        <md-divider></md-divider>
+        </li>
+      </ul>
+    </md-content>
+  </md-sidenav>
+
+  <!--<md-card ng-if="::$ctrl.vm.displayMediaBar">{{$ctrl.vm.mediaSize()}} ({{$ctrl.vm.mediaQuery()}}), class="{{$ctrl.vm.mediaClass()}}"</md-card>-->
+
+  <ng-outlet class="abx-content" layout="column" flex>
+    Contenu du composant enfant
+  </ng-outlet>
+</div>
