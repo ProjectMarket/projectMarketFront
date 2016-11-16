@@ -1,13 +1,13 @@
 describe('Test acl Service', function () {
     var q, logService, $rootScope, routerService, factory;
     beforeEach(function () {
-        module('abx.commonModule', 'abxApp');
+        module('pm.commonModule', 'pmApp');
         inject(function ($injector, _$rootScope_) {
             $rootScope = _$rootScope_;
             q = $injector.get('$q');
-            routerService = $injector.get('abx.common.routerService');
-            logService = $injector.get('abx.common.logService');
-            factory = $injector.get('abx.common.aclService');
+            routerService = $injector.get('pm.common.routerService');
+            logService = $injector.get('pm.common.logService');
+            factory = $injector.get('pm.common.aclService');
         });
     });
     it('Vérifie si les trois fonctions du service ACL existent', function () {
@@ -17,7 +17,7 @@ describe('Test acl Service', function () {
     });
     it('Si le composant n est pas protégé returne une prommesse avec une valeur true', function () {
         var resolved = false;
-        var promise = factory.isAllowedAccessToComponent("abx.layoutComponent");
+        var promise = factory.isAllowedAccessToComponent("pm.layoutComponent");
         promise.then(function (value) {
             resolved = true;
             expect(value).toBe(true);
@@ -28,7 +28,7 @@ describe('Test acl Service', function () {
         expect(resolved).toBe(true);
     });
     it('Si le composant est protégé mais qu il n y a aucun droit defini returne une prommesse avec une valeur true', function () {
-        promise = factory.isAllowedAccessToComponent("abx.core.homeComponent");
+        promise = factory.isAllowedAccessToComponent("pm.core.homeComponent");
         promise.then(function (value) {
             resolved = true;
             expect(value).toBe(true);

@@ -17,8 +17,8 @@
   'use strict';
 
   angular
-      .module('abx.commonModule')
-      .value('abx.common.versionValue',
+      .module('pm.commonModule')
+      .value('pm.common.versionValue',
           {
             revision: "$Revision: 668 $",
             date: "$Date: 2016-03-08 15:01:50 +0100 (mar., 08 mars 2016) $",

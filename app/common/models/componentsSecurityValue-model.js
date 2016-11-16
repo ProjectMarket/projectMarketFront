@@ -17,8 +17,8 @@
   'use strict';
 
   angular
-      .module('abx.commonModule')
-      .value('abx.common.componentsSecurityValue', 'xxx');
+      .module('pm.commonModule')
+      .value('pm.common.componentsSecurityValue', 'xxx');
 
 // fin IIFE
 })();

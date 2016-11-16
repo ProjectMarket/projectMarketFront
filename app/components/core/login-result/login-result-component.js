@@ -1,5 +1,5 @@
 /** 
- * Component abx.core.loginResultComponent
+ * Component pm.core.loginResultComponent
  * Résultat du login
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
@@ -17,24 +17,24 @@
 
   'use strict';
 
-  var componentName = 'abx.core.loginResultComponent';
+  var componentName = 'pm.core.loginResultComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.coreModule')
+      .module('pm.components.coreModule')
       .component(componentName, {
         $canActivate: [
-          'abx.common.routerService',
+          'pm.common.routerService',
           function(
-              abxRouter
+              pmRouter
               ) {
-            return abxRouter.canActivate(componentName);
+            return pmRouter.canActivate(componentName);
           }],
         controller: [
-          'abx.common.logService',
-          'abx.common.routerService',
+          'pm.common.logService',
+          'pm.common.routerService',
           Controller]
       });
 
@@ -44,11 +44,11 @@
   // Controller
   //************
   function Controller(
-      abxLog,
-      abxRouter
+      pmLog,
+      pmRouter
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -77,8 +77,8 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function(nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
       // validation des paramètres
@@ -86,25 +86,25 @@
 
       // validation :action
       if (["success", "error"].indexOf(routeParams.result) < 0) {
-        abxRouter.navigateToErrorPage('404', 'params');
+        pmRouter.navigateToErrorPage('404', 'params');
         return;
       }
 
       if (routeParams.result === "success") {
-        abxLog.trace({message: "Identification réussie, redirection vers l'application", object: componentName, method: "$routerOnActivate", tag: "successLogin"});
+        pmLog.trace({message: "Identification réussie, redirection vers l'application", object: componentName, method: "$routerOnActivate", tag: "successLogin"});
         try {
           var relayPath = atob(routeParams.relayPath);
-          abxLog.debug({message: "Chemin de redirection : {{relayPath}}",
+          pmLog.debug({message: "Chemin de redirection : {{relayPath}}",
             params: {relayPath: relayPath}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
-          abxRouter.navigateByUrl(relayPath);
+          pmRouter.navigateByUrl(relayPath);
         } catch (e) {
-          abxLog.debug({message: "Chemin de redirection invalide, redirection vers la page d'erreur", object: componentName, method: "$routerOnActivate", tag: "params"});
-          abxRouter.navigateToErrorPage('404', 'params');
+          pmLog.debug({message: "Chemin de redirection invalide, redirection vers la page d'erreur", object: componentName, method: "$routerOnActivate", tag: "params"});
+          pmRouter.navigateToErrorPage('404', 'params');
         }
       } else {
-        abxLog.debug({message: "Identification en échec, redirection vers la page d'erreur", object: componentName, method: "$routerOnActivate", tag: "errorLogin"});
-        abxRouter.navigateToErrorPage('auth', 'login');
+        pmLog.debug({message: "Identification en échec, redirection vers la page d'erreur", object: componentName, method: "$routerOnActivate", tag: "errorLogin"});
+        pmRouter.navigateToErrorPage('auth', 'login');
       }
     };
 

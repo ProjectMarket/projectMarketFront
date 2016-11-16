@@ -2,12 +2,12 @@
 <md-card ng-if="$ctrl.vm.canDisplayView" layout-padding layout>
 
 
-  <abx-form name="$ctrl.vm.ngForm.YearWeek" ng-submit="$ctrl.vm.save()" flex layout="column">
-    <abx-form-title>
+  <pm-form name="$ctrl.vm.ngForm.YearWeek" ng-submit="$ctrl.vm.save()" flex layout="column">
+    <pm-form-title>
       <span>Gestions des semaines</span>
-    </abx-form-title>
+    </pm-form-title>
 
-    <abx-form-group-title>Alternance de semaines</abx-form-group-title>
+    <pm-form-group-title>Alternance de semaines</pm-form-group-title>
     <label ng-repeat="week in $ctrl.vm.finalWeek">
 
       {{week}}
@@ -15,7 +15,7 @@
     <md-input-container>
       <label>Numéro de semaine</label>
       <input name="weekNumber" ng-model="$ctrl.vm.yearWeekNumber" 
-             ng-required="true" abx-form-validate-back>
+             ng-required="true" pm-form-validate-back>
 
     </md-input-container>
 
@@ -55,7 +55,7 @@
       <md-icon md-svg-icon="action:create"></md-icon>
       Créer une semaine
     </md-button>
-  </abx-form>
+  </pm-form>
 </md-card>
 
 

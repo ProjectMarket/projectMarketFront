@@ -15,22 +15,22 @@
 (function() {
 
   'use strict';
-  var objectName = 'abx.common.modelManagerService';
+  var objectName = 'pm.common.modelManagerService';
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$q',
-        'abx.common.logService',
-        'abx.common.routerService',
-        'abx.common.cacheBackManagerService',
+        'pm.common.logService',
+        'pm.common.routerService',
+        'pm.common.cacheBackManagerService',
         function(
             $q,
-            abxLog,
-            abxRouter,
-            abxCacheBackManager
+            pmLog,
+            pmRouter,
+            pmCacheBackManager
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -59,12 +59,12 @@
              * @return {object} Promise rejetée uniquement si une redirection a été effectuée par backComHandler
              */
             addConcatRequest: function(requests) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "addConcatRequest", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "addConcatRequest", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "addConcatRequest"});
 
               var requestsLength = requests.length,
-                  concatId = abxCacheBackManager.addConcatRequest(requestsLength),
+                  concatId = pmCacheBackManager.addConcatRequest(requestsLength),
                   promisesList = [];
 
               for (var i = 0; i < requestsLength; i++) {
@@ -86,17 +86,17 @@
              * @return {boolean} L'objet passé est-il bien un objet YearContainer ?
              */
             checkYearContainer: function(yearContainerResult) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "checkYearContainer", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "checkYearContainer", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "checkYearContainer"});
 
               if (yearContainerResult === undefined) {
-                abxLog.critical({message: "YearContainer inexistant.", object: objectName, method: "checkYearContainer", tag: "settings"});
-                abxRouter.navigateToErrorPage('settings', 'yearContainer');
+                pmLog.critical({message: "YearContainer inexistant.", object: objectName, method: "checkYearContainer", tag: "settings"});
+                pmRouter.navigateToErrorPage('settings', 'yearContainer');
                 return false;
               }
               if (yearContainerResult.result !== undefined || yearContainerResult.YearContainer === undefined) {
-                abxRouter.navigateToErrorPage('backend', 'backend');
+                pmRouter.navigateToErrorPage('backend', 'backend');
                 return false;
               }
 
@@ -110,8 +110,8 @@
              * @return {boolean} Les deux objets passés sont-ils bien des objets YearContainer et SchoolYear ?
              */
             checkYearContainerAndSchoolYear: function(yearContainerResult, schoolYearResult) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "checkYearContainerAndSchoolYear", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "checkYearContainerAndSchoolYear", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "checkYearContainerAndSchoolYear"});
               
               if (_factory.checkYearContainer(yearContainerResult) === false) {
@@ -119,12 +119,12 @@
               }
 
               if (schoolYearResult === undefined) {
-                abxLog.critical({message: "SchoolYear inexistant.", object: objectName, method: "checkYearContainerAndSchoolYear", tag: "settings"});
-                abxRouter.navigateToErrorPage('settings', 'schoolYear');
+                pmLog.critical({message: "SchoolYear inexistant.", object: objectName, method: "checkYearContainerAndSchoolYear", tag: "settings"});
+                pmRouter.navigateToErrorPage('settings', 'schoolYear');
                 return false;
               }
               if (schoolYearResult.result !== undefined || schoolYearResult.SchoolYear === undefined) {
-                abxRouter.navigateToErrorPage('backend', 'backend');
+                pmRouter.navigateToErrorPage('backend', 'backend');
                 return false;
               }
 
@@ -137,12 +137,12 @@
              * @return {string|null}
              */
             convertStringToBack: function(inputString) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "convertStringToBack", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "convertStringToBack", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "convertStringToBack"});
 
               if (typeof inputString !== 'string') {
-                abxLog.error({message: "Format de inputString invalide : inputString={{inputString}}",
+                pmLog.error({message: "Format de inputString invalide : inputString={{inputString}}",
                   params: {inputString: inputString}, tag: "params", object: objectName, method: "convertStringToBack"});
                 throw new Error('Format de inputString invalide');
               }

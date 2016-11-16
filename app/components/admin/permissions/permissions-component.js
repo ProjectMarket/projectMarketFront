@@ -1,5 +1,5 @@
 /** 
- * Component abx.admin.permissionsComponent
+ * Component pm.admin.permissionsComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -16,34 +16,34 @@
 
   'use strict';
 
-  var componentName = 'abx.admin.permissionsComponent';
+  var componentName = 'pm.admin.permissionsComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.adminModule')
+      .module('pm.components.adminModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function(abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function(pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/admin/permissions/permissions-component.html',
         controller: [
           '$q',
           '$filter',
-          'abx.common.logService',
-          'abx.common.aclService',
-          'abx.common.flashMessageService',
-          'abx.common.routerService',
-          'abx.common.modelManagerService',
-          'abx.common.yearContainerModel',
-          'abx.common.schoolYearModel',
-          'abx.common.schoolYearRolePermissionModel',
-          'abx.common.classRolePermissionModel',
+          'pm.common.logService',
+          'pm.common.aclService',
+          'pm.common.flashMessageService',
+          'pm.common.routerService',
+          'pm.common.modelManagerService',
+          'pm.common.yearContainerModel',
+          'pm.common.schoolYearModel',
+          'pm.common.schoolYearRolePermissionModel',
+          'pm.common.classRolePermissionModel',
           Controller]
       });
 
@@ -54,18 +54,18 @@
   function Controller(
       $q,
       $filter,
-      abxLog,
-      abxAcl,
-      abxFlashMessage,
-      abxRouter,
-      abxModelManager,
-      abxYearContainerModel,
-      abxSchoolYearModel,
-      abxSchoolYearRolePermissionModel,
-      abxClassRolePermissionModel
+      pmLog,
+      pmAcl,
+      pmFlashMessage,
+      pmRouter,
+      pmModelManager,
+      pmYearContainerModel,
+      pmSchoolYearModel,
+      pmSchoolYearRolePermissionModel,
+      pmClassRolePermissionModel
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -99,7 +99,7 @@
      */
 
     var _readSchoolYearRolePermissionAfterSave = function (hasError) {
-      abxSchoolYearRolePermissionModel.readBySchoolYearId({forceBackRead: true, schoolYearId: _backObjects.schoolYear.id})
+      pmSchoolYearRolePermissionModel.readBySchoolYearId({forceBackRead: true, schoolYearId: _backObjects.schoolYear.id})
           .then(function (response) {
             vm.isSaving = false;
             if (response.result !== undefined) {
@@ -111,7 +111,7 @@
                 }
               };
               vm.hasBackCrudObjectsError.schoolYearRolePermissions = true;
-              abxFlashMessage.showError(options);
+              pmFlashMessage.showError(options);
 
             } else if (hasError) {
               _populateViewModel('schoolYearRolePermission', response);
@@ -122,12 +122,12 @@
                   objects: [response]
                 }
               };
-              abxFlashMessage.showError(options);
+              pmFlashMessage.showError(options);
 
             } else {
               hasError = false;
               _populateViewModel('schoolYearRolePermission', response);
-              abxFlashMessage.showSuccess("Les droits d'accès à ISA ont été modifiés avec succès.");
+              pmFlashMessage.showSuccess("Les droits d'accès à ISA ont été modifiés avec succès.");
             }
           })
           .catch(function () {
@@ -144,7 +144,7 @@
      */
 
     var _readClassRolePermissionAfterSave = function (hasError) {
-      abxClassRolePermissionModel.readBySchoolYearId({forceBackRead: true, schoolYearId: _backObjects.schoolYear.id})
+      pmClassRolePermissionModel.readBySchoolYearId({forceBackRead: true, schoolYearId: _backObjects.schoolYear.id})
           .then(function (response) {
             vm.isSaving = false;
             if (response.result !== undefined) {
@@ -155,7 +155,7 @@
                   objects: [response]
                 }
               };
-              abxFlashMessage.showError(options);
+              pmFlashMessage.showError(options);
               vm.hasBackCrudObjectsError.classRolePermissions = true;
 
             } else if (hasError) {
@@ -167,12 +167,12 @@
                   objects: [response]
                 }
               };
-              abxFlashMessage.showError(options);
+              pmFlashMessage.showError(options);
 
             } else {
               hasError = false;
               _populateViewModel('classRolePermission', response);
-              abxFlashMessage.showSuccess("Les droits d'accès à ISA ont été modifiés avec succès.");
+              pmFlashMessage.showSuccess("Les droits d'accès à ISA ont été modifiés avec succès.");
             }
           })
           .catch(function () {
@@ -190,12 +190,12 @@
      */
 
     var _populateViewModel = function(crudObject, result) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
 
       if (['schoolYearRolePermission', 'classRolePermission'].indexOf(crudObject) === -1) {
-        abxLog.error({message: "CrudObject incorrect : {{crudObject}}",
+        pmLog.error({message: "CrudObject incorrect : {{crudObject}}",
           params: {crudObject: crudObject}, tag: "params", object: componentName, method: "_populateViewModel"});
         throw new Error('CrudObject incorrect : ' + crudObject);
       }
@@ -241,7 +241,7 @@
               'ROLE_STUDENT',
               'ROLE_RESP'],
                 schoolYearRolePermissionList = [];
-            roleList = $filter('abxCommonOrderByRoleFilter')(roleList);
+            roleList = $filter('pmCommonOrderByRoleFilter')(roleList);
             
             for (var i = 0, length = roleList.length; i < length; i++) {
               schoolYearRolePermissionList.push(
@@ -262,7 +262,7 @@
               roleIndex = roleList.indexOf(result[i].SchoolYearRolePermission.role);
               schoolYearRolePermissionList[roleIndex].value = true;
               schoolYearRolePermissionList[roleIndex].id = result[i].SchoolYearRolePermission.id;
-              schoolYearRolePermissionList[roleIndex].frontEndAcl.delete = abxAcl.isAllowedManageCrudObject(result[i].SchoolYearRolePermission, 'delete');
+              schoolYearRolePermissionList[roleIndex].frontEndAcl.delete = pmAcl.isAllowedManageCrudObject(result[i].SchoolYearRolePermission, 'delete');
             }
             vm.crudObjects.schoolYearRolePermission = schoolYearRolePermissionList;
             break;
@@ -328,9 +328,9 @@
             };
             
             // tri
-            classList.Lesson.read = $filter('abxCommonOrderByRoleFilter')(classList.Lesson.read);
-            classList.Lesson.cud = $filter('abxCommonOrderByRoleFilter')(classList.Lesson.cud);
-            classList.Workbook.read = $filter('abxCommonOrderByRoleFilter')(classList.Workbook.read);
+            classList.Lesson.read = $filter('pmCommonOrderByRoleFilter')(classList.Lesson.read);
+            classList.Lesson.cud = $filter('pmCommonOrderByRoleFilter')(classList.Lesson.cud);
+            classList.Workbook.read = $filter('pmCommonOrderByRoleFilter')(classList.Workbook.read);
 
             for (var i = 0; i < result.length; i++) {
               if (result[i].ClassRolePermission.action === "READ") {
@@ -359,7 +359,7 @@
             break;
         }
       } catch (e) {
-        abxLog.error({message: "Erreur lors de l'affectation des données : message={{message}}",
+        pmLog.error({message: "Erreur lors de l'affectation des données : message={{message}}",
           params: {message: e.message}, tag: "params", object: componentName, method: "_populateViewModel"});
         if (crudObject === 'schoolYearRolePermission') {
           vm.hasBackCrudObjectsError.schoolYearRolePermissions = true;
@@ -450,7 +450,7 @@
      * @returns {undefined}
      */
     vm.saveSchoolYearRolePermission = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.saveSchoolYearRolePermission", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.saveSchoolYearRolePermission", tag: "methodEntry"});
       vm.isSaving = true;
 
       var hasError = false;
@@ -490,18 +490,18 @@
           // SINON => pas de changement
         }
         if (toCreateObject.objects.length === 0 && toDeleteObject.objects.length === 0) {
-          abxFlashMessage.showInfo("Aucun changement à effectuer.");
+          pmFlashMessage.showInfo("Aucun changement à effectuer.");
           return;
         }
 
-        abxFlashMessage.showWait();
+        pmFlashMessage.showWait();
         if (toCreateObject.objects.length > 0) {
-          createPromise = abxSchoolYearRolePermissionModel.create(toCreateObject);
+          createPromise = pmSchoolYearRolePermissionModel.create(toCreateObject);
         } else {
           createPromise = $q.when();
         }
         if (toDeleteObject.objects.length > 0) {
-          deletePromise = abxSchoolYearRolePermissionModel.delete(toDeleteObject);
+          deletePromise = pmSchoolYearRolePermissionModel.delete(toDeleteObject);
         } else {
           deletePromise = $q.when();
         }
@@ -514,7 +514,7 @@
               if (createResult !== undefined) {
                 for (var i = 0, length = createResult.length; i < length; i++) {
                   if (createResult[i].result !== undefined) {
-                    abxLog.error({message: "Erreur lors de la création en back. SchoolYearRolePermission={{{SchoolYearRolePermission}}}",
+                    pmLog.error({message: "Erreur lors de la création en back. SchoolYearRolePermission={{{SchoolYearRolePermission}}}",
                       params: {SchoolYearRolePermission: createResult[i]}, tag: "params", object: createResult[i], method: "saveSchoolYearRolePermission"});
                     hasError = true;
                   }
@@ -524,7 +524,7 @@
               if (deleteResult !== undefined) {
                 for (var i = 0, length = deleteResult.length; i < length; i++) {
                   if (deleteResult[i].result !== undefined) {
-                    abxLog.error({message: "Erreur lors de la suppression en back. SchoolYearRolePermission={{{SchoolYearRolePermission}}}",
+                    pmLog.error({message: "Erreur lors de la suppression en back. SchoolYearRolePermission={{{SchoolYearRolePermission}}}",
                       params: {SchoolYearRolePermission: deleteResult[i]}, tag: "params", object: deleteResult[i], method: "saveSchoolYearRolePermission"});
                     hasError = true;
                   }
@@ -536,11 +536,11 @@
             });
 
       } catch (e) {
-        abxLog.error({message: "Erreur lors de l'enregistrement des SchoolYearRolePermission : message={{message}}",
+        pmLog.error({message: "Erreur lors de l'enregistrement des SchoolYearRolePermission : message={{message}}",
           params: {message: e.message}, tag: "params", object: componentName, method: "saveSchoolYearRolePermission"});
 
         // FIXME ajouter erreur + charger les données
-        abxFlashMessage.showError({errorMessage: "Une erreur est survenue lors de l'enregistrement des droits d'Isa.",
+        pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de l'enregistrement des droits d'Isa.",
           errorObject: {objectName: "SchoolYearRolePermission"}
         });
 
@@ -556,7 +556,7 @@
      * @returns {undefined}
      */
     vm.saveClassRolePermission = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.saveClassRolePermission", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.saveClassRolePermission", tag: "methodEntry"});
       vm.isSaving = true;
 
       var hasError = false;
@@ -614,16 +614,16 @@
 
         // SINON => pas de changement
         if (toCreateObjects.length === 0 && toDeleteObjects.length === 0) {
-          abxFlashMessage.showError({errorMessage: "Aucun changement à effectuer."});
+          pmFlashMessage.showError({errorMessage: "Aucun changement à effectuer."});
           return;
         }
 
-        abxFlashMessage.showWait();
+        pmFlashMessage.showWait();
         if (toCreateObjects.length > 0) {
-          createPromise = abxClassRolePermissionModel.create({objects: toCreateObjects});
+          createPromise = pmClassRolePermissionModel.create({objects: toCreateObjects});
         }
         if (toDeleteObjects.length > 0) {
-          deletePromise = abxClassRolePermissionModel.delete({objects: toDeleteObjects});
+          deletePromise = pmClassRolePermissionModel.delete({objects: toDeleteObjects});
         }
 
         $q.all([createPromise, deletePromise])
@@ -634,7 +634,7 @@
               if (createResult !== undefined) {
                 for (var i = 0, length = createResult.length; i < length; i++) {
                   if (createResult[i].result !== undefined) {
-                    abxLog.error({message: "Erreur lors de la création en back d'un ClassRolePermission. Erreur={{{error}}}",
+                    pmLog.error({message: "Erreur lors de la création en back d'un ClassRolePermission. Erreur={{{error}}}",
                       params: {error: createResult[i]}, tag: "params", object: componentName, method: "saveClassRolePermission"});
                     hasError = true;
                   }
@@ -644,7 +644,7 @@
               if (deleteResult !== undefined) {
                 for (var i = 0, length = deleteResult.length; i < length; i++) {
                   if (deleteResult[i].result !== undefined) {
-                    abxLog.error({message: "Erreur lors de la suppression en back d'un ClassRolePermission. Erreur={{{error}}}",
+                    pmLog.error({message: "Erreur lors de la suppression en back d'un ClassRolePermission. Erreur={{{error}}}",
                       params: {error: deleteResult[i]}, tag: "params", object: componentName, method: "saveClassRolePermission"});
                     hasError = true;
                   }
@@ -655,7 +655,7 @@
             });
 
       } catch (e) {
-        abxLog.error({message: "Erreur lors de l'enregistrement des ClassRolePermissions : message={{message}}",
+        pmLog.error({message: "Erreur lors de l'enregistrement des ClassRolePermissions : message={{message}}",
           params: {message: e.message}, tag: "params", object: componentName, method: "saveClassRolePermission"});
 
         vm.hasBackCrudObjectsError.classRolePermission = true;
@@ -678,25 +678,25 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function(nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
       
-      _this.abxAppController.vm.setModule('admin.permissions');
+      _this.pmAppController.vm.setModule('admin.permissions');
       
       try {
         // récupération des données
         var concatRequests = [
-          {modelMethod: abxYearContainerModel.readCurrent, options: {}},
-          {modelMethod: abxSchoolYearModel.readCurrent, options: {}}
+          {modelMethod: pmYearContainerModel.readCurrent, options: {}},
+          {modelMethod: pmSchoolYearModel.readCurrent, options: {}}
         ];
-        abxModelManager.addConcatRequest(concatRequests)
+        pmModelManager.addConcatRequest(concatRequests)
             .then(function(response) {
 
               var yearContainerResult = response[0],
                   schoolYearResult = response[1];
               // erreur ou abscence de YearContainer et/ou de schoolYear
-              if (abxModelManager.checkYearContainerAndSchoolYear(yearContainerResult, schoolYearResult) === false) {
+              if (pmModelManager.checkYearContainerAndSchoolYear(yearContainerResult, schoolYearResult) === false) {
                 return;
               }
 
@@ -704,17 +704,17 @@
               // récupération des autres paramétrages
               var concatRequests = [],
                   requestMapping = [];
-              if (abxAcl.isAllowedManageCrudObject('schoolYearRolePermission', 'read')) {
-                concatRequests.push({modelMethod: abxSchoolYearRolePermissionModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.schoolYear.id}});
+              if (pmAcl.isAllowedManageCrudObject('schoolYearRolePermission', 'read')) {
+                concatRequests.push({modelMethod: pmSchoolYearRolePermissionModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.schoolYear.id}});
                 requestMapping.push('schoolYearRolePermission');
               }
-              if (abxAcl.isAllowedManageCrudObject('classRolePermission', 'read')) {
-                concatRequests.push({modelMethod: abxClassRolePermissionModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.schoolYear.id}});
+              if (pmAcl.isAllowedManageCrudObject('classRolePermission', 'read')) {
+                concatRequests.push({modelMethod: pmClassRolePermissionModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.schoolYear.id}});
                 requestMapping.push('classRolePermission');
               }
 
               if (concatRequests.length > 0) {
-                abxModelManager.addConcatRequest(concatRequests)
+                pmModelManager.addConcatRequest(concatRequests)
                     .then(function(response) {
                       // schoolYearRolePermission
                       if (requestMapping.indexOf('schoolYearRolePermission') > -1) {
@@ -722,7 +722,7 @@
                         // affectation des permissions et des acl
                         vm.isAllowedManageCrudObjects.schoolYearRolePermission = {
                           read: true,
-                          create: abxAcl.isAllowedManageCrudObject('schoolYearRolePermission', 'create')
+                          create: pmAcl.isAllowedManageCrudObject('schoolYearRolePermission', 'create')
                         };
                         _populateViewModel('schoolYearRolePermission', schoolYearRolePermissionResult);
                       }
@@ -733,34 +733,34 @@
                         // affectation des permissions et des acl
                         vm.isAllowedManageCrudObjects.classRolePermission = {
                           read: true,
-                          create: abxAcl.isAllowedManageCrudObject('classRolePermission', 'create')
+                          create: pmAcl.isAllowedManageCrudObject('classRolePermission', 'create')
                         };
                         _populateViewModel('classRolePermission', classRolePermissionResult);
                       }
                       vm.canDisplayView = true;
                     });
               } else {
-                abxLog.error({message: "Accès à " + componentName + " sans avoir les droits. Vérifier componentSecurity value.",
+                pmLog.error({message: "Accès à " + componentName + " sans avoir les droits. Vérifier componentSecurity value.",
                   tag: "error", object: componentName, method: "$routerOnActivate"});
                 var options = {
                   errorMessage: "Vous n'avez pas l'autorisation de gérer les droits."
                 };
-                abxFlashMessage.showError(options);
-                abxRouter.navigate(['Core.home']);
+                pmFlashMessage.showError(options);
+                pmRouter.navigate(['Core.home']);
               }
 
             });
       } catch (e) {
         var errorMessage = "Erreur lors de la récupération des données.";
-        abxLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "$routerOnActivate"});
         var options = {
           errorMessage: errorMessage,
           adviceMessage: "Vous ne pouvez pas modifier les droits.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(options);
-        abxRouter.navigate(['Core.home']);
+        pmFlashMessage.showError(options);
+        pmRouter.navigate(['Core.home']);
       }
     }
     ;

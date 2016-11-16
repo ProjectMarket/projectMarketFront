@@ -1,5 +1,5 @@
 /** 
- * Module abx.commonModule
+ * Module pm.commonModule
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -17,10 +17,10 @@
   'use strict';
 
   angular
-      .module('abx.componentsModule', [
-        'abx.components.coreModule',
-        'abx.components.adminModule',
-        'abx.components.dashboardModule'
+      .module('pm.componentsModule', [
+        'pm.components.coreModule',
+        'pm.components.adminModule',
+        'pm.components.dashboardModule'
       ]);
 
 // fin IIFE

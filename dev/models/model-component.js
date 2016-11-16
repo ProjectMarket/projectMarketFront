@@ -1,5 +1,5 @@
 /** 
- * Component abx.xxx.xxxComponent
+ * Component pm.xxx.xxxComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -16,24 +16,24 @@
 
   'use strict';
 
-  var componentName = 'abx.xxx.xxxComponent';
+  var componentName = 'pm.xxx.xxxComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.xxxModule')
+      .module('pm.components.xxxModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function(abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function(pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/xxx/xxx/xxx-component.html',
         controller: [
-          'abx.common.logService',
+          'pm.common.logService',
           Controller]
       });
 
@@ -43,10 +43,10 @@
   // Controller
   //************
   function Controller(
-      abxLog
+      pmLog
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -126,10 +126,10 @@
      */
     _this.$routerOnActivate = function(nextInstruction, prevInstruction) {
       var routeParams = angular.copy(nextInstruction.params);
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$onActivate", tag: "methodEntry"});
-      abxLog.debug({message: "$routeParams : {{routeParams}}", params: {routeParams: routeParams}, tag: "$routeParams", object: componentName});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$onActivate", tag: "methodEntry"});
+      pmLog.debug({message: "$routeParams : {{routeParams}}", params: {routeParams: routeParams}, tag: "$routeParams", object: componentName});
 
-      _this.abxAppController.vm.setModule('xxx');
+      _this.pmAppController.vm.setModule('xxx');
 
 
 

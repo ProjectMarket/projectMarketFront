@@ -1,5 +1,5 @@
 /** 
- * Component abx.core.errorComponent
+ * Component pm.core.errorComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -16,26 +16,26 @@
 
   'use strict';
 
-  var componentName = 'abx.core.errorComponent';
+  var componentName = 'pm.core.errorComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.coreModule')
+      .module('pm.components.coreModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function(abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function(pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/core/error/error-component.html',
         controller: [
-          'abx.common.logService',
-          'abx.common.routerService',
-          'abx.common.timeService',
+          'pm.common.logService',
+          'pm.common.routerService',
+          'pm.common.timeService',
           Controller]
       });
 
@@ -44,12 +44,12 @@
   // Controller
   //************
   function Controller(
-      abxLog,
-      abxRouter,
-      abxTime
+      pmLog,
+      pmRouter,
+      pmTime
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -83,7 +83,7 @@
     /*
      * @property {object} Date date de l'erreur (avec ajout de la différence avec le back pour aide au débuggage)
      */
-    vm.errorDate = abxTime.moment((abxTime.moment().unix() + abxLog.getFrontBackTimestampInterval())).toDate();
+    vm.errorDate = pmTime.moment((pmTime.moment().unix() + pmLog.getFrontBackTimestampInterval())).toDate();
 
     /*
      * @property {boolean} affichage autorisé de la page d'erreur
@@ -109,17 +109,17 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function(nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
-      _this.abxAppController.vm.setModule('core.error');
+      _this.pmAppController.vm.setModule('core.error');
 
       var routeParams = angular.copy(nextInstruction.params);
 
       // vérification des paramètres et de l'internalAccess
-      if (!abxRouter.checkInternalAccess(routeParams.type, routeParams.code)) {
-        abxRouter.navigate(['Core.home']);
+      if (!pmRouter.checkInternalAccess(routeParams.type, routeParams.code)) {
+        pmRouter.navigate(['Core.home']);
       } else {
         vm.routeParams = routeParams;
         vm.canDisplayView = true;

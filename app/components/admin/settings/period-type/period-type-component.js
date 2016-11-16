@@ -1,5 +1,5 @@
 /** 
- * Component abx.admin.settings.periodTypeComponent
+ * Component pm.admin.settings.periodTypeComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -16,33 +16,33 @@
 
   'use strict';
 
-  var componentName = 'abx.admin.settings.periodTypeComponent';
+  var componentName = 'pm.admin.settings.periodTypeComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.adminModule')
+      .module('pm.components.adminModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function(abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function(pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/admin/settings/period-type/period-type-component.html',
         controller: [
           '$scope',
-          'abx.common.logService',
-          'abx.common.aclService',
-          'abx.common.flashMessageService',
-          'abx.common.routerService',
-          'abx.common.timeService',
-          'abx.common.modelManagerService',
-          'abx.common.yearContainerModel',
-          'abx.common.schoolYearModel',
-          'abx.common.periodTypeModel',
+          'pm.common.logService',
+          'pm.common.aclService',
+          'pm.common.flashMessageService',
+          'pm.common.routerService',
+          'pm.common.timeService',
+          'pm.common.modelManagerService',
+          'pm.common.yearContainerModel',
+          'pm.common.schoolYearModel',
+          'pm.common.periodTypeModel',
           Controller]
       });
 
@@ -52,18 +52,18 @@
   //************
   function Controller(
       $scope,
-      abxLog,
-      abxAcl,
-      abxFlashMessage,
-      abxRouter,
-      abxTime,
-      abxModelManager,
-      abxYearContainerModel,
-      abxSchoolYearModel,
-      abxPeriodTypeModel
+      pmLog,
+      pmAcl,
+      pmFlashMessage,
+      pmRouter,
+      pmTime,
+      pmModelManager,
+      pmYearContainerModel,
+      pmSchoolYearModel,
+      pmPeriodTypeModel
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -201,7 +201,7 @@
      * @return {void} 
      */
     vm.addPeriod = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.addPeriod", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.addPeriod", tag: "methodEntry"});
 
       var period = angular.copy(_periodObjectModel),
           lastPeriodDateEnd = vm.periods[vm.periods.length - 1].dateEnd.value,
@@ -211,11 +211,11 @@
       period.dateStart.canEdit = false;
 
       // si le SchoolYear.dateEnd - lastPeriod.dateEnd >= 2 jours => period.dateEnd = SchoolYear.dateEnd
-      if (!lastPeriodDateEnd instanceof Date || abxTime.moment(lastPeriodDateEnd).add(2, 'day').isSameOrBefore(schoolYearDateEnd)) {
+      if (!lastPeriodDateEnd instanceof Date || pmTime.moment(lastPeriodDateEnd).add(2, 'day').isSameOrBefore(schoolYearDateEnd)) {
         period.dateEnd.value = schoolYearDateEnd;
 
         // si le lastPeriod.dateEnd = SchoolYear.dateEnd => lastPeriod.dateEnd = null, period.dateEnd = SchoolYear.dateEnd
-      } else if (lastPeriodDateEnd instanceof Date && abxTime.moment(lastPeriodDateEnd).isSame(schoolYearDateEnd)) {
+      } else if (lastPeriodDateEnd instanceof Date && pmTime.moment(lastPeriodDateEnd).isSame(schoolYearDateEnd)) {
         vm.periods[vm.periods.length - 1].dateEnd.value = null;
         period.dateEnd.value = schoolYearDateEnd;
       }
@@ -230,8 +230,8 @@
      * @return {void} 
      */
     vm.deletePeriods = function(index) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.deletePeriod", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.deletePeriod", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.deletePeriod"});
 
       // on trie index par ordre inverse pour ne pas modifier les indices à supprimer
@@ -254,10 +254,10 @@
      * @return {void} 
      */
     vm.cancel = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.cancel", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.cancel", tag: "methodEntry"});
 
-      abxFlashMessage.showCancel();
-      abxRouter.navigate(['Admin.settings.home']);
+      pmFlashMessage.showCancel();
+      pmRouter.navigate(['Admin.settings.home']);
     };
 
     /*
@@ -267,8 +267,8 @@
      * @return {void} 
      */
     vm.navigate = function(location) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.navigate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.navigate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.navigate"});
 
       var linkParams;
@@ -280,11 +280,11 @@
           linkParams = ['Admin.settings.periodType', {action: 'update', periodTypeId: _backObjects.periodType.id}];
           break;
         default :
-          abxLog.error({message: "Paramètre incorrect. {{params}}",
+          pmLog.error({message: "Paramètre incorrect. {{params}}",
             params: {params: arguments}, tag: "params", object: componentName, method: "vm.navigate"});
           return;
       }
-      abxRouter.navigate(linkParams);
+      pmRouter.navigate(linkParams);
     };
 
     /*
@@ -293,14 +293,14 @@
      * @return {void} 
      */
     vm.save = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.save", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.save", tag: "methodEntry"});
 
       // formulaire invalide ou déjà en cours d'enregistrement
       if (!vm.ngForm.PeriodType.$valid || vm.isSaving) {
         return;
       }
 
-      abxFlashMessage.showWait();
+      pmFlashMessage.showWait();
       vm.isSaving = true;
 
 
@@ -324,22 +324,22 @@
           });
         }
 
-        abxPeriodTypeModel.createUpdate(formPeriodType)
+        pmPeriodTypeModel.createUpdate(formPeriodType)
             .then(function(response) {
               // succès
               if (response[0].PeriodType !== undefined) {
-                abxLog.debug({message: "PeriodType enregistré avec succès.", tag: "save", object: componentName, method: "vm.save"});
+                pmLog.debug({message: "PeriodType enregistré avec succès.", tag: "save", object: componentName, method: "vm.save"});
                 var textContent = "Le groupe de périodes a été "
                     + (_formAction === 'create' ? "créée" : "modifiée")
                     + " avec succès.";
-                abxFlashMessage.showSuccess(textContent);
-                abxRouter.navigate(['Admin.settings.home']);
+                pmFlashMessage.showSuccess(textContent);
+                pmRouter.navigate(['Admin.settings.home']);
                 return;
               }
 
               // erreur
-              abxLog.debug({message: "Erreur lors de l'enregistrement du PeriodType.", tag: "save", object: componentName, method: "vm.save"});
-              vm.ngForm.PeriodType.abxFormBackApplyErrors(response[0],
+              pmLog.debug({message: "Erreur lors de l'enregistrement du PeriodType.", tag: "save", object: componentName, method: "vm.save"});
+              vm.ngForm.PeriodType.pmFormBackApplyErrors(response[0],
                   {redirectLinkParams: ['Admin.settings.home'],
                     errorMessage: "Le groupe de périodes que vous essayez de modifier n'existe pas ou plus."});
 
@@ -347,14 +347,14 @@
             });
 
       } catch (e) {
-        abxLog.error({message: "Erreur catchée lors de l'enregistrement du PeriodType. Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: "Erreur catchée lors de l'enregistrement du PeriodType. Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "vm.save"});
 
         var errorOptions = {
           errorMessage: "La " + (_formAction === 'create' ? "création" : "modification") + " du groupe de périodes a échoué.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(errorOptions);
+        pmFlashMessage.showError(errorOptions);
 
         vm.isSaving = false;
       }
@@ -384,7 +384,7 @@
       var periodsLength = vm.periods.length - 1;
       for (var i = 0; i < periodsLength; i++) {
         if (vm.periods[i].dateEnd.value instanceof Date) {
-          vm.periods[i + 1].dateStart.value = abxTime.moment(vm.periods[i].dateEnd.value).add(1, 'day').toDate();
+          vm.periods[i + 1].dateStart.value = pmTime.moment(vm.periods[i].dateEnd.value).add(1, 'day').toDate();
         } else {
           vm.periods[i + 1].dateStart.value = null;
         }
@@ -404,18 +404,18 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function(nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
-      _this.abxAppController.vm.setModule('admin.settings');
+      _this.pmAppController.vm.setModule('admin.settings');
       
       try {
         // validation des paramètres
         var routeParams = angular.copy(nextInstruction.params);
         // validation :action
         if (["create", "read", "update"].indexOf(routeParams.action) < 0) {
-          abxRouter.navigateToErrorPage('404', 'params');
+          pmRouter.navigateToErrorPage('404', 'params');
           return;
         }
 
@@ -424,9 +424,9 @@
         var periodTypeId = parseInt(routeParams.periodTypeId);
         if (isNaN(periodTypeId)) {
           if (routeParams.action !== 'create') {
-            abxLog.info({message: "PeriodTypeId incorrect. action={{action}}|periodTypeId={{periodTypeId}}",
+            pmLog.info({message: "PeriodTypeId incorrect. action={{action}}|periodTypeId={{periodTypeId}}",
               params: {action: routeParams.action, periodTypeId: routeParams.periodTypeId}, tag: "$routeParams", object: componentName, method: "$routerOnActivate"});
-            abxRouter.navigateToErrorPage('404', 'params');
+            pmRouter.navigateToErrorPage('404', 'params');
             return;
           } else {
             periodTypeId = undefined;
@@ -436,14 +436,14 @@
 
         // récupération des données
         var concatRequests = [
-          {modelMethod: abxYearContainerModel.readCurrent, options: {}},
-          {modelMethod: abxSchoolYearModel.readCurrent, options: {forceBackRead: true}}
+          {modelMethod: pmYearContainerModel.readCurrent, options: {}},
+          {modelMethod: pmSchoolYearModel.readCurrent, options: {forceBackRead: true}}
         ];
         if (routeParams.periodTypeId !== undefined) {
-          concatRequests.push({modelMethod: abxPeriodTypeModel.readByPeriodTypeId, options: {periodTypeId: routeParams.periodTypeId, forceBackRead: true}});
+          concatRequests.push({modelMethod: pmPeriodTypeModel.readByPeriodTypeId, options: {periodTypeId: routeParams.periodTypeId, forceBackRead: true}});
         }
 
-        abxModelManager.addConcatRequest(concatRequests)
+        pmModelManager.addConcatRequest(concatRequests)
             .then(function(response) {
 
               var yearContainerResult = response[0],
@@ -452,7 +452,7 @@
                   periodType = {};
 
               // erreur ou abscence de YearContainer et/ou de schoolYear
-              if (abxModelManager.checkYearContainerAndSchoolYear(yearContainerResult, schoolYearResult) === false) {
+              if (pmModelManager.checkYearContainerAndSchoolYear(yearContainerResult, schoolYearResult) === false) {
                 return;
               }
 
@@ -460,7 +460,7 @@
               if (routeParams.periodTypeId !== undefined) {
                 // pas de periodType trouvé
                 if (periodTypeResult === undefined) {
-                  abxLog.debug({message: "PeriodType inexistant : periodTypeId={{periodTypeId}}.", object: componentName, method: "$routerOnActivate",
+                  pmLog.debug({message: "PeriodType inexistant : periodTypeId={{periodTypeId}}.", object: componentName, method: "$routerOnActivate",
                     params: {periodTypeId: routeParams.periodTypeId}, tag: "settings"});
 
                   // DUPLICATE
@@ -471,17 +471,17 @@
                       errorMessage: "Le groupe de périodes à dupliquer n'existe plus.",
                       adviceMessage: "Vous pouvez créer un nouveau groupe de périodes."
                     };
-                    abxFlashMessage.showError(errorOptions);
+                    pmFlashMessage.showError(errorOptions);
 
                   } else {
                     // UPDATE | READ
-                    abxFlashMessage.showError({errorMessage: "Le groupe de périodes n'existe pas ou plus."});
-                    abxRouter.navigate(['Admin.settings.home']);
+                    pmFlashMessage.showError({errorMessage: "Le groupe de périodes n'existe pas ou plus."});
+                    pmRouter.navigate(['Admin.settings.home']);
                     return;
                   }
 
                 } else if (periodTypeResult.result !== undefined || periodTypeResult.PeriodType === undefined) {
-                  abxLog.error({message: "Impossible de récupérer un periodType depuis le back : periodTypeId={{periodTypeId}}.", object: componentName,
+                  pmLog.error({message: "Impossible de récupérer un periodType depuis le back : periodTypeId={{periodTypeId}}.", object: componentName,
                     params: {periodTypeId: routeParams.periodTypeId}, tag: "settings", method: "$routerOnActivate"});
 
                   if (routeParams.action === "create") {
@@ -490,7 +490,7 @@
                       errorMessage: "Erreur lors de la récupération du groupe de périodes à dupliquer.",
                       adviceMessage: "Vous pouvez créer un nouveau groupe de périodes."
                     };
-                    abxFlashMessage.showError(errorOptions);
+                    pmFlashMessage.showError(errorOptions);
 
                   } else {
                     var errorOptions = {
@@ -499,8 +499,8 @@
                       errorObject: {objectName: 'PeriodType',
                         errorMessage: 'periodTypeId = ' + routeParams.periodTypeId}
                     };
-                    abxFlashMessage.showError(errorOptions);
-                    abxRouter.navigate(['Admin.settings.home']);
+                    pmFlashMessage.showError(errorOptions);
+                    pmRouter.navigate(['Admin.settings.home']);
                     return;
                   }
                 } else {
@@ -511,8 +511,8 @@
 
               // vérification des ACL
               var aclObjet = (routeParams.action === 'update' ? periodType : 'periodType');
-              if (!abxAcl.isAllowedManageCrudObject(aclObjet, routeParams.action)) {
-                abxRouter.navigateToErrorPage('acl', 'forbidden');
+              if (!pmAcl.isAllowedManageCrudObject(aclObjet, routeParams.action)) {
+                pmRouter.navigateToErrorPage('acl', 'forbidden');
                 return;
               }
 
@@ -565,7 +565,7 @@
               } else {
                 
                 if (routeParams.action === "read") {
-                  vm.isAllowedUpdate = abxAcl.isAllowedManageCrudObject(_backObjects.periodType, 'update');
+                  vm.isAllowedUpdate = pmAcl.isAllowedManageCrudObject(_backObjects.periodType, 'update');
                 }
 
                 routeParams.action === 'create' ? vm.isAllowedAddPeriod = true : vm.isAllowedAddPeriod = false;
@@ -593,9 +593,9 @@
                 }
               }
 
-              abxLog.debug({message: "PeriodType initialisé : {{periodType}}.", object: componentName,
+              pmLog.debug({message: "PeriodType initialisé : {{periodType}}.", object: componentName,
                 params: {periodType: vm.periodType}, tag: "vm", method: "$routerOnActivate"});
-              abxLog.debug({message: "Periods initialisées : {{periods}}.", object: componentName,
+              pmLog.debug({message: "Periods initialisées : {{periods}}.", object: componentName,
                 params: {periods: vm.periods}, tag: "vm", method: "$routerOnActivate"});
 
               vm.canDisplayView = true;
@@ -603,15 +603,15 @@
       } catch (e) {
 
         var errorMessage = "Erreur lors de l'affectation des données de formulaire.";
-        abxLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "$routerOnActivate"});
         var options = {
           errorMessage: errorMessage,
           adviceMessage: "Vous ne pouvez pas créer, modifier ou afficher ce groupe de périodes.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(options);
-        abxRouter.navigate(['Admin.settings.home']);
+        pmFlashMessage.showError(options);
+        pmRouter.navigate(['Admin.settings.home']);
       }
       ;
     };

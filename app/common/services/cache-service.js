@@ -16,24 +16,24 @@
 
   'use strict';
 
-  var objectName = 'abx.common.cacheService';
+  var objectName = 'pm.common.cacheService';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$interval',
-        'abx.common.logService',
-        'abx.common.configService',
-        'abx.common.cronService',
-        'abx.common.timeService',
+        'pm.common.logService',
+        'pm.common.configService',
+        'pm.common.cronService',
+        'pm.common.timeService',
         function(
             $interval,
-            abxLog,
-            abxConfig,
-            abxCron,
-            abxTime) {
+            pmLog,
+            pmConfig,
+            pmCron,
+            pmTime) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -45,9 +45,9 @@
           var _cacheData = {};
 
           /*
-           * @property {object} Config locale d'Abx
+           * @property {object} Config locale d'pm
            */
-          var _config = abxConfig.get();
+          var _config = pmConfig.get();
 
 
           //********************
@@ -58,9 +58,9 @@
            * @return integer timestamp UNIX
            */
           var _getTimestamp = function() {
-            abxLog.trace({message: "Entrée méthode", object: objectName, method: "_getTimestamp", tag: "methodEntry"});
+            pmLog.trace({message: "Entrée méthode", object: objectName, method: "_getTimestamp", tag: "methodEntry"});
 
-            return abxTime.moment().unix();
+            return pmTime.moment().unix();
           };
 
           // lancement de la tâche de nettoyage
@@ -69,11 +69,11 @@
             var _intervalPromise = $interval(function() {
               _factory.clean();
             }, _config.cache.cleanInterval, 0, false);
-            abxCron.put('abxCache-clean', _intervalPromise);
+            pmCron.put('pmCache-clean', _intervalPromise);
 
-            abxLog.info({message: "Lancement réussi du CRON de nettoyage du cache.", tag: "cache", object: objectName, method: "_intervalPromise"});
+            pmLog.info({message: "Lancement réussi du CRON de nettoyage du cache.", tag: "cache", object: objectName, method: "_intervalPromise"});
           } catch (e) {
-            abxLog.error({message: "Erreur d'enregistrement du CRON de nettoyage du cache : {{exceptionMessage}}", params: {exceptionMessage: e.message}, tag: "cache", object: objectName, method: "_intervalPromise"});
+            pmLog.error({message: "Erreur d'enregistrement du CRON de nettoyage du cache : {{exceptionMessage}}", params: {exceptionMessage: e.message}, tag: "cache", object: objectName, method: "_intervalPromise"});
           }
 
 
@@ -90,18 +90,18 @@
              * @return {undefined|mixed} undefined Donnée inconnue ou lifetime dépassé | mixed Donnée cachée
              */
             get: function(namespace, key) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "get", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "get", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "get"});
 
               // key inconnue
               if (_cacheData[namespace] === undefined || _cacheData[namespace][key] === undefined) {
-                abxLog.trace({message: "Clef de cache inconnue : {{key}}.", params: {key: namespace + '.' + key}, object: objectName, method: "get", tag: "cache"});
+                pmLog.trace({message: "Clef de cache inconnue : {{key}}.", params: {key: namespace + '.' + key}, object: objectName, method: "get", tag: "cache"});
                 return undefined;
               }
               // timeout dépassé
               if (_cacheData[namespace][key]['timeout'] < _getTimestamp()) {
-                abxLog.trace({message: "Timestamp de cache dépassé : {{key}}.", params: {key: namespace + '.' + key}, object: objectName, method: "get", tag: "cache"});
+                pmLog.trace({message: "Timestamp de cache dépassé : {{key}}.", params: {key: namespace + '.' + key}, object: objectName, method: "get", tag: "cache"});
 
                 delete _cacheData[namespace][key];
                 return undefined;
@@ -119,8 +119,8 @@
              * @return {boolean} Résultat de l'action
              */
             put: function(namespace, key, data, lifetime) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "put", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "put", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "put"});
 
               if (typeof namespace !== 'string' || namespace.length === 0
@@ -155,8 +155,8 @@
              * @return {boolean} Résultat de l'action
              */
             remove: function(namespace, key) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "remove", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "remove", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "remove"});
 
               if (typeof namespace !== 'string' || namespace.length === 0) {
@@ -168,7 +168,7 @@
                 try {
                   delete _cacheData[namespace][key];
                 } catch (e) {
-                  abxLog.warning({message: "Impossible de supprimer une donnée du cache : namespace={{{namespaceType}}}{{namespace}}|key={{{keyType}}}{{key}}",
+                  pmLog.warning({message: "Impossible de supprimer une donnée du cache : namespace={{{namespaceType}}}{{namespace}}|key={{{keyType}}}{{key}}",
                     params: {namespace: namespace, namespaceType: typeof namespace, key: key, keyType: typeof key},
                     tag: "params", object: objectName, method: "remove"});
                 }
@@ -181,7 +181,7 @@
              * @return {boolean} Résultat de l'action
              */
             removeAll: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "removeAll", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "removeAll", tag: "methodEntry"});
 
               _cacheData = {};
               return true;
@@ -192,7 +192,7 @@
              * @return {integer} Nombre de données supprimées
              */
             clean: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "clean", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "clean", tag: "methodEntry"});
 
               var timestamp = _getTimestamp(),
                   clearCount = 0;
@@ -205,7 +205,7 @@
                 }
               }
 
-              abxLog.info({message: "Nettoyage du cache : {{count}} objet(s) nettoyé(s).", params: {count: clearCount}, object: objectName, method: "clean", tag: "cache"});
+              pmLog.info({message: "Nettoyage du cache : {{count}} objet(s) nettoyé(s).", params: {count: clearCount}, object: objectName, method: "clean", tag: "cache"});
               return clearCount;
             }
           };

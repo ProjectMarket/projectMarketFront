@@ -15,22 +15,22 @@
 (function() {
 
   'use strict';
-  var objectName = 'abx.common.cacheBackManagerService';
+  var objectName = 'pm.common.cacheBackManagerService';
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$q',
-        'abx.common.logService',
-        'abx.common.cacheService',
-        'abx.common.backComHandlerService',
+        'pm.common.logService',
+        'pm.common.cacheService',
+        'pm.common.backComHandlerService',
         function(
             $q,
-            abxLog,
-            abxCache,
-            abxBackComHandler
+            pmLog,
+            pmCache,
+            pmBackComHandler
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
           //********************
           // Propriétés privées
           //********************
@@ -68,8 +68,8 @@
            * @return {object} Promise
            */
           var _addRequest = function(method, options) {
-            abxLog.trace({message: "Entrée méthode", object: objectName, method: "_addRequest", tag: "methodEntry"});
-            abxLog.debug({message: "Paramètres méthode : {{params}}",
+            pmLog.trace({message: "Entrée méthode", object: objectName, method: "_addRequest", tag: "methodEntry"});
+            pmLog.debug({message: "Paramètres méthode : {{params}}",
               params: {params: arguments}, tag: "params", object: objectName, method: "_addRequest"});
 
             var deferred = $q.defer(),
@@ -91,7 +91,7 @@
 
               // pas de requête si l'ensemble des requêtes combinées n'ont pas encore été soumises
               if (requestListLength < numberOfRequests) {
-                abxLog.debug({message: "La requête ajoutée n'est pas la dernière des requêtes combinées : requête {{requestListLength}} / {{numberOfRequests}}",
+                pmLog.debug({message: "La requête ajoutée n'est pas la dernière des requêtes combinées : requête {{requestListLength}} / {{numberOfRequests}}",
                   params: {requestListLength: requestListLength, numberOfRequests: numberOfRequests}, tag: "params", object: objectName, method: "_addRequest"});
                 return promise;
               }
@@ -106,7 +106,7 @@
 
               // aucune requête à effectuer => résoud toutes les promesses
               if (backRequestObjects.length === 0) {
-                abxLog.debug({message: "Aucune requête à effectuer => résoud toutes les promesses.", tag: "debug", object: objectName, method: "_addRequest"});
+                pmLog.debug({message: "Aucune requête à effectuer => résoud toutes les promesses.", tag: "debug", object: objectName, method: "_addRequest"});
                 for (var i = 0; i < numberOfRequests; i++) {
                   _requestList['concatId_' + options.concat.concatId]['requestNumber_' + i].deferred.resolve([]);
                 }
@@ -121,7 +121,7 @@
 
 
             // soumission de la requête
-            abxBackComHandler.post('crud/' + method, backRequestObjects)
+            pmBackComHandler.post('crud/' + method, backRequestObjects)
                 .then(function(response) {
 
                   var requestLength = 0,
@@ -134,7 +134,7 @@
                       responseObjects.push(response[i].UnitResponse);
                     }
 
-                    abxLog.debug({message: "Réponse avec succès à une requête simple. responseObjects={{responseObjects}}",
+                    pmLog.debug({message: "Réponse avec succès à une requête simple. responseObjects={{responseObjects}}",
                       params: {responseObjects: responseObjects}, tag: "resolve", object: objectName, method: "_addRequest"});
                     deferred.resolve(responseObjects);
                     return;
@@ -147,7 +147,7 @@
                     requestLength = _requestList['concatId_' + options.concat.concatId]['requestNumber_' + i].requestObjects.length;
                     // il n'y avait pas de requête : résoud à vide
                     if (requestLength === 0) {
-                      abxLog.debug({message: "Réponse à vide à une requête combinée : requête numéro {{i}}",
+                      pmLog.debug({message: "Réponse à vide à une requête combinée : requête numéro {{i}}",
                         params: {i: i}, tag: "resolve", object: objectName, method: "_addRequest"});
                       _requestList['concatId_' + options.concat.concatId]['requestNumber_' + i].deferred.resolve([]);
 
@@ -157,7 +157,7 @@
                         unitResponse = response.shift();
                         responseObjects.push(unitResponse.UnitResponse);
                       }
-                      abxLog.debug({message: "Réponse à une requête combinée : requête numéro {{i}}|requestObjects={{requestObjects}}",
+                      pmLog.debug({message: "Réponse à une requête combinée : requête numéro {{i}}|requestObjects={{requestObjects}}",
                         params: {i: i, requestObjects: responseObjects}, tag: "resolve", object: objectName, method: "_addRequest"});
                       _requestList['concatId_' + options.concat.concatId]['requestNumber_' + i].deferred.resolve(responseObjects);
                     }
@@ -223,19 +223,19 @@
              * @return {string} concatId
              */
             addConcatRequest: function(numberOfRequests) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "addConcatRequest", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "addConcatRequest", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "addConcatRequest"});
 
               if (typeof numberOfRequests !== 'number' || numberOfRequests < 1) {
-                abxLog.error({message: "Erreur de paramètre de méthode. NumberOfRequests doit être un integer > 0. Paramètre passé : {{{numberOfRequestsType}}}{{numberOfRequests}}",
+                pmLog.error({message: "Erreur de paramètre de méthode. NumberOfRequests doit être un integer > 0. Paramètre passé : {{{numberOfRequestsType}}}{{numberOfRequests}}",
                   params: {numberOfRequestsType: typeof numberOfRequests, numberOfRequests: numberOfRequests}, tag: "params", object: objectName, method: "addConcatRequest"});
                 throw new Error("Erreur de paramètre de méthode. NumberOfRequests doit être un integer > 0.");
               }
 
               var concatId = (_concatList.push(numberOfRequests) - 1);
               _requestList['concatId_' + concatId] = {};
-              abxLog.debug({message: "concatId={{concatId}}",
+              pmLog.debug({message: "concatId={{concatId}}",
                 params: {concatId: concatId}, tag: "return", object: objectName, method: "addConcatRequest"});
               return concatId;
             },
@@ -272,8 +272,8 @@
              * @return {object} Promise
              */
             read: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "read", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "read", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "read"});
 
               var deferred = $q.defer(),
@@ -286,7 +286,7 @@
                   requestResultBackRequestObjectsMapping = [];
 
               if (requestsLength === 0) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode.", tag: "params", object: objectName, method: "read"});
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode.", tag: "params", object: objectName, method: "read"});
                 throw new Error('Erreur de paramètres en entrée de méthode.');
               }
 
@@ -294,7 +294,7 @@
                 // recherche en cache
                 cacheResult = undefined;
                 if (options.requests[i].cache !== undefined && options.requests[i].cache.forceBackRead !== true) {
-                  cacheResult = abxCache.get(options.requests[i].cache.namespace, options.requests[i].cache.key);
+                  cacheResult = pmCache.get(options.requests[i].cache.namespace, options.requests[i].cache.key);
                 }
 
                 if (cacheResult !== undefined) {
@@ -357,7 +357,7 @@
                           }
                           // mise en cache
                           if (options.requests[i].cache !== undefined && options.requests[i].cache.isForbiddenPutInCache !== true) {
-                            abxCache.put(options.requests[i].cache.namespace, options.requests[i].cache.key, resultObjects, options.requests[i].cache.lifetime);
+                            pmCache.put(options.requests[i].cache.namespace, options.requests[i].cache.key, resultObjects, options.requests[i].cache.lifetime);
                           }
                         } else {
                           if (response[i].errorType === undefined) {
@@ -416,8 +416,8 @@
              * @return {object} Promise
              */
             createUpdateDelete: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "createUpdateDelete", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "createUpdateDelete", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "createUpdateDelete"});
 
               var deferred = $q.defer(),
@@ -426,7 +426,7 @@
                   backRequestObjectsList = [];
 
               if (requestsLength === 0 || ["create", "update", "delete"].indexOf(options.action) < 0) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode.", tag: "params", object: objectName, method: "createUpdateDelete"});
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode.", tag: "params", object: objectName, method: "createUpdateDelete"});
                 throw new Error('Erreur de paramètres en entrée de méthode.');
               }
 
@@ -451,9 +451,9 @@
                         // mise en cache
                         if (options.requests[i].cache !== undefined && options.requests[i].cache.isForbiddenPutInCache !== true) {
                           if (options.action === 'delete') {
-                            abxCache.remove(options.requests[i].cache.namespace, options.requests[i].cache.key);
+                            pmCache.remove(options.requests[i].cache.namespace, options.requests[i].cache.key);
                           } else {
-                            abxCache.put(options.requests[i].cache.namespace, options.requests[i].cache.key, resultObject, options.requests[i].cache.lifetime);
+                            pmCache.put(options.requests[i].cache.namespace, options.requests[i].cache.key, resultObject, options.requests[i].cache.lifetime);
                           }
                         }
                       } else {

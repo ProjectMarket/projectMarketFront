@@ -16,8 +16,8 @@
 
   'use strict';
   angular
-      .module('abx.commonModule')
-      .filter('abxCommonSchoolFilter',
+      .module('pm.commonModule')
+      .filter('pmCommonSchoolFilter',
           function() {
             return filter;
           }

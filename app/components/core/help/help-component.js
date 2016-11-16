@@ -1,5 +1,5 @@
 /** 
- * Component abx.core.helpComponent
+ * Component pm.core.helpComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -16,27 +16,27 @@
 
   'use strict';
 
-  var componentName = 'abx.core.helpComponent';
+  var componentName = 'pm.core.helpComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.coreModule')
+      .module('pm.components.coreModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function (abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function (pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/core/help/help-component.html',
         controller: [
-          'abx.common.logService',
-          'abx.common.backComHandlerService',
-          'abx.common.timeService',
-          'abx.common.versionValue',
+          'pm.common.logService',
+          'pm.common.backComHandlerService',
+          'pm.common.timeService',
+          'pm.common.versionValue',
           Controller]
       });
 
@@ -45,13 +45,13 @@
   // Controller
   //************
   function Controller(
-      abxLog,
-      abxBackComHandler,
-      abxTime,
-      abxVersionValue
+      pmLog,
+      pmBackComHandler,
+      pmTime,
+      pmVersionValue
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -127,8 +127,8 @@
      * @property {object} Objet d'informations sur la version des DB du back
      */
     vm.frontVersion = {
-      revision: abxVersionValue.revision.split(' ')[1],
-      date: abxTime.convertDateFromBackToDate(abxVersionValue.date.split(' ')[1])
+      revision: pmVersionValue.revision.split(' ')[1],
+      date: pmTime.convertDateFromBackToDate(pmVersionValue.date.split(' ')[1])
     };
 
     //*******************
@@ -154,19 +154,19 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function (nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
-      _this.abxAppController.vm.setModule('core.help');
+      _this.pmAppController.vm.setModule('core.help');
 
       var routeParams = angular.copy(nextInstruction.params);
 
-      abxBackComHandler.get('/version')
+      pmBackComHandler.get('/version')
           .then(function (response) {
             try {
               if (response[0].UnitResponse.objects[0].result !== undefined) {
-                abxLog.error({errorMessage: "Erreur lors de la récupération des informations de versions du back", objects: response[0].UnitResponse.objects[0]});
+                pmLog.error({errorMessage: "Erreur lors de la récupération des informations de versions du back", objects: response[0].UnitResponse.objects[0]});
 
                 vm.hasBackError.versionning = true;
                 return;
@@ -177,7 +177,7 @@
               vm.backVersion.aneto = backVersion.anetoDbVersion;
               vm.backVersion.isa = backVersion.isaDbVersion;
             } catch (e) {
-              abxLog.error({errorMessage: "Erreur lors de la récupération des informations de versions du back", object: e.message});
+              pmLog.error({errorMessage: "Erreur lors de la récupération des informations de versions du back", object: e.message});
               vm.hasBackError.versionning = true;
               vm.canDisplayView = true;
             }

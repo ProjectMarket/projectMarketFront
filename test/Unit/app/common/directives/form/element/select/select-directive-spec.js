@@ -3,7 +3,7 @@ describe('Unit testing great quotes', function () {
             $rootScope;
 
     // Load the myApp module, which contains the directive
-    beforeEach(module('abx.commonModule'));
+    beforeEach(module('pm.commonModule'));
 
     // Store references to $rootScope and $compile
     // so they are available to all tests in this describe block
@@ -15,7 +15,7 @@ describe('Unit testing great quotes', function () {
 
     it('label contains good settings ', function () {
         
-        var element = $compile("<abx-form-element-select><label></label></abx-form-element-select>")($rootScope);
+        var element = $compile("<pm-form-element-select><label></label></pm-form-element-select>")($rootScope);
         
         $rootScope.$digest();       
         
@@ -24,7 +24,7 @@ describe('Unit testing great quotes', function () {
     it('ui-select contains good settings ', function () {
         
         //Compile un morceau de HTML contenant la directive
-        var element = $compile("<abx-form-element-select><ui-select></ui-select></abx-form-element-select>")($rootScope);
+        var element = $compile("<pm-form-element-select><ui-select></ui-select></pm-form-element-select>")($rootScope);
         
         $rootScope.$digest();
       

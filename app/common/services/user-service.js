@@ -16,29 +16,29 @@
 
   'use strict';
 
-  var objectName = 'abx.common.userService';
+  var objectName = 'pm.common.userService';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$q',
         '$rootScope',
-        'abx.common.logService',
-        'abx.common.cookieService',
-        'abx.common.routerService',
-        'abx.common.cacheService',
-        'abx.common.aclService',
+        'pm.common.logService',
+        'pm.common.cookieService',
+        'pm.common.routerService',
+        'pm.common.cacheService',
+        'pm.common.aclService',
         function(
             $q,
             $rootScope,
-            abxLog,
-            abxCookie,
-            abxRouter,
-            abxCache,
-            abxAcl
+            pmLog,
+            pmCookie,
+            pmRouter,
+            pmCache,
+            pmAcl
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -98,8 +98,8 @@
            * @return {void} 
            */
           var _formatProfiles = function(userDetails, deferred) {
-            abxLog.trace({message: "Entrée méthode", object: objectName, method: "_formatProfiles", tag: "methodEntry"});
-            abxLog.debug({message: "Paramètres méthode : {{params}}",
+            pmLog.trace({message: "Entrée méthode", object: objectName, method: "_formatProfiles", tag: "methodEntry"});
+            pmLog.debug({message: "Paramètres méthode : {{params}}",
               params: {params: arguments}, tag: "params", object: objectName, method: "_formatProfiles"});
 
             try {
@@ -303,25 +303,25 @@
                     = structuredProfiles.schools.schools['schoolId_' + _lastBackendSelectedProfile.schoolId];
               }
 
-              abxLog.debug({message: "Rôles fermés : {{forbiddenRoles}}",
+              pmLog.debug({message: "Rôles fermés : {{forbiddenRoles}}",
                 params: {forbiddenRoles: forbiddenRoles}, tag: "userDetails", object: objectName, method: "_formatProfiles"});
               _forbiddenRoles = forbiddenRoles;
 
-              abxLog.info({message: "StructuredProfiles généré : {{structuredProfiles}}", params: {structuredProfiles: structuredProfiles},
+              pmLog.info({message: "StructuredProfiles généré : {{structuredProfiles}}", params: {structuredProfiles: structuredProfiles},
                 object: objectName, method: "_formatProfiles", tag: "userDetails"});
 
               // affectation des valeurs
               _structuredProfiles = structuredProfiles;
               _globalProfiles = globalProfiles;
 
-              abxLog.info({message: "LastSelectedProfile généré : {{_lastSelectedProfile}}", params: {_lastSelectedProfile: _lastBackendSelectedProfile},
+              pmLog.info({message: "LastSelectedProfile généré : {{_lastSelectedProfile}}", params: {_lastSelectedProfile: _lastBackendSelectedProfile},
                 object: objectName, method: "_formatProfiles", tag: "userDetails"});
 
               // résolution de la promesse
               deferred.resolve(true);
 
             } catch (e) {
-              abxLog.error({message: "Erreur de données dans l'userDetails : {{exceptionMessage}}", params: {exceptionMessage: e.message},
+              pmLog.error({message: "Erreur de données dans l'userDetails : {{exceptionMessage}}", params: {exceptionMessage: e.message},
                 tag: "userDetails", object: objectName, method: "_formatProfiles"});
               deferred.reject(e.message);
 
@@ -342,11 +342,11 @@
              * @return {boolean} 
              */
             hasProfiles: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "hasProfiles", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "hasProfiles", tag: "methodEntry"});
 
               var hasProfiles = (_structuredProfiles.identity !== undefined);
 
-              abxLog.debug({message: "HasProfile = {{hasProfiles}}",
+              pmLog.debug({message: "HasProfile = {{hasProfiles}}",
                 params: {hasProfiles: hasProfiles}, object: objectName, method: "hasProfiles", tag: "user"});
 
               return hasProfiles;
@@ -358,8 +358,8 @@
              * @return {object} promise
              */
             setUserDetails: function(userDetails) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "setUserDetails", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "setUserDetails", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "setUserDetails"});
 
               var deferred = $q.defer();
@@ -373,7 +373,7 @@
              * @return {string} 
              */
             getAndCleanAfterSelectProfileRedirectUrl: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getAndCleanAfterSelectProfileRedirectUrl", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getAndCleanAfterSelectProfileRedirectUrl", tag: "methodEntry"});
               var redirectUrl = _afterSelectProfileRedirectUrl;
               _afterSelectProfileRedirectUrl = undefined;
               return redirectUrl;
@@ -384,7 +384,7 @@
              * @return {object|undefined} 
              */
             getIdentity: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getIdentity", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getIdentity", tag: "methodEntry"});
               return angular.copy(_structuredProfiles.identity);
             },
             /*
@@ -393,7 +393,7 @@
              * @return {string|undefined} 
              */
             getUserSex: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getUserSex", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getUserSex", tag: "methodEntry"});
               return (_structuredProfiles.identity === undefined || _structuredProfiles.identity.sex === undefined)
                   ? undefined : _structuredProfiles.identity.sex;
             },
@@ -403,7 +403,7 @@
              * @return {object} 
              */
             getSchools: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getSchools", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getSchools", tag: "methodEntry"});
               return angular.copy(_structuredProfiles.schools);
             },
             /*
@@ -412,7 +412,7 @@
              * @return {object} 
              */
             getForbiddenRoles: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getForbiddenRoles", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getForbiddenRoles", tag: "methodEntry"});
               return angular.copy(_forbiddenRoles);
             },
             /*
@@ -421,7 +421,7 @@
              * @return {string|undefined} 
              */
             getSelectedRole: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getSelectedRole", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getSelectedRole", tag: "methodEntry"});
               if (_selectedProfile === undefined) {
                 return undefined;
               }
@@ -433,7 +433,7 @@
              * @return {object|undefined} 
              */
             getSelectedSchool: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getSelectedSchool", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getSelectedSchool", tag: "methodEntry"});
               if (_selectedProfile === undefined) {
                 return undefined;
               }
@@ -445,7 +445,7 @@
              * @return {object|undefined} 
              */
             getSelectedStudent: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getSelectedStudent", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getSelectedStudent", tag: "methodEntry"});
               if (_selectedProfile === undefined || _selectedProfile.student === undefined) {
                 return undefined;
               }
@@ -457,7 +457,7 @@
              * @return {array} 
              */
             getGlobalProfiles: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getGlobalProfiles", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getGlobalProfiles", tag: "methodEntry"});
               return angular.copy(_globalProfiles);
             },
             /*
@@ -466,13 +466,13 @@
              * @return {array} 
              */
             getResponsibleStudents: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getResponsibleStudents", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getResponsibleStudents", tag: "methodEntry"});
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getResponsibleStudents", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getResponsibleStudents", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
               if (_structuredProfiles.profiles.responsible === undefined) {
-                abxLog.error({message: "L'user n'est pas responsible.", object: objectName, method: "getResponsibleStudents", tag: "user"});
+                pmLog.error({message: "L'user n'est pas responsible.", object: objectName, method: "getResponsibleStudents", tag: "user"});
                 throw new Error("L'user n'est pas responsible.");
               }
               var students = [],
@@ -490,20 +490,20 @@
              * @return {array} 
              */
             getResponsibleStudentSchools: function(studentUserId) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getResponsibleStudentSchools", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getResponsibleStudentSchools", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "getResponsibleStudentSchools"});
 
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getResponsibleStudentSchools", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getResponsibleStudentSchools", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
               if (_structuredProfiles.profiles.responsible === undefined) {
-                abxLog.error({message: "L'user n'est pas responsible.", object: objectName, method: "getResponsibleStudentSchools", tag: "user"});
+                pmLog.error({message: "L'user n'est pas responsible.", object: objectName, method: "getResponsibleStudentSchools", tag: "user"});
                 throw new Error("L'user n'est pas responsible.");
               }
               if (_structuredProfiles.profiles.responsible.students['studentUserId_' + studentUserId] === undefined) {
-                abxLog.error({message: "L'user n'est pas responsible du studentUserId={{studentUserId}}.",
+                pmLog.error({message: "L'user n'est pas responsible du studentUserId={{studentUserId}}.",
                   params: {studentUserId: studentUserId},
                   object: objectName, method: "getResponsibleStudentSchools", tag: "user"});
                 throw new Error("L'user n'est pas responsible du studentUserId.");
@@ -522,13 +522,13 @@
              * @return {array} 
              */
             getStudentSchools: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getStudentSchools", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getStudentSchools", tag: "methodEntry"});
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getStudentSchools", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getStudentSchools", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
               if (_structuredProfiles.profiles.student === undefined) {
-                abxLog.error({message: "L'user n'est pas student.", object: objectName, method: "getStudentSchools", tag: "user"});
+                pmLog.error({message: "L'user n'est pas student.", object: objectName, method: "getStudentSchools", tag: "user"});
                 throw new Error("L'user n'est pas student.");
               }
 
@@ -546,13 +546,13 @@
              * @return {array} 
              */
             getStaffRoleTypes: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getStaffRoleTypes", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getStaffRoleTypes", tag: "methodEntry"});
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getStaffRoleTypes", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getStaffRoleTypes", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
               if (_structuredProfiles.profiles.staff === undefined) {
-                abxLog.error({message: "L'user n'est pas staff.", object: objectName, method: "getStaffRoleTypes", tag: "user"});
+                pmLog.error({message: "L'user n'est pas staff.", object: objectName, method: "getStaffRoleTypes", tag: "user"});
                 throw new Error("L'user n'est pas staff.");
               }
 
@@ -571,13 +571,13 @@
              * @return {array} 
              */
             getStaffGlobalRoles: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getStaffGlobalRoles", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getStaffGlobalRoles", tag: "methodEntry"});
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getStaffGlobalRoles", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getStaffGlobalRoles", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
               if (_structuredProfiles.profiles.staff === undefined) {
-                abxLog.error({message: "L'user n'est pas staff.", object: objectName, method: "getStaffGlobalRoles", tag: "user"});
+                pmLog.error({message: "L'user n'est pas staff.", object: objectName, method: "getStaffGlobalRoles", tag: "user"});
                 throw new Error("L'user n'est pas staff.");
               }
 
@@ -589,13 +589,13 @@
              * @return {array} 
              */
             getStaffSchools: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getStaffSchools", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getStaffSchools", tag: "methodEntry"});
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getStaffSchools", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getStaffSchools", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
               if (_structuredProfiles.profiles.staff === undefined) {
-                abxLog.error({message: "L'user n'est pas staff.", object: objectName, method: "getStaffSchools", tag: "user"});
+                pmLog.error({message: "L'user n'est pas staff.", object: objectName, method: "getStaffSchools", tag: "user"});
                 throw new Error("L'user n'est pas staff.");
               }
               var response = [];
@@ -611,9 +611,9 @@
              * @return {array} 
              */
             getGlobalSchools: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getGlobalSchools", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getGlobalSchools", tag: "methodEntry"});
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getGlobalSchools", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getGlobalSchools", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
               var response = [];
@@ -628,9 +628,9 @@
              * @return {array} 
              */
             getAllSchools: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getAllSchools", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getAllSchools", tag: "methodEntry"});
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getAllSchools", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getAllSchools", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
               var response = [],
@@ -653,8 +653,8 @@
              * @return {void} 
              */
             addGlobalSchoolInStructuredProfile: function(school) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "addGlobalSchoolInStructuredProfile", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "addGlobalSchoolInStructuredProfile", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "addGlobalSchoolInStructuredProfile"});
 
               school.schoolId = school.id;
@@ -674,20 +674,20 @@
              * @return {array} 
              */
             getStaffSchoolRoles: function(schoolId) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getStaffSchoolRoles", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getStaffSchoolRoles", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "getStaffSchoolRoles"});
 
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getStaffSchoolRoles", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getStaffSchoolRoles", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
               if (_structuredProfiles.profiles.staff === undefined) {
-                abxLog.error({message: "L'user n'est pas staff.", object: objectName, method: "getStaffSchoolRoles", tag: "user"});
+                pmLog.error({message: "L'user n'est pas staff.", object: objectName, method: "getStaffSchoolRoles", tag: "user"});
                 throw new Error("L'user n'est pas staff.");
               }
               if (_structuredProfiles.profiles.staff.schoolRoles['schoolId_' + schoolId] === undefined) {
-                abxLog.error({message: "L'user n'est pas staff dans l'établissement {{schoolId}}.",
+                pmLog.error({message: "L'user n'est pas staff dans l'établissement {{schoolId}}.",
                   params: {schoolId: schoolId},
                   object: objectName, method: "getStaffSchoolRoles", tag: "user"});
                 throw new Error("L'user n'est pas staff dans l'établissement.");
@@ -700,20 +700,20 @@
              * @return {object} Promise
              */
             setSelectedProfileFromCookie: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "setSelectedProfileFromCookie", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "setSelectedProfileFromCookie", tag: "methodEntry"});
 
               var deferred = $q.defer();
 
               $q.when()
                   .then(function() {
-                    var selectedProfile = abxCookie.get('selectedProfile');
+                    var selectedProfile = pmCookie.get('selectedProfile');
                     // pas de selectedProfile dans le cookie
                     if (selectedProfile === undefined) {
-                      abxLog.debug({message: "Pas de selectedProfile disponible.", object: objectName, method: "setSelectedProfileFromCookie", tag: "user"});
+                      pmLog.debug({message: "Pas de selectedProfile disponible.", object: objectName, method: "setSelectedProfileFromCookie", tag: "user"});
                       return $q.resolve(undefined);
                     }
 
-                    abxLog.debug({message: "Renvoi du selectedProfile depuis le cookie : {{selectedProfile}}",
+                    pmLog.debug({message: "Renvoi du selectedProfile depuis le cookie : {{selectedProfile}}",
                       params: {selectedProfile: selectedProfile}, object: objectName, method: "setSelectedProfileFromCookie", tag: "user"});
                     return _factory.setSelectedProfileAndLoadAcl(selectedProfile);
                   })
@@ -732,8 +732,8 @@
              * @return {undefined|object} 
              */
             getSelectedProfile: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getSelectedProfile", tag: "methodEntry"});
-              abxLog.debug({message: "Renvoi du selectedProfile depuis la propriété : {{selectedProfile}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getSelectedProfile", tag: "methodEntry"});
+              pmLog.debug({message: "Renvoi du selectedProfile depuis la propriété : {{selectedProfile}}",
                 params: {selectedProfile: _selectedProfile}, object: objectName, method: "getSelectedProfile", tag: "user"});
               return angular.copy(_selectedProfile);
             },
@@ -743,7 +743,7 @@
              * @return {undefined|object} 
              */
             getSelectedSchoolId: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getSelectedSchoolId", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getSelectedSchoolId", tag: "methodEntry"});
               return _selectedProfile.schoolId;
             },
             /*
@@ -752,16 +752,16 @@
              * @return {object|undefined} backendSelectedProfile
              */
             getBackendSelectedProfile: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getBackendSelectedProfile", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getBackendSelectedProfile", tag: "methodEntry"});
               // récupération depuis la propriété
               if (_backendSelectedProfile !== undefined) {
-                abxLog.trace({message: "Renvoi du backendSelectedProfile depuis la propriété.", object: objectName, method: "getBackendSelectedProfile", tag: "user"});
+                pmLog.trace({message: "Renvoi du backendSelectedProfile depuis la propriété.", object: objectName, method: "getBackendSelectedProfile", tag: "user"});
                 return angular.copy(_backendSelectedProfile);
               }
 
               // renvoi depuis le cookie
-              var backendSelectedProfile = abxCookie.get('backendSelectedProfile');
-              abxLog.debug({message: "Renvoi du backendSelectedProfile depuis le cookie : {{backendSelectedProfile}}",
+              var backendSelectedProfile = pmCookie.get('backendSelectedProfile');
+              pmLog.debug({message: "Renvoi du backendSelectedProfile depuis le cookie : {{backendSelectedProfile}}",
                 params: {backendSelectedProfile: backendSelectedProfile}, object: objectName, method: "getBackendSelectedProfile", tag: "user"});
               return backendSelectedProfile;
             },
@@ -771,8 +771,8 @@
              * @return {object} 
              */
             getLastBackendSelectedProfile: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getLastBackendSelectedProfile", tag: "methodEntry"});
-              abxLog.trace({message: "Renvoi du lastBackendSelectedProfile : {{_lastBackendSelectedProfile}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getLastBackendSelectedProfile", tag: "methodEntry"});
+              pmLog.trace({message: "Renvoi du lastBackendSelectedProfile : {{_lastBackendSelectedProfile}}",
                 params: {_lastBackendSelectedProfile: _lastBackendSelectedProfile}, object: objectName, method: "getBackendSelectedProfile", tag: "user"});
               return angular.copy(_lastBackendSelectedProfile);
             },
@@ -783,8 +783,8 @@
              * @return {object} Promise
              */
             setSelectedProfileAndLoadAcl: function(profile) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "setSelectedProfileAndLoadAcl", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "setSelectedProfileAndLoadAcl", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "setSelectedProfileAndLoadAcl"});
 
               var deferred = $q.defer(),
@@ -810,17 +810,17 @@
                         newBackendProfile.studentUserId = profile.studentUserId;
                       }
                       newProfile.globalProfile = profile.globalProfile;
-                      abxLog.info({message: "Affectation du selectedProfile : {{newProfile}}", params: {newProfile: newProfile},
+                      pmLog.info({message: "Affectation du selectedProfile : {{newProfile}}", params: {newProfile: newProfile},
                         tag: "profile", object: objectName, method: "setSelectedProfileAndLoadAcl"});
                       _selectedProfile = newProfile;
-                      abxCookie.put('selectedProfile', newProfile);
+                      pmCookie.put('selectedProfile', newProfile);
                       _backendSelectedProfile = newBackendProfile;
-                      abxCookie.put('backendSelectedProfile', newBackendProfile);
+                      pmCookie.put('backendSelectedProfile', newBackendProfile);
                       // réinitialisation du cache
-                      abxCache.removeAll();
+                      pmCache.removeAll();
                       return $q.when(_selectedProfile);
                     } catch (e) {
-                      abxLog.error({message: "Erreur dans le format du profile : {{exceptionMessage}}", params: {exceptionMessage: e.message},
+                      pmLog.error({message: "Erreur dans le format du profile : {{exceptionMessage}}", params: {exceptionMessage: e.message},
                         tag: "profile", object: objectName, method: "setSelectedProfileAndLoadAcl"});
                       // rejette la promesse
                       return $q.reject(e.message);
@@ -828,7 +828,7 @@
                   })
                   .then(function() {
                     // chargement des ACL
-                    return abxAcl.loadAcl();
+                    return pmAcl.loadAcl();
                   })
                   .then(function() {
 
@@ -840,9 +840,9 @@
                   .catch(function(error) {
                     // réinitialisation
                     _selectedProfile = oldSelectedProfile;
-                    abxCookie.put('selectedProfile', oldSelectedProfile);
+                    pmCookie.put('selectedProfile', oldSelectedProfile);
                     _backendSelectedProfile = oldBackendSelectedProfile;
-                    abxCookie.put('backendSelectedProfile', oldBackendSelectedProfile);
+                    pmCookie.put('backendSelectedProfile', oldBackendSelectedProfile);
 
                     deferred.reject(error);
                   });
@@ -855,12 +855,12 @@
              * @return {object} Promise resolve si un unique profile existe, reject sinon
              */
             selectProfile: function(redirectUrl) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "selectProfile", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "selectProfile", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "selectProfile"});
 
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "selectProfile", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "selectProfile", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
 
@@ -871,7 +871,7 @@
                   .then(function(uniqueProfile) {
                     // un uniqueProfile a été trouvé
                     if (uniqueProfile !== false) {
-                      abxLog.debug({message: "UniqueProfile trouvé : {{uniqueProfile}}", params: {uniqueProfile: uniqueProfile},
+                      pmLog.debug({message: "UniqueProfile trouvé : {{uniqueProfile}}", params: {uniqueProfile: uniqueProfile},
                         object: objectName, method: "selectProfile", tag: "user"});
 
                       // affectation du profile + ACL
@@ -886,10 +886,10 @@
                     } else {
 
                       // pas d'unique profile : redirection
-                      abxLog.debug({message: "Redirection vers le choix du profile.", object: objectName, method: "selectProfile", tag: "profile"});
+                      pmLog.debug({message: "Redirection vers le choix du profile.", object: objectName, method: "selectProfile", tag: "profile"});
 
                       _afterSelectProfileRedirectUrl = redirectUrl;
-                      abxRouter.navigate(['Core.profile']);
+                      pmRouter.navigate(['Core.profile']);
                       deferred.reject("Redirection vers le choix du profile.");
                     }
                   });
@@ -902,11 +902,11 @@
              * @return {object} promise 
              */
             getUniqueProfile: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getUniqueProfile", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getUniqueProfile", tag: "methodEntry"});
 
               _hasUniqueProfile = false;
               if (!_factory.hasProfiles()) {
-                abxLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getUniqueProfile", tag: "user"});
+                pmLog.error({message: "Les profiles ne sont pas valorisés.", object: objectName, method: "getUniqueProfile", tag: "user"});
                 throw new Error("Les profiles ne sont pas valorisés.");
               }
               var deferred = $q.defer(),
@@ -980,7 +980,7 @@
              * @return {boolean} 
              */
             getHasUniqueProfile: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "hasUniqueProfile", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "hasUniqueProfile", tag: "methodEntry"});
               return _hasUniqueProfile;
             }
           };

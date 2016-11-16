@@ -1,5 +1,5 @@
 /** 
- * Component abx.admin.settings.yearWeekComponent
+ * Component pm.admin.settings.yearWeekComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -16,32 +16,32 @@
 
   'use strict';
 
-  var componentName = 'abx.admin.settings.yearWeekComponent';
+  var componentName = 'pm.admin.settings.yearWeekComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.adminModule')
+      .module('pm.components.adminModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function (abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function (pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/admin/settings/year-week/year-week-component.html',
         controller: [
-          'abx.common.logService',
-          'abx.common.aclService',
-          'abx.common.flashMessageService',
-          'abx.common.routerService',
-          'abx.common.modelManagerService',
-          'abx.common.yearContainerModel',
-          'abx.common.schoolYearModel',
-          'abx.common.yearWeekModel',
-          'abx.common.alternatingWeeksModel',
+          'pm.common.logService',
+          'pm.common.aclService',
+          'pm.common.flashMessageService',
+          'pm.common.routerService',
+          'pm.common.modelManagerService',
+          'pm.common.yearContainerModel',
+          'pm.common.schoolYearModel',
+          'pm.common.yearWeekModel',
+          'pm.common.alternatingWeeksModel',
           Controller]
       });
 
@@ -50,18 +50,18 @@
   // Controller
   //************
   function Controller(
-      abxLog,
-      abxAcl,
-      abxFlashMessage,
-      abxRouter,
-      abxModelManager,
-      abxYearContainerModel,
-      abxSchoolYearModel,
-      abxYearWeekModel,
-      abxAlternatingWeeksModel
+      pmLog,
+      pmAcl,
+      pmFlashMessage,
+      pmRouter,
+      pmModelManager,
+      pmYearContainerModel,
+      pmSchoolYearModel,
+      pmYearWeekModel,
+      pmAlternatingWeeksModel
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -161,10 +161,10 @@
      * @return {void} 
      */
     vm.cancel = function () {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.cancel", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.cancel", tag: "methodEntry"});
 
-      abxFlashMessage.showCancel();
-      abxRouter.navigate(['Admin.settings.home']);
+      pmFlashMessage.showCancel();
+      pmRouter.navigate(['Admin.settings.home']);
     };
 
     /*
@@ -174,8 +174,8 @@
      * @return {void} 
      */
     vm.navigate = function (location) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.navigate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.navigate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.navigate"});
 
       var linkParams;
@@ -187,11 +187,11 @@
           linkParams = ['Admin.settings.alternatingWeeks', {action: 'update', alternatingWeeksId: _backObjects.alternatingWeeks.id}];
           break;
         default :
-          abxLog.error({message: "Paramètre incorrect. {{params}}",
+          pmLog.error({message: "Paramètre incorrect. {{params}}",
             params: {params: arguments}, tag: "params", object: componentName, method: "vm.navigate"});
           return;
       }
-      abxRouter.navigate(linkParams);
+      pmRouter.navigate(linkParams);
     };
 
     /*
@@ -200,7 +200,7 @@
      * @return {void} 
      */
     vm.create = function (weekId) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.create", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.create", tag: "methodEntry"});
 
       // formulaire déjà en cours d'enregistrement
       if (vm.isSaving) {
@@ -229,7 +229,7 @@
                 errorMessage: "La semaine à créer existe déja.",
                 adviceMessage: "Vous pouvez modifier cette semaine."
               };
-              abxFlashMessage.showError(errorOptions);
+              pmFlashMessage.showError(errorOptions);
               vm.isSaving = false;
               return;
             }
@@ -276,7 +276,7 @@
           }
         };
 
-        abxFlashMessage.showCustomDialog(options)
+        pmFlashMessage.showCustomDialog(options)
             .then(function (data) {
               var formYearWeek = {
                 action: 'create',
@@ -294,43 +294,43 @@
                   formYearWeek.yearWeek.yearWeekCollectionId = _backObjects.alternatingWeeks.yearWeekCollections[i].YearWeekCollection.id;
                 }
               }
-              abxYearWeekModel.createUpdate(formYearWeek)
+              pmYearWeekModel.createUpdate(formYearWeek)
                   .then(function (response) {
 
                     // succès
                     if (response[0].YearWeek !== undefined) {
-                      abxLog.debug({message: "YearWeek enregistré avec succès.", tag: "create", object: componentName, method: "vm.create"});
+                      pmLog.debug({message: "YearWeek enregistré avec succès.", tag: "create", object: componentName, method: "vm.create"});
                       var textContent = "La semaine a été créée avec succès ";
-                      abxFlashMessage.showSuccess(textContent);
-                      abxRouter.navigate(['Admin.settings.home']);
+                      pmFlashMessage.showSuccess(textContent);
+                      pmRouter.navigate(['Admin.settings.home']);
                       return;
                     }
 
                     // erreur
-                    abxLog.debug({message: "Erreur lors de l'enregistrement du YearWeek.", tag: "create", object: componentName, method: "vm.create"});
-                    vm.ngForm.YearWeek.abxFormBackApplyErrors(response[0],
+                    pmLog.debug({message: "Erreur lors de l'enregistrement du YearWeek.", tag: "create", object: componentName, method: "vm.create"});
+                    vm.ngForm.YearWeek.pmFormBackApplyErrors(response[0],
                         {redirectLinkParams: ['Admin.settings.home'],
                           errorMessage: "La semaine que vous essayez de créer n'existe pas ou plus."});
 
                     vm.isSaving = false;
-                    abxRouter.navigate(['Admin.settings.home']);
+                    pmRouter.navigate(['Admin.settings.home']);
                   });
 
             })
             .catch(function (data) {
               vm.isSaving = false;
-              abxFlashMessage.showCancel();
+              pmFlashMessage.showCancel();
             });
 
       } catch (e) {
-        abxLog.error({message: "Erreur catchée lors de l'enregistrement du YearWeek. Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: "Erreur catchée lors de l'enregistrement du YearWeek. Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "vm.update"});
 
         var errorOptions = {
           errorMessage: "La création de la semaine a échoué.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(errorOptions);
+        pmFlashMessage.showError(errorOptions);
 
         vm.isSaving = false;
       }
@@ -342,7 +342,7 @@
      * @return {void} 
      */
     vm.update = function () {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.update", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.update", tag: "methodEntry"});
 
       // formulaire invalide ou déjà en cours d'enregistrement
       if (vm.isSaving) {
@@ -377,7 +377,7 @@
             errorMessage: "La semaine à modifier est vide.",
             adviceMessage: "Vous pouvez créer une nouvelle semaines."
           };
-          abxFlashMessage.showError(errorOptions);
+          pmFlashMessage.showError(errorOptions);
           vm.isSaving = false;
           return;
         }
@@ -434,7 +434,7 @@
           }
         };
 
-        abxFlashMessage.showCustomDialog(options)
+        pmFlashMessage.showCustomDialog(options)
 
             .then(function (data) {
 
@@ -463,40 +463,40 @@
                 }
               }
 
-              abxYearWeekModel.createUpdate(formYearWeek)
+              pmYearWeekModel.createUpdate(formYearWeek)
                   .then(function (response) {
                     // succès
                     if (response[0].YearWeek !== undefined) {
-                      abxLog.debug({message: "YearWeek modifié avec succès.", tag: "update", object: componentName, method: "vm.update"});
+                      pmLog.debug({message: "YearWeek modifié avec succès.", tag: "update", object: componentName, method: "vm.update"});
                       var textContent = "La semaine a été modifiée avec succès ";
-                      abxFlashMessage.showSuccess(textContent);
-                      abxRouter.navigate(['Admin.settings.home']);
+                      pmFlashMessage.showSuccess(textContent);
+                      pmRouter.navigate(['Admin.settings.home']);
                       return;
                     }
 
                     // erreur
-                    abxLog.debug({message: "Erreur lors de la modificaiton du YearWeek.", tag: "update", object: componentName, method: "vm.update"});
-                    vm.ngForm.YearWeek.abxFormBackApplyErrors(response[0],
+                    pmLog.debug({message: "Erreur lors de la modificaiton du YearWeek.", tag: "update", object: componentName, method: "vm.update"});
+                    vm.ngForm.YearWeek.pmFormBackApplyErrors(response[0],
                         {redirectLinkParams: ['Admin.settings.home'],
                           errorMessage: "La semaine que vous essayez de modifier n'existe pas ou plus."});
 
                     vm.isSaving = false;
-                    abxRouter.navigate(['Admin.settings.home']);
+                    pmRouter.navigate(['Admin.settings.home']);
                   });
             })
             .catch(function (data) {
               vm.isSaving = false;
-              abxFlashMessage.showCancel();
+              pmFlashMessage.showCancel();
             });
       } catch (e) {
-        abxLog.error({message: "Erreur catchée lors de l'enregistrement du YearWeek. Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: "Erreur catchée lors de l'enregistrement du YearWeek. Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "vm.update"});
 
         var errorOptions = {
           errorMessage: "La modification de la semaine a échoué.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(errorOptions);
+        pmFlashMessage.showError(errorOptions);
 
         vm.isSaving = false;
       }
@@ -512,8 +512,8 @@
      * @return {void} 
      */
     vm.delete = function (yearWeekNumber) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.delete", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.delete", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.delete"});
       if (_isDeleting) {
         return;
@@ -549,7 +549,7 @@
           }
         }
 
-        optionsDelete.objectsDisplayNames = abxYearWeekModel.getObjectsDisplayNames(crudObjectsList);
+        optionsDelete.objectsDisplayNames = pmYearWeekModel.getObjectsDisplayNames(crudObjectsList);
         optionsDelete.textContent = {
           singular: "la semaine",
           plural: "les semaines"
@@ -570,23 +570,23 @@
         };
 
         // dialog de confirmation
-        abxFlashMessage.showDeleteConfirm(optionsDelete)
+        pmFlashMessage.showDeleteConfirm(optionsDelete)
             .then(function () {
 
-              abxFlashMessage.showWait();
+              pmFlashMessage.showWait();
               // DELETE
               var deleteOptions = {
                 schoolYearId: _backObjects.schoolYear.id,
                 ids: ids
               };
 
-              abxYearWeekModel.delete(deleteOptions)
+              pmYearWeekModel.delete(deleteOptions)
                   .then(function (response) {
 
                     var errorList = [];
                     for (var i = 0, length = response.length; i < length; i++) {
                       if (response[i].result !== undefined) {
-                        abxLog.error({message: "Erreur de suppression de YearWeek. Objet d'erreur={{response}}",
+                        pmLog.error({message: "Erreur de suppression de YearWeek. Objet d'erreur={{response}}",
                           params: {response: response[i]}, tag: "error", object: componentName, method: "_delete"});
                         errorList.push(ids[i]);
                       }
@@ -594,12 +594,12 @@
 
                     // succès
                     if (errorList.length === 0) {
-                      abxFlashMessage.showSuccess((ids.length === 1 ? optionsDeleteResult.success.singular : optionsDeleteResult.success.plural) + " avec succès");
+                      pmFlashMessage.showSuccess((ids.length === 1 ? optionsDeleteResult.success.singular : optionsDeleteResult.success.plural) + " avec succès");
                       // erreur
                     } else {
                       var objectsDisplayNames = {};
                       for (var i = 0, length = _backObjects.alternatingWeeks.yearWeekCollections.length; i < length; i++) {
-                        objectsDisplayNames[_backObjects.alternatingWeeks.yearWeekCollections[i]['YearWeek'].id] = abxYearWeekModel.getObjectsDisplayNames([_backObjects.alternatingWeeks.yearWeekCollections[i]])[0];
+                        objectsDisplayNames[_backObjects.alternatingWeeks.yearWeekCollections[i]['YearWeek'].id] = pmYearWeekModel.getObjectsDisplayNames([_backObjects.alternatingWeeks.yearWeekCollections[i]])[0];
                       }
                       var textContent = (errorList.length === 1 ? optionsDeleteResult.error.singular : optionsDeleteResult.error.plural) + "&nbsp;:<ul>";
                       for (var i = 0, length = errorList.length; i < length; i++) {
@@ -610,23 +610,23 @@
                         errorMessage: textContent,
                         adviceMessage: "Vous pouvez réessayer ou signaler cet incident."
                       };
-                      abxFlashMessage.showError(options);
+                      pmFlashMessage.showError(options);
                     }
 
                   });
             })
             .catch(function (e) {
               _isDeleting = false;
-              abxFlashMessage.showCancel();
+              pmFlashMessage.showCancel();
             });
       } catch (e) {
-        abxLog.error({message: "Erreur lors de l'envoi de l'objet au back. Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: "Erreur lors de l'envoi de l'objet au back. Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "_delete"});
         var options = {
           errorMessage: "La suppresion a échoué.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(options);
+        pmFlashMessage.showError(options);
         _isDeleting = false;
       }
 
@@ -649,11 +649,11 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function (nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
-      _this.abxAppController.vm.setModule('admin.settings');
+      _this.pmAppController.vm.setModule('admin.settings');
 
       try {
         // validation des paramètres
@@ -665,9 +665,9 @@
         var alternatingWeeksId = parseInt(routeParams.alternatingWeeksId);
         if (isNaN(alternatingWeeksId)) {
 
-          abxLog.info({message: "AlternatingWeeksId incorrect. action={{action}}|alternatingWeeksId={{alternatingWeeksId}}",
+          pmLog.info({message: "AlternatingWeeksId incorrect. action={{action}}|alternatingWeeksId={{alternatingWeeksId}}",
             params: {action: routeParams.action, alternatingWeeksId: routeParams.alternatingWeeksId}, tag: "$routeParams", object: componentName, method: "$routerOnActivate"});
-          abxRouter.navigateToErrorPage('404', 'params');
+          pmRouter.navigateToErrorPage('404', 'params');
           return;
         }
 
@@ -675,14 +675,14 @@
 
         // récupération des données
         var concatRequests = [
-          {modelMethod: abxYearContainerModel.readCurrent, options: {}},
-          {modelMethod: abxSchoolYearModel.readCurrent, options: {forceBackRead: true}}
+          {modelMethod: pmYearContainerModel.readCurrent, options: {}},
+          {modelMethod: pmSchoolYearModel.readCurrent, options: {forceBackRead: true}}
         ];
         if (routeParams.alternatingWeeksId !== undefined) {
-          concatRequests.push({modelMethod: abxAlternatingWeeksModel.readByAlternatingWeeksId, options: {alternatingWeeksId: routeParams.alternatingWeeksId, forceBackRead: true}});
+          concatRequests.push({modelMethod: pmAlternatingWeeksModel.readByAlternatingWeeksId, options: {alternatingWeeksId: routeParams.alternatingWeeksId, forceBackRead: true}});
         }
 
-        abxModelManager.addConcatRequest(concatRequests)
+        pmModelManager.addConcatRequest(concatRequests)
             .then(function (response) {
 
               var yearContainerResult = response[0],
@@ -691,7 +691,7 @@
                   alternatingWeeks = {};
 
               // erreur ou abscence de YearContainer et/ou de schoolYear
-              if (abxModelManager.checkYearContainerAndSchoolYear(yearContainerResult, schoolYearResult) === false) {
+              if (pmModelManager.checkYearContainerAndSchoolYear(yearContainerResult, schoolYearResult) === false) {
                 return;
               }
 
@@ -699,14 +699,14 @@
               if (routeParams.alternatingWeeksId !== undefined) {
                 // pas de alternatingWeeks trouvé
                 if (alternatingWeeksResult === undefined) {
-                  abxLog.debug({message: "AlternatingWeeks inexistant : alternatingWeeksId={{alternatingWeeksId}}.", object: componentName, method: "$routerOnActivate",
+                  pmLog.debug({message: "AlternatingWeeks inexistant : alternatingWeeksId={{alternatingWeeksId}}.", object: componentName, method: "$routerOnActivate",
                     params: {alternatingWeeksId: routeParams.alternatingWeeksId}, tag: "settings"});
-                  abxFlashMessage.showError({errorMessage: "L'alternance de semaines n'existe pas ou plus."});
-                  abxRouter.navigate(['Admin.settings.home']);
+                  pmFlashMessage.showError({errorMessage: "L'alternance de semaines n'existe pas ou plus."});
+                  pmRouter.navigate(['Admin.settings.home']);
                   return;
 
                 } else if (alternatingWeeksResult.result !== undefined || alternatingWeeksResult.AlternatingWeeks === undefined) {
-                  abxLog.error({message: "Impossible de récupérer un alternatingWeeks depuis le back : alternatingWeeksId={{alternatingWeeksId}}.", object: componentName,
+                  pmLog.error({message: "Impossible de récupérer un alternatingWeeks depuis le back : alternatingWeeksId={{alternatingWeeksId}}.", object: componentName,
                     params: {alternatingWeeksId: routeParams.alternatingWeeksId}, tag: "settings", method: "$routerOnActivate"});
                   var errorOptions = {
                     errorMessage: "Erreur lors de la récupération de l'alternance de semaines.",
@@ -714,8 +714,8 @@
                     errorObject: {objectName: 'AlternatingWeeks',
                       errorMessage: 'alternatingWeeksId = ' + routeParams.alternatingWeeksId}
                   };
-                  abxFlashMessage.showError(errorOptions);
-                  abxRouter.navigate(['Admin.settings.home']);
+                  pmFlashMessage.showError(errorOptions);
+                  pmRouter.navigate(['Admin.settings.home']);
                   return;
 
                 } else {
@@ -725,8 +725,8 @@
               }
 
               //vérification des ACL
-              if (!abxAcl.isAllowedManageCrudObject(alternatingWeeks, "update") || !abxAcl.isAllowedManageCrudObject(alternatingWeeks, "delete") || !abxAcl.isAllowedManageCrudObject("alternatingWeeks", "create")) {
-                abxRouter.navigateToErrorPage('acl', 'forbidden');
+              if (!pmAcl.isAllowedManageCrudObject(alternatingWeeks, "update") || !pmAcl.isAllowedManageCrudObject(alternatingWeeks, "delete") || !pmAcl.isAllowedManageCrudObject("alternatingWeeks", "create")) {
+                pmRouter.navigateToErrorPage('acl', 'forbidden');
                 return;
               }
 
@@ -759,15 +759,15 @@
       } catch (e) {
 
         var errorMessage = "Erreur lors de l'affectation des données de formulaire.";
-        abxLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "$routerOnActivate"});
         var options = {
           errorMessage: errorMessage,
           adviceMessage: "Vous ne pouvez pas créer, modifier ou afficher cette alternance de semaines.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(options);
-        abxRouter.navigate(['Admin.settings.home']);
+        pmFlashMessage.showError(options);
+        pmRouter.navigate(['Admin.settings.home']);
       }
       ;
     };

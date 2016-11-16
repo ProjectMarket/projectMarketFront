@@ -191,30 +191,30 @@
   :root .icon-flip-vertical {
     filter: none; }
 
-.abx-toolbar md-menu {
+.pm-toolbar md-menu {
   padding: 0px; }
 
-.abx-sidenav {
+.pm-sidenav {
   overflow: hidden; }
-  .sm .abx-sidenav.md-closed {
+  .sm .pm-sidenav.md-closed {
     display: flex;
     position: static;
     transform: none;
     max-width: 60px;
     min-width: 64px;
     width: 64px; }
-    .sm .abx-sidenav.md-closed abx-profile > .md-button {
+    .sm .pm-sidenav.md-closed pm-profile > .md-button {
       min-width: 64px; }
-    .sm .abx-sidenav.md-closed abx-profile .abx-avatar {
+    .sm .pm-sidenav.md-closed pm-profile .pm-avatar {
       width: 64px;
       height: 64px; }
-    .sm .abx-sidenav.md-closed abx-profile .abx-name,
-    .sm .abx-sidenav.md-closed abx-profile .abx-role,
-    .sm .abx-sidenav.md-closed abx-profile .abx-school {
+    .sm .pm-sidenav.md-closed pm-profile .pm-name,
+    .sm .pm-sidenav.md-closed pm-profile .pm-role,
+    .sm .pm-sidenav.md-closed pm-profile .pm-school {
       display: none; }
-    .sm .abx-sidenav.md-closed .abx-menu li .md-button > span {
+    .sm .pm-sidenav.md-closed .pm-menu li .md-button > span {
       display: none; }
-  .abx-sidenav .abx-profile {
+  .pm-sidenav .pm-profile {
     background-image: url("../img/background/newsinglepage.png");
     background-size: cover;
     /*background-image: url("https://zotsell.com/themes/newsinglepage/img/patterns/pattern.png");*/
@@ -232,18 +232,18 @@
           hsla(35, 91%, 65%, 0) 80px, hsla(35, 91%, 65%, 0) 90px, hsla(5, 53%, 63%, 0.5) 90px, hsla(5, 53%, 63%, 0.5) 110px,
           hsla(5, 53%, 63%, 0) 110px, hsla(5, 53%, 63%, 0) 140px, hsla(197, 62%, 11%, 0.5) 140px, hsla(197, 62%, 11%, 0.5) 160px       
           );*/ }
-    .abx-sidenav .abx-profile abx-profile > .md-button {
+    .pm-sidenav .pm-profile pm-profile > .md-button {
       margin: 0;
       padding: 0;
       text-transform: none;
       text-align: start;
       line-height: none; }
-    .abx-sidenav .abx-profile abx-profile .abx-name {
+    .pm-sidenav .pm-profile pm-profile .pm-name {
       background-color: rgba(0, 0, 0, 0.25); }
-      .gt-sm .abx-sidenav .abx-profile abx-profile .abx-name .md-toolbar-tools {
+      .gt-sm .pm-sidenav .pm-profile pm-profile .pm-name .md-toolbar-tools {
         height: 48px;
         max-height: 48px; }
-    .abx-sidenav .abx-profile .abx-avatar {
+    .pm-sidenav .pm-profile .pm-avatar {
       position: relative;
       width: 72px;
       height: 72px;
@@ -257,19 +257,19 @@
       transform: translateZ(0);
       -webkit-transform: scale(0.7);
       -moz-transform: scale(0.7); }
-    .abx-sidenav .abx-profile .abx-role .md-title {
+    .pm-sidenav .pm-profile .pm-role .md-title {
       line-height: 26.7px; }
-  .abx-sidenav .abx-menu {
+  .pm-sidenav .pm-menu {
     list-style: outside none none;
     max-width: 100%;
     overflow-x: hidden;
     padding: 0;
     margin: 0; }
-    .abx-sidenav .abx-menu li {
+    .pm-sidenav .pm-menu li {
       list-style-position: inside;
       margin: 0;
       padding: 0; }
-      .abx-sidenav .abx-menu li .md-button {
+      .pm-sidenav .pm-menu li .md-button {
         align-items: inherit;
         border-radius: 0;
         display: block;
@@ -282,37 +282,37 @@
         text-decoration: none;
         white-space: normal;
         width: 100%; }
-        .abx-sidenav .abx-menu li .md-button.active {
+        .pm-sidenav .pm-menu li .md-button.active {
           background-color: rgba(158, 158, 158, 0.5); }
-          .abx-sidenav .abx-menu li .md-button.active:hover {
+          .pm-sidenav .pm-menu li .md-button.active:hover {
             background-color: rgba(158, 158, 158, 0.75); }
-        .abx-sidenav .abx-menu li .md-button md-icon {
+        .pm-sidenav .pm-menu li .md-button md-icon {
           margin-right: 16px; }
 
-.abx-content {
+.pm-content {
   background-color: transparent;
   overflow: auto;
   padding: 8px; }
 
-abx\.app-component {
+pm\.app-component {
   background: transparent url("../img/background/confectionary.png"); }
 
-.abx-container {
+.pm-container {
   overflow: hidden; }
 
-.abx-message-error {
+.pm-message-error {
   color: #DD2C00; }
 
-.abx-message-success {
+.pm-message-success {
   color: #43DD00; }
 
-.abx-message-info {
+.pm-message-info {
   color: #00B1DD; }
 
-.abx-message-warning {
+.pm-message-warning {
   color: #FF5722; }
 
-.abx-form-field-example {
+.pm-form-field-example {
   min-height: 24px;
   min-width: 1px;
   font-size: 12px;
@@ -320,21 +320,21 @@ abx\.app-component {
   padding: 5px 0 0 2px;
   margin-right: 50px; }
 
-.abx-form-submit-toolbar {
+.pm-form-submit-toolbar {
   margin: 8px 0; }
 
-.abx-period {
+.pm-period {
   margin-bottom: 16px; }
 
-.abx-timetable {
+.pm-timetable {
   margin: 16px 4px; }
 
-.abx-form-validation-messages {
+.pm-form-validation-messages {
   font-size: 11px;
   color: darkred;
   margin: 10px 0 0 25px; }
 
-.abx-form-back-global-validation-messages {
+.pm-form-back-global-validation-messages {
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -342,20 +342,20 @@ abx\.app-component {
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2) 0s; }
 
-.abx-form-back-validation-messages, .abx-form-front-validation-messages {
+.pm-form-back-validation-messages, .pm-form-front-validation-messages {
   font-size: 12px;
   line-height: 14px;
   transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2) 0s; }
 
-.abx-form-front-validation-messages {
+.pm-form-front-validation-messages {
   color: #FF5722; }
 
-.abx-form-back-global-validation-messages, .abx-form-back-validation-messages {
+.pm-form-back-global-validation-messages, .pm-form-back-validation-messages {
   color: #DD2C00; }
 
-.abx-action-group-select {
+.pm-action-group-select {
   width: 30px; }
-  .abx-action-group-select md-checkbox {
+  .pm-action-group-select md-checkbox {
     margin-bottom: 0px; }
 
 md-input-container .md-input[disabled],
@@ -428,7 +428,7 @@ md-datepicker[disabled] .md-datepicker-input {
   height: 36px;
   margin-top: 6px; }
 
-md-datepicker[disabled] .abx-form-field-example {
+md-datepicker[disabled] .pm-form-field-example {
   display: none; }
 
 .md-datepicker-input-container.md-datepicker-focused {
@@ -453,12 +453,12 @@ md-datepicker[disabled] .abx-form-field-example {
   padding-bottom: 2px;
   margin-left: 0px; }
 
-.abx-ellipsis {
+.pm-ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden; }
 
-.abx-clearfix {
+.pm-clearfix {
   clear: both; }
 
 /*# sourceMappingURL=main.css.map */

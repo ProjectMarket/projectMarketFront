@@ -15,34 +15,34 @@
 (function() {
 
   'use strict';
-  var objectName = 'abx.common.backComHandlerService';
+  var objectName = 'pm.common.backComHandlerService';
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$q',
         '$http',
-        'abx.common.logService',
-        'abx.common.configService',
-        'abx.common.userService',
-        'abx.common.authService',
+        'pm.common.logService',
+        'pm.common.configService',
+        'pm.common.userService',
+        'pm.common.authService',
         function(
             $q,
             $http,
-            abxLog,
-            abxConfig,
-            abxUser,
-            abxAuth
+            pmLog,
+            pmConfig,
+            pmUser,
+            pmAuth
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
           //********************
           // Propriétés privées
           //********************
 
           /*
-           * @property {object} Config locale d'Abx
+           * @property {object} Config locale d'pm
            */
-          var _config = abxConfig.get();
+          var _config = pmConfig.get();
           /*
            * @property {string} BaseUrl du serveur backend
            */
@@ -60,12 +60,12 @@
            * @return {object} promise
            */
           var _postGet = function(action, path, requestObjects) {
-            abxLog.trace({message: "Entrée méthode", object: objectName, method: "_postGet", tag: "methodEntry"});
-            abxLog.debug({message: "Paramètres méthode : {{params}}",
+            pmLog.trace({message: "Entrée méthode", object: objectName, method: "_postGet", tag: "methodEntry"});
+            pmLog.debug({message: "Paramètres méthode : {{params}}",
               params: {params: arguments}, tag: "params", object: objectName, method: "_postGet"});
             var deferred = $q.defer(),
-                token = abxAuth.getToken(),
-                profile = abxUser.getBackendSelectedProfile(),
+                token = pmAuth.getToken(),
+                profile = pmUser.getBackendSelectedProfile(),
                 httpConfig = {
                   headers: {}
                 },
@@ -101,7 +101,7 @@
                     response.data.Response;
                   } catch (e) {
                     var errorMessage = "Erreur lors de la récupération de l'objet Response : pas de propriété Response.";
-                    abxLog.error({message: errorMessage + " Status : {{status}}, data : {{data}}, error : {{error}}",
+                    pmLog.error({message: errorMessage + " Status : {{status}}, data : {{data}}, error : {{error}}",
                       params: {status: response.status, data: response.data, error: e.message}, tag: 'backCommHandler', object: objectName, method: "_postGet"});
                     response.errorMessage = errorMessage;
                     response.errorType = 'back-global-error';
@@ -114,7 +114,7 @@
                     // erreur catchée et renvoyée par le backend
                     if (response.data.Response.result !== 'success') {
                       var errorMessage = "Erreur indiquée par le serveur backend dans l'objet Response.";
-                      abxLog.error({message: errorMessage + " Status : {{status}}, errorCode : {{errorCode}}, errorMessage: {{errorMessage}}, data : {{data}}",
+                      pmLog.error({message: errorMessage + " Status : {{status}}, errorCode : {{errorCode}}, errorMessage: {{errorMessage}}, data : {{data}}",
                         params: {status: response.status, errorCode: response.data.Response.objects[0].ErrorResource.code, errorMessage: response.data.Response.objects[0].ErrorResource.message, data: response.data},
                         tag: 'backCommHandler', object: objectName, method: "_postGet"});
                       response.errorMessage = errorMessage;
@@ -125,12 +125,12 @@
                     }
 
                     // succès
-                    abxLog.debug({message: "Données renvoyées avec succès : Données={{data}}",
+                    pmLog.debug({message: "Données renvoyées avec succès : Données={{data}}",
                       params: {data: response.data.Response.unitResponses}, tag: 'backCommHandler', object: objectName, method: "_postGet"});
                     deferred.resolve(response.data.Response.unitResponses);
                   } catch (e) {
                     var errorMessage = "Erreur lors de l'interprétation de l'objet Response.";
-                    abxLog.error({message: errorMessage + " Status : {{status}}, data : {{data}}, error : {{error}}",
+                    pmLog.error({message: errorMessage + " Status : {{status}}, data : {{data}}, error : {{error}}",
                       params: {status: response.status, data: response.data, error: e.message}, tag: 'backCommHandler', object: objectName, method: "_postGet"});
                     response.errorMessage = errorMessage;
                     response.errorType = 'back-global-error';
@@ -153,14 +153,14 @@
 
                   if (response.status === 401) {
                     var errorMessage = "Erreur 401 lors d'une requête sur le backend.";
-                    abxLog.info({message: errorMessage, tag: "backCommHandler", object: objectName, method: "_postGet"});
-                    abxAuth.manage401(errorCode);
+                    pmLog.info({message: errorMessage, tag: "backCommHandler", object: objectName, method: "_postGet"});
+                    pmAuth.manage401(errorCode);
                     response.errorMessage = errorMessage;
                     response.errorCode = 'back-global-error-401';
                     response.hasPerformRedirect = true;
                   } else {
                     var errorMessage = "Erreur lors d'une requête sur le backend.";
-                    abxLog.error({message: errorMessage + " Status : {{status}}, data : {{data}}",
+                    pmLog.error({message: errorMessage + " Status : {{status}}, data : {{data}}",
                       params: {status: response.status, data: response.data}, tag: 'backCommHandler', object: objectName, method: "_postGet"});
                     if (response.status !== 200) {
                       response.errorMessage = errorMessage;
@@ -191,8 +191,8 @@
              * @return {object} promise
              */
             post: function(path, requestObjects) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "post", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "post", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "post"});
 
               return _postGet('post', path, requestObjects);
@@ -204,8 +204,8 @@
              * @return {object} promise
              */
             get: function(path) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "get", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "get", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "get"});
 
               return _postGet('get', path);

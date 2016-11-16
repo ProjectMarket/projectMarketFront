@@ -2,28 +2,28 @@
 <md-card ng-if="$ctrl.vm.canDisplayView && $ctrl.vm.formAction !== 'read'" layout-padding layout>
 
   <!-- ** TimetableContainer ** -->
-  <abx-form name="$ctrl.vm.ngForm.TimetableContainer" ng-submit="$ctrl.vm.save()" flex layout="column">
+  <pm-form name="$ctrl.vm.ngForm.TimetableContainer" ng-submit="$ctrl.vm.save()" flex layout="column">
 
     <!-- titre du form -->
-    <abx-form-title>
+    <pm-form-title>
       <span ng-if="$ctrl.vm.formAction === 'create'">Création d'un groupe d'horaires</span>
       <span ng-if="$ctrl.vm.formAction === 'update'">Modification d'un groupe d'horaires</span>
 
-      <abx-help>
+      <pm-help>
         <p>Les horaires (M1, M2, S1...) permettent de faciliter la saisie de séances dans l'agenda.</p>
         <p>On pourra indiquer par exemple qu'un cours commence en M1 et finit en M2.</p>
         <p><em>Les groupes d'horaires ne sont pas obligatoires pour utiliser Isa.</em></p>
-      </abx-help>
-    </abx-form-title>
+      </pm-help>
+    </pm-form-title>
 
     <!-- * validations * -->
     <!-- back : erreurs globales -->
-    <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.abxFormBackValidation.errors" ng-messages-multiple class="abx-form-back-global-validation-messages">
-      <div ng-messages-include="abx-back-global-validation-messages"></div>
+    <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.pmFormBackValidation.errors" ng-messages-multiple class="pm-form-back-global-validation-messages">
+      <div ng-messages-include="pm-back-global-validation-messages"></div>
     </div>
 
-    <abx-form-group-title ng-if="$ctrl.vm.formAction === 'update'">Options de modification des horaires
-      <abx-help>
+    <pm-form-group-title ng-if="$ctrl.vm.formAction === 'update'">Options de modification des horaires
+      <pm-help>
         Ces options ont les conséquences suivantes&nbsp;:
         <ul>
           <li>
@@ -60,19 +60,19 @@
             </ul>
           </li>
         </ul>
-      </abx-help>
-    </abx-form-group-title>
+      </pm-help>
+    </pm-form-group-title>
 
     <div layout="column" ng-if="$ctrl.vm.formAction === 'update'">
       <!-- back -->
-      <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.cascadeEffect.abxFormBackValidation.errors" ng-messages-multiple
-           class="abx-form-back-validation-messages">
+      <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.cascadeEffect.pmFormBackValidation.errors" ng-messages-multiple
+           class="pm-form-back-validation-messages">
         <div ng-message="null">Vous devez sélectionner une option de modification des horaires.</div>
         <div ng-message="bad">L'option de modification des horaires est incorrecte.</div>
-        <div ng-messages-include="abx-back-validation-messages"></div>
+        <div ng-messages-include="pm-back-validation-messages"></div>
       </div>
       <md-input-container>   
-        <md-radio-group name="cascadeEffect" ng-model="$ctrl.vm.timetableContainer.cascadeEffect" abx-form-validate-back>
+        <md-radio-group name="cascadeEffect" ng-model="$ctrl.vm.timetableContainer.cascadeEffect" pm-form-validate-back>
           <md-radio-button value="0">Ne pas modifier les horaires des séances existantes</md-radio-button>
           <md-radio-button value="2">Modifier les horaires des séances pour toute l'année </md-radio-button>
           <md-radio-button value="1">Modifier les horaires des séances à partir de :</md-radio-button>
@@ -80,34 +80,34 @@
       </md-input-container>
 
       <md-datepicker name="cascadeEffectStartDate"  ng-model="$ctrl.vm.timetableContainer.cascadeEffectStartDate.value"
-                     abx-label="Date de début" abx-example="25/12/2016"
+                     pm-label="Date de début" pm-example="25/12/2016"
                      ng-disabled="$ctrl.vm.timetableContainer.cascadeEffect !== '1'" ng-required="$ctrl.vm.timetableContainer.cascadeEffect === '1'"
                      md-min-date="$ctrl.vm.timetableContainer.cascadeEffectStartDate.minDate" md-max-date="$ctrl.vm.timetableContainer.cascadeEffectStartDate.maxDate"
-                     abx-form-validate-back />
+                     pm-form-validate-back />
       </md-datepicker>
 
       <!-- front -->
       <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.cascadeEffectStartDate.$error" ng-messages-multiple
-           class="abx-form-front-validation-messages" >
+           class="pm-form-front-validation-messages" >
         <div ng-message="required">La date de début de la modification des horaires est obligatoire.</div>
         <div ng-message="mindate">La date de début de la modification des horaires doit être égale ou ultérieure au 
-          {{$ctrl.vm.timetableContainer.cascadeEffectStartDate.minDate| abxCommonDatetimeFilter:'shortDate'}}.
+          {{$ctrl.vm.timetableContainer.cascadeEffectStartDate.minDate| pmCommonDatetimeFilter:'shortDate'}}.
         </div>
         <div ng-message="maxdate">La date de début la modification des horaires doit être antérieure ou égale au 
-          {{$ctrl.vm.timetableContainer.cascadeEffectStartDate.maxDate| abxCommonDatetimeFilter:'shortDate'}}.
+          {{$ctrl.vm.timetableContainer.cascadeEffectStartDate.maxDate| pmCommonDatetimeFilter:'shortDate'}}.
         </div>
-        <div ng-messages-include="abx-front-datetime-validation-messages"></div>
-        <div ng-messages-include="abx-front-generic-validation-messages"></div>
+        <div ng-messages-include="pm-front-datetime-validation-messages"></div>
+        <div ng-messages-include="pm-front-generic-validation-messages"></div>
       </div>
       <!-- back -->
-      <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.cascadeEffectStartDate.abxFormBackValidation.errors" ng-messages-multiple
-           class="abx-form-back-validation-messages">
+      <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.cascadeEffectStartDate.pmFormBackValidation.errors" ng-messages-multiple
+           class="pm-form-back-validation-messages">
         <div ng-message="null">La date de début de la modification des horaires est obligatoire.</div>
         <div ng-message="date-not-included-in-current-yearcontainer">La date de début de la modification des horaires doit être comprise entre le
-          {{$ctrl.vm.ngForm.TimetableContainer.cascadeEffectStartDate.abxFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].minDate| abxCommonDatetimeFilter:'shortDate'}}
-          et le {{$ctrl.vm.ngForm.TimetableContainer.cascadeEffectStartDate.abxFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].maxDate| abxCommonDatetimeFilter:'shortDate'}}.
+          {{$ctrl.vm.ngForm.TimetableContainer.cascadeEffectStartDate.pmFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].minDate| pmCommonDatetimeFilter:'shortDate'}}
+          et le {{$ctrl.vm.ngForm.TimetableContainer.cascadeEffectStartDate.pmFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].maxDate| pmCommonDatetimeFilter:'shortDate'}}.
         </div>
-        <div ng-messages-include="abx-back-validation-messages"></div>
+        <div ng-messages-include="pm-back-validation-messages"></div>
       </div>
     </div>
 
@@ -115,7 +115,7 @@
     <!-- ** TimetableContainer.name ** -->
 
 
-    <abx-form-group-title>Groupe d'horaires</abx-form-group-title>
+    <pm-form-group-title>Groupe d'horaires</pm-form-group-title>
 
     <md-input-container>
       <!-- champ -->
@@ -123,13 +123,13 @@
       <input name="name" ng-model="$ctrl.vm.timetableContainer.name.value" 
              ng-required="true" 
              ng-minlength="$ctrl.vm.timetableContainer.name.minLength" md-maxlength="$ctrl.vm.timetableContainer.name.maxLength" 
-             abx-form-validate-back />
-      <abx-form-field-example>Horaires collège, Horaires SEGPA...</abx-form-field-example>
+             pm-form-validate-back />
+      <pm-form-field-example>Horaires collège, Horaires SEGPA...</pm-form-field-example>
 
       <!-- * validations * -->
       <!-- front -->
       <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.name.$error" ng-messages-multiple
-           class="abx-form-front-validation-messages">
+           class="pm-form-front-validation-messages">
         <div ng-message="required">Le nom du groupe d'horaires est obligatoire.</div>
         <div ng-message="minlength">Le nom du groupe d'horaires doit compter au minimum {{$ctrl.vm.timetableContainer.name.minLength}}
           {{$ctrl.vm.timetableContainer.name.minLength, plural, offset:0
@@ -143,45 +143,45 @@
             other {caractères.}
           }}
         </div>
-        <div ng-messages-include="abx-front-generic-validation-messages"></div>
+        <div ng-messages-include="pm-front-generic-validation-messages"></div>
       </div>
       <!-- back -->
-      <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.name.abxFormBackValidation.errors" ng-messages-multiple
-           class="abx-form-back-validation-messages">
+      <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.name.pmFormBackValidation.errors" ng-messages-multiple
+           class="pm-form-back-validation-messages">
         <div ng-message="null">Le nom du groupe d'horaires est obligatoire.</div>
         <div ng-message="bad-length">Le nom du groupe d'horaires doit compter entre
-          {{$ctrl.vm.ngForm.TimetableContainer.name.abxFormBackValidation.params['bad-length'][0].minLength}} et
-          {{$ctrl.vm.ngForm.TimetableContainer.name.abxFormBackValidation.params['bad-length'][0].maxLength}}
-          {{$ctrl.vm.ngForm.TimetableContainer.name.abxFormBackValidation.params['bad-length'][0].maxLength, plural, offset:0
+          {{$ctrl.vm.ngForm.TimetableContainer.name.pmFormBackValidation.params['bad-length'][0].minLength}} et
+          {{$ctrl.vm.ngForm.TimetableContainer.name.pmFormBackValidation.params['bad-length'][0].maxLength}}
+          {{$ctrl.vm.ngForm.TimetableContainer.name.pmFormBackValidation.params['bad-length'][0].maxLength, plural, offset:0
                 =1 {caractère.}
             other {caractères.}
           }}
         </div>
         <div ng-message="not-unique">Ce nom du groupe d'horaires existe déjà pour cette année scolaire.</div>
-        <div ng-messages-include="abx-back-validation-messages"></div>
+        <div ng-messages-include="pm-back-validation-messages"></div>
       </div>
     </md-input-container>
 
 
     <!-- ** TimetableContainer.daysOfWeek ** -->
-    <abx-form-group name="daysOfWeek" md-whiteframe="1" layout-padding flex>
+    <pm-form-group name="daysOfWeek" md-whiteframe="1" layout-padding flex>
 
-      <abx-form-group-title>Horaires</abx-form-group-title>
+      <pm-form-group-title>Horaires</pm-form-group-title>
 
-      <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek.abxFormBackValidation.errors" ng-messages-multiple
-           class="abx-form-back-validation-messages">
+      <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek.pmFormBackValidation.errors" ng-messages-multiple
+           class="pm-form-back-validation-messages">
         <div ng-message="daysOfWeek-in-error-list">
           {{$ctrl.vm.daysOfWeekErrorsCount, plural, offset:0
                 =1 {Erreur}
             other {Erreurs}
           }}
-          {{$ctrl.vm.ngForm.TimetableContainer.daysOfWeek.abxFormBackValidation.params['daysOfWeek-in-error-list'].length, plural, offset:0
+          {{$ctrl.vm.ngForm.TimetableContainer.daysOfWeek.pmFormBackValidation.params['daysOfWeek-in-error-list'].length, plural, offset:0
             =1 { sur le jour suivant&nbsp;:}                      
             other { sur les jours suivants&nbsp;:}
           }}
           <ul>
-            <li ng-repeat="dayOfWeekError in $ctrl.vm.ngForm.TimetableContainer.daysOfWeek.abxFormBackValidation.params['daysOfWeek-in-error-list']| abxCommonOrderByDatetimeFilter:'dayOfWeekList'">
-              {{dayOfWeekError| abxCommonDatetimeFilter:'longDayOfWeek'}}
+            <li ng-repeat="dayOfWeekError in $ctrl.vm.ngForm.TimetableContainer.daysOfWeek.pmFormBackValidation.params['daysOfWeek-in-error-list']| pmCommonOrderByDatetimeFilter:'dayOfWeekList'">
+              {{dayOfWeekError| pmCommonDatetimeFilter:'longDayOfWeek'}}
             </li>
           </ul>
         </div>
@@ -189,47 +189,47 @@
 
       <md-tabs md-dynamic-height md-border-bottom md-selected="$ctrl.vm.activeDayOfWeek" md-swipe-content="false">
 
-        <md-tab label="{{dayOfWeek.dayOfWeek| abxCommonDatetimeFilter:'longDayOfWeek'}}"
-                ng-repeat="dayOfWeek in $ctrl.vm.timetableContainer.daysOfWeek| abxCommonOrderByDatetimeFilter:'dayOfWeek'">
+        <md-tab label="{{dayOfWeek.dayOfWeek| pmCommonDatetimeFilter:'longDayOfWeek'}}"
+                ng-repeat="dayOfWeek in $ctrl.vm.timetableContainer.daysOfWeek| pmCommonOrderByDatetimeFilter:'dayOfWeek'">
 
           <!-- ** TimetableContainer.daysOfWeek[dayOfWeek] ** -->
-          <abx-form-group name="{{dayOfWeek.dayOfWeek}}" flex>
+          <pm-form-group name="{{dayOfWeek.dayOfWeek}}" flex>
             <!-- back -->
-            <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].abxFormBackValidation.errors" ng-messages-multiple
-                 class="abx-form-back-validation-messages">
+            <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].pmFormBackValidation.errors" ng-messages-multiple
+                 class="pm-form-back-validation-messages">
               <div ng-message="null">Le numéro du jour de la semaine est obligatoire.</div>
               <div ng-message="out-of-bound-value">Le numéro du jour de la semaine doit être compris entre 1 et 7.</div>
               <div ng-message="not-unique">Le numéro du jour de la semaine doit être unique.</div>
-              <div ng-messages-include="abx-back-validation-messages"></div>
+              <div ng-messages-include="pm-back-validation-messages"></div>
             </div>
 
             <!-- ** TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables ** -->
-            <abx-form-group name="timetables" flex>
+            <pm-form-group name="timetables" flex>
 
               <!-- back -->
-              <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables.abxFormBackValidation.errors" ng-messages-multiple
-                   class="abx-form-back-validation-messages">
+              <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables.pmFormBackValidation.errors" ng-messages-multiple
+                   class="pm-form-back-validation-messages">
                 <div ng-message="timetablename-not-unique">Les noms des horaires doivent être uniques pour chaque jour de la semaine.</div>
                 <div ng-message="overlap-conflict">Les horaires ne doivent pas se chevaucher.</div>   
-                <div ng-messages-include="abx-back-validation-messages"></div>
+                <div ng-messages-include="pm-back-validation-messages"></div>
               </div>
 
               <!-- ** TimetableContainer.daysOfWeek[dayOfWeek].timetables[$index] ** -->
-              <abx-action-group>
+              <pm-action-group>
                 <p ng-if="dayOfWeek.timetables.length === 0"><em>Aucun horaire pour ce jour.</em></p>
-                <md-content class="abx-timetable" ng-repeat="timetable in dayOfWeek.timetables" md-whiteframe="1" layout-padding>
-                  <abx-form-group name="{{$index}}">
+                <md-content class="pm-timetable" ng-repeat="timetable in dayOfWeek.timetables" md-whiteframe="1" layout-padding>
+                  <pm-form-group name="{{$index}}">
 
                     <!-- back -->
-                    <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].abxFormBackValidation.errors" ng-messages-multiple
-                         class="abx-form-back-validation-messages">
+                    <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].pmFormBackValidation.errors" ng-messages-multiple
+                         class="pm-form-back-validation-messages">
                       <div ng-message="chronological-order-times">L'heure de fin doit être ultérieure à l'heure de début.</div>               
-                      <div ng-messages-include="abx-back-validation-messages"></div>
+                      <div ng-messages-include="pm-back-validation-messages"></div>
                     </div>
 
                     <!-- numéro d'horaire + boutons Ajouter + Supprimer -->
                     <div layout="row" flex layout-align="start center">
-                      <abx-action-group-select abx-options-id="$index" abx-options-actions="{duplicate: true, delete: true}"></abx-action-group-select>
+                      <pm-action-group-select pm-options-id="$index" pm-options-actions="{duplicate: true, delete: true}"></pm-action-group-select>
                       <div flex>Horaire n°{{$index + 1}}</div>
                       <md-button  ng-click="$ctrl.vm.addTimetable(dayOfWeek.dayOfWeek, $index)" class="md-icon-button">
                         <md-icon md-svg-icon="action:create"></md-icon>
@@ -248,13 +248,13 @@
                                ng-required="true"
                                ng-minlength="$ctrl.vm.timetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.minLength" 
                                md-maxlength="$ctrl.vm.timetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.maxLength" 
-                               abx-form-validate-back />
-                        <abx-form-field-example>M1, M2, S1...</abx-form-field-example>
+                               pm-form-validate-back />
+                        <pm-form-field-example>M1, M2, S1...</pm-form-field-example>
 
                         <!-- * validations * -->
                         <!-- front -->
                         <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.$error" 
-                             ng-messages-multiple class="abx-form-front-validation-messages">
+                             ng-messages-multiple class="pm-form-front-validation-messages">
                           <div ng-message="required">Le nom de l'horaire est obligatoire.</div>
                           <div ng-message="minlength">Le nom de l'horaire doit compter au minimum {{$ctrl.vm.timetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.minLength}}
                             {{$ctrl.vm.timetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.minLength, plural, offset:0
@@ -268,21 +268,21 @@
                             other {caractères.}
                             }}
                           </div>
-                          <div ng-messages-include="abx-front-generic-validation-messages"></div>
+                          <div ng-messages-include="pm-front-generic-validation-messages"></div>
                         </div>
                         <!-- back -->
-                        <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.abxFormBackValidation.errors" ng-messages-multiple
-                             class="abx-form-back-validation-messages">
+                        <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.pmFormBackValidation.errors" ng-messages-multiple
+                             class="pm-form-back-validation-messages">
                           <div ng-message="null">Le nom de l'horaire est obligatoire.</div>
                           <div ng-message="bad-length">Le nom de l'horaire doit compter entre
-                            {{$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.abxFormBackValidation.params['bad-length'][0].minLength}} et
-                            {{$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.abxFormBackValidation.params['bad-length'][0].maxLength}}
-                            {{$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.abxFormBackValidation.params['bad-length'][0].maxLength, plural, offset:0
+                            {{$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.pmFormBackValidation.params['bad-length'][0].minLength}} et
+                            {{$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.pmFormBackValidation.params['bad-length'][0].maxLength}}
+                            {{$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].name.pmFormBackValidation.params['bad-length'][0].maxLength, plural, offset:0
                                 =1 {caractère.}
                             other {caractères.}
                             }}
                           </div>
-                          <div ng-messages-include="abx-back-validation-messages"></div>
+                          <div ng-messages-include="pm-back-validation-messages"></div>
                         </div>
                       </md-input-container>
 
@@ -293,23 +293,23 @@
                           <label>Heure de début</label>
                           <input name="startTime" ng-model="$ctrl.vm.timetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].startTime.value" 	
                                  ui-mask="99:99" model-view-value="true" ui-mask-placeholder placeholder="Heure de début"
-                                 ng-required="true" abx-time-validator abx-form-validate-back />
-                          <abx-form-field-example>08:00, 14:00...</abx-form-field-example>
+                                 ng-required="true" pm-time-validator pm-form-validate-back />
+                          <pm-form-field-example>08:00, 14:00...</pm-form-field-example>
 
                           <!-- * validations * -->
                           <!-- front -->
                           <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].startTime.$error" 
-                               ng-messages-multiple class="abx-form-front-validation-messages">
+                               ng-messages-multiple class="pm-form-front-validation-messages">
                             <div ng-message="required">L'heure de début est obligatoire.</div>
-                            <div ng-messages-include="abx-front-datetime-validation-messages"></div>
-                            <div ng-messages-include="abx-front-generic-validation-messages"></div>
+                            <div ng-messages-include="pm-front-datetime-validation-messages"></div>
+                            <div ng-messages-include="pm-front-generic-validation-messages"></div>
                           </div>
                           <!-- back -->
-                          <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].startTime.abxFormBackValidation.errors" ng-messages-multiple
-                               class="abx-form-back-validation-messages">
+                          <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].startTime.pmFormBackValidation.errors" ng-messages-multiple
+                               class="pm-form-back-validation-messages">
                             <div ng-message="null">L'heure de début est obligatoire.</div>
                             <div ng-message="bad-format">L'heure de début doit être au format hh:mm, entre 00:00 et 23:59.</div>
-                            <div ng-messages-include="abx-back-validation-messages"></div>
+                            <div ng-messages-include="pm-back-validation-messages"></div>
                           </div>
                         </md-input-container>
 
@@ -319,36 +319,36 @@
                           <label>Heure de fin</label>
                           <input name="endTime" ng-model="$ctrl.vm.timetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].endTime.value" 		
                                  ui-mask="99:99" model-view-value="true" ui-mask-placeholder placeholder="Heure de fin"
-                                 ng-required="true" abx-time-validator abx-form-validate-back />
-                          <abx-form-field-example>08:55, 15:15...</abx-form-field-example>
+                                 ng-required="true" pm-time-validator pm-form-validate-back />
+                          <pm-form-field-example>08:55, 15:15...</pm-form-field-example>
 
                           <!-- * validations * -->
                           <!-- front -->
                           <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].endTime.$error" 
                                ng-messages-multiple
-                               class="abx-form-front-validation-messages">
+                               class="pm-form-front-validation-messages">
                             <div ng-message="required">L'heure de fin est obligatoire.</div>
 
-                            <div ng-messages-include="abx-front-datetime-validation-messages"></div>
-                            <div ng-messages-include="abx-front-generic-validation-messages"></div>
+                            <div ng-messages-include="pm-front-datetime-validation-messages"></div>
+                            <div ng-messages-include="pm-front-generic-validation-messages"></div>
                           </div>
                           <!-- back -->
-                          <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].endTime.abxFormBackValidation.errors" ng-messages-multiple
-                               class="abx-form-back-validation-messages">
+                          <div ng-messages="$ctrl.vm.ngForm.TimetableContainer.daysOfWeek[dayOfWeek.dayOfWeek].timetables[$index].endTime.pmFormBackValidation.errors" ng-messages-multiple
+                               class="pm-form-back-validation-messages">
                             <div ng-message="null">L'heure de fin est obligatoire.</div>
                             <div ng-message="bad-format">L'heure de fin doit être au format hh:mm, entre 00:00 et 23:59.</div>
-                            <div ng-messages-include="abx-back-validation-messages"></div>
+                            <div ng-messages-include="pm-back-validation-messages"></div>
                           </div>
                         </md-input-container>
                       </div>
                     </div>
 
 
-                  </abx-form-group>
+                  </pm-form-group>
                 </md-content>
 
-                <abx-action-group-bar layout-margin>
-                  <md-button ng-click="$ctrl.vm.deleteTimetables(dayOfWeek.dayOfWeek, getSelectedIds())" abx-action-group-bar-action="delete" class="md-raised">
+                <pm-action-group-bar layout-margin>
+                  <md-button ng-click="$ctrl.vm.deleteTimetables(dayOfWeek.dayOfWeek, getSelectedIds())" pm-action-group-bar-action="delete" class="md-raised">
                     <md-icon 
                       md-menu-align-target
                       md-svg-icon="action:delete">
@@ -361,25 +361,25 @@
                     <ui-select-match 
                       class="ui-select-match"
                       placeholder="Choisissez les jours cibles">
-                      {{$item| abxCommonDatetimeFilter:'longDayOfWeek'}}
+                      {{$item| pmCommonDatetimeFilter:'longDayOfWeek'}}
                     </ui-select-match>
                     <ui-select-choices 
                       class="ui-select-choices"
-                      repeat="option in [0, 1, 2, 3, 4, 5, 6]| abxCommonOrderByDatetimeFilter:'dayOfWeek' | filter:'!' + dayOfWeek.dayOfWeek">
-                      <div ng-bind-html="option| abxCommonDatetimeFilter:'longDayOfWeek'"></div>
+                      repeat="option in [0, 1, 2, 3, 4, 5, 6]| pmCommonOrderByDatetimeFilter:'dayOfWeek' | filter:'!' + dayOfWeek.dayOfWeek">
+                      <div ng-bind-html="option| pmCommonDatetimeFilter:'longDayOfWeek'"></div>
                     </ui-select-choices>
                   </ui-select>
-                  <md-button  ng-click="$ctrl.vm.duplicateTimetables(dayOfWeek.dayOfWeek, getSelectedIds(), $ctrl.vm.selectedDaysOfWeek)" abx-action-group-bar-action="duplicate" class="md-raised" >
+                  <md-button  ng-click="$ctrl.vm.duplicateTimetables(dayOfWeek.dayOfWeek, getSelectedIds(), $ctrl.vm.selectedDaysOfWeek)" pm-action-group-bar-action="duplicate" class="md-raised" >
                     <md-icon 
                       md-menu-align-target
                       md-svg-icon="action:duplicate">
                     </md-icon>
                     Dupliquer
                   </md-button>
-                </abx-action-group-bar>
-              </abx-action-group>
+                </pm-action-group-bar>
+              </pm-action-group>
 
-            </abx-form-group>
+            </pm-form-group>
 
             <div>
               <md-button  ng-click="$ctrl.vm.addTimetable(dayOfWeek.dayOfWeek)" class="md-raised" >
@@ -388,30 +388,30 @@
               </md-button>
 
             </div>
-          </abx-form-group>
+          </pm-form-group>
         </md-tab>
 
       </md-tabs>
 
-    </abx-form-group>
+    </pm-form-group>
 
     <!-- toolbar -->
-    <abx-form-submit-toolbar>
-      <md-button abx-form-submit-button ng-click="$ctrl.vm.cancel()">
+    <pm-form-submit-toolbar>
+      <md-button pm-form-submit-button ng-click="$ctrl.vm.cancel()">
         <md-icon md-svg-icon="action:cancel"></md-icon>
         Annuler
       </md-button>
 
-      <md-button abx-form-submit-button type="submit" ng-disabled="!$ctrl.vm.ngForm.TimetableContainer.$valid || $ctrl.vm.isSaving">
+      <md-button pm-form-submit-button type="submit" ng-disabled="!$ctrl.vm.ngForm.TimetableContainer.$valid || $ctrl.vm.isSaving">
         <md-icon md-svg-icon="{{'action:' + $ctrl.vm.formAction}}"></md-icon>
         <span ng-if="$ctrl.vm.formAction === 'create'">Créer</span>
         <span ng-if="$ctrl.vm.formAction === 'update'">Modifier</span>
       </md-button>
 
 
-    </abx-form-submit-toolbar>
+    </pm-form-submit-toolbar>
 
-  </abx-form>
+  </pm-form>
 </md-card>
 
 
@@ -419,28 +419,28 @@
 <!-- Affichage READ  -->
 
 <md-card ng-if="$ctrl.vm.canDisplayView && $ctrl.vm.formAction === 'read'" layout-margin>
-  <abx-read>
-    <abx-read-title>Affichage d'un groupe d'horaires</abx-read-title>
-    <abx-read-group>
-      <p><abx-read-field-name>Nom du groupe d'horaires</abx-read-field-name> {{$ctrl.vm.timetableContainer.name.value}}</p>
-    </abx-read-group>
-    <abx-read-group>
-      <abx-read-group-title>Horaires</abx-read-group-title>
+  <pm-read>
+    <pm-read-title>Affichage d'un groupe d'horaires</pm-read-title>
+    <pm-read-group>
+      <p><pm-read-field-name>Nom du groupe d'horaires</pm-read-field-name> {{$ctrl.vm.timetableContainer.name.value}}</p>
+    </pm-read-group>
+    <pm-read-group>
+      <pm-read-group-title>Horaires</pm-read-group-title>
       <md-tabs md-dynamic-height md-border-bottom md-swipe-content>
 
-        <md-tab label="{{dayOfWeek.dayOfWeek| abxCommonDatetimeFilter:'longDayOfWeek'}}" 
-                ng-repeat="dayOfWeek in $ctrl.vm.timetableContainer.daysOfWeek| abxCommonOrderByDatetimeFilter:'dayOfWeek'">
+        <md-tab label="{{dayOfWeek.dayOfWeek| pmCommonDatetimeFilter:'longDayOfWeek'}}" 
+                ng-repeat="dayOfWeek in $ctrl.vm.timetableContainer.daysOfWeek| pmCommonOrderByDatetimeFilter:'dayOfWeek'">
           <p ng-if="dayOfWeek.timetables.length === 0"><em>Aucun horaire pour ce jour.</em></p>
           <p name="{{$index}}" ng-repeat="timetable in dayOfWeek.timetables">
 
-          <abx-read-field-name>{{timetable.name.value}}</abx-read-field-name>
+          <pm-read-field-name>{{timetable.name.value}}</pm-read-field-name>
           de {{timetable.startTime.value}} à {{timetable.endTime.value}}</p>
 
         </md-tab>
 
       </md-tabs>
-    </abx-read-group>
-    <abx-read-actions>
+    </pm-read-group>
+    <pm-read-actions>
       <md-button ng-click="$ctrl.vm.navigate('home')" class="md-raised">
         <md-icon md-svg-icon="action:return"></md-icon>
         Retour
@@ -449,6 +449,6 @@
         <md-icon md-svg-icon="action:update"></md-icon>
         Modifier
       </md-button>
-    </abx-read-actions>
-  </abx-read>
+    </pm-read-actions>
+  </pm-read>
 </md-card>

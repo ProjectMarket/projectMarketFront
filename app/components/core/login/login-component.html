@@ -1,11 +1,11 @@
 <div layout="row" layout-align="center center" flex>
   <md-card class="md-whiteframe-z1" layout-padding layout="column" flex-gt-sm="66" flex-gt-md="50" flex-gt-lg="33">
-    <abx-form 
+    <pm-form 
       name="form" 
       ng-submit="$ctrl.vm.connect()"
       flex layout="column">
 
-      <abx-form-title>Sélection du compte de connexion</abx-form-title>
+      <pm-form-title>Sélection du compte de connexion</pm-form-title>
 
       <p class="md-body-2">
         Cette méthode de connexion n'est disponible que si les serveurs front-end et back-end sont tous les deux en mode développement.
@@ -36,21 +36,21 @@
       <p ng-if="$ctrl.vm.usersLogins.length == 0">Aucun compte disponible</p>
 
       <!-- toolbar -->
-      <abx-form-submit-toolbar>
-        <md-button abx-form-submit-button
+      <pm-form-submit-toolbar>
+        <md-button pm-form-submit-button
                    ng-show="$ctrl.vm.usersLogins.length > 0
                            && $ctrl.vm.selectedLogin !== undefined"
                    type="submit">
           Connexion
         </md-button>
 
-        <md-button  abx-form-submit-button
+        <md-button  pm-form-submit-button
                     ng-show="$ctrl.vm.isConnected === true"
                     ng-click="$ctrl.vm.cancel()">
           Annuler
         </md-button>
-      </abx-form-submit-toolbar>
+      </pm-form-submit-toolbar>
 
-    </abx-form>
+    </pm-form>
   </md-card>
 </div>

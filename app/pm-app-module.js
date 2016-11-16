@@ -1,5 +1,5 @@
 /** 
- * Module pm.commonModule
+ * Module global
  * 
  * @author     Romain Poussin (romain.poussin@ynov.com)
  * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
@@ -14,8 +14,17 @@
   'use strict';
 
   angular
-      .module('pm.commonModule', [
-        'ngCookies'
+      .module('pmApp', [
+        'ngComponentRouter',
+        'ngMaterial',
+        'material.core.colors',
+        'ngSanitize',
+        'ngMessages',
+        'ngMessageFormat',
+        'ui.select',
+        'ui.mask',
+        'pm.commonModule',
+        'pm.componentsModule'
       ]);
 
 // fin IIFE

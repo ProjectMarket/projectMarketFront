@@ -1,7 +1,7 @@
 describe('Test Username Filter', function () {
     var $filter;
 
-    beforeEach(module('abx.commonModule'));
+    beforeEach(module('pm.commonModule'));
 
     beforeEach(inject(function (_$filter_) {
         $filter = _$filter_;
@@ -14,7 +14,7 @@ describe('Test Username Filter', function () {
         };
         var format = 'civ_LN';
         
-         var result = $filter('abxCommonUserNameFilter');
+         var result = $filter('pmCommonUserNameFilter');
          
         expect(result(userIdentity, format)).toEqual('');
     });
@@ -26,7 +26,7 @@ describe('Test Username Filter', function () {
         };
         var format = 'civ_LN';
         
-         var result = $filter('abxCommonUserNameFilter');
+         var result = $filter('pmCommonUserNameFilter');
          
         expect(result(userIdentity, format)).toEqual('');
     });
@@ -38,7 +38,7 @@ describe('Test Username Filter', function () {
         };
         var format = 'civ_LN';
         
-         var result = $filter('abxCommonUserNameFilter');
+         var result = $filter('pmCommonUserNameFilter');
          
         expect(result(userIdentity, format)).toEqual('');
     });
@@ -51,7 +51,7 @@ describe('Test Username Filter', function () {
         };
         var format = 'civ_LN';
 
-        var result = $filter('abxCommonUserNameFilter');
+        var result = $filter('pmCommonUserNameFilter');
 
         expect(result(userIdentity, format)).toEqual('Mme HONNETTE');
     });
@@ -64,7 +64,7 @@ describe('Test Username Filter', function () {
         };
         var format = 'fn_ln';
 
-        var result = $filter('abxCommonUserNameFilter');
+        var result = $filter('pmCommonUserNameFilter');
 
         expect(result(userIdentity, format)).toEqual('camille honnette');
     });
@@ -77,7 +77,7 @@ describe('Test Username Filter', function () {
         };
         var format = 'fn_ln';
 
-        var result = $filter('abxCommonUserNameFilter');
+        var result = $filter('pmCommonUserNameFilter');
 
         expect(result(userIdentity, format)).toEqual('camille honnette');
     });
@@ -89,7 +89,7 @@ describe('Test Username Filter', function () {
             sex: 'f'
         };
 
-        var result = $filter('abxCommonUserNameFilter');
+        var result = $filter('pmCommonUserNameFilter');
         expect(result(userIdentity)).toEqual('Camille HONNETTE');
     });
     
@@ -102,7 +102,7 @@ describe('Test Username Filter', function () {
         
         var format = 'format';
 
-        var result = $filter('abxCommonUserNameFilter');
+        var result = $filter('pmCommonUserNameFilter');
         expect(result(userIdentity, format)).toEqual('Camille HONNETTE');
     });
 });

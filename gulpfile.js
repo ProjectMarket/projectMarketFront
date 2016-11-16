@@ -32,8 +32,8 @@ gulp.task('insertjs', function () {
 
 
 gulp.task('scriptsisa', function () {
-  return gulp.src(['./local/**/*.js', './app/abx.init.js', './app/abx-app-module.js', 'app/abx-app.bootstrap.js', './app/abx-app.config.js', './app/abx-app.run.js',
-    './app/abx-app-controller.js', './app/common/common-module.js', './app/**/*.js'])
+  return gulp.src(['./local/**/*.js', './app/pm.init.js', './app/pm-app-module.js', 'app/pm-app.bootstrap.js', './app/pm-app.config.js', './app/pm-app.run.js',
+    './app/pm-app-controller.js', './app/common/common-module.js', './app/**/*.js'])
           .pipe(concat('isa.main.min.js'))
           .pipe(ngAnnotate())
           .pipe(uglify({mangle: false}))
@@ -118,7 +118,7 @@ gulp.task('htmlminify', function () {
 
 //gulp.task('default', ['cleanjs', 'scriptslib', 'scriptsisa']);
 
-// appel de cette task -> gulp createComponent --name nameOfComponent --copyof nameOfComponentToCopy -- path pathForabx-app-component -- isProtected true/false -- crudObject 
+// appel de cette task -> gulp createComponent --name nameOfComponent --copyof nameOfComponentToCopy -- path pathForpm-app-component -- isProtected true/false -- crudObject 
 gulp.task('createComponent', function (name, copyof, path, isProtected) {
   if (name === undefined) {
     console.log('Merci de specifier le nom du component que vous souhaitez creer en utilisant la commande \n gulp createComponent --name name.Of.Component');
@@ -131,7 +131,7 @@ gulp.task('createComponent', function (name, copyof, path, isProtected) {
   fs.readFile('./app/common/values/componentsSecurity-value.js', 'utf8', function (err, data) {
     var config = JSON.parse(data.split("// Inject JSON From Gulp Task")[1]);
 
-    var _tmp = config.abx;
+    var _tmp = config.pm;
     for (var i = 0; i < treePath.length; i++) {
       if (_tmp[treePath[i]] === null || typeof _tmp[treePath[i]] !== 'object') {
         _tmp[treePath[i]] = {};
@@ -213,22 +213,22 @@ gulp.task('createComponent', function (name, copyof, path, isProtected) {
             }))
             .pipe(gulp.dest('./'));
 
-    // Insert de la route dans abx-app-component.js
+    // Insert de la route dans pm-app-component.js
     if (path !== undefined) {
-      gulp.src('./app/abx-app-component.js')
+      gulp.src('./app/pm-app-component.js')
               .pipe(insertLines({
                 'before': /\'\/\*\*\'/,
-                'lineBefore': '\t\t\t\t\t' + '{path: \'/' + path + '\', component: \'abx.' + treePath.join('.') + 'Component\', name:\'' +
+                'lineBefore': '\t\t\t\t\t' + '{path: \'/' + path + '\', component: \'pm.' + treePath.join('.') + 'Component\', name:\'' +
                         treePath.join('.').replace(treePath.join('.').charAt(0), function (match) {
                   return match.toUpperCase();
                 }) + '\'},'
               }))
               .pipe(gulp.dest('./app/'));
     } else {
-      gulp.src('./app/abx-app-component.js')
+      gulp.src('./app/pm-app-component.js')
               .pipe(insertLines({
                 'before': /\'\/\*\*\'/,
-                'lineBefore': '\t\t\t\t\t' + '{path: \'/' + treePath.join('/') + '\', component: \'abx.' + treePath.join('.') + 'Component\', name:\'' +
+                'lineBefore': '\t\t\t\t\t' + '{path: \'/' + treePath.join('/') + '\', component: \'pm.' + treePath.join('.') + 'Component\', name:\'' +
                         treePath.join('.').replace(treePath.join('.').charAt(0), function (match) {
                   return match.toUpperCase();
                 }) + '\'},'

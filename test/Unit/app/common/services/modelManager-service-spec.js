@@ -1,12 +1,12 @@
 describe('Test modelManager Service', function () {
     var q, log, cache, factory;
     beforeEach(function () {
-        module('abx.commonModule', 'abxApp');
+        module('pm.commonModule', 'pmApp');
         inject(function ($injector, _$rootScope_) {
             q = $injector.get('$q');
-            log = $injector.get('abx.common.logService');
-            cache = $injector.get('abx.common.cacheBackManagerService');
-            factory = $injector.get('abx.common.modelManagerService');
+            log = $injector.get('pm.common.logService');
+            cache = $injector.get('pm.common.cacheBackManagerService');
+            factory = $injector.get('pm.common.modelManagerService');
         });
     });
 

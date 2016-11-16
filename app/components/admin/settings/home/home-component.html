@@ -8,11 +8,11 @@
         <md-card-title-text>
           <span class="md-headline">Année scolaire</span>
         </md-card-title-text>
-        <abx-help>
+        <pm-help>
           <p>L'année scolaire permet de faciliter la saisie de séances récurrentes dans l'agenda.</p>
           <p>On pourra indiquer par exemple qu'un cours a lieu jusqu'à la fin de l'année scolaire.</p>
           <p><strong>L'année scolaire est obligatoire pour utiliser Isa.</strong></p>
-        </abx-help>
+        </pm-help>
       </md-card-title>
       <md-card-content flex>
         <md-list>
@@ -68,21 +68,21 @@
     <md-card ng-if="$ctrl.vm.isAllowedManageCrudObjects.periodType.read" layout-padding flex>
       <md-card-title flex="none">
         <md-card-title-text class="md-headline">Groupes de périodes</md-card-title-text>
-        <abx-help>
+        <pm-help>
           <p>Les groupes de périodes (trimestres, semestres...) permettent de faciliter la saisie de séances récurrentes dans l'agenda.</p>
           <p>On pourra indiquer par exemple qu'un cours a lieu jusqu'à la fin du premier semestre
             ou qu'il se déroulera les deuxième et troisième trimestres.</p>
           <p><em>Les groupes de périodes ne sont pas obligatoires pour utiliser Isa.</em></p>
-        </abx-help>
+        </pm-help>
       </md-card-title>
       <md-card-content flex>
-        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.periodTypes" class="abx-message-error">
+        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.periodTypes" class="pm-message-error">
           Une erreur est survenue. Vous ne pouvez pas visualiser les groupes de périodes.
         </div>
-        <abx-action-group ng-if="!$ctrl.vm.hasBackCrudObjectsError.periodTypes">
+        <pm-action-group ng-if="!$ctrl.vm.hasBackCrudObjectsError.periodTypes">
           <md-list>
             <md-list-item ng-repeat="periodType in $ctrl.vm.crudObjects.periodTypes| orderBy: 'objectDisplayName'">
-              <abx-action-group-select abx-options-id="periodType.id" abx-options-actions="{delete: periodType.frontEndAcl.delete}"></abx-action-group-select>
+              <pm-action-group-select pm-options-id="periodType.id" pm-options-actions="{delete: periodType.frontEndAcl.delete}"></pm-action-group-select>
               {{periodType.objectDisplayName}}
               <md-menu>
                 <md-button 
@@ -135,16 +135,16 @@
               </md-menu>
             </md-list-item>
           </md-list>
-          <abx-action-group-bar>
-            <md-button ng-click="$ctrl.vm.menus('periodType', 'delete', getSelectedIds())" abx-action-group-bar-action="delete" class="md-raised">
+          <pm-action-group-bar>
+            <md-button ng-click="$ctrl.vm.menus('periodType', 'delete', getSelectedIds())" pm-action-group-bar-action="delete" class="md-raised">
               <md-icon 
                 md-menu-align-target
                 md-svg-icon="action:delete">
               </md-icon>
               Supprimer
             </md-button>
-          </abx-action-group-bar>
-        </abx-action-group>
+          </pm-action-group-bar>
+        </pm-action-group>
       </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
         <md-button
@@ -164,17 +164,17 @@
     <md-card ng-if="$ctrl.vm.isAllowedManageCrudObjects.timetableContainer.read" layout-padding flex>
       <md-card-title flex="none">
         <md-card-title-text class="md-headline">Groupes d'horaires</md-card-title-text>
-        <abx-help>
+        <pm-help>
           <p>Les horaires (M1, M2, S1...) permettent de faciliter la saisie de séances dans l'agenda.</p>
           <p>On pourra indiquer par exemple qu'un cours commence en M1 et finit en M2.</p>
           <p><em>Les groupes d'horaires ne sont pas obligatoires pour utiliser Isa.</em></p>
-        </abx-help>
+        </pm-help>
       </md-card-title>
       <md-card-content flex>
-        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.timetableContainers" class="abx-message-error">
+        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.timetableContainers" class="pm-message-error">
           Une erreur est survenue. Vous ne pouvez pas visualiser les groupes d'horaires.
         </div>
-        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.previousTimetableContainers" class="abx-message-error">
+        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.previousTimetableContainers" class="pm-message-error">
           Une erreur est survenue. Vous ne pouvez pas visualiser les groupes d'horaires de l'année précédente.
         </div>
         <div ng-if="$ctrl.vm.crudObjects.previousTimetableContainers.length > 0">
@@ -234,12 +234,12 @@
             </md-list-item>
           </md-list>
         </div>
-        <abx-action-group ng-if="!$ctrl.vm.hasBackCrudObjectsError.timetableContainers">
+        <pm-action-group ng-if="!$ctrl.vm.hasBackCrudObjectsError.timetableContainers">
           <strong>{{$ctrl.vm.crudObjects.schoolYear[0].objectDisplayName}}</strong>
 
           <md-list>
             <md-list-item ng-repeat="timetable in $ctrl.vm.crudObjects.timetableContainers| orderBy: 'objectDisplayName'">
-              <abx-action-group-select abx-options-id="timetable.id" abx-options-actions="{delete: timetable.frontEndAcl.delete}"></abx-action-group-select>
+              <pm-action-group-select pm-options-id="timetable.id" pm-options-actions="{delete: timetable.frontEndAcl.delete}"></pm-action-group-select>
               {{timetable.objectDisplayName}}
               <md-menu>
                 <md-button 
@@ -292,8 +292,8 @@
               </md-menu>
             </md-list-item>
           </md-list>
-          <abx-action-group-bar>
-            <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'delete', getSelectedIds())" abx-action-group-bar-action="delete" class="md-raised">
+          <pm-action-group-bar>
+            <md-button ng-click="$ctrl.vm.menus('timetableContainer', 'delete', getSelectedIds())" pm-action-group-bar-action="delete" class="md-raised">
               <md-icon 
                 md-menu-align-target
                 md-svg-icon="action:delete">
@@ -301,8 +301,8 @@
               Supprimer
             </md-button>
 
-          </abx-action-group-bar>
-        </abx-action-group>
+          </pm-action-group-bar>
+        </pm-action-group>
       </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
         <md-button
@@ -321,21 +321,21 @@
       <md-card-title flex="none">
 
         <md-card-title-text class="md-headline">Alternances de semaines</md-card-title-text>
-        <abx-help>
+        <pm-help>
           <p>Les alternances de semaines (Semaines A, B, C, Rouge...) permettent de faciliter la saisie de séances récurrentes dans l'agenda.</p>
           <p>On pourra indiquer par exemple qu'un cours a lieu les semaines A
             ou qu'il se déroulera les semaines A et C.</p>
           <p><em>Les alternances de semaines ne sont pas obligatoires pour utiliser Isa.</em></p>
-        </abx-help>
+        </pm-help>
       </md-card-title>
       <md-card-content flex>
-        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.alternatingWeeks" class="abx-message-error">
+        <div ng-if="$ctrl.vm.hasBackCrudObjectsError.alternatingWeeks" class="pm-message-error">
           Une erreur est survenue. Vous ne pouvez pas visualiser les alternances de semaines.
         </div>
-        <abx-action-group ng-if="!$ctrl.vm.hasBackCrudObjectsError.alternatingWeeks">
+        <pm-action-group ng-if="!$ctrl.vm.hasBackCrudObjectsError.alternatingWeeks">
           <md-list>
             <md-list-item ng-repeat="alternatingWeek in $ctrl.vm.crudObjects.alternatingWeeks| orderBy: 'objectDisplayName'">
-              <abx-action-group-select abx-options-id="alternatingWeek.id" abx-options-actions="{delete: alternatingWeek.frontEndAcl.delete}"></abx-action-group-select>
+              <pm-action-group-select pm-options-id="alternatingWeek.id" pm-options-actions="{delete: alternatingWeek.frontEndAcl.delete}"></pm-action-group-select>
               {{alternatingWeek.objectDisplayName}}
               <md-menu>
                 <md-button 
@@ -398,16 +398,16 @@
               </md-menu>
             </md-list-item>
           </md-list>
-          <abx-action-group-bar>
-            <md-button ng-click="$ctrl.vm.menus('alternatingWeeks', 'delete', getSelectedIds())" abx-action-group-bar-action="delete" class="md-raised">
+          <pm-action-group-bar>
+            <md-button ng-click="$ctrl.vm.menus('alternatingWeeks', 'delete', getSelectedIds())" pm-action-group-bar-action="delete" class="md-raised">
               <md-icon 
                 md-menu-align-target
                 md-svg-icon="action:delete">
               </md-icon>
               Supprimer
             </md-button>
-          </abx-action-group-bar>
-        </abx-action-group>
+          </pm-action-group-bar>
+        </pm-action-group>
       </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
         <md-button

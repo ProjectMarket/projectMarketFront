@@ -16,25 +16,25 @@
 
   'use strict';
 
-  var objectName = 'abx.common.yearContainerModel';
+  var objectName = 'pm.common.yearContainerModel';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$q',
-        'abx.common.logService',
-        'abx.common.cacheBackManagerService',
-        'abx.common.cacheService',
-        'abx.common.timeService',
+        'pm.common.logService',
+        'pm.common.cacheBackManagerService',
+        'pm.common.cacheService',
+        'pm.common.timeService',
         function(
             $q,
-            abxLog,
-            abxCacheBackManager,
-            abxCache,
-            abxTime
+            pmLog,
+            pmCacheBackManager,
+            pmCache,
+            pmTime
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -59,8 +59,8 @@
              * @return {array} strings
              */
             getObjectsDisplayNames: function(objects) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getObjectsDisplayNames", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getObjectsDisplayNames", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "getObjectsDisplayNames"});
               try {
                 var names = [];
@@ -70,7 +70,7 @@
                 return names;
 
               } catch (e) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. Message d'exception={{exceptionMessage}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. Message d'exception={{exceptionMessage}}",
                   params: {exceptionMessage: e.message}, tag: "error", object: objectName, method: "getObjectsDisplayNames"});
                 throw new Error(e.message);
               }
@@ -89,8 +89,8 @@
              * @return {object} Promise
              */
             readCurrent: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "readCurrent", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "readCurrent", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "readCurrent"});
 
               if (options === undefined) {
@@ -116,24 +116,24 @@
                     ]
                   };
 
-              abxCacheBackManager.read(request)
+              pmCacheBackManager.read(request)
                   .then(function(response) {
                     if (response.isFromBack === true && response.result !== undefined && response.result.YearContainer !== undefined) {
-                      response.result.YearContainer.dateStart = abxTime.convertDateFromBackToDate(response.result.YearContainer.dateStart);
-                      response.result.YearContainer.dateEnd = abxTime.convertDateFromBackToDate(response.result.YearContainer.dateEnd);
-                      response.result.YearContainer.defaultSchoolYearDateStart = abxTime.convertDateFromBackToDate(response.result.YearContainer.defaultSchoolYearDateStart);
-                      response.result.YearContainer.defaultSchoolYearDateEnd = abxTime.convertDateFromBackToDate(response.result.YearContainer.defaultSchoolYearDateEnd);
+                      response.result.YearContainer.dateStart = pmTime.convertDateFromBackToDate(response.result.YearContainer.dateStart);
+                      response.result.YearContainer.dateEnd = pmTime.convertDateFromBackToDate(response.result.YearContainer.dateEnd);
+                      response.result.YearContainer.defaultSchoolYearDateStart = pmTime.convertDateFromBackToDate(response.result.YearContainer.defaultSchoolYearDateStart);
+                      response.result.YearContainer.defaultSchoolYearDateEnd = pmTime.convertDateFromBackToDate(response.result.YearContainer.defaultSchoolYearDateEnd);
 
                       for (var i = 0, length = response.result.YearContainer.dateEvents.length; i < length; i++) {
                         if (response.result.YearContainer.dateEvents[i].PublicHoliday !== undefined) {
-                          response.result.YearContainer.dateEvents[i].PublicHoliday.dateStart = abxTime.convertDateFromBackToDate(response.result.YearContainer.dateEvents[i].PublicHoliday.dateStart);
-                          response.result.YearContainer.dateEvents[i].PublicHoliday.dateEnd = abxTime.convertDateFromBackToDate(response.result.YearContainer.dateEvents[i].PublicHoliday.dateEnd);
+                          response.result.YearContainer.dateEvents[i].PublicHoliday.dateStart = pmTime.convertDateFromBackToDate(response.result.YearContainer.dateEvents[i].PublicHoliday.dateStart);
+                          response.result.YearContainer.dateEvents[i].PublicHoliday.dateEnd = pmTime.convertDateFromBackToDate(response.result.YearContainer.dateEvents[i].PublicHoliday.dateEnd);
                         } else if (response.result.YearContainer.dateEvents[i].SchoolHolidays !== undefined) {
-                          response.result.YearContainer.dateEvents[i].SchoolHolidays.dateStart = abxTime.convertDateFromBackToDate(response.result.YearContainer.dateEvents[i].SchoolHolidays.dateStart);
-                          response.result.YearContainer.dateEvents[i].SchoolHolidays.dateEnd = abxTime.convertDateFromBackToDate(response.result.YearContainer.dateEvents[i].SchoolHolidays.dateEnd);
+                          response.result.YearContainer.dateEvents[i].SchoolHolidays.dateStart = pmTime.convertDateFromBackToDate(response.result.YearContainer.dateEvents[i].SchoolHolidays.dateStart);
+                          response.result.YearContainer.dateEvents[i].SchoolHolidays.dateEnd = pmTime.convertDateFromBackToDate(response.result.YearContainer.dateEvents[i].SchoolHolidays.dateEnd);
                         }
                       }
-                      abxCache.put('crudObjects:yearContainer', 'current', response.result);
+                      pmCache.put('crudObjects:yearContainer', 'current', response.result);
                     }
                     deferred.resolve(response.result);
                   })

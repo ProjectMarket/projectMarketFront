@@ -2,7 +2,7 @@ describe('Test auth Service', function () {
     var q, interval, http, window, injector, location, configService, cronService, momentService,
             cookieService, logService, userService, routerService, $rootScope, factory;
     beforeEach(function () {
-        module('abx.commonModule', 'abxApp');
+        module('pm.commonModule', 'pmApp');
         inject(function ($injector, _$rootScope_) {
             $rootScope = _$rootScope_;
             interval = $injector.get('$interval');
@@ -11,14 +11,14 @@ describe('Test auth Service', function () {
             window = $injector.get('$window');
             location = $injector.get('$location');
             injector = $injector.get('$injector');
-            logService = $injector.get('abx.common.logService');
-            configService = $injector.get('abx.common.configService');
-            cronService = $injector.get('abx.common.cronService');
-            cookieService = $injector.get('abx.common.cookieService');
-            userService = $injector.get('abx.common.userService');
-            routerService = $injector.get('abx.common.routerService');
-            momentService = $injector.get('abx.common.momentService');
-            factory = $injector.get('abx.common.authService');
+            logService = $injector.get('pm.common.logService');
+            configService = $injector.get('pm.common.configService');
+            cronService = $injector.get('pm.common.cronService');
+            cookieService = $injector.get('pm.common.cookieService');
+            userService = $injector.get('pm.common.userService');
+            routerService = $injector.get('pm.common.routerService');
+            momentService = $injector.get('pm.common.momentService');
+            factory = $injector.get('pm.common.authService');
         });
     });
 

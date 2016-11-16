@@ -1,13 +1,13 @@
 describe('Test cacheBackManager Service', function () {
     var q, log, cache, factory, handler;
     beforeEach(function () {
-        module('abx.commonModule', 'abxApp');
+        module('pm.commonModule', 'pmApp');
         inject(function ($injector, _$rootScope_) {
             q = $injector.get('$q');
-            log = $injector.get('abx.common.logService');
-            cache = $injector.get('abx.common.cacheService');
-            handler = $injector.get('abx.common.backComHandlerService');
-            factory = $injector.get('abx.common.cacheBackManagerService');
+            log = $injector.get('pm.common.logService');
+            cache = $injector.get('pm.common.cacheService');
+            handler = $injector.get('pm.common.backComHandlerService');
+            factory = $injector.get('pm.common.cacheBackManagerService');
         });
     });
 

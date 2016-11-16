@@ -2,11 +2,11 @@ describe('Test Cron Service', function () {
     var interval, factory, q;
 
     beforeEach(function () {
-        module('abx.commonModule');
+        module('pm.commonModule');
 
         inject(function ($injector) {
             interval = $injector.get('$interval');
-            factory = $injector.get('abx.common.cronService');
+            factory = $injector.get('pm.common.cronService');
             q = $injector.get('$q');
         });
     });

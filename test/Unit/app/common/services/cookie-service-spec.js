@@ -1,12 +1,12 @@
 describe('Test Cokie Service', function () {
     var cookies, logService, configService, factory;
     beforeEach(function () {
-        module('abx.commonModule');
+        module('pm.commonModule');
         inject(function ($injector) {
             cookies = $injector.get('$cookies');
-            configService = $injector.get('abx.common.configService');
-            logService = $injector.get('abx.common.logService');
-            factory = $injector.get('abx.common.cookieService');
+            configService = $injector.get('pm.common.configService');
+            logService = $injector.get('pm.common.logService');
+            factory = $injector.get('pm.common.cookieService');
         });
     });
     // Testing if functions exist

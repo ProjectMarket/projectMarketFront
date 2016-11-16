@@ -1,19 +1,120 @@
 <!DOCTYPE html>
-<html data-ng-app="isaApp" data-ng-strict-di>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/">
-    <title>ISA</title>
-    <link rel="stylesheet" href="assets/css/isa-main.min.css">
-  </head>
-  <body>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <base href="/">
 
-    <div id="view-container">
-      <div ng-viewport></div>
-    </div>
+        <title>Project Market</title>
+    </head>
+    <body ng-strict-di ng-class="pmMedia.getClass()" layout>
+
+    <pm.app-component layout="column" flex>Veuillez patienter…</pm.app-component>
+
+    <!-- Libs & config -->
+    <script src="local/config.json.js"></script>
+    <script src="lib/jquery/jquery.js"></script>
+
+    <script src="app/pm.init.js"></script>
+
+    <script src="lib/stacktrace/stacktrace.min.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-cookies.js"></script>
+    <script src="lib/angular/angular-aria.js"></script>
+    <script src="lib/angular/angular-animate.js"></script>
+    <script src="lib/angular/angular-sanitize.js"></script>
+    <script src="lib/angular/angular-messages.js"></script>
+    <script src="lib/angular/angular-message-format.js"></script>
+
+    <script src="lib/startswith/startswith.js"></script>
+    <script src="lib/componentRouter/angular_1_router.js"></script>
+
+    <script src="lib/material/angular-material.js"></script>
+    <script src="lib/mdColors/colors.js"></script>
+    <script src="lib/angular-ui-select/select.js"></script>
+    <script src="lib/angular-ui-mask/mask.js"></script>
+
+    <script src="lib/moment/moment.min.js"></script>
+    <script src="lib/moment/locales.min.js"></script>
+    <!-- Fin libs & config -->
+    
+    <script src="app/pm-app-module.js"></script>
+    <script src="app/pm-app-value.js"></script>
+    <!-- Voir l'utilité de <script src="app/pm-app.bootstrap.js"></script>-->
+    <!-- TODO: revoir avec zineddine pour la partie init du design -->
+    <script src="app/pm-app.config.js"></script>
+    <script src="app/pm-app.run.js"></script>
+    <script src="app/pm-app-component.js"></script>
+
+    <script src="app/common/common-module.js"></script>
+
+    <script src="app/common/services/config-service.js"></script>
+    <script src="app/common/services/time-service.js"></script>
+    <script src="app/common/services/stacktrace-service.js"></script>
+
+    
+    <!-- Services -->
+    <script src="app/common/values/componentsSecurity-value.js"></script>
+
+    <script src="app/common/services/cron-service.js"></script>
+    <script src="app/common/services/log-service.js"></script>
+    <script src="app/common/services/component-service.js"></script>
+
+    <script src="app/common/services/cache-service.js"></script>
+    <script src="app/common/services/cookie-service.js"></script>
+    <script src="app/common/services/router-service.js"></script>
+    <script src="app/common/services/exceptionHandler-service.js"></script>
+    <script src="app/common/services/auth-service.js"></script>
+    <script src="app/common/services/user-service.js"></script>
+    <script src="app/common/services/backComHandler-service.js"></script>
+    <script src="app/common/services/cacheBackManager-service.js"></script>
+    <script src="app/common/services/modelManager-service.js"></script>
+    <script src="app/common/services/acl-service.js"></script>
+    <script src="app/common/services/flashMessage/flashMessage-service.js"></script>
+    <!-- Fin services -->
+
+    <!-- Models -->
+    
+    <!-- Fin models -->
+
+    <!-- Filters persos -->
+    
+    <!-- Fin filters persos-->
+    
+    <!-- Directives persos -->
+    
+    <!-- Fin directives persos -->
+
+    <script src="app/common/validators/time-validator.js" type="text/javascript"></script>
+
+    <script src="app/components/components-module.js"></script>
+
+    <script src="app/components/core/core-module.js"></script>
+    <script src="app/components/core/error/error-component.js"></script>
+    <script src="app/components/core/404/404-component.js"></script>
+    <script src="app/components/core/login/login-component.js"></script>
+    <script src="app/components/core/login-result/login-result-component.js"></script>
+    <script src="app/components/core/logout/logout-component.js"></script>
+    <script src="app/components/core/index/index-component.js"></script>
+    <script src="app/components/core/home/home-component.js"></script>
+    <script src="app/components/core/profile/profile-component.js"></script>
+    <script src="app/components/core/help/help-component.js"></script>
 
 
-    <script src="assets/js/isa-main.min.js"></script>
-  </body>
+    <script src="app/components/admin/admin-module.js"></script>
+    <script src="app/components/admin/settings/home/home-component.js"></script>
+    <script src="app/components/admin/settings/school-year/school-year-component.js"></script>
+    <script src="app/components/admin/settings/period-type/period-type-component.js"></script>
+    <script src="app/components/admin/settings/timetable-container/timetable-container-component.js"></script>  
+    <script src="app/components/admin/permissions/permissions-component.js"></script>
+    <script src="app/components/admin/user-school-roles/user-school-roles-component.js"></script>
+    <script src="app/components/admin/settings/alternating-weeks/alternating-weeks-component.js"></script>
+
+
+    <script src="app/components/dashboard/dashboard-module.js"></script>
+
+    <script src="app/components/admin/settings/year-week/year-week-component.js"></script>
+    <!--injectFromGulp-->
+</body>
 </html>

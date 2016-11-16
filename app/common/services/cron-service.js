@@ -17,8 +17,8 @@
   'use strict';
   
   angular
-      .module('abx.commonModule')
-      .factory('abx.common.cronService', [
+      .module('pm.commonModule')
+      .factory('pm.common.cronService', [
         '$interval',
         function($interval) {
 

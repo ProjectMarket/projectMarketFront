@@ -1,5 +1,5 @@
 /** 
- * Component abx.admin.settings.homeComponent
+ * Component pm.admin.settings.homeComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -15,51 +15,51 @@
 (function () {
 
   'use strict';
-  var componentName = 'abx.admin.settings.homeComponent';
+  var componentName = 'pm.admin.settings.homeComponent';
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.adminModule')
+      .module('pm.components.adminModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function (abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function (pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/admin/settings/home/home-component.html',
         controller: [
-          'abx.common.logService',
-          'abx.common.aclService',
-          'abx.common.flashMessageService',
-          'abx.common.routerService',
-          'abx.common.modelManagerService',
-          'abx.common.yearContainerModel',
-          'abx.common.schoolYearModel',
-          'abx.common.periodTypeModel',
-          'abx.common.timetableContainerModel',
-          'abx.common.alternatingWeeksModel',
+          'pm.common.logService',
+          'pm.common.aclService',
+          'pm.common.flashMessageService',
+          'pm.common.routerService',
+          'pm.common.modelManagerService',
+          'pm.common.yearContainerModel',
+          'pm.common.schoolYearModel',
+          'pm.common.periodTypeModel',
+          'pm.common.timetableContainerModel',
+          'pm.common.alternatingWeeksModel',
           Controller]
       });
   //************
   // Controller
   //************
   function Controller(
-      abxLog,
-      abxAcl,
-      abxFlashMessage,
-      abxRouter,
-      abxModelManager,
-      abxYearContainerModel,
-      abxSchoolYearModel,
-      abxPeriodTypeModel,
-      abxTimetableContainerModel,
-      abxAlternatingWeeksModel
+      pmLog,
+      pmAcl,
+      pmFlashMessage,
+      pmRouter,
+      pmModelManager,
+      pmYearContainerModel,
+      pmSchoolYearModel,
+      pmPeriodTypeModel,
+      pmTimetableContainerModel,
+      pmAlternatingWeeksModel
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
     //********************
     // Propriétés privées
     //********************
@@ -105,8 +105,8 @@
      */
 
     var _populateViewModel = function (crudObject, result) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
       try {
         // initialisations
@@ -129,7 +129,7 @@
             break;
             // TODO : ajouter les autres crudObject
           default:
-            abxLog.error({message: "Paramètres méthode incorrects : {{params}}",
+            pmLog.error({message: "Paramètres méthode incorrects : {{params}}",
               params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
             throw new Error('CrudObject incorrect : ' + crudObject);
             break;
@@ -147,11 +147,11 @@
               _backObjects.periodTypes = result;
               for (var i = 0, length = result.length; i < length; i++) {
                 vm.crudObjects.periodTypes.push({
-                  objectDisplayName: abxPeriodTypeModel.getObjectsDisplayNames([result[i]])[0],
+                  objectDisplayName: pmPeriodTypeModel.getObjectsDisplayNames([result[i]])[0],
                   id: result[i].PeriodType.id,
                   frontEndAcl: {
-                    update: abxAcl.isAllowedManageCrudObject(result[i].PeriodType, 'update'),
-                    delete: abxAcl.isAllowedManageCrudObject(result[i].PeriodType, 'delete')
+                    update: pmAcl.isAllowedManageCrudObject(result[i].PeriodType, 'update'),
+                    delete: pmAcl.isAllowedManageCrudObject(result[i].PeriodType, 'delete')
                   }
                 });
               }
@@ -165,11 +165,11 @@
               _backObjects.timetableContainers = result;
               for (var i = 0, length = result.length; i < length; i++) {
                 vm.crudObjects.timetableContainers.push({
-                  objectDisplayName: abxTimetableContainerModel.getObjectsDisplayNames([result[i]])[0],
+                  objectDisplayName: pmTimetableContainerModel.getObjectsDisplayNames([result[i]])[0],
                   id: result[i].TimetableContainer.id,
                   frontEndAcl: {
-                    update: abxAcl.isAllowedManageCrudObject(result[i].TimetableContainer, 'update'),
-                    delete: abxAcl.isAllowedManageCrudObject(result[i].TimetableContainer, 'delete')
+                    update: pmAcl.isAllowedManageCrudObject(result[i].TimetableContainer, 'update'),
+                    delete: pmAcl.isAllowedManageCrudObject(result[i].TimetableContainer, 'delete')
                   }
                 });
               }
@@ -183,11 +183,11 @@
               _backObjects.alternatingWeeks = result;
               for (var i = 0, length = result.length; i < length; i++) {
                 vm.crudObjects.alternatingWeeks.push({
-                  objectDisplayName: abxAlternatingWeeksModel.getObjectsDisplayNames([result[i]])[0],
+                  objectDisplayName: pmAlternatingWeeksModel.getObjectsDisplayNames([result[i]])[0],
                   id: result[i].AlternatingWeeks.id,
                   frontEndAcl: {
-                    update: abxAcl.isAllowedManageCrudObject(result[i].AlternatingWeeks, 'update'),
-                    delete: abxAcl.isAllowedManageCrudObject(result[i].AlternatingWeeks, 'delete')
+                    update: pmAcl.isAllowedManageCrudObject(result[i].AlternatingWeeks, 'update'),
+                    delete: pmAcl.isAllowedManageCrudObject(result[i].AlternatingWeeks, 'delete')
                   }
                 });
               }
@@ -224,8 +224,8 @@
      * @return {void} 
      */
     var _delete = function (crudObject, ids) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "_delete", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "_delete", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "_delete"});
       if (_isDeleting) {
         return;
@@ -237,12 +237,12 @@
             backObjects,
             backCrudObjectName,
             crudObjectsList = [],
-            abxModel,
+            pmModel,
             reloadCrudObject = {};
         _isDeleting = true;
         switch (crudObject) {
           case "periodType":
-            abxModel = abxPeriodTypeModel;
+            pmModel = pmPeriodTypeModel;
             backObjects = _backObjects.periodTypes;
             backCrudObjectName = 'PeriodType';
             optionsDelete.textContent = {
@@ -265,7 +265,7 @@
             };
             break;
           case "timetableContainer":
-            abxModel = abxTimetableContainerModel;
+            pmModel = pmTimetableContainerModel;
             backObjects = _backObjects.timetableContainers;
             backCrudObjectName = 'TimetableContainer';
             optionsDelete.textContent = {
@@ -288,7 +288,7 @@
             };
             break;
           case "alternatingWeeks":
-            abxModel = abxAlternatingWeeksModel;
+            pmModel = pmAlternatingWeeksModel;
             backObjects = _backObjects.alternatingWeeks;
             backCrudObjectName = 'AlternatingWeeks';
             optionsDelete.textContent = {
@@ -322,24 +322,24 @@
             crudObjectsList.push(backObjects[i]);
           }
         }
-        optionsDelete.objectsDisplayNames = abxModel.getObjectsDisplayNames(crudObjectsList);
+        optionsDelete.objectsDisplayNames = pmModel.getObjectsDisplayNames(crudObjectsList);
         // dialog de confirmation
-        abxFlashMessage.showDeleteConfirm(optionsDelete)
+        pmFlashMessage.showDeleteConfirm(optionsDelete)
             .then(function () {
 
-              abxFlashMessage.showWait();
+              pmFlashMessage.showWait();
               // DELETE
               var deleteOptions = {
                 schoolYearId: _backObjects.schoolYear.SchoolYear.id,
                 ids: ids
               };
-              abxModel.delete(deleteOptions)
+              pmModel.delete(deleteOptions)
                   .then(function (response) {
 
                     var errorList = [];
                     for (var i = 0, length = response.length; i < length; i++) {
                       if (response[i].result !== undefined) {
-                        abxLog.error({message: "Erreur de suppression de " + backCrudObjectName + ". Objet d'erreur={{response}}",
+                        pmLog.error({message: "Erreur de suppression de " + backCrudObjectName + ". Objet d'erreur={{response}}",
                           params: {response: response[i]}, tag: "error", object: componentName, method: "_delete"});
                         errorList.push(ids[i]);
                       }
@@ -347,12 +347,12 @@
 
                     // succès
                     if (errorList.length === 0) {
-                      abxFlashMessage.showSuccess((ids.length === 1 ? optionsDeleteResult.success.singular : optionsDeleteResult.success.plural) + " avec succès");
+                      pmFlashMessage.showSuccess((ids.length === 1 ? optionsDeleteResult.success.singular : optionsDeleteResult.success.plural) + " avec succès");
                       // erreur
                     } else {
                       var objectsDisplayNames = {};
                       for (var i = 0, length = backObjects.length; i < length; i++) {
-                        objectsDisplayNames[backObjects[i][backCrudObjectName].id] = abxModel.getObjectsDisplayNames([backObjects[i]])[0];
+                        objectsDisplayNames[backObjects[i][backCrudObjectName].id] = pmModel.getObjectsDisplayNames([backObjects[i]])[0];
                       }
                       var textContent = (errorList.length === 1 ? optionsDeleteResult.error.singular : optionsDeleteResult.error.plural) + "&nbsp;:<ul>";
                       for (var i = 0, length = errorList.length; i < length; i++) {
@@ -363,11 +363,11 @@
                         errorMessage: textContent,
                         adviceMessage: "Vous pouvez réessayer ou signaler cet incident."
                       };
-                      abxFlashMessage.showError(options);
+                      pmFlashMessage.showError(options);
                     }
 
                     // rechargement des données
-                    abxModel[reloadCrudObject.method].apply(null, reloadCrudObject.params)
+                    pmModel[reloadCrudObject.method].apply(null, reloadCrudObject.params)
                         .then(function (result) {
                           _populateViewModel(crudObject, result);
                           _isDeleting = false;
@@ -376,16 +376,16 @@
             })
             .catch(function (e) {
               _isDeleting = false;
-              abxFlashMessage.showCancel();
+              pmFlashMessage.showCancel();
             });
       } catch (e) {
-        abxLog.error({message: "Erreur lors de l'envoi de l'objet au back. Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: "Erreur lors de l'envoi de l'objet au back. Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "_delete"});
         var options = {
           errorMessage: "La suppresion a échoué.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(options);
+        pmFlashMessage.showError(options);
         _isDeleting = false;
       }
 
@@ -460,8 +460,8 @@
      * @return {void} 
      */
     vm.menus = function (crudObject, action, ids) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.menus", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.menus", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.menus"});
       if (action === "delete") {
         _delete(crudObject, ids);
@@ -479,7 +479,7 @@
           };
         }
 
-        abxRouter.navigate(['Admin.settings.' + crudObject, params]);
+        pmRouter.navigate(['Admin.settings.' + crudObject, params]);
 
       }
 
@@ -496,21 +496,21 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function (nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
-      _this.abxAppController.vm.setModule('admin.settings');
+      _this.pmAppController.vm.setModule('admin.settings');
 
 
       try {
         // récupération des données
         var concatRequests = [
-          {modelMethod: abxYearContainerModel.readCurrent, options: {}},
-          {modelMethod: abxSchoolYearModel.readCurrent, options: {forceBackRead: true}},
-          {modelMethod: abxSchoolYearModel.readAll, options: {forceBackRead: true}}
+          {modelMethod: pmYearContainerModel.readCurrent, options: {}},
+          {modelMethod: pmSchoolYearModel.readCurrent, options: {forceBackRead: true}},
+          {modelMethod: pmSchoolYearModel.readAll, options: {forceBackRead: true}}
         ];
-        abxModelManager.addConcatRequest(concatRequests)
+        pmModelManager.addConcatRequest(concatRequests)
             .then(function (response) {
 
               var yearContainerResult = response[0],
@@ -520,7 +520,7 @@
 
               // YearContainer    
               // erreur ou abscence de YearContainer
-              if (abxModelManager.checkYearContainer(yearContainerResult) === false) {
+              if (pmModelManager.checkYearContainer(yearContainerResult) === false) {
                 return;
               }
               _backObjects.yearContainer = yearContainerResult.YearContainer;
@@ -530,23 +530,23 @@
               if (schoolYearResult !== undefined && (schoolYearResult.result !== undefined
                   || schoolYearResult.SchoolYear === undefined)) {
 
-                abxLog.error({message: "Erreur lors de la récupération du schoolYear.", tag: "error", object: componentName, method: "$routerOnActivate"});
+                pmLog.error({message: "Erreur lors de la récupération du schoolYear.", tag: "error", object: componentName, method: "$routerOnActivate"});
                 var options = {
                   errorMessage: "Erreur lors de la récupération de l'année scolaire. Vous ne pouvez pas paramétrer l'établissement.",
                   adviceMessage: "Vous pouvez réessayer ou signaler cet incident.",
                   errorObject: schoolYearResult
                 };
-                abxFlashMessage.showError(options);
-                abxRouter.navigate(['Core.home']);
+                pmFlashMessage.showError(options);
+                pmRouter.navigate(['Core.home']);
                 return;
               }
 
               _backObjects.schoolYear = schoolYearResult;
-              vm.isAllowedManageCrudObjects.schoolYear.read = abxAcl.isAllowedManageCrudObject('schoolYear', 'read');
+              vm.isAllowedManageCrudObjects.schoolYear.read = pmAcl.isAllowedManageCrudObject('schoolYear', 'read');
               // pas de schoolYear
               if (schoolYearResult === undefined) {
-                abxLog.debug({message: "SchoolYear inexistant.", object: componentName, method: "$routerOnActivate", tag: "settings"});
-                vm.isAllowedManageCrudObjects.schoolYear.create = abxAcl.isAllowedManageCrudObject('schoolYear', 'create');
+                pmLog.debug({message: "SchoolYear inexistant.", object: componentName, method: "$routerOnActivate", tag: "settings"});
+                vm.isAllowedManageCrudObjects.schoolYear.create = pmAcl.isAllowedManageCrudObject('schoolYear', 'create');
                 // pas de schoolYear : le seul paramétrage possible est le schoolYear, donc return
                 vm.canDisplayView = true;
                 return;
@@ -555,11 +555,11 @@
 
               //affectation du schoolYear et des acl
               vm.crudObjects.schoolYear.push({
-                objectDisplayName: abxSchoolYearModel.getObjectsDisplayNames([_backObjects.schoolYear])[0],
+                objectDisplayName: pmSchoolYearModel.getObjectsDisplayNames([_backObjects.schoolYear])[0],
                 id: _backObjects.schoolYear.SchoolYear.id,
                 frontEndAcl: {
-                  update: abxAcl.isAllowedManageCrudObject(_backObjects.schoolYear.SchoolYear, 'update'),
-                  delete: abxAcl.isAllowedManageCrudObject(_backObjects.schoolYear.SchoolYear, 'delete')
+                  update: pmAcl.isAllowedManageCrudObject(_backObjects.schoolYear.SchoolYear, 'update'),
+                  delete: pmAcl.isAllowedManageCrudObject(_backObjects.schoolYear.SchoolYear, 'delete')
                 }
               });
               vm.isAllowedManageCrudObjects.schoolYear.create = false;
@@ -573,11 +573,11 @@
 
                 //affectation du schoolYear de l'année précédente
                 vm.crudObjects.previousSchoolYear.push({
-                  objectDisplayName: abxSchoolYearModel.getObjectsDisplayNames([_backObjects.previousSchoolYear])[0],
+                  objectDisplayName: pmSchoolYearModel.getObjectsDisplayNames([_backObjects.previousSchoolYear])[0],
                   id: _backObjects.previousSchoolYear.SchoolYear.id,
                   frontEndAcl: {
-                    update: abxAcl.isAllowedManageCrudObject(_backObjects.previousSchoolYear.SchoolYear, 'update'),
-                    delete: abxAcl.isAllowedManageCrudObject(_backObjects.previousSchoolYear.SchoolYear, 'delete')
+                    update: pmAcl.isAllowedManageCrudObject(_backObjects.previousSchoolYear.SchoolYear, 'update'),
+                    delete: pmAcl.isAllowedManageCrudObject(_backObjects.previousSchoolYear.SchoolYear, 'delete')
                   }
                 });
               }
@@ -586,28 +586,28 @@
               var concatRequests = [],
                   requestMapping = [];
               // periodTypes
-              if (abxAcl.isAllowedManageCrudObject('periodType', 'read')) {
-                concatRequests.push({modelMethod: abxPeriodTypeModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.schoolYear.SchoolYear.id}});
+              if (pmAcl.isAllowedManageCrudObject('periodType', 'read')) {
+                concatRequests.push({modelMethod: pmPeriodTypeModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.schoolYear.SchoolYear.id}});
                 requestMapping.push('periodType');
               }
               //timetableContainer
-              if (abxAcl.isAllowedManageCrudObject('timetableContainer', 'read')) {
-                concatRequests.push({modelMethod: abxTimetableContainerModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.schoolYear.SchoolYear.id}});
+              if (pmAcl.isAllowedManageCrudObject('timetableContainer', 'read')) {
+                concatRequests.push({modelMethod: pmTimetableContainerModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.schoolYear.SchoolYear.id}});
                 requestMapping.push('timetableContainer');
                 //Si le SchoolYear de l'année précédente existe, on récupère les TimetableContainers
                 if (_backObjects.previousSchoolYear.SchoolYear !== undefined) {
-                  concatRequests.push({modelMethod: abxTimetableContainerModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.previousSchoolYear.SchoolYear.id}});
+                  concatRequests.push({modelMethod: pmTimetableContainerModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.previousSchoolYear.SchoolYear.id}});
                   requestMapping.push('previousTimetableContainer');
                 }
               }
-              if (abxAcl.isAllowedManageCrudObject('alternatingWeeks', 'read')) {
-                concatRequests.push({modelMethod: abxAlternatingWeeksModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.schoolYear.SchoolYear.id}});
+              if (pmAcl.isAllowedManageCrudObject('alternatingWeeks', 'read')) {
+                concatRequests.push({modelMethod: pmAlternatingWeeksModel.readBySchoolYearId, options: {forceBackRead: true, schoolYearId: _backObjects.schoolYear.SchoolYear.id}});
                 requestMapping.push('alternatingWeeks');
               }
               // TODO ajouter les autres paramétrages
 
               if (concatRequests.length > 0) {
-                abxModelManager.addConcatRequest(concatRequests)
+                pmModelManager.addConcatRequest(concatRequests)
                     .then(function (response) {
                       // periodTypes
                       if (requestMapping.indexOf('periodType') > -1) {
@@ -615,7 +615,7 @@
                         // affectation des periodTypes et des acl
                         vm.isAllowedManageCrudObjects.periodType = {
                           read: true,
-                          create: abxAcl.isAllowedManageCrudObject('periodType', 'create')
+                          create: pmAcl.isAllowedManageCrudObject('periodType', 'create')
                         };
                         _populateViewModel('periodType', periodTypeResult);
                       }
@@ -626,7 +626,7 @@
                         // affectation des timetableContainer et des acl
                         vm.isAllowedManageCrudObjects.timetableContainer = {
                           read: true,
-                          create: abxAcl.isAllowedManageCrudObject('timetableContainer', 'create')
+                          create: pmAcl.isAllowedManageCrudObject('timetableContainer', 'create')
                         };
                         _populateViewModel('timetableContainer', timetableContainerResult);
                       }
@@ -636,7 +636,7 @@
                         // affectation des periodTypes et des acl
                         vm.isAllowedManageCrudObjects.alternatingWeeks = {
                           read: true,
-                          create: abxAcl.isAllowedManageCrudObject('alternatingWeeks', 'create')
+                          create: pmAcl.isAllowedManageCrudObject('alternatingWeeks', 'create')
                         };
                         _populateViewModel('alternatingWeeks', alternatingWeeksResult);
                       }
@@ -651,11 +651,11 @@
                           for (var i = 0, length = previousTimetableContainerResult.length; i < length; i++) {
 
                             vm.crudObjects.previousTimetableContainers.push({
-                              objectDisplayName: abxTimetableContainerModel.getObjectsDisplayNames([previousTimetableContainerResult[i]])[0],
+                              objectDisplayName: pmTimetableContainerModel.getObjectsDisplayNames([previousTimetableContainerResult[i]])[0],
                               id: previousTimetableContainerResult[i].TimetableContainer.id,
                               frontEndAcl: {
-                                update: abxAcl.isAllowedManageCrudObject(previousTimetableContainerResult[i].TimetableContainer, 'update'),
-                                delete: abxAcl.isAllowedManageCrudObject(previousTimetableContainerResult[i].TimetableContainer, 'delete')
+                                update: pmAcl.isAllowedManageCrudObject(previousTimetableContainerResult[i].TimetableContainer, 'update'),
+                                delete: pmAcl.isAllowedManageCrudObject(previousTimetableContainerResult[i].TimetableContainer, 'delete')
                               }
                             });
                           }
@@ -670,15 +670,15 @@
             });
       } catch (e) {
         var errorMessage = "Erreur lors de la récupération des données.";
-        abxLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "$routerOnActivate"});
         var options = {
           errorMessage: errorMessage,
           adviceMessage: "Vous ne pouvez pas visualiser les données de cette page.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(options);
-        abxRouter.navigate(['Core.home']);
+        pmFlashMessage.showError(options);
+        pmRouter.navigate(['Core.home']);
       }
     }
     ;

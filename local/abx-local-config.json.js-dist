@@ -6,13 +6,13 @@
  * @author     Steve Van Wassenhoven (steve.vw@ac-bordeaux.fr)
  * @copyright  Copyright (c) 2014-2016, DSI de l'académie de Bordeaux (ce.dsi@ac-bordeaux.fr) - Tous droits réservés
  * @license    http://www.gnu.org/licenses/gpl.html  GNU/GPL License 3.0
- * @version    $Id: abx-local-config.json.js-dist 694 2016-03-17 16:55:02Z vguede $
+ * @version    $Id: pm-local-config.json.js-dist 694 2016-03-17 16:55:02Z vguede $
  */
 
 'use strict';
 
 // variable globale volontaire pour que la config soit utilisable dans toute l'application
-window.abxLocalConfig = {
+window.pmLocalConfig = {
   // base de la navigation
   // pour https://ent2d.ac-bordeaux.fr/isa/, indiquer '/isa/'
   // {string}

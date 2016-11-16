@@ -16,21 +16,21 @@
 
   'use strict';
 
-  var objectName = 'abx.common.classRolePermissionModel';
+  var objectName = 'pm.common.classRolePermissionModel';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$q',
-        'abx.common.logService',
-        'abx.common.cacheBackManagerService',
+        'pm.common.logService',
+        'pm.common.cacheBackManagerService',
         function(
             $q,
-            abxLog,
-            abxCacheBackManager
+            pmLog,
+            pmCacheBackManager
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -62,12 +62,12 @@
              * @return {object} Promise
              */
             readBySchoolYearId: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "readBySchoolYearId", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "readBySchoolYearId", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "readBySchoolYearId"});
 
               if (options === undefined || options.schoolYearId === undefined) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. options={{{optionsType}}}{{options}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. options={{{optionsType}}}{{options}}",
                   params: {options: options, optionsType: typeof options}, tag: "params", object: objectName, method: "readbySchoolYearId"});
                 throw new Error();
               }
@@ -85,7 +85,7 @@
                     ]
                   };
 
-              abxCacheBackManager.read(request)
+              pmCacheBackManager.read(request)
                   .then(function(response) {
                     deferred.resolve(response.result);
                   })
@@ -116,8 +116,8 @@
              * @return {object} Promise
              */
             create: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "create", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "create", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "create"});
 
               var requests = [];
@@ -143,7 +143,7 @@
                 requests: requests
               };
 
-              return abxCacheBackManager.createUpdateDelete(request);
+              return pmCacheBackManager.createUpdateDelete(request);
             },
             /*
              * Interdit l'accès à ISA
@@ -164,8 +164,8 @@
              * @return {object} Promise
              */
             delete: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "delete"});
 
               var requests = [];
@@ -188,7 +188,7 @@
                 requests: requests
               };
 
-              return abxCacheBackManager.createUpdateDelete(request);
+              return pmCacheBackManager.createUpdateDelete(request);
             }
             
 

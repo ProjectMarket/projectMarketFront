@@ -1,7 +1,7 @@
 describe('Test School Filter', function () {
     var $filter;
 
-    beforeEach(module('abx.commonModule'));
+    beforeEach(module('pm.commonModule'));
 
     beforeEach(inject(function (_$filter_) {
         $filter = _$filter_;
@@ -10,7 +10,7 @@ describe('Test School Filter', function () {
     it('return undefined - cause school empty', function () {
         var school = {};
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('undefined - ');
     });
@@ -23,7 +23,7 @@ describe('Test School Filter', function () {
             uai: "uai"
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('uai - ');
     });
@@ -36,7 +36,7 @@ describe('Test School Filter', function () {
             uai: "uai"
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('uai - ');
     });
@@ -49,7 +49,7 @@ describe('Test School Filter', function () {
             uai: "uai"
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('uai - ');
     });
@@ -62,7 +62,7 @@ describe('Test School Filter', function () {
             uai: "uai"
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('uai - ');
     });
@@ -75,7 +75,7 @@ describe('Test School Filter', function () {
             uai: "uai"
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('uai - ');
     });
@@ -88,7 +88,7 @@ describe('Test School Filter', function () {
             uai: "uai"
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('uai - ');
     });
@@ -102,7 +102,7 @@ describe('Test School Filter', function () {
 
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('uai - string ');
     });
@@ -116,7 +116,7 @@ describe('Test School Filter', function () {
 
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual(' - string ');
     });
@@ -129,7 +129,7 @@ describe('Test School Filter', function () {
             uai: ""
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('La Garosse');
     });
@@ -142,7 +142,7 @@ describe('Test School Filter', function () {
             uai: ""
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('Los Angeles');
     });
@@ -155,7 +155,7 @@ describe('Test School Filter', function () {
             uai: ""
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('Collège Los Angeles');
     });
@@ -168,7 +168,7 @@ describe('Test School Filter', function () {
             uai: ""
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('Collège La Garosse');
     });
@@ -181,7 +181,7 @@ describe('Test School Filter', function () {
             uai: ""
         };
 
-        var result = $filter('abxCommonSchoolFilter');
+        var result = $filter('pmCommonSchoolFilter');
 
         expect(result(school)).toEqual('La Garosse');
     });

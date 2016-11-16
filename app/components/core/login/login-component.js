@@ -1,5 +1,5 @@
 /** 
- * Component abx.core.loginComponent
+ * Component pm.core.loginComponent
  * Choix du login en mode développement
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
@@ -18,37 +18,37 @@
   'use strict';
 
   // nom des objets
-  var componentName = 'abx.core.loginComponent';
+  var componentName = 'pm.core.loginComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.coreModule')
+      .module('pm.components.coreModule')
       .component(componentName, {
         $canActivate: [
-          'abx.common.configService',
-          'abx.common.routerService',
+          'pm.common.configService',
+          'pm.common.routerService',
           function(
-              abxConfig,
-              abxRouter
+              pmConfig,
+              pmRouter
               ) {
             // accès interdit si on n'est pas en développement
-            var config = abxConfig.get();
+            var config = pmConfig.get();
             if (config.isDevelopment !== true) {
               return false;
             }
-            return abxRouter.canActivate(componentName);
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/core/login/login-component.html',
         controller: [
-          'abx.common.logService',
-          'abx.common.configService',
-          'abx.common.routerService',
-          'abx.common.authService',
+          'pm.common.logService',
+          'pm.common.configService',
+          'pm.common.routerService',
+          'pm.common.authService',
           Controller]
       });
 
@@ -58,13 +58,13 @@
   // Controller
   //************
   function Controller(
-      abxLog,
-      abxConfig,
-      abxRouter,
-      abxAuth
+      pmLog,
+      pmConfig,
+      pmRouter,
+      pmAuth
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -76,12 +76,12 @@
     var _this = this;
 
     /*
-     * @property {object} Config locale d'Abx
+     * @property {object} Config locale d'pm
      */
-    var _config = abxConfig.get();
+    var _config = pmConfig.get();
 
     /*
-     * @property {string} Config locale d'Abx
+     * @property {string} Config locale d'pm
      */
     var _relayPath = '';
 
@@ -98,7 +98,7 @@
     /*
      * @property {boolean} l'user est-il déjà connecté ?
      */
-    vm.isConnected = abxAuth.isConnected();
+    vm.isConnected = pmAuth.isConnected();
 
     /*
      * @property {array} liste des logins des users
@@ -121,11 +121,11 @@
      * @return {void} 
      */
     vm.connect = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "connect", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "connect", tag: "methodEntry"});
       if (vm.selectedLogin === undefined) {
         return;
       }
-      abxAuth.login(vm.selectedLogin, _relayPath);
+      pmAuth.login(vm.selectedLogin, _relayPath);
     };
 
     /*
@@ -134,9 +134,9 @@
      * @return {void} 
      */
     vm.cancel = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "cancel", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "cancel", tag: "methodEntry"});
 
-      abxRouter.navigate(['Core.home']);
+      pmRouter.navigate(['Core.home']);
     };
 
 
@@ -153,18 +153,18 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function(nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
       
-      _this.abxAppController.vm.setModule('core.login');
+      _this.pmAppController.vm.setModule('core.login');
 
       vm.usersLogins = _config.auth.developementUsersLogins;
 
       try {
         _relayPath = atob(nextInstruction.params.relayPath);
       } catch (e) {
-        abxLog.debug({message: "Paramètre méthode incorrect: relayPath:{{relayPath}}",
+        pmLog.debug({message: "Paramètre méthode incorrect: relayPath:{{relayPath}}",
           params: {relayPath: nextInstruction.params.relayPath}, tag: "params", object: componentName, method: "$routerOnActivate"});
       }
     };

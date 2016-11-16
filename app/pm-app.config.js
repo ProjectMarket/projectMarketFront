@@ -1,12 +1,9 @@
 /** 
  * Config du module global
  * 
- * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
- * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
- * @author     Steve Van Wassenhoven (steve.vw@ac-bordeaux.fr)
- * @copyright  Copyright (c) 2014-2016, DSI de l'académie de Bordeaux (ce.dsi@ac-bordeaux.fr) - Tous droits réservés
- * @license    http://www.gnu.org/licenses/gpl.html  GNU/GPL License 3.0
- * @version    $Id: abx-app.config.js 617 2016-02-19 17:32:26Z vguede $
+ * @author     Romain Poussin (romain.poussin@ynov.com)
+ * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
+ * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
  */
 
 /* global angular */
@@ -17,7 +14,7 @@
   'use strict';
 
   angular
-      .module('abxApp')
+      .module('pmApp')
       .config([
         '$locationProvider',
         '$httpProvider',
@@ -39,7 +36,7 @@
           $locationProvider.html5Mode(true);
 
           // suppression du mode débug en production
-          $compileProvider.debugInfoEnabled(abxLocalConfig.isDevelopment);
+          $compileProvider.debugInfoEnabled(pmLocalConfig.isDevelopment);
 
           // ajout des credentials par défaut pour les requêtes HTTP + CORS
           $httpProvider.defaults.withCredentials = true;
@@ -49,8 +46,8 @@
           $mdIconProvider
               .defaultFontSet('mdi') // fonte Material Design Icons
               .defaultIconSet('assets/svg/isa-icons.svg') // icônes de l'application
-              .iconSet('layout', 'assets/svg/abx-layout.svg') // icônes du layout
-              .iconSet('action', 'assets/svg/abx-actions.svg'); // icônes des boutons d'action
+              .iconSet('layout', 'assets/svg/pm-layout.svg') // icônes du layout
+              .iconSet('action', 'assets/svg/pm-actions.svg'); // icônes des boutons d'action
 
           // configuration du thème par défaut
           $mdThemingProvider.theme('default')

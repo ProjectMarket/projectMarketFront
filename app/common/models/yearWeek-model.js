@@ -16,27 +16,27 @@
 
   'use strict';
 
-  var objectName = 'abx.common.yearWeekModel';
+  var objectName = 'pm.common.yearWeekModel';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$q',
-        'abx.common.logService',
-        'abx.common.cacheService',
-        'abx.common.timeService',
-        'abx.common.modelManagerService',
-        'abx.common.cacheBackManagerService',
+        'pm.common.logService',
+        'pm.common.cacheService',
+        'pm.common.timeService',
+        'pm.common.modelManagerService',
+        'pm.common.cacheBackManagerService',
         function (
             $q,
-            abxLog,
-            abxCache,
-            abxTime,
-            abxModelManager,
-            abxCacheBackManager
+            pmLog,
+            pmCache,
+            pmTime,
+            pmModelManager,
+            pmCacheBackManager
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -61,8 +61,8 @@
              * @return {array} strings
              */
             getObjectsDisplayNames: function (objects) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getObjectsDisplayNames", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getObjectsDisplayNames", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "getObjectsDisplayNames"});
               try {
                 var names = [];
@@ -73,7 +73,7 @@
                 return names;
 
               } catch (e) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. Message d'exception={{exceptionMessage}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. Message d'exception={{exceptionMessage}}",
                   params: {exceptionMessage: e.message}, tag: "error", object: objectName, method: "getObjectsDisplayNames"});
                 throw new Error(e.message);
               }
@@ -96,12 +96,12 @@
              * @return {object} Promise
              */
             createUpdate: function (options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "createUpdate", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "createUpdate", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "createUpdate"});
 
               if (options.action !== 'create' && options.action !== 'update') {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                   params: {params: arguments}, tag: "params", object: objectName, method: "createUpdate"});
                 throw new Error('Erreur de paramètres en entrée de méthode.');
               }
@@ -126,12 +126,12 @@
                 ]
               };
 
-              abxCacheBackManager.createUpdateDelete(request)
+              pmCacheBackManager.createUpdateDelete(request)
                   .then(function (response) {
                     // suppression du cache
                     
                     if (response[0].YearWeek !== undefined) {
-                      abxCache.remove('crudObjects:yearWeek', 'schoolYearId:' + options.yearWeek.schoolYearId);
+                      pmCache.remove('crudObjects:yearWeek', 'schoolYearId:' + options.yearWeek.schoolYearId);
                     }
                     deferred.resolve(response);
 
@@ -160,8 +160,8 @@
              * @return {object} Promise
              */
             delete: function (options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "delete"});
 
               var deferred = $q.defer(),
@@ -186,10 +186,10 @@
               };
 
 
-              abxCacheBackManager.createUpdateDelete(request)
+              pmCacheBackManager.createUpdateDelete(request)
                   .then(function (response) {
                     // suppression du cache
-                    abxCache.remove('crudObjects:yearWeek', 'schoolYearId:' + options.schoolYearId);
+                    pmCache.remove('crudObjects:yearWeek', 'schoolYearId:' + options.schoolYearId);
                     deferred.resolve(response);
 
                   })

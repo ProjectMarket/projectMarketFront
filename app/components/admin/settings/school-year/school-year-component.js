@@ -1,5 +1,5 @@
 /** 
- * Component abx.admin.settings.schoolYearComponent
+ * Component pm.admin.settings.schoolYearComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -16,30 +16,30 @@
 
   'use strict';
 
-  var componentName = 'abx.admin.settings.schoolYearComponent';
+  var componentName = 'pm.admin.settings.schoolYearComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.adminModule')
+      .module('pm.components.adminModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function(abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function(pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/admin/settings/school-year/school-year-component.html',
         controller: [
-          'abx.common.logService',
-          'abx.common.aclService',
-          'abx.common.flashMessageService',
-          'abx.common.routerService',
-          'abx.common.modelManagerService',
-          'abx.common.yearContainerModel',
-          'abx.common.schoolYearModel',
+          'pm.common.logService',
+          'pm.common.aclService',
+          'pm.common.flashMessageService',
+          'pm.common.routerService',
+          'pm.common.modelManagerService',
+          'pm.common.yearContainerModel',
+          'pm.common.schoolYearModel',
           Controller]
       });
 
@@ -48,16 +48,16 @@
   // Controller
   //************
   function Controller(
-      abxLog,
-      abxAcl,
-      abxFlashMessage,
-      abxRouter,
-      abxModelManager,
-      abxYearContainerModel,
-      abxSchoolYearModel
+      pmLog,
+      pmAcl,
+      pmFlashMessage,
+      pmRouter,
+      pmModelManager,
+      pmYearContainerModel,
+      pmSchoolYearModel
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -152,8 +152,8 @@
      * @return {void} 
      */
     vm.navigate = function(location) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.navigate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.navigate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.navigate"});
 
       var linkParams;
@@ -165,11 +165,11 @@
           linkParams = ['Admin.settings.schoolYear', {action: 'update', schoolYearId: _backObjects.schoolYear.SchoolYear.id}];
           break;
         default :
-          abxLog.error({message: "Paramètre incorrect. {{params}}",
+          pmLog.error({message: "Paramètre incorrect. {{params}}",
             params: {params: arguments}, tag: "params", object: componentName, method: "vm.navigate"});
           return;
       }
-      abxRouter.navigate(linkParams);
+      pmRouter.navigate(linkParams);
     };
 
     /*
@@ -178,10 +178,10 @@
      * @return {void} 
      */
     vm.cancel = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.cancel", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.cancel", tag: "methodEntry"});
 
-      abxFlashMessage.showCancel();
-      abxRouter.navigate(['Admin.settings.home']);
+      pmFlashMessage.showCancel();
+      pmRouter.navigate(['Admin.settings.home']);
     };
 
     /*
@@ -190,7 +190,7 @@
      * @return {void} 
      */
     vm.save = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "save", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "save", tag: "methodEntry"});
 
       // formulaire invalide
       if (!vm.ngForm.SchoolYear.$valid || vm.isSaving) {
@@ -198,7 +198,7 @@
       }
 
       try {
-        abxFlashMessage.showWait();
+        pmFlashMessage.showWait();
         vm.isSaving = true;
 
         var formSchoolYear = {
@@ -210,21 +210,21 @@
           }
         };
 
-        abxSchoolYearModel.createUpdate(formSchoolYear)
+        pmSchoolYearModel.createUpdate(formSchoolYear)
             .then(function(response) {
               // succès
               if (response[0].SchoolYear !== undefined) {
                 var textContent = "L'année scolaire a été "
                     + (_formAction === 'create' ? "créée" : "modifiée")
                     + " avec succès.";
-                abxFlashMessage.showSuccess(textContent);
-                abxRouter.navigate(['Admin.settings.home']);
+                pmFlashMessage.showSuccess(textContent);
+                pmRouter.navigate(['Admin.settings.home']);
                 return;
               }
 
               // erreur
-              abxLog.debug({message: "Erreur lors de l'enregistrement du schoolYear.", tag: "save", object: componentName, method: "vm.save"});
-              vm.ngForm.SchoolYear.abxFormBackApplyErrors(response[0],
+              pmLog.debug({message: "Erreur lors de l'enregistrement du schoolYear.", tag: "save", object: componentName, method: "vm.save"});
+              vm.ngForm.SchoolYear.pmFormBackApplyErrors(response[0],
                   {redirectLinkParams: ['Admin.settings.home'],
                     errorMessage: "L'année scolaire que vous essayez de modifier n'existe pas."});
 
@@ -232,14 +232,14 @@
 
             });
       } catch (e) {
-        abxLog.error({message: "Erreur lors de l'envoi de l'objet au back. Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: "Erreur lors de l'envoi de l'objet au back. Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "save"});
 
         var options = {
           errorMessage: "La " + (_formAction === 'create' ? "création" : "modification") + " de l'année scolaire a échoué.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(options);
+        pmFlashMessage.showError(options);
         vm.isSaving = false;
       }
     };
@@ -257,11 +257,11 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function(nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
       
-      _this.abxAppController.vm.setModule('admin.settings');
+      _this.pmAppController.vm.setModule('admin.settings');
 
       try {
         // validation des paramètres
@@ -269,7 +269,7 @@
 
         // validation :action
         if (["create", "read", "update"].indexOf(routeParams.action) < 0) {
-          abxRouter.navigateToErrorPage('404', 'params');
+          pmRouter.navigateToErrorPage('404', 'params');
           return;
         }
 
@@ -277,9 +277,9 @@
         var schoolYearId = parseInt(routeParams.schoolYearId);
         if (isNaN(schoolYearId)) {
           if (routeParams.action !== 'create') {
-            abxLog.info({message: "SchoolYearId incorrect. action={{action}}|schoolYearId={{schoolYearId}}",
+            pmLog.info({message: "SchoolYearId incorrect. action={{action}}|schoolYearId={{schoolYearId}}",
               params: {action: routeParams.action, schoolYearId: routeParams.schoolYearId}, tag: "$routeParams", object: componentName, method: "$routerOnActivate"});
-            abxRouter.navigateToErrorPage('404', 'params');
+            pmRouter.navigateToErrorPage('404', 'params');
             return;
           } else {
             schoolYearId = undefined;
@@ -288,9 +288,9 @@
         routeParams.schoolYearId = schoolYearId;
 
         // récupération des données + validation
-        abxModelManager.addConcatRequest([
-          {modelMethod: abxYearContainerModel.readCurrent, options: {forceBackRead: true}},
-          {modelMethod: abxSchoolYearModel.readCurrent, options: {forceBackRead: true}}
+        pmModelManager.addConcatRequest([
+          {modelMethod: pmYearContainerModel.readCurrent, options: {forceBackRead: true}},
+          {modelMethod: pmSchoolYearModel.readCurrent, options: {forceBackRead: true}}
         ])
             .then(function(response) {
 
@@ -298,15 +298,15 @@
                   schoolYearResult = response[1];
 
               // erreur ou abscence de YearContainer
-              if (abxModelManager.checkYearContainer(yearContainerResult) === false) {
+              if (pmModelManager.checkYearContainer(yearContainerResult) === false) {
                 return;
               }
 
               // CREATE
               if (routeParams.action === 'create' && schoolYearResult === undefined) {
                 // vérification des ACL
-                if (!abxAcl.isAllowedManageCrudObject('SCHOOLYEAR', 'create')) {
-                  abxRouter.navigateToErrorPage('acl', 'forbidden');
+                if (!pmAcl.isAllowedManageCrudObject('SCHOOLYEAR', 'create')) {
+                  pmRouter.navigateToErrorPage('acl', 'forbidden');
                   return;
                 }
                 _formAction = 'create';
@@ -323,19 +323,19 @@
                     errorMessage: "Une année scolaire existe déjà.",
                     adviceMessage: "Vous pouvez modifier cette année scolaire."
                   };
-                  abxFlashMessage.showError(options);
+                  pmFlashMessage.showError(options);
                 }
 
 
                 // vérification des ACL
                 if (routeParams.action === 'read') {
-                  if (!abxAcl.isAllowedManageCrudObject('SchoolYear', 'read')) {
-                    abxRouter.navigateToErrorPage('acl', 'forbidden');
+                  if (!pmAcl.isAllowedManageCrudObject('SchoolYear', 'read')) {
+                    pmRouter.navigateToErrorPage('acl', 'forbidden');
                     return;
                   }
                 } else {
-                  if (!abxAcl.isAllowedManageCrudObject(schoolYearResult.SchoolYear, 'update')) {
-                    abxRouter.navigateToErrorPage('acl', 'forbidden');
+                  if (!pmAcl.isAllowedManageCrudObject(schoolYearResult.SchoolYear, 'update')) {
+                    pmRouter.navigateToErrorPage('acl', 'forbidden');
                     return;
                   }
                 }
@@ -370,10 +370,10 @@
                 // UPDATE / READ
               } else {
                 if (routeParams.action === "read") {
-                  vm.isAllowedUpdate = abxAcl.isAllowedManageCrudObject(_backObjects.schoolYear.SchoolYear, 'update');
+                  vm.isAllowedUpdate = pmAcl.isAllowedManageCrudObject(_backObjects.schoolYear.SchoolYear, 'update');
                 }
                 
-                vm.schoolYear.objectDisplayName = abxSchoolYearModel.getObjectsDisplayNames([_backObjects.schoolYear])[0];
+                vm.schoolYear.objectDisplayName = pmSchoolYearModel.getObjectsDisplayNames([_backObjects.schoolYear])[0];
                 vm.schoolYear.dateStart.value = _backObjects.schoolYear.SchoolYear.dateStart;
                 vm.schoolYear.dateEnd.value = _backObjects.schoolYear.SchoolYear.dateEnd;
               }
@@ -383,7 +383,7 @@
             });
 
       } catch (e) {
-        abxLog.error({message: "Erreur lors du $routerOnActivate. Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: "Erreur lors du $routerOnActivate. Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "$routerOnActivate"});
 
         var options = {
@@ -391,9 +391,9 @@
           adviceMessage: "Vous ne pouvez pas créer ou modifier une année scolaire.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(options);
+        pmFlashMessage.showError(options);
 
-        abxRouter.navigate(['Core.home']);
+        pmRouter.navigate(['Core.home']);
       }
 
     };

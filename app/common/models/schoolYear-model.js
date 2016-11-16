@@ -16,27 +16,27 @@
 
   'use strict';
 
-  var objectName = 'abx.common.schoolYearModel';
+  var objectName = 'pm.common.schoolYearModel';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$q',
-        'abx.common.logService',
-        'abx.common.userService',
-        'abx.common.cacheBackManagerService',
-        'abx.common.cacheService',
-        'abx.common.timeService',
+        'pm.common.logService',
+        'pm.common.userService',
+        'pm.common.cacheBackManagerService',
+        'pm.common.cacheService',
+        'pm.common.timeService',
         function (
             $q,
-            abxLog,
-            abxUser,
-            abxCacheBackManager,
-            abxCache,
-            abxTime
+            pmLog,
+            pmUser,
+            pmCacheBackManager,
+            pmCache,
+            pmTime
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -62,8 +62,8 @@
              */
             getObjectsDisplayNames: function (objects) {
 
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getObjectsDisplayNames", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getObjectsDisplayNames", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "getObjectsDisplayNames"});
 
               try {
@@ -74,7 +74,7 @@
                 return names;
 
               } catch (e) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. Message d'exception={{exceptionMessage}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. Message d'exception={{exceptionMessage}}",
                   params: {exceptionMessage: e.message}, tag: "error", object: objectName, method: "getObjectsDisplayNames"});
                 throw new Error(e.message);
               }
@@ -93,8 +93,8 @@
              * @return {object} Promise
              */
             readCurrent: function (options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "readCurrent", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "readCurrent", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "readCurrent"});
 
               if (options === undefined) {
@@ -121,12 +121,12 @@
                   };
 
 
-              abxCacheBackManager.read(request)
+              pmCacheBackManager.read(request)
                   .then(function (response) {
                     if (response.isFromBack === true && response.result !== undefined && response.result.SchoolYear !== undefined) {
-                      response.result.SchoolYear.dateStart = abxTime.convertDateFromBackToDate(response.result.SchoolYear.dateStart);
-                      response.result.SchoolYear.dateEnd = abxTime.convertDateFromBackToDate(response.result.SchoolYear.dateEnd);
-                      abxCache.put('crudObjects:schoolYear', 'current', response.result);
+                      response.result.SchoolYear.dateStart = pmTime.convertDateFromBackToDate(response.result.SchoolYear.dateStart);
+                      response.result.SchoolYear.dateEnd = pmTime.convertDateFromBackToDate(response.result.SchoolYear.dateEnd);
+                      pmCache.put('crudObjects:schoolYear', 'current', response.result);
                     }
                     deferred.resolve(response.result);
                   })
@@ -150,8 +150,8 @@
              * @return {object} Promise
              */
             readAll: function (options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "readAll", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "readAll", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "readAll"});
 
               if (options === undefined) {
@@ -170,7 +170,7 @@
                           isForbiddenPutInCache: true
                         },
                         request: {
-                          searchCriteria: [abxUser.getSelectedSchoolId()],
+                          searchCriteria: [pmUser.getSelectedSchoolId()],
                           query: 'SELECT_SCHOOLYEARS_BY_SCHOOLID'
                         }
                       }
@@ -178,15 +178,15 @@
                   };
 
 
-              abxCacheBackManager.read(request)
+              pmCacheBackManager.read(request)
                   .then(function (response) {
 
                     for (var i = 0, length = response.result.length; i < length; i++) {
                       if (response.isFromBack === true && response.result[i] !== undefined && response.result[i].SchoolYear !== undefined) {
 
-                        response.result[i].SchoolYear.dateStart = abxTime.convertDateFromBackToDate(response.result[i].SchoolYear.dateStart);
-                        response.result[i].SchoolYear.dateEnd = abxTime.convertDateFromBackToDate(response.result[i].SchoolYear.dateEnd);
-                        abxCache.put('crudObjects:schoolYear', 'current', response.result[i]);
+                        response.result[i].SchoolYear.dateStart = pmTime.convertDateFromBackToDate(response.result[i].SchoolYear.dateStart);
+                        response.result[i].SchoolYear.dateEnd = pmTime.convertDateFromBackToDate(response.result[i].SchoolYear.dateEnd);
+                        pmCache.put('crudObjects:schoolYear', 'current', response.result[i]);
                       }
                     }
                     deferred.resolve(response.result);
@@ -217,12 +217,12 @@
              * @return {object} Promise
              */
             createUpdate: function (options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "createUpdate", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "createUpdate", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "createUpdate"});
 
               if (options.action !== 'create' && options.action !== 'update') {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. arguments={{params}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. arguments={{params}}",
                   params: {params: arguments}, tag: "params", object: objectName, method: "createUpdate"});
                 throw new Error('Erreur de paramètres en entrée de méthode.');
               }
@@ -238,16 +238,16 @@
                     },
                     object: {
                       SchoolYear: {
-                        schoolId: abxUser.getSelectedSchoolId(),
-                        dateStart: abxTime.convertDateFromDateToBack(options.schoolYear.dateStart),
-                        dateEnd: abxTime.convertDateFromDateToBack(options.schoolYear.dateEnd),
+                        schoolId: pmUser.getSelectedSchoolId(),
+                        dateStart: pmTime.convertDateFromDateToBack(options.schoolYear.dateStart),
+                        dateEnd: pmTime.convertDateFromDateToBack(options.schoolYear.dateEnd),
                         id: options.schoolYear.id
                       }
                     }
                   }
                 ]
               };
-              return abxCacheBackManager.createUpdateDelete(request);
+              return pmCacheBackManager.createUpdateDelete(request);
             }
           };
 

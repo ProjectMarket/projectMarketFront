@@ -16,27 +16,27 @@
 
   'use strict';
 
-  var objectName = 'abx.common.flashMessageService';
+  var objectName = 'pm.common.flashMessageService';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$mdToast',
         '$mdDialog',
         '$mdMedia',
         '$q',
-        'abx.common.logService',
-        'abx.common.userService',
+        'pm.common.logService',
+        'pm.common.userService',
         function(
             $mdToast,
             $mdDialog,
             $mdMedia,
             $q,
-            abxLog,
-            abxUser
+            pmLog,
+            pmUser
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -64,8 +64,8 @@
              * @return {object} $mdToast
              */
             showSuccess: function(textContent) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "showSuccess", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "showSuccess", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "showSuccess"});
 
               $mdDialog.hide()
@@ -106,8 +106,8 @@
              * @return {object} $mdDialog
              */
             showError: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "showError", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "showError", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "showError"});
 
               $mdToast.hide()
@@ -151,7 +151,7 @@
                           vm.errorMessage = options.errorMessage;
                           vm.adviceMessage = options.adviceMessage;
                           vm.technicalInfo = technicalInfo;
-                          vm.userSex = abxUser.getUserSex();
+                          vm.userSex = pmUser.getUserSex();
 
                           vm.closeDialog = function() {
                             $mdDialog.hide();
@@ -171,8 +171,8 @@
              * @return {object} $mdToast
              */
             showValidationError: function(textContent) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "showValidationError", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "showValidationError", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "showValidationError"});
 
               $mdDialog.hide()
@@ -215,15 +215,15 @@
              * @return {object} Promise
              */
             showDeleteConfirm: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "showDeleteConfirm", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "showDeleteConfirm", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "showDeleteConfirm"});
 
 
               // validation des paramètres
               if (options === undefined || typeof options.textContent !== 'object'
                   || !angular.isArray(options.objectsDisplayNames) || options.objectsDisplayNames.length === 0) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. Paramètres méthode : options={{options}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. Paramètres méthode : options={{options}}",
                   params: {options: options}, tag: "params", object: objectName, method: "showDeleteConfirm"});
                 throw new Error('Erreur de paramètres en entrée de méthode.');
               }
@@ -251,7 +251,7 @@
                           var vm = this.vm = {};
                           vm.textContent = textContent;
                           vm.objectsDisplayNames = options.objectsDisplayNames;
-                          vm.userSex = abxUser.getUserSex();
+                          vm.userSex = pmUser.getUserSex();
 
                           vm.cancel = function() {
                             $mdDialog.hide();
@@ -275,14 +275,14 @@
              * @return {object} Promise
              */
             showWarningConfirm: function(textContent) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "showWarningConfirm", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "showWarningConfirm", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "showWarningConfirm"});
 
 
               // validation des paramètres
               if (textContent === undefined) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. Paramètres méthode : {{params}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. Paramètres méthode : {{params}}",
                   params: {params: arguments}, tag: "params", object: objectName, method: "showWarningConfirm"});
                 throw new Error('Erreur de paramètres en entrée de méthode.');
               }
@@ -325,8 +325,8 @@
              * @return {object} $mdToast
              */
             showCancel: function(textContent) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "showCancel", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "showCancel", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "showCancel"});
 
               $mdDialog.hide()
@@ -360,8 +360,8 @@
              * @return {object} $mdToast
              */
             showWait: function(textContent) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "showWait", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "showWait", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "showWait"});
 
               $mdDialog.hide()
@@ -395,8 +395,8 @@
              * @return {object} $mdDialog
              */
             showHelp: function(textContent) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "showHelp", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "showHelp", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "showHelp"});
 
               var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'));
@@ -427,8 +427,8 @@
              * @return {object} $mdDialog
              */
             showInfo: function(textContent) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "showInfo", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "showInfo", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "showInfo"});
 
               var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'));
@@ -463,14 +463,14 @@
              * @return {object} Promise
              */
             showCustomDialog: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "showCustomDialog", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "showCustomDialog", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "showCustomDialog"});
 
 
               // validation des paramètres
               if (options === undefined) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. Paramètres méthode : {{params}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. Paramètres méthode : {{params}}",
                   params: {params: arguments}, tag: "params", object: objectName, method: "showCustomDialog"});
                 throw new Error('Erreur de paramètres en entrée de méthode.');
               }

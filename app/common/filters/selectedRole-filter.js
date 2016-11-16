@@ -16,8 +16,8 @@
 
   'use strict';
   angular
-      .module('abx.commonModule')
-      .filter('abxCommonSelectedRoleFilter',
+      .module('pm.commonModule')
+      .filter('pmCommonSelectedRoleFilter',
           [
             function (
                 ) {

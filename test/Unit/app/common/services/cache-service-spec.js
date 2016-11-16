@@ -2,15 +2,15 @@ describe('Test Cache Service', function () {
     var interval, logService, configService, cronService, momentService, factory;
 
     beforeEach(function () {
-        module('abx.commonModule');
+        module('pm.commonModule');
 
         inject(function ($injector) {
             interval = $injector.get('$interval');
-            configService = $injector.get('abx.common.configService');
-            cronService = $injector.get('abx.common.cronService');
-            momentService = $injector.get('abx.common.momentService');
-            logService = $injector.get('abx.common.logService');
-            factory = $injector.get('abx.common.cacheService');
+            configService = $injector.get('pm.common.configService');
+            cronService = $injector.get('pm.common.cronService');
+            momentService = $injector.get('pm.common.momentService');
+            logService = $injector.get('pm.common.logService');
+            factory = $injector.get('pm.common.cacheService');
         });
     });
 

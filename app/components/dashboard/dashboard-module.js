@@ -1,5 +1,5 @@
 /** 
- * Module abx.components.dashboard
+ * Module pm.components.dashboard
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -17,7 +17,7 @@
   'use strict';
 
   angular
-      .module('abx.components.dashboardModule', [
+      .module('pm.components.dashboardModule', [
       ]);
 
 // fin IIFE

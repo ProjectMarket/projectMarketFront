@@ -19,7 +19,7 @@
   var objectName = '$exceptionHandler';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$injector',
         function(
@@ -31,14 +31,14 @@
           //********************
           return function(exception, cause) {
             console.error(exception, cause);
-            var abxLog = $injector.get('abx.common.logService'),
-                abxRouter = $injector.get('abx.common.routerService');
+            var pmLog = $injector.get('pm.common.logService'),
+                pmRouter = $injector.get('pm.common.routerService');
 
             // log
-            abxLog.critical({message: exception, tag: objectName, object: cause || 'unknown'});
+            pmLog.critical({message: exception, tag: objectName, object: cause || 'unknown'});
 
             // redirection vers la page d'erreur
-            abxRouter.navigateToErrorPage('global', 'fatal');
+            pmRouter.navigateToErrorPage('global', 'fatal');
           };
 
         }]

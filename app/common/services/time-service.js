@@ -1,12 +1,9 @@
 /** 
  * Service de gestion des temps et des durées
  * 
- * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
- * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
- * @author     Steve Van Wassenhoven (steve.vw@ac-bordeaux.fr)
- * @copyright  Copyright (c) 2014-2016, DSI de l'académie de Bordeaux (ce.dsi@ac-bordeaux.fr) - Tous droits réservés
- * @license    http://www.gnu.org/licenses/gpl.html  GNU/GPL License 3.0
- * @version    $Id: time-service.js 578 2016-02-16 15:45:21Z vguede $
+ * @author     Romain Poussin (romain.poussin@ynov.com)
+ * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
+ * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
  */
 
 /* global moment */
@@ -16,10 +13,10 @@
 
   'use strict';
 
-  var objectName = 'abx.common.timeService';
+  var objectName = 'pm.common.timeService';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$injector',
         function(
@@ -30,9 +27,9 @@
           // Propriétés privées
           //********************
           /*
-           * @property {object} abx.common.logService
+           * @property {object} pm.common.logService
            */
-          var _abxLog;
+          var _pmLog;
 
 
           //********************
@@ -40,16 +37,16 @@
           //********************
 
           /*
-           * Renvoie abx.common.logService
+           * Renvoie pm.common.logService
            * 
-           * @return {object} abx.common.logService
+           * @return {object} pm.common.logService
            */
-          var _getAbxLog = function() {
-            if (_abxLog === undefined) {
+          var _getpmLog = function() {
+            if (_pmLog === undefined) {
               // injection pour éviter des références circulaires
-              _abxLog = $injector.get('abx.common.logService');
+              _pmLog = $injector.get('pm.common.logService');
             }
-            return _abxLog;
+            return _pmLog;
           };
           
 
@@ -81,7 +78,7 @@
                 }
                 throw new Error('Format de date invalide');
               } catch (e) {
-                _getAbxLog().error({message: "Format de date invalide : backDate={{backDate}}",
+                _getpmLog().error({message: "Format de date invalide : backDate={{backDate}}",
                   params: {backDate: backDate}, tag: "params", object: objectName, method: "convertDateFromBackToDate"});
                 throw new Error(e.message);
               }
@@ -104,7 +101,7 @@
                 }
                 throw new Error('Format de date invalide');
               } catch (e) {
-                _getAbxLog().error({message: "Format de date invalide : date={{date}}",
+                _getpmLog().error({message: "Format de date invalide : date={{date}}",
                   params: {date: date}, tag: "params", object: objectName, method: "convertDateFromDateToBack"});
                 throw new Error(e.message);
               }
@@ -123,7 +120,7 @@
                 }
                 return (dayOfWeek === 7 ? 0 : dayOfWeek);
               } catch (e) {
-                _getAbxLog().error({message: "DayOfWeek invalide : dayOfWeek={{dayOfWeek}}",
+                _getpmLog().error({message: "DayOfWeek invalide : dayOfWeek={{dayOfWeek}}",
                   params: {dayOfWeek: dayOfWeek}, tag: "params", object: objectName, method: "convertDayOfWeekFromBackToFront"});
                 throw new Error(e.message);
               }
@@ -142,7 +139,7 @@
                 }
                 return (dayOfWeek === 0 ? 7 : dayOfWeek);
               } catch (e) {
-                _getAbxLog().error({message: "DayOfWeek invalide : dayOfWeek={{dayOfWeek}}",
+                _getpmLog().error({message: "DayOfWeek invalide : dayOfWeek={{dayOfWeek}}",
                   params: {dayOfWeek: dayOfWeek}, tag: "params", object: objectName, method: "convertDayOfWeekFromFrontToBack"});
                 throw new Error(e.message);
               }

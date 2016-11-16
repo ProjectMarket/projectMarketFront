@@ -16,12 +16,12 @@
 
   'use strict';
   angular
-      .module('abx.commonModule')
-      .filter('abxCommonDatetimeFilter',
+      .module('pm.commonModule')
+      .filter('pmCommonDatetimeFilter',
           [
-            'abx.common.timeService',
+            'pm.common.timeService',
             function(
-                abxTime
+                pmTime
                 ) {
 
               /*
@@ -35,19 +35,19 @@
                 }
                 switch (format) {
                   case 'shortDate':
-                    return abxTime.moment(date).format('L');
+                    return pmTime.moment(date).format('L');
                     break;
                   case 'longDate':
-                    return abxTime.moment(date).format('dddd L');
+                    return pmTime.moment(date).format('dddd L');
                     break;
                   case 'shortDateTime':
-                    return (abxTime.moment(date).format('L') + ' ' + abxTime.moment(date).format('LTS'));
+                    return (pmTime.moment(date).format('L') + ' ' + pmTime.moment(date).format('LTS'));
                     break;
                   case 'timestamp':
-                    return abxTime.moment(date).unix();
+                    return pmTime.moment(date).unix();
                     break;
                   case 'longDayOfWeek':
-                    return abxTime.moment.weekdays()[date];
+                    return pmTime.moment.weekdays()[date];
                     break;
                 }
                 

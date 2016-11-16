@@ -1,5 +1,5 @@
 /** 
- * Component abx.core.homeComponent
+ * Component pm.core.homeComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -17,24 +17,24 @@
   'use strict';
 
   // nom des objets
-  var componentName = 'abx.core.homeComponent';
+  var componentName = 'pm.core.homeComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.coreModule')
+      .module('pm.components.coreModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function(abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function(pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/core/home/home-component.html',
         controller: [
-          'abx.common.logService',
+          'pm.common.logService',
           Controller]
       });
 
@@ -43,10 +43,10 @@
   // Controller
   //************
   function Controller(
-      abxLog
+      pmLog
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -92,11 +92,11 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function (nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
-      _this.abxAppController.vm.setModule('core.home');
+      _this.pmAppController.vm.setModule('core.home');
     };
 
   }

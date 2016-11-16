@@ -16,33 +16,33 @@
 
   'use strict';
 
-  var objectName = 'abx.common.routerService';
+  var objectName = 'pm.common.routerService';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$window',
         '$q',
         '$rootRouter',
         '$injector',
         '$timeout',
-        'abx.common.configService',
-        'abx.common.cookieService',
-        'abx.common.logService',
-        'abx.common.componentService',
+        'pm.common.configService',
+        'pm.common.cookieService',
+        'pm.common.logService',
+        'pm.common.componentService',
         function(
             $window,
             $q,
             $rootRouter,
             $injector,
             $timeout,
-            abxConfig,
-            abxCookie,
-            abxLog,
-            abxComponent
+            pmConfig,
+            pmCookie,
+            pmLog,
+            pmComponent
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -50,17 +50,17 @@
           /*
            * @property {object} Config
            */
-          var _config = abxConfig.get();
+          var _config = pmConfig.get();
 
           /*
-           * @property {object} abx.common.authService
+           * @property {object} pm.common.authService
            */
-          var _abxAuth;
+          var _pmAuth;
 
           /*
-           * @property {object} abx.common.aclService
+           * @property {object} pm.common.aclService
            */
-          var _abxAcl;
+          var _pmAcl;
 
           /*
            * @property {object} accès uniquement en interne
@@ -78,26 +78,26 @@
           //********************
 
           /*
-           * Renvoie abx.common.authService
+           * Renvoie pm.common.authService
            * 
-           * @return {object} abx.common.authService
+           * @return {object} pm.common.authService
            */
-          var _getAbxAuth = function() {
-            if (_abxAuth === undefined) {
-              _abxAuth = $injector.get('abx.common.authService');
+          var _getpmAuth = function() {
+            if (_pmAuth === undefined) {
+              _pmAuth = $injector.get('pm.common.authService');
             }
-            return _abxAuth;
+            return _pmAuth;
           };
           /*
-           * Renvoie abx.common.aclService
+           * Renvoie pm.common.aclService
            * 
-           * @return {object} abx.common.aclService
+           * @return {object} pm.common.aclService
            */
-          var _getAbxAcl = function() {
-            if (_abxAcl === undefined) {
-              _abxAcl = $injector.get('abx.common.aclService');
+          var _getpmAcl = function() {
+            if (_pmAcl === undefined) {
+              _pmAcl = $injector.get('pm.common.aclService');
             }
-            return _abxAcl;
+            return _pmAcl;
           };
 
 
@@ -113,8 +113,8 @@
              * @return {object} Promise
              */
             canActivate: function(component) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "canActivate", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "canActivate", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "canActivate"});
 
               var deferred = $q.defer(),
@@ -123,7 +123,7 @@
               $q.when()
                   .then(function() {
                     try {
-                      return abxComponent.getComponentSecurityConfig(component);
+                      return pmComponent.getComponentSecurityConfig(component);
                     } catch (e) {
                       _factory.navigateToErrorPage('acl', 'configError');
                       return $q.reject();
@@ -135,18 +135,18 @@
                     // authentification
                     // pas d'authentification quand le component n'est pas protégé
                     if (componentSecurityConfig.isProtected === false) {
-                      abxLog.trace({message: "Componant {{component}} non protégé.",
+                      pmLog.trace({message: "Componant {{component}} non protégé.",
                         params: {component: component}, tag: "$canActivate", object: objectName, method: "canActivate"});
                       return $q.when();
                     }
 
-                    var abxAuth = _getAbxAuth();
-                    return abxAuth.connect();
+                    var pmAuth = _getpmAuth();
+                    return pmAuth.connect();
                   })
                   .then(function() {
                     // procédure d'autorisation (ACL)
-                    var abxAcl = _getAbxAcl();
-                    return abxAcl.isAllowedAccessToComponent(component);
+                    var pmAcl = _getpmAcl();
+                    return pmAcl.isAllowedAccessToComponent(component);
 
                   })
                   .then(function(aclResult) {
@@ -160,11 +160,11 @@
 
                   })
                   .then(function() {
-                    abxLog.trace({message: "Navigation autorisée par $canActivate.", tag: "$canActivate", object: objectName, method: "canActivate"});
+                    pmLog.trace({message: "Navigation autorisée par $canActivate.", tag: "$canActivate", object: objectName, method: "canActivate"});
                     deferred.resolve(true);
                   })
                   .catch(function() {
-                    abxLog.info({message: "Navigation interdite par $canActivate.", tag: "$canActivate", object: objectName, method: "canActivate"});
+                    pmLog.info({message: "Navigation interdite par $canActivate.", tag: "$canActivate", object: objectName, method: "canActivate"});
                     deferred.resolve(false);
                   });
 
@@ -178,10 +178,10 @@
              * @return {void}
              */
             setLastRequestedUrl: function(linkParam) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "setLastRequestedUrl", tag: "methodEntry"});
-              abxLog.info({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "setLastRequestedUrl", tag: "methodEntry"});
+              pmLog.info({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "setLastRequestedUrl"});
-              $rootRouter.abxLastRequestedUrl = _factory.getUrlByLinkParams(linkParam);
+              $rootRouter.pmLastRequestedUrl = _factory.getUrlByLinkParams(linkParam);
             },
             /*
              * Renvoie l'url demandée
@@ -189,9 +189,9 @@
              * @return {string}
              */
             getLastRequestedUrl: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getLastRequestedUrl", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getLastRequestedUrl", tag: "methodEntry"});
               
-              var url = $rootRouter.abxLastRequestedUrl || $rootRouter.lastNavigationAttempt;
+              var url = $rootRouter.pmLastRequestedUrl || $rootRouter.lastNavigationAttempt;
               return url !== '/logout' ? url : '/home';
             },
             /*
@@ -201,8 +201,8 @@
              * @return {string}
              */
             getUrlByLinkParams: function(linkParams) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getUrlByLinkParams", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getUrlByLinkParams", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "getUrlByLinkParams"});
 
               return angular.stringifyInstruction($rootRouter.generate(linkParams));
@@ -217,8 +217,8 @@
               if (_hasPendingRedirect) {
                 return;
               }
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "navigate", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "navigate", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "navigate"});
 
               // FIXME supprimer le timeout une fois le bug templateUrl corrigé
@@ -237,8 +237,8 @@
                 return;
               }
 
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "navigateByUrl", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "navigateByUrl", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "navigateByUrl"});
 
               // FIXME supprimer le timeout une fois le bug templateUrl corrigé
@@ -256,7 +256,7 @@
                 return;
               }
 
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "renavigate", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "renavigate", tag: "methodEntry"});
               
               // FIXME supprimer le timeout une fois le bug templateUrl corrigé
               $timeout(function() {
@@ -276,8 +276,8 @@
                 return;
               }
 
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "navigateToErrorPage", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "navigateToErrorPage", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "navigateToErrorPage"});
 
               _internalAccess = {
@@ -301,13 +301,13 @@
               // interdit une navigation ultérieure
               _hasPendingRedirect = true;
 
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "destroySessionAndRedirectHTTP", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "destroySessionAndRedirectHTTP", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "destroySessionAndRedirectHTTP"});
 
-              abxCookie.clean();
+              pmCookie.clean();
               if (withInternalAccess === true || withInternalAccess === undefined) {
-                abxCookie.put('internalAccessOnly', linkParams);
+                pmCookie.put('internalAccessOnly', linkParams);
               }
 
               $window.location.href = _config.baseHref + angular.stringifyInstruction($rootRouter.generate(linkParams));
@@ -320,8 +320,8 @@
              * @return {boolean}
              */
             checkInternalAccess: function(type, code) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "checkInternalAccess", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "checkInternalAccess", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "checkInternalAccess"});
 
               var internalAccess = _internalAccess;
@@ -329,34 +329,34 @@
               _internalAccess = {};
 
               if (type === undefined || code === undefined) {
-                abxLog.info({message: "Accès refusé lors du checkInternalAccess : type et/ou code sont undefined.",
+                pmLog.info({message: "Accès refusé lors du checkInternalAccess : type et/ou code sont undefined.",
                   tag: "internalAccess", object: objectName, method: "checkInternalAccess"});
                 return false;
               }
 
               if (internalAccess.type === type && internalAccess.code === code) {
-                abxLog.debug({message: "Accès autorisé lors du checkInternalAccess.",
+                pmLog.debug({message: "Accès autorisé lors du checkInternalAccess.",
                   tag: "internalAccess", object: objectName, method: "checkInternalAccess"});
                 return true;
               }
 
               // pas de données en mémoire => vérification en cookie
-              var internalAccessOnlyCookie = abxCookie.get('internalAccessOnly');
-              abxCookie.remove('internalAccessOnly');
+              var internalAccessOnlyCookie = pmCookie.get('internalAccessOnly');
+              pmCookie.remove('internalAccessOnly');
               if (internalAccessOnlyCookie === undefined) {
-                abxLog.info({message: "Accès refusé lors du checkInternalAccess : le cookie n'est pas valorisé.",
+                pmLog.info({message: "Accès refusé lors du checkInternalAccess : le cookie n'est pas valorisé.",
                   tag: "internalAccess", object: objectName, method: "checkInternalAccess"});
                 return false;
               }
               // on parse le linkParams jusqu'à trouver le tableau de paramètres qui le fait bien
               for (var i = 0; i < internalAccessOnlyCookie.length; i++) {
                 if (internalAccessOnlyCookie[i].type === type && internalAccessOnlyCookie[i].code === code) {
-                  abxLog.debug({message: "Accès autorisé lors du checkInternalAccess.",
+                  pmLog.debug({message: "Accès autorisé lors du checkInternalAccess.",
                     tag: "internalAccess", object: objectName, method: "checkInternalAccess"});
                   return true;
                 }
               }
-              abxLog.info({message: "Accès refusé lors du checkInternalAccess : type et/ou code ne correspondent pas à ceux du cookie.",
+              pmLog.info({message: "Accès refusé lors du checkInternalAccess : type et/ou code ne correspondent pas à ceux du cookie.",
                 tag: "internalAccess", object: objectName, method: "checkInternalAccess"});
               return false;
             }

@@ -68,7 +68,7 @@
     @if $ext == 'svg' {
       $hash: "#" + $file;
     }
-    $url: '#{$abx-fonts-path}#{$family}/#{$file}.#{$ext}?v=#{$version}' + $hash;
+    $url: '#{$pm-fonts-path}#{$family}/#{$file}.#{$ext}?v=#{$version}' + $hash;
     $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
     $src: append($src, url(quote($url)) format(quote($format)), comma);
   }

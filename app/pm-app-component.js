@@ -1,12 +1,9 @@
 /** 
- * Composant principal
+ * Component principal
  * 
- * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
- * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
- * @author     Steve Van Wassenhoven (steve.vw@ac-bordeaux.fr)
- * @copyright  Copyright (c) 2014-2016, DSI de l'académie de Bordeaux (ce.dsi@ac-bordeaux.fr) - Tous droits réservés
- * @license    http://www.gnu.org/licenses/gpl.html  GNU/GPL License 3.0
- * @version    $Id: abx-app-component.js 724 2016-04-01 14:57:55Z zvergne $
+ * @author     Romain Poussin (romain.poussin@ynov.com)
+ * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
+ * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
  */
 
 /* global angular */
@@ -16,42 +13,42 @@
 
     'use strict';
 
-    var componentName = 'abx.appComponent';
+    var componentName = 'pm.appComponent';
 
     angular
-            .module('abxApp')
+            .module('pmApp')
             .component(componentName, {
                 $routeConfig: [
-                    {path: '/', component: 'abx.core.homeComponent', name: 'Core.home'},
-                    {path: '/home', component: 'abx.core.homeComponent', name: 'Core.home'},
-                    {path: '/index', component: 'abx.core.indexComponent', name: 'Core.index'},
-                    {path: '/login-result/:result/:relayPath', component: 'abx.core.loginResultComponent', name: 'Core.loginResult'},
-                    {path: '/profile', component: 'abx.core.profileComponent', name: 'Core.profile'},
-                    {path: '/login/:relayPath', component: 'abx.core.loginComponent', name: 'Core.login'},
-                    {path: '/logout', component: 'abx.core.logoutComponent', name: 'Core.logout'},
-                    {path: '/error/:type/:code', component: 'abx.core.errorComponent', name: 'Core.error'},
-                    {path: '/admin/settings/home', component: 'abx.admin.settings.homeComponent', name: 'Admin.settings.home'},
-                    {path: '/admin/settings/school-year/:action/:schoolYearId', component: 'abx.admin.settings.schoolYearComponent', name: 'Admin.settings.schoolYear'},
-                    {path: '/admin/settings/period-type/:action/:periodTypeId', component: 'abx.admin.settings.periodTypeComponent', name: 'Admin.settings.periodType'},
-                    {path: '/admin/settings/timetable-container/:action/:timetableContainerId', component: 'abx.admin.settings.timetableContainerComponent', name: 'Admin.settings.timetableContainer'},
-                    {path: '/admin/permissions', component: 'abx.admin.permissionsComponent', name: 'Admin.permissions'},
-                    {path: '/help', component: 'abx.core.helpComponent', name: 'Core.help'},
-                    {path: '/admin/roles', component: 'abx.admin.userSchoolRolesComponent', name: 'Admin.userSchoolRoles'},
-                    {path: '/admin/settings/alternating-weeks/:action/:alternatingWeeksId', component: 'abx.admin.settings.alternatingWeeksComponent', name: 'Admin.settings.alternatingWeeks'},
-                    {path: '/core/404', component: 'abx.core.404Component', name: 'Core.404'},
-                    {path: '/admin/settings/year-week/:alternatingWeeksId', component: 'abx.admin.settings.yearWeekComponent', name: 'Admin.settings.yearWeek'},
-                    {path: '/**', component: 'abx.core.homeComponent', name: 'Core.home'}
+//                    {path: '/', component: 'pm.core.homeComponent', name: 'Core.home'},
+//                    {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
+//                    {path: '/index', component: 'pm.core.indexComponent', name: 'Core.index'},
+//                    {path: '/login-result/:result/:relayPath', component: 'pm.core.loginResultComponent', name: 'Core.loginResult'},
+//                    {path: '/profile', component: 'pm.core.profileComponent', name: 'Core.profile'},
+//                    {path: '/login/:relayPath', component: 'pm.core.loginComponent', name: 'Core.login'},
+//                    {path: '/logout', component: 'pm.core.logoutComponent', name: 'Core.logout'},
+//                    {path: '/error/:type/:code', component: 'pm.core.errorComponent', name: 'Core.error'},
+//                    {path: '/admin/settings/home', component: 'pm.admin.settings.homeComponent', name: 'Admin.settings.home'},
+//                    {path: '/admin/settings/school-year/:action/:schoolYearId', component: 'pm.admin.settings.schoolYearComponent', name: 'Admin.settings.schoolYear'},
+//                    {path: '/admin/settings/period-type/:action/:periodTypeId', component: 'pm.admin.settings.periodTypeComponent', name: 'Admin.settings.periodType'},
+//                    {path: '/admin/settings/timetable-container/:action/:timetableContainerId', component: 'pm.admin.settings.timetableContainerComponent', name: 'Admin.settings.timetableContainer'},
+//                    {path: '/admin/permissions', component: 'pm.admin.permissionsComponent', name: 'Admin.permissions'},
+//                    {path: '/help', component: 'pm.core.helpComponent', name: 'Core.help'},
+//                    {path: '/admin/roles', component: 'pm.admin.userSchoolRolesComponent', name: 'Admin.userSchoolRoles'},
+//                    {path: '/admin/settings/alternating-weeks/:action/:alternatingWeeksId', component: 'pm.admin.settings.alternatingWeeksComponent', name: 'Admin.settings.alternatingWeeks'},
+//                    {path: '/core/404', component: 'pm.core.404Component', name: 'Core.404'},
+//                    {path: '/admin/settings/year-week/:alternatingWeeksId', component: 'pm.admin.settings.yearWeekComponent', name: 'Admin.settings.yearWeek'},
+//                    {path: '/**', component: 'pm.core.homeComponent', name: 'Core.home'}
                 ],
-                $canActivate: ['abx.common.routerService',
-                    function (abxRouter) {
-                        return abxRouter.canActivate(componentName);
+                $canActivate: ['pm.common.routerService',
+                    function (pmRouter) {
+                        return pmRouter.canActivate(componentName);
                     }],
-                templateUrl: "app/abx-app.html",
+                templateUrl: "app/pm-app.html",
                 controller: [
-                    'abx.common.logService',
-                    'abx.common.authService',
-                    'abx.common.aclService',
-                    'abx.common.configService',
+                    'pm.common.logService',
+                    'pm.common.authService',
+                    'pm.common.aclService',
+                    'pm.common.configService',
                     '$scope',
                     '$rootScope',
                     '$mdConstant',
@@ -65,10 +62,10 @@
     // Controller
     //************
     function Controller(
-            abxLog,
-            abxAuth,
-            abxAcl,
-            abxConfig,
+            pmLog,
+            pmAuth,
+            pmAcl,
+            pmConfig,
             $scope,
             $rootScope,
             $mdConstant,
@@ -76,7 +73,7 @@
             $mdMedia
             ) {
 
-        abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+        pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
         //********************
         // Propriétés privées
@@ -88,9 +85,9 @@
         var _this = this;
 
         /*
-         * @property {object} Config locale d'Abx
+         * @property {object} Config locale d'pm
          */
-        var _config = abxConfig.get();
+        var _config = pmConfig.get();
 
         //******************
         // Méthodes privées
@@ -103,14 +100,14 @@
          */
         var _setIsAllowedAccessToComponents = function () {
             var componentsList = [
-                'abx.core.homeComponent',
-                'abx.admin.settings.homeComponent',
-                'abx.admin.permissionsComponent',
-                'abx.admin.userSchoolRolesComponent'
+                'pm.core.homeComponent',
+                'pm.admin.settings.homeComponent',
+                'pm.admin.permissionsComponent',
+                'pm.admin.userSchoolRolesComponent'
             ];
 
             for (var i = 0, length = componentsList.length; i < length; i++) {
-                vm.isAllowedAccessToComponents[componentsList[i]] = abxAcl.isAllowedAccessToComponent(componentsList[i]);
+                vm.isAllowedAccessToComponents[componentsList[i]] = pmAcl.isAllowedAccessToComponent(componentsList[i]);
             }
         };
 
@@ -127,7 +124,7 @@
         /*
          * @property {boolean} l'utilisateur est-il connecté ?
          */
-        vm.isConnected = abxAuth.isConnected();
+        vm.isConnected = pmAuth.isConnected();
 
         /*
          * @property {object} liste des ACL d'accès aux composants pour le menu latéral
@@ -140,9 +137,9 @@
         vm.selectedModule = '';
 
         /*
-         * @property {object} ajout de abxMedia dans le scope
+         * @property {object} ajout de pmMedia dans le scope
          */
-        vm.abxMedia = $rootScope.abxMedia;
+        vm.pmMedia = $rootScope.pmMedia;
 
         /*
          * @property {boolean} afficher la barre média ?
@@ -161,8 +158,8 @@
          * @return {void} 
          */
         vm.setModule = function (module) {
-            abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.setModule", tag: "methodEntry"});
-            abxLog.debug({message: "Paramètres méthode : {{params}}",
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.setModule", tag: "methodEntry"});
+            pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "vm.setModule"});
             vm.selectedModule = module;
         };
@@ -175,13 +172,13 @@
 
         // méthodes permettant d'afficher dans la vue les caractéristiques actuelles du média
         vm.mediaSize = function () {
-            return vm.abxMedia.size;
+            return vm.pmMedia.size;
         };
         vm.mediaQuery = function () {
-            return $mdConstant.MEDIA[vm.abxMedia.size];
+            return $mdConstant.MEDIA[vm.pmMedia.size];
         };
         vm.mediaClass = function () {
-            return vm.abxMedia.getClass().join(' ');
+            return vm.pmMedia.getClass().join(' ');
         };
 
 
@@ -190,19 +187,19 @@
         //************
 
         // Mise en place d'un « listener » pour mettre à jour l'état de connexion de l'utilisateur
-        $scope.$on('abx.common.authService:userConnected', function () {
+        $scope.$on('pm.common.authService:userConnected', function () {
             vm.isConnected = true;
         });
-        $scope.$on('abx.common.authService:userDisconnected', function () {
+        $scope.$on('pm.common.authService:userDisconnected', function () {
             vm.isConnected = false;
         });
         // réinitialisation des ACL
-        $scope.$on('abx.common.aclService:aclLoaded', function () {
+        $scope.$on('pm.common.aclService:aclLoaded', function () {
             _setIsAllowedAccessToComponents();
         });
 
-        // création dans le rootScope de l'objet abxMedia donnant les caractéristiques actuelles de l'affichage
-        $scope.abxMedia = $rootScope.abxMedia = {
+        // création dans le rootScope de l'objet pmMedia donnant les caractéristiques actuelles de l'affichage
+        $scope.pmMedia = $rootScope.pmMedia = {
             size: '',
             breakpoints: [],
             orientation: '',
@@ -241,8 +238,8 @@
                     return {size: size, breakpoints: breakpoints, orientation: orientation};
                 },
                 function (newValue, oldValue, scope) {
-                    // un changement d'affichage a eu lieu, on met à jour les propriétés de abxMedia
-                    angular.extend($rootScope.abxMedia, newValue);
+                    // un changement d'affichage a eu lieu, on met à jour les propriétés de pmMedia
+                    angular.extend($rootScope.pmMedia, newValue);
                 },
                 true
                 );
@@ -259,7 +256,7 @@
          * @return {void} 
          */
         _this.$routerOnActivate = function (nextInstruction, prevInstruction) {
-            abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
 
             _setIsAllowedAccessToComponents();
         };

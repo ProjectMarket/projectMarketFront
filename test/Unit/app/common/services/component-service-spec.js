@@ -3,14 +3,14 @@ describe('Test Component Service', function () {
     ;
 
     beforeEach(function () {
-        module('abx.commonModule');
+        module('pm.commonModule');
 
         inject(function ($injector, _$rootScope_) {
             $rootScope = _$rootScope_;
             q = $injector.get('$q');
-            componentsSecurityValue = $injector.get('abx.common.componentsSecurityValue');
-            logService = $injector.get('abx.common.logService');
-            factory = $injector.get('abx.common.componentService');
+            componentsSecurityValue = $injector.get('pm.common.componentsSecurityValue');
+            logService = $injector.get('pm.common.logService');
+            factory = $injector.get('pm.common.componentService');
         });
     });
 
@@ -44,7 +44,7 @@ describe('Test Component Service', function () {
         });
         it('function getComponentSecurityConfig check if fonction return object', function () {
 
-            var promise = factory.getComponentSecurityConfig("abx.core.homeComponent");
+            var promise = factory.getComponentSecurityConfig("pm.core.homeComponent");
             promise.then(function (value) {
 
                 expect(angular.isObject(value)).toBe(true);
@@ -57,7 +57,7 @@ describe('Test Component Service', function () {
         });
         it('function getComponentSecurityConfig check if (isProtected) and (crudOjects) are defined in the promise', function () {
 
-            var promise = factory.getComponentSecurityConfig("abx.core.homeComponent");
+            var promise = factory.getComponentSecurityConfig("pm.core.homeComponent");
             promise.then(function (value) {
 
                 expect(angular.isDefined(value.isProtected)).toBe(true);
@@ -72,7 +72,7 @@ describe('Test Component Service', function () {
 
         it('function getComponentSecurityConfig is resolved if (Component.isProtected) is boolean and (Component.crudObjet) is array ', function () {
 
-            var promise = factory.getComponentSecurityConfig("abx.core.homeComponent");
+            var promise = factory.getComponentSecurityConfig("pm.core.homeComponent");
 
             var resolved = false;
 

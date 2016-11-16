@@ -1,5 +1,5 @@
 /** 
- * Module pm.commonModule
+ * Affectation des values sur le module global
  * 
  * @author     Romain Poussin (romain.poussin@ynov.com)
  * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
@@ -14,9 +14,8 @@
   'use strict';
 
   angular
-      .module('pm.commonModule', [
-        'ngCookies'
-      ]);
+      .module('pmApp')
+      .value('$routerRootComponent', 'pm.appComponent');
 
 // fin IIFE
 })();

@@ -1,95 +1,95 @@
 <md-card ng-if="$ctrl.vm.canDisplayView && $ctrl.vm.formAction !== 'read'">
-  <abx-form name="$ctrl.vm.ngForm.SchoolYear" ng-submit="$ctrl.vm.save()" class="md-padding" layout-margin>
+  <pm-form name="$ctrl.vm.ngForm.SchoolYear" ng-submit="$ctrl.vm.save()" class="md-padding" layout-margin>
 
     <!-- title -->
-    <abx-form-title>
+    <pm-form-title>
       <span ng-if="$ctrl.vm.formAction === 'create'">Création de l'année scolaire</span>
       <span ng-if="$ctrl.vm.formAction === 'update'">Modification de l'année scolaire</span>
-      <abx-help>
+      <pm-help>
         <p>L'année scolaire permet de faciliter la saisie de séances récurrentes dans l'agenda.</p>
         <p>On pourra indiquer par exemple qu'un cours a lieu jusqu'à la fin de l'année scolaire.</p>
         <p><strong>L'année scolaire est obligatoire pour utiliser Isa.</strong></p>
-      </abx-help>
-    </abx-form-title>
+      </pm-help>
+    </pm-form-title>
     <!-- back -->
-    <div ng-messages="$ctrl.vm.ngForm.SchoolYear.abxFormBackValidation.errors" ng-messages-multiple class="abx-form-back-validation-messages" >
+    <div ng-messages="$ctrl.vm.ngForm.SchoolYear.pmFormBackValidation.errors" ng-messages-multiple class="pm-form-back-validation-messages" >
       <div ng-message="chronological-order-dates">Les dates de début et de fin de l'année scolaire doivent être dans l'ordre chronologique.</div>
       <div ng-message="new-schoolyear-in-conflict">Une année scolaire existe déjà pour votre établissement. Vous ne pouvez pas en créer de nouvelle.</div>
-      <div ng-messages-include="abx-back-validation-messages"></div>
+      <div ng-messages-include="pm-back-validation-messages"></div>
     </div>
     <!-- dateStart -->
     <md-datepicker name="dateStart" ng-model="$ctrl.vm.schoolYear.dateStart.value" 
-                   required md-min-date="$ctrl.vm.schoolYear.dateStart.minDate" md-max-date="$ctrl.vm.schoolYear.dateStart.maxDate" abx-form-validate-back
+                   required md-min-date="$ctrl.vm.schoolYear.dateStart.minDate" md-max-date="$ctrl.vm.schoolYear.dateStart.maxDate" pm-form-validate-back
                    md-placeholder="Début" layout="row" flex>
     </md-datepicker>
-    <abx-form-field-example>01/09/2016, 04/09/2017...</abx-form-field-example>
+    <pm-form-field-example>01/09/2016, 04/09/2017...</pm-form-field-example>
 
-    <div class="abx-form-front-validation-messages" ng-messages="$ctrl.vm.ngForm.SchoolYear.dateStart.$error" ng-messages-multiple>
+    <div class="pm-form-front-validation-messages" ng-messages="$ctrl.vm.ngForm.SchoolYear.dateStart.$error" ng-messages-multiple>
       <div ng-message="required">La date de début de l'année scolaire est obligatoire.</div>
-      <div ng-message="mindate">La date de début de l'année scolaire doit être égale ou ultérieure au {{$ctrl.vm.schoolYear.dateStart.minDate| abxCommonDatetimeFilter:'shortDate'}}.</div>
-      <div ng-message="maxdate">La date de début de l'année scolaire doit être antérieure ou égale au {{$ctrl.vm.schoolYear.dateStart.maxDate| abxCommonDatetimeFilter:'shortDate'}}.</div>
-      <div ng-messages-include="abx-front-datetime-validation-messages"></div>
-      <div ng-messages-include="abx-front-generic-validation-messages"></div>
+      <div ng-message="mindate">La date de début de l'année scolaire doit être égale ou ultérieure au {{$ctrl.vm.schoolYear.dateStart.minDate| pmCommonDatetimeFilter:'shortDate'}}.</div>
+      <div ng-message="maxdate">La date de début de l'année scolaire doit être antérieure ou égale au {{$ctrl.vm.schoolYear.dateStart.maxDate| pmCommonDatetimeFilter:'shortDate'}}.</div>
+      <div ng-messages-include="pm-front-datetime-validation-messages"></div>
+      <div ng-messages-include="pm-front-generic-validation-messages"></div>
     </div>
     <!-- back -->
-    <div ng-messages="$ctrl.vm.ngForm.SchoolYear.dateStart.abxFormBackValidation.errors" ng-messages-multiple class="abx-form-back-validation-messages">
+    <div ng-messages="$ctrl.vm.ngForm.SchoolYear.dateStart.pmFormBackValidation.errors" ng-messages-multiple class="pm-form-back-validation-messages">
       <div ng-message="null">La date de début de l'année scolaire est obligatoire.</div>
       <div ng-message="date-not-included-in-current-yearcontainer">La date de début de l'année scolaire doit être comprise entre le
-        {{$ctrl.vm.ngForm.SchoolYear.dateStart.abxFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].minDate| abxCommonDatetimeFilter:'shortDate'}}
-        et le {{$ctrl.vm.ngForm.SchoolYear.dateStart.abxFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].maxDate| abxCommonDatetimeFilter:'shortDate'}}.
+        {{$ctrl.vm.ngForm.SchoolYear.dateStart.pmFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].minDate| pmCommonDatetimeFilter:'shortDate'}}
+        et le {{$ctrl.vm.ngForm.SchoolYear.dateStart.pmFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].maxDate| pmCommonDatetimeFilter:'shortDate'}}.
       </div>
-      <div ng-messages-include="abx-back-validation-messages"></div>
+      <div ng-messages-include="pm-back-validation-messages"></div>
     </div>
     <!-- dateEnd -->
     <md-datepicker name="dateEnd" ng-model="$ctrl.vm.schoolYear.dateEnd.value" 
-                   required md-min-date="$ctrl.vm.schoolYear.dateEnd.minDate" md-max-date="$ctrl.vm.schoolYear.dateEnd.maxDate" abx-form-validate-back
+                   required md-min-date="$ctrl.vm.schoolYear.dateEnd.minDate" md-max-date="$ctrl.vm.schoolYear.dateEnd.maxDate" pm-form-validate-back
                    md-placeholder="Fin" layout="row" flex>
     </md-datepicker>
-    <abx-form-field-example>01/07/2017, 04/07/2018...</abx-form-field-example>
+    <pm-form-field-example>01/07/2017, 04/07/2018...</pm-form-field-example>
 
-    <div class="abx-form-front-validation-messages" ng-messages="$ctrl.vm.ngForm.SchoolYear.dateEnd.$error" ng-messages-multiple>
+    <div class="pm-form-front-validation-messages" ng-messages="$ctrl.vm.ngForm.SchoolYear.dateEnd.$error" ng-messages-multiple>
       <div ng-message="required">La date de fin de l'année scolaire est obligatoire.</div>
-      <div ng-message="mindate">La date de fin de l'année scolaire doit être égale ou ultérieure au {{$ctrl.vm.schoolYear.dateEnd.minDate| abxCommonDatetimeFilter:'shortDate'}}.</div>
-      <div ng-message="maxdate">La date de fin de l'année scolaire doit être antérieure ou égale au {{$ctrl.vm.schoolYear.dateEnd.maxDate| abxCommonDatetimeFilter:'shortDate'}}.</div>
-      <div ng-messages-include="abx-front-datetime-validation-messages"></div>
-      <div ng-messages-include="abx-front-generic-validation-messages"></div>
+      <div ng-message="mindate">La date de fin de l'année scolaire doit être égale ou ultérieure au {{$ctrl.vm.schoolYear.dateEnd.minDate| pmCommonDatetimeFilter:'shortDate'}}.</div>
+      <div ng-message="maxdate">La date de fin de l'année scolaire doit être antérieure ou égale au {{$ctrl.vm.schoolYear.dateEnd.maxDate| pmCommonDatetimeFilter:'shortDate'}}.</div>
+      <div ng-messages-include="pm-front-datetime-validation-messages"></div>
+      <div ng-messages-include="pm-front-generic-validation-messages"></div>
     </div>
     <!-- back -->
-    <div ng-messages="$ctrl.vm.ngForm.SchoolYear.dateEnd.abxFormBackValidation.errors" ng-messages-multiple class="abx-form-back-validation-messages">
+    <div ng-messages="$ctrl.vm.ngForm.SchoolYear.dateEnd.pmFormBackValidation.errors" ng-messages-multiple class="pm-form-back-validation-messages">
       <div ng-message="null">La date de fin de l'année scolaire est obligatoire.</div>
       <div ng-message="date-not-included-in-current-yearcontainer">La date de fin de l'année scolaire doit être comprise entre le
-        {{$ctrl.vm.ngForm.SchoolYear.dateStart.abxFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].minDate| abxCommonDatetimeFilter:'shortDate'}}
-        et le {{$ctrl.vm.ngForm.SchoolYear.dateStart.abxFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].maxDate| abxCommonDatetimeFilter:'shortDate'}}.
+        {{$ctrl.vm.ngForm.SchoolYear.dateStart.pmFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].minDate| pmCommonDatetimeFilter:'shortDate'}}
+        et le {{$ctrl.vm.ngForm.SchoolYear.dateStart.pmFormBackValidation.params['date-not-included-in-current-yearcontainer'][0].maxDate| pmCommonDatetimeFilter:'shortDate'}}.
       </div>
-      <div ng-messages-include="abx-back-validation-messages"></div>
+      <div ng-messages-include="pm-back-validation-messages"></div>
     </div>
 
     <!-- toolbar -->
-    <abx-form-submit-toolbar>
-      <md-button  abx-form-submit-button
+    <pm-form-submit-toolbar>
+      <md-button  pm-form-submit-button
                   ng-click="$ctrl.vm.cancel()">
         Annuler
       </md-button>
-      <md-button abx-form-submit-button type="submit"
+      <md-button pm-form-submit-button type="submit"
                  ng-disabled="!$ctrl.vm.ngForm.SchoolYear.$valid || $ctrl.vm.isSaving" aria-label="Enregistrer">
         <span ng-if="$ctrl.vm.formAction === 'create'">Créer</span>
         <span ng-if="$ctrl.vm.formAction === 'update'">Modifier</span>
       </md-button>
-    </abx-form-submit-toolbar>
+    </pm-form-submit-toolbar>
 
-  </abx-form>
+  </pm-form>
 </md-card>
 
 
 <md-card ng-if="$ctrl.vm.canDisplayView && $ctrl.vm.formAction === 'read'" layout-margin>
-  <abx-read>
-    <abx-read-title>Affichage d'une année scolaire</abx-read-title>
+  <pm-read>
+    <pm-read-title>Affichage d'une année scolaire</pm-read-title>
 
-    <abx-read-group>
-      <abx-read-group-title>Année scolaire {{$ctrl.vm.schoolYear.objectDisplayName}}</abx-read-group-title>
-      <p>Du {{$ctrl.vm.schoolYear.dateStart.value| abxCommonDatetimeFilter:'longDate'}} au {{$ctrl.vm.schoolYear.dateEnd.value| abxCommonDatetimeFilter:'longDate'}}.</p>
-    </abx-read-group>
-    <abx-read-actions>
+    <pm-read-group>
+      <pm-read-group-title>Année scolaire {{$ctrl.vm.schoolYear.objectDisplayName}}</pm-read-group-title>
+      <p>Du {{$ctrl.vm.schoolYear.dateStart.value| pmCommonDatetimeFilter:'longDate'}} au {{$ctrl.vm.schoolYear.dateEnd.value| pmCommonDatetimeFilter:'longDate'}}.</p>
+    </pm-read-group>
+    <pm-read-actions>
       <md-button ng-click="$ctrl.vm.navigate('home')" class="md-raised">
         <md-icon md-svg-icon="action:return"></md-icon>
         Retour
@@ -98,6 +98,6 @@
         <md-icon md-svg-icon="action:update"></md-icon>
         Modifier
       </md-button>
-    </abx-read-actions>
-  </abx-read>
+    </pm-read-actions>
+  </pm-read>
 </md-card>

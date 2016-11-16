@@ -16,12 +16,12 @@
 
   'use strict';
   angular
-      .module('abx.commonModule')
-      .filter('abxCommonOrderByDatetimeFilter',
+      .module('pm.commonModule')
+      .filter('pmCommonOrderByDatetimeFilter',
           [
-            'abx.common.timeService',
+            'pm.common.timeService',
             function(
-                abxTime
+                pmTime
                 ) {
 
               /*
@@ -34,7 +34,7 @@
 
                 switch (format) {
                   case 'dayOfWeek':
-                    var firstDayOfWeek = abxTime.moment.localeData().firstDayOfWeek();
+                    var firstDayOfWeek = pmTime.moment.localeData().firstDayOfWeek();
                     
                     // le tableau en entrée doit obligatoirement être ordonné : 0 = dimanche, 1 = lundi...
                     for (var i = firstDayOfWeek; i < 7; i++) {
@@ -49,7 +49,7 @@
                     break;
                     
                   case 'dayOfWeekList':
-                    var firstDayOfWeek = abxTime.moment.localeData().firstDayOfWeek();
+                    var firstDayOfWeek = pmTime.moment.localeData().firstDayOfWeek();
                     
                     for (var i = firstDayOfWeek; i < 7; i++) {
                       if (toFilterObject.indexOf(i) >= 0) {

@@ -16,27 +16,27 @@
 
   'use strict';
 
-  var objectName = 'abx.common.periodTypeModel';
+  var objectName = 'pm.common.periodTypeModel';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$q',
-        'abx.common.logService',
-        'abx.common.cacheService',
-        'abx.common.timeService',
-        'abx.common.modelManagerService',
-        'abx.common.cacheBackManagerService',
+        'pm.common.logService',
+        'pm.common.cacheService',
+        'pm.common.timeService',
+        'pm.common.modelManagerService',
+        'pm.common.cacheBackManagerService',
         function(
             $q,
-            abxLog,
-            abxCache,
-            abxTime,
-            abxModelManager,
-            abxCacheBackManager
+            pmLog,
+            pmCache,
+            pmTime,
+            pmModelManager,
+            pmCacheBackManager
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -61,8 +61,8 @@
              * @return {array} strings
              */
             getObjectsDisplayNames: function(objects) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getObjectsDisplayNames", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getObjectsDisplayNames", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "getObjectsDisplayNames"});
 
               try {
@@ -73,7 +73,7 @@
                 return names;
 
               } catch (e) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. Message d'exception={{exceptionMessage}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. Message d'exception={{exceptionMessage}}",
                   params: {exceptionMessage: e.message}, tag: "error", object: objectName, method: "getObjectsDisplayNames"});
                 throw new Error(e.message);
               }
@@ -92,12 +92,12 @@
              * @return {object} Promise
              */
             readByPeriodTypeId: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "readByPeriodTypeId", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "readByPeriodTypeId", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "readByPeriodTypeId"});
 
               if (options === undefined || options.periodTypeId === undefined) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. options={{{optionsType}}}{{options}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. options={{{optionsType}}}{{options}}",
                   params: {options: options, optionsType: typeof options}, tag: "params", object: objectName, method: "readByPeriodTypeId"});
                 throw new Error();
               }
@@ -117,12 +117,12 @@
                   };
 
 
-              abxCacheBackManager.read(request)
+              pmCacheBackManager.read(request)
                   .then(function(response) {
                     if (response.isFromBack === true && response.result !== undefined && response.result.PeriodType !== undefined) {
                       for (var i = 0, length = response.result.PeriodType.periods.length; i < length; i++) {
-                        response.result.PeriodType.periods[i].Period.dateStart = abxTime.convertDateFromBackToDate(response.result.PeriodType.periods[i].Period.dateStart);
-                        response.result.PeriodType.periods[i].Period.dateEnd = abxTime.convertDateFromBackToDate(response.result.PeriodType.periods[i].Period.dateEnd);
+                        response.result.PeriodType.periods[i].Period.dateStart = pmTime.convertDateFromBackToDate(response.result.PeriodType.periods[i].Period.dateStart);
+                        response.result.PeriodType.periods[i].Period.dateEnd = pmTime.convertDateFromBackToDate(response.result.PeriodType.periods[i].Period.dateEnd);
                       }
                     }
                     deferred.resolve(response.result);
@@ -148,12 +148,12 @@
              * @return {object} Promise
              */
             readBySchoolYearId: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "readBySchoolYearId", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "readBySchoolYearId", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "readBySchoolYearId"});
 
               if (options === undefined || options.schoolYearId === undefined) {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode. options={{{optionsType}}}{{options}}",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode. options={{{optionsType}}}{{options}}",
                   params: {options: options, optionsType: typeof options}, tag: "params", object: objectName, method: "readbySchoolYearId"});
                 throw new Error();
               }
@@ -177,17 +177,17 @@
                     ]
                   };
 
-              abxCacheBackManager.read(request)
+              pmCacheBackManager.read(request)
                   .then(function(response) {
 
                     if (response.isFromBack === true && response.result.result === undefined && response.result[0] !== undefined && response.result[0].PeriodType !== undefined) {
                       for (var i = 0, length = response.result.length; i < length; i++) {
                         for (var j = 0, length2 = response.result[i].PeriodType.periods.length; j < length2; j++) {
-                          response.result[i].PeriodType.periods[j].Period.dateStart = abxTime.convertDateFromBackToDate(response.result[i].PeriodType.periods[j].Period.dateStart);
-                          response.result[i].PeriodType.periods[j].Period.dateEnd = abxTime.convertDateFromBackToDate(response.result[i].PeriodType.periods[j].Period.dateEnd);
+                          response.result[i].PeriodType.periods[j].Period.dateStart = pmTime.convertDateFromBackToDate(response.result[i].PeriodType.periods[j].Period.dateStart);
+                          response.result[i].PeriodType.periods[j].Period.dateEnd = pmTime.convertDateFromBackToDate(response.result[i].PeriodType.periods[j].Period.dateEnd);
                         }
                       }
-                      abxCache.put('crudObjects:periodType', 'schoolYearId:' + options.schoolYearId, response.result);
+                      pmCache.put('crudObjects:periodType', 'schoolYearId:' + options.schoolYearId, response.result);
                     }
 
                     deferred.resolve(response.result);
@@ -227,12 +227,12 @@
              * @return {object} Promise
              */
             createUpdate: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "createUpdate", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "createUpdate", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "createUpdate"});
 
               if (options.action !== 'create' && options.action !== 'update') {
-                abxLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                   params: {params: arguments}, tag: "params", object: objectName, method: "createUpdate"});
                 throw new Error('Erreur de paramètres en entrée de méthode.');
               }
@@ -244,9 +244,9 @@
               for (var i = 0; i < periodsLength; i++) {
                 periods.push({
                   Period: {
-                    name: abxModelManager.convertStringToBack(options.periodType.periods[i].name),
-                    dateStart: abxTime.convertDateFromDateToBack(options.periodType.periods[i].dateStart),
-                    dateEnd: abxTime.convertDateFromDateToBack(options.periodType.periods[i].dateEnd),
+                    name: pmModelManager.convertStringToBack(options.periodType.periods[i].name),
+                    dateStart: pmTime.convertDateFromDateToBack(options.periodType.periods[i].dateStart),
+                    dateEnd: pmTime.convertDateFromDateToBack(options.periodType.periods[i].dateEnd),
                     id: options.periodType.periods[i].id
                   }
                 });
@@ -259,7 +259,7 @@
                   {
                     object: {
                       PeriodType: {
-                        name: abxModelManager.convertStringToBack(options.periodType.name),
+                        name: pmModelManager.convertStringToBack(options.periodType.name),
                         schoolYearId: options.periodType.schoolYearId,
                         id: options.periodType.id,
                         periods: periods
@@ -269,11 +269,11 @@
                 ]
               };
 
-              abxCacheBackManager.createUpdateDelete(request)
+              pmCacheBackManager.createUpdateDelete(request)
                   .then(function(response) {
                     // suppression du cache
                     if (response[0].PeriodType !== undefined) {
-                      abxCache.remove('crudObjects:periodType', 'schoolYearId:' + options.periodType.schoolYearId);
+                      pmCache.remove('crudObjects:periodType', 'schoolYearId:' + options.periodType.schoolYearId);
                     }
                     deferred.resolve(response);
 
@@ -302,8 +302,8 @@
              * @return {object} Promise
              */
             delete: function(options) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "delete"});
 
               var deferred = $q.defer(),
@@ -328,10 +328,10 @@
               };
 
 
-              abxCacheBackManager.createUpdateDelete(request)
+              pmCacheBackManager.createUpdateDelete(request)
                   .then(function(response) {
                     // suppression du cache
-                    abxCache.remove('crudObjects:periodType', 'schoolYearId:' + options.schoolYearId);
+                    pmCache.remove('crudObjects:periodType', 'schoolYearId:' + options.schoolYearId);
                     deferred.resolve(response);
 
                   })

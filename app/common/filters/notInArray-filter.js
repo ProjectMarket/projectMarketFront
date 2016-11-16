@@ -16,8 +16,8 @@
 
   'use strict';
   angular
-      .module('abx.commonModule')
-      .filter('abxCommonNotInArrayFilter',
+      .module('pm.commonModule')
+      .filter('pmCommonNotInArrayFilter',
           function() {
             return filter;
           }

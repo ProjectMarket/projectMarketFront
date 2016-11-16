@@ -16,8 +16,8 @@
 
   'use strict';
   angular
-      .module('abx.commonModule')
-      .filter('abxCommonOrderByRoleFilter',
+      .module('pm.commonModule')
+      .filter('pmCommonOrderByRoleFilter',
           [
             function(
                 ) {

@@ -16,19 +16,19 @@
 
   'use strict';
 
-  var objectName = 'abx.common.componentService';
+  var objectName = 'pm.common.componentService';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
-        'abx.common.componentsSecurityValue',
-        'abx.common.logService',
+        'pm.common.componentsSecurityValue',
+        'pm.common.logService',
         function(
             componentsSecurityValue,
-            abxLog
+            pmLog
             ) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
@@ -53,12 +53,12 @@
              * @return {object} 
              */
             getComponentSecurityConfig: function(component) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "getComponentSecurityConfig", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "getComponentSecurityConfig", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "getComponentSecurityConfig"});
 
               if (!component) {
-                abxLog.error({message: "Erreur dans la récupération du abx.common.componentsSecurityValue. Le paramètre 'component' en entrée n'est pas défini ou est incorrect.",
+                pmLog.error({message: "Erreur dans la récupération du pm.common.componentsSecurityValue. Le paramètre 'component' en entrée n'est pas défini ou est incorrect.",
                   tag: 'component', object: objectName, method: "getComponentSecurityConfig"});
                 throw new Error("'component' n'est pas défini ou est incorrect.");
               }
@@ -87,14 +87,14 @@
                     throw new Error("crudObjects n'est pas défini ou n'est pas un tableau.");
                   }
 
-                  abxLog.debug({message: "Détermination de la config de sécurité du component {{component}} : {{config}}",
+                  pmLog.debug({message: "Détermination de la config de sécurité du component {{component}} : {{config}}",
                     params: {component: component, config: config}, object: objectName, method: "getComponentSecurityConfig", tag: "component"});
                   _componentSecurityConfigCache[component] = config;
                   return angular.copy(_componentSecurityConfigCache[component]);
 
                 } catch (e) {
                   // pas d'accès si pas de config
-                  abxLog.error({message: "Erreur dans la récupération du abx.common.componentsSecurityValue. Component = {{component}} : erreur = {{error}}",
+                  pmLog.error({message: "Erreur dans la récupération du pm.common.componentsSecurityValue. Component = {{component}} : erreur = {{error}}",
                     params: {component: component, error: e.message}, tag: 'component', object: objectName, method: "getComponentSecurityConfig"});
                   throw new Error(e.message);
                 }

@@ -1,5 +1,5 @@
 /** 
- * Component abx.core.profileComponent
+ * Component pm.core.profileComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -16,51 +16,51 @@
 
   'use strict';
 
-  var componentName = 'abx.core.profileComponent';
+  var componentName = 'pm.core.profileComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.coreModule')
+      .module('pm.components.coreModule')
       .component(componentName, {
         $canActivate: [
-          'abx.common.routerService',
-          'abx.common.userService',
-          'abx.common.logService',
+          'pm.common.routerService',
+          'pm.common.userService',
+          'pm.common.logService',
           function(
-              abxRouter,
-              abxUser,
-              abxLog
+              pmRouter,
+              pmUser,
+              pmLog
               ) {
             // autorisation d'accès à la page que si les profils sont affectés
             // et qu'il y a plusieurs profils possibles
-            if (!abxUser.hasProfiles() || abxUser.getHasUniqueProfile()) {
-              if (!abxUser.hasProfiles()) {
+            if (!pmUser.hasProfiles() || pmUser.getHasUniqueProfile()) {
+              if (!pmUser.hasProfiles()) {
                 var message = "Tentative d'accès à core.profile.select sans instanciation des profils.";
               } else {
                 var message = "Tentative d'accès à core.profile.select alors qu'un seul profil est possible.";
               }
-              abxLog.info({message: message, object: componentName, tag: "profile"});
-              abxRouter.navigate(['Core.home']);
+              pmLog.info({message: message, object: componentName, tag: "profile"});
+              pmRouter.navigate(['Core.home']);
               return false;
             }
 
-            return abxRouter.canActivate(componentName);
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/core/profile/profile-component.html',
         controller: [
           '$scope',
           '$filter',
-          'abx.common.logService',
-          'abx.common.userService',
-          'abx.common.routerService',
-          'abx.common.configService',
-          'abx.common.flashMessageService',
-          'abx.common.schoolModel',
+          'pm.common.logService',
+          'pm.common.userService',
+          'pm.common.routerService',
+          'pm.common.configService',
+          'pm.common.flashMessageService',
+          'pm.common.schoolModel',
           Controller]
       });
 
@@ -72,15 +72,15 @@
   function Controller(
       $scope,
       $filter,
-      abxLog,
-      abxUser,
-      abxRouter,
-      abxConfig,
-      abxFlashMessage,
-      abxSchoolModel
+      pmLog,
+      pmUser,
+      pmRouter,
+      pmConfig,
+      pmFlashMessage,
+      pmSchoolModel
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
     //********************
     // Propriétés privées
     //********************
@@ -91,9 +91,9 @@
     var _this = this;
 
     /*
-     * @property {object} Config locale d'Abx
+     * @property {object} Config locale d'pm
      */
-    var _config = abxConfig.get();
+    var _config = pmConfig.get();
 
     /*
      * @property {object} Profil actuel
@@ -127,8 +127,8 @@
      * @return {void} 
      */
     var _setStudentsData = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "setStudentsData", tag: "methodEntry"});
-      vm.students = abxUser.getResponsibleStudents();
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "setStudentsData", tag: "methodEntry"});
+      vm.students = pmUser.getResponsibleStudents();
     };
 
     /*
@@ -138,11 +138,11 @@
      * @return {void} 
      */
     var _setResponsibleStudentSchoolsData = function(studentUserId) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "_setResponsibleStudentSchoolsData", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "_setResponsibleStudentSchoolsData", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "_setResponsibleStudentSchoolsData"});
 
-      vm.schools = abxUser.getResponsibleStudentSchools(studentUserId);
+      vm.schools = pmUser.getResponsibleStudentSchools(studentUserId);
     };
 
     /*
@@ -151,8 +151,8 @@
      * @return {void} 
      */
     var _setStudentSchoolsData = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "setStudentSchoolsData", tag: "methodEntry"});
-      vm.schools = abxUser.getStudentSchools();
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "setStudentSchoolsData", tag: "methodEntry"});
+      vm.schools = pmUser.getStudentSchools();
     };
 
     /*
@@ -161,8 +161,8 @@
      * @return {void} 
      */
     var _setStaffRoleTypesData = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "setStaffRoleTypesData", tag: "methodEntry"});
-      vm.roleTypes = abxUser.getStaffRoleTypes();
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "setStaffRoleTypesData", tag: "methodEntry"});
+      vm.roleTypes = pmUser.getStaffRoleTypes();
     };
 
     /*
@@ -171,8 +171,8 @@
      * @return {void} 
      */
     var _setStaffSchoolRoleSchoolsData = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "setStaffSchoolRoleSchoolsData", tag: "methodEntry"});
-      vm.schools = abxUser.getStaffSchools();
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "setStaffSchoolRoleSchoolsData", tag: "methodEntry"});
+      vm.schools = pmUser.getStaffSchools();
     };
 
     /*
@@ -183,10 +183,10 @@
      * @return {void} 
      */
     var _setStaffGlobalRoleSchoolsData = function(role, schoolId) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "_setStaffGlobalRoleSchoolsData", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "_setStaffGlobalRoleSchoolsData", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "_setStaffGlobalRoleSchoolsData"});
-      var globalSchools = abxUser.getGlobalSchools();
+      var globalSchools = pmUser.getGlobalSchools();
 
       if (role === "ROLE_INS") {
         for (var i = 0, length = globalSchools.length; i < length; i++) {
@@ -207,10 +207,10 @@
      * @return {void} 
      */
     var _setStaffSchoolRoleSchoolRolesData = function(schoolId) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "_setStaffSchoolRoleSchoolRolesData", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "_setStaffSchoolRoleSchoolRolesData", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "_setStaffSchoolRoleSchoolRolesData"});
-      vm.roles = abxUser.getStaffSchoolRoles(schoolId);
+      vm.roles = pmUser.getStaffSchoolRoles(schoolId);
     };
 
     /*
@@ -219,8 +219,8 @@
      * @return {void} 
      */
     var _setStaffGlobalRolesData = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "setStaffGlobalRolesData", tag: "methodEntry"});
-      vm.roles = abxUser.getStaffGlobalRoles();
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "setStaffGlobalRolesData", tag: "methodEntry"});
+      vm.roles = pmUser.getStaffGlobalRoles();
     };
 
 
@@ -246,7 +246,7 @@
     /*
      * @property {object|undefined} identité de l'utilisateur
      */
-    vm.userIdentity = abxUser.getIdentity();
+    vm.userIdentity = pmUser.getIdentity();
 
     /*
      * @property {object} Nouveau profil sélectionné
@@ -300,15 +300,15 @@
      * @return {object} Promise 
      */
     vm.getSchoolsByDisplayName = function(displayName) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.getSchoolsByQuery", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.getSchoolsByQuery", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.getSchoolsByQuery"});
 
       if (displayName.length === 0) {
         return;
       }
 
-      return abxSchoolModel.readByOpenedRoleAndDisplayName({displayName: displayName, role: vm.newProfile.role})
+      return pmSchoolModel.readByOpenedRoleAndDisplayName({displayName: displayName, role: vm.newProfile.role})
           .then(function(response) {
             vm.globalSchools = [];
             if (response[0] !== undefined) {
@@ -325,25 +325,25 @@
      * @return {void} 
      */
     vm.showForbiddenRoles = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.showForbiddenRoles", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.showForbiddenRoles", tag: "methodEntry"});
 
       var textContent = '<p><strong>';
-      abxUser.getSchools().schoolsCount === 1 ? textContent += "L'administrateur Isa de votre établissement n'a pas autorisé "
+      pmUser.getSchools().schoolsCount === 1 ? textContent += "L'administrateur Isa de votre établissement n'a pas autorisé "
           : textContent += "Les administrateurs Isa de vos établissements n'ont pas autorisé ";
       _forbiddenRoles.rolesCount === 1 ? textContent += 'le rôle suivant '
           : textContent += 'les rôles suivants ';
       textContent += "à accéder à l'application&nbsp;:</strong></p><ul>";
-      _forbiddenRoles.roles = $filter('abxCommonOrderByRoleFilter')(_forbiddenRoles.roles);
+      _forbiddenRoles.roles = $filter('pmCommonOrderByRoleFilter')(_forbiddenRoles.roles);
       for (var role in _forbiddenRoles.roles) {
-        textContent += "<li>" + $filter('abxCommonProfileFilter')(role, {sex: abxUser.getUserSex(), withUCFirst: true}) + "<ul>";
+        textContent += "<li>" + $filter('pmCommonProfileFilter')(role, {sex: pmUser.getUserSex(), withUCFirst: true}) + "<ul>";
         for (var i = 0, length = _forbiddenRoles.roles[role].length; i < length; i++) {
-          textContent += "<li>" + $filter('abxCommonSchoolFilter')(_forbiddenRoles.roles[role][i]) + "</li>";
+          textContent += "<li>" + $filter('pmCommonSchoolFilter')(_forbiddenRoles.roles[role][i]) + "</li>";
         }
         textContent += "</ul>";
       }
       textContent += "</ul>";
 
-      abxFlashMessage.showInfo(textContent);
+      pmFlashMessage.showInfo(textContent);
 
     };
 
@@ -353,7 +353,7 @@
      * @return {void} 
      */
     vm.connect = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.connect", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.connect", tag: "methodEntry"});
       try {
 
         if (vm.newProfile.roleType === "globalRoleType") {
@@ -365,29 +365,29 @@
               break;
             }
           }
-          abxUser.addGlobalSchoolInStructuredProfile(school);
+          pmUser.addGlobalSchoolInStructuredProfile(school);
         }
 
-        abxUser.setSelectedProfileAndLoadAcl(vm.newProfile)
+        pmUser.setSelectedProfileAndLoadAcl(vm.newProfile)
             .then(function() {
 
-              abxFlashMessage.showSuccess('Le profil a été sélectionné.');
+              pmFlashMessage.showSuccess('Le profil a été sélectionné.');
 
               // redirection
-              var redirectUrl = abxUser.getAndCleanAfterSelectProfileRedirectUrl();
+              var redirectUrl = pmUser.getAndCleanAfterSelectProfileRedirectUrl();
 
-              (typeof redirectUrl === 'string' && redirectUrl.length > 0) ? abxRouter.navigateByUrl(redirectUrl)
-                  : abxRouter.navigate(['Core.home']);
+              (typeof redirectUrl === 'string' && redirectUrl.length > 0) ? pmRouter.navigateByUrl(redirectUrl)
+                  : pmRouter.navigate(['Core.home']);
             })
             .catch(function(error) {
               if (error.hasPerformRedirect !== true) {
-                abxRouter.navigateToErrorPage('profile', 'select');
+                pmRouter.navigateToErrorPage('profile', 'select');
               }
             });
       } catch (e) {
-        abxLog.error({message: "Erreur lors de l'enregistrement du nouveau profil. Message : {{message}}", object: componentName, method: "connect",
+        pmLog.error({message: "Erreur lors de l'enregistrement du nouveau profil. Message : {{message}}", object: componentName, method: "connect",
           params: {message: e.message}, tag: "profile"});
-        abxRouter.navigateToErrorPage('profile', 'select');
+        pmRouter.navigateToErrorPage('profile', 'select');
       }
     };
 
@@ -397,12 +397,12 @@
      * @return {void} 
      */
     vm.cancel = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.cancel", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.cancel", tag: "methodEntry"});
       // redirection
-      var redirectUrl = abxUser.getAndCleanAfterSelectProfileRedirectUrl();
-      (typeof redirectUrl === 'string' && redirectUrl.length > 0) ? abxRouter.navigateByUrl(redirectUrl)
-          : abxRouter.navigate(['Core.home']);
-      abxFlashMessage.showCancel();
+      var redirectUrl = pmUser.getAndCleanAfterSelectProfileRedirectUrl();
+      (typeof redirectUrl === 'string' && redirectUrl.length > 0) ? pmRouter.navigateByUrl(redirectUrl)
+          : pmRouter.navigate(['Core.home']);
+      pmFlashMessage.showCancel();
     };
 
 
@@ -419,11 +419,11 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function(nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
-      _this.abxAppController.vm.setModule('core.profile');
+      _this.pmAppController.vm.setModule('core.profile');
 
       // watch de globalProfile
       $scope.$watch(function() {
@@ -566,7 +566,7 @@
 
           // initialisation avec selectedProfile
           if (_selectedProfile.role === newVal && !_initialized.globalSchool) {
-            var schools = abxUser.getAllSchools(),
+            var schools = pmUser.getAllSchools(),
                 school = {};
             for (var i = 0, length = schools.length; i < length; i++) {
               if (schools[i].id === _selectedProfile.schoolId) {
@@ -576,7 +576,7 @@
             }
 
             if (school.id !== undefined) {
-              abxUser.addGlobalSchoolInStructuredProfile(school);
+              pmUser.addGlobalSchoolInStructuredProfile(school);
               if (vm.newProfile.role === "ROLE_INS") {
                 _setStaffGlobalRoleSchoolsData("ROLE_INS", _selectedProfile.schoolId);
               }
@@ -589,15 +589,15 @@
       });
 
       // selectedProfile
-      var selectedProfile = abxUser.getSelectedProfile();
+      var selectedProfile = pmUser.getSelectedProfile();
       // récupération du profile renvoyé par le backend
       if (selectedProfile === undefined) {
-        var lastBackendSelectProfile = abxUser.getLastBackendSelectedProfile();
+        var lastBackendSelectProfile = pmUser.getLastBackendSelectedProfile();
         if (lastBackendSelectProfile !== undefined && lastBackendSelectProfile.globalProfile !== undefined) {
-          abxLog.debug({message: "Affectation du lastBackendSelectProfile.", object: componentName, method: "$routerOnActivate", tag: "user"});
+          pmLog.debug({message: "Affectation du lastBackendSelectProfile.", object: componentName, method: "$routerOnActivate", tag: "user"});
           selectedProfile = lastBackendSelectProfile;
         } else {
-          abxLog.debug({message: "Pas d'affectation du lastBackendSelectProfile.", object: componentName, method: "$routerOnActivate", tag: "user"});
+          pmLog.debug({message: "Pas d'affectation du lastBackendSelectProfile.", object: componentName, method: "$routerOnActivate", tag: "user"});
           selectedProfile = {};
         }
       } else {
@@ -607,10 +607,10 @@
 
       // affectation du globalProfile par défaut
       // les autres valeurs sont affectées dans les watch (pour éviter les problèmes de watch imbriqués)
-      vm.globalProfiles = abxUser.getGlobalProfiles();
+      vm.globalProfiles = pmUser.getGlobalProfiles();
 
       if (vm.globalProfiles.length === 0) {
-        abxRouter.navigateToErrorPage('auth', 'allRolesClosed');
+        pmRouter.navigateToErrorPage('auth', 'allRolesClosed');
         return;
       }
 
@@ -620,7 +620,7 @@
         vm.newProfile.globalProfile = selectedProfile.globalProfile;
       }
 
-      _forbiddenRoles = vm.forbiddenRoles = abxUser.getForbiddenRoles();
+      _forbiddenRoles = vm.forbiddenRoles = pmUser.getForbiddenRoles();
 
       vm.canDisplayView = true;
     };

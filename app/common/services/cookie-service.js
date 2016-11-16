@@ -16,29 +16,29 @@
 
   'use strict';
 
-  var objectName = 'abx.common.cookieService';
+  var objectName = 'pm.common.cookieService';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$cookies',
-        'abx.common.logService',
-        'abx.common.configService',
+        'pm.common.logService',
+        'pm.common.configService',
         function(
             $cookies,
-            abxLog,
-            abxConfig) {
+            pmLog,
+            pmConfig) {
 
-          abxLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
+          pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
 
           //********************
           // Propriétés privées
           //********************
 
           /*
-           * @property {object} Config locale d'Abx
+           * @property {object} Config locale d'pm
            */
-          var _config = abxConfig.get();
+          var _config = pmConfig.get();
 
           /*
            * @property {string} Nom du cookie de session
@@ -56,7 +56,7 @@
            * @return {object} 
            */
           var _getCookie = function() {
-            abxLog.trace({message: "Entrée méthode", object: objectName, method: "_getCookie", tag: "methodEntry"});
+            pmLog.trace({message: "Entrée méthode", object: objectName, method: "_getCookie", tag: "methodEntry"});
             
             var cookie;
             try {
@@ -77,7 +77,7 @@
            * @return {void} 
            */
           var _putCookie = function(cookie) {
-            abxLog.trace({message: "Entrée méthode", object: objectName, method: "_putCookie", tag: "methodEntry"});
+            pmLog.trace({message: "Entrée méthode", object: objectName, method: "_putCookie", tag: "methodEntry"});
             
             $cookies.put(_cookieName, JSON.stringify(cookie));
           };
@@ -95,13 +95,13 @@
              * @return {undefined|object} 
              */
             get: function(namespace) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "get", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "get", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "get"});
 
               var cookie = _getCookie();
 
-              abxLog.debug({message: "Renvoi du cookie de session : {{namespace}}={{data}}", params: {namespace: namespace, data: cookie[namespace]},
+              pmLog.debug({message: "Renvoi du cookie de session : {{namespace}}={{data}}", params: {namespace: namespace, data: cookie[namespace]},
                 object: objectName, method: "get", tag: "cookie"});
 
               return cookie[namespace];
@@ -114,8 +114,8 @@
              * @return {void}
              */
             put: function(namespace, data) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "put", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "put", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "put"});
 
               if (typeof namespace !== 'string' || namespace.length === 0) {
@@ -133,8 +133,8 @@
              * @return {void}
              */
             remove: function(namespace) {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "remove", tag: "methodEntry"});
-              abxLog.debug({message: "Paramètres méthode : {{params}}",
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "remove", tag: "methodEntry"});
+              pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: objectName, method: "remove"});
 
               if (typeof namespace !== 'string' || namespace.length === 0) {
@@ -146,7 +146,7 @@
               try {
                 delete cookie[namespace];
               } catch (e) {
-                abxLog.warning({message: "Impossible de supprimer une propriété du cookie : namespace={{{namespaceType}}}{{namespace}}",
+                pmLog.warning({message: "Impossible de supprimer une propriété du cookie : namespace={{{namespaceType}}}{{namespace}}",
                   params: {namespace: namespace, namespaceType: typeof namespace},
                   tag: "params", object: objectName, method: "remove"});
               }
@@ -158,7 +158,7 @@
              * @return {void}
              */
             clean: function() {
-              abxLog.trace({message: "Entrée méthode", object: objectName, method: "clean", tag: "methodEntry"});
+              pmLog.trace({message: "Entrée méthode", object: objectName, method: "clean", tag: "methodEntry"});
 
               _putCookie({});
             }

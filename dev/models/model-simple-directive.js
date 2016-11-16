@@ -1,5 +1,5 @@
 /** 
- * Directive abxXXX
+ * Directive pmXXX
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -17,22 +17,22 @@
   'use strict';
 
   // nom de la directive
-  var directiveName = 'abxXXX';
+  var directiveName = 'pmXXX';
 
   //***********
   // Directive
   //***********
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .directive(directiveName,
-          ['abx.common.logService',
+          ['pm.common.logService',
             Directive]);
 
   function Directive(
-      abxLog
+      pmLog
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: directiveName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: directiveName, tag: "objectInstantiation"});
 
     // directive
     return {

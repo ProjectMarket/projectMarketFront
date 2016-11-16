@@ -1,5 +1,5 @@
 /** 
- * Component abx.core.404Component
+ * Component pm.core.404Component
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -16,26 +16,26 @@
 
   'use strict';
 
-  var componentName = 'abx.core.404Component';
+  var componentName = 'pm.core.404Component';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.coreModule')
+      .module('pm.components.coreModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function(abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function(pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/core/404/404-component.html',
         controller: [
-          'abx.common.logService',
-          'abx.common.routerService',
-          'abx.common.timeService',
+          'pm.common.logService',
+          'pm.common.routerService',
+          'pm.common.timeService',
           Controller]
       });
 
@@ -45,12 +45,12 @@
   // Controller
   //************
   function Controller(
-      abxLog,
-      abxRouter,
-      abxTime
+      pmLog,
+      pmRouter,
+      pmTime
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -108,12 +108,12 @@
     /*
      * @property {object} Date date de l'erreur (avec ajout de la différence avec le back pour aide au débuggage)
      */
-    vm.errorDate = abxTime.moment((abxTime.moment().unix() + abxLog.getFrontBackTimestampInterval())).toDate();
+    vm.errorDate = pmTime.moment((pmTime.moment().unix() + pmLog.getFrontBackTimestampInterval())).toDate();
 
     /*
      * @property {string} dernière URL appelée
      */
-    vm.lastRequestedUrl = abxRouter.getLastRequestedUrl();
+    vm.lastRequestedUrl = pmRouter.getLastRequestedUrl();
 
 
     //*******************
@@ -140,10 +140,10 @@
      */
     _this.$routerOnActivate = function(nextInstruction, prevInstruction) {
       var routeParams = angular.copy(nextInstruction.params);
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$onActivate", tag: "methodEntry"});
-      abxLog.debug({message: "$routeParams : {{routeParams}}", params: {routeParams: routeParams}, tag: "$routeParams", object: componentName});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$onActivate", tag: "methodEntry"});
+      pmLog.debug({message: "$routeParams : {{routeParams}}", params: {routeParams: routeParams}, tag: "$routeParams", object: componentName});
 
-      _this.abxAppController.vm.setModule('core.404');
+      _this.pmAppController.vm.setModule('core.404');
 
       _routeParams = routeParams;
       vm.canDisplayView = true;

@@ -1,5 +1,5 @@
 /** 
- * Component abx.admin.userSchoolRolesComponent
+ * Component pm.admin.userSchoolRolesComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -15,33 +15,33 @@
 (function () {
 
   'use strict';
-  var componentName = 'abx.admin.userSchoolRolesComponent';
+  var componentName = 'pm.admin.userSchoolRolesComponent';
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.adminModule')
+      .module('pm.components.adminModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function (abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function (pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/admin/user-school-roles/user-school-roles-component.html',
         controller: [
           '$q',
           '$filter',
-          'abx.common.logService',
-          'abx.common.aclService',
-          'abx.common.flashMessageService',
-          'abx.common.routerService',
-          'abx.common.modelManagerService',
-          'abx.common.yearContainerModel',
-          'abx.common.schoolYearModel',
-          'abx.common.userSchoolRolesModel',
-          'abx.common.userService',
+          'pm.common.logService',
+          'pm.common.aclService',
+          'pm.common.flashMessageService',
+          'pm.common.routerService',
+          'pm.common.modelManagerService',
+          'pm.common.yearContainerModel',
+          'pm.common.schoolYearModel',
+          'pm.common.userSchoolRolesModel',
+          'pm.common.userService',
           Controller]
       });
   //************
@@ -50,18 +50,18 @@
   function Controller(
       $q,
       $filter,
-      abxLog,
-      abxAcl,
-      abxFlashMessage,
-      abxRouter,
-      abxModelManager,
-      abxYearContainerModel,
-      abxSchoolYearModel,
-      abxUserSchoolRolesModel,
-      abxUserService
+      pmLog,
+      pmAcl,
+      pmFlashMessage,
+      pmRouter,
+      pmModelManager,
+      pmYearContainerModel,
+      pmSchoolYearModel,
+      pmUserSchoolRolesModel,
+      pmUserService
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
     //********************
     // Propriétés privées
     //********************
@@ -95,7 +95,7 @@
      */
 
     var _readUserSchoolRolesAfterSave = function (hasError) {
-      abxUserSchoolRolesModel.readBySchoolId({forceBackRead: true, schoolId: _backObjects.school.id})
+      pmUserSchoolRolesModel.readBySchoolId({forceBackRead: true, schoolId: _backObjects.school.id})
           .then(function (response) {
             vm.isSaving = false;
             if (response.result !== undefined) {
@@ -106,7 +106,7 @@
                   objects: [response]
                 }
               };
-              abxFlashMessage.showError(options);
+              pmFlashMessage.showError(options);
               vm.hasBackCrudObjectsError.classRolePermissions = true;
             } else if (hasError) {
               _populateViewModel('USERSCHOOLROLE', response);
@@ -117,11 +117,11 @@
                   objects: [response]
                 }
               };
-              abxFlashMessage.showError(options);
+              pmFlashMessage.showError(options);
             } else {
               hasError = false;
               _populateViewModel('USERSCHOOLROLE', response);
-              abxFlashMessage.showSuccess("Les rôles d'ISA ont été modifiés avec succès.");
+              pmFlashMessage.showSuccess("Les rôles d'ISA ont été modifiés avec succès.");
             }
           })
           .catch(function () {
@@ -137,11 +137,11 @@
      */
 
     var _populateViewModel = function (crudObject, result) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
       if (crudObject !== "USERSCHOOLROLE") {
-        abxLog.error({message: "CrudObject incorrect : {{crudObject}}",
+        pmLog.error({message: "CrudObject incorrect : {{crudObject}}",
           params: {crudObject: crudObject}, tag: "params", object: componentName, method: "_populateViewModel"});
         throw new Error('CrudObject incorrect : ' + crudObject);
       }
@@ -261,7 +261,7 @@
         vm.canDisplayView = true;
 
       } catch (e) {
-        abxLog.error({message: "Erreur lors de l'affectation des données : message={{message}}",
+        pmLog.error({message: "Erreur lors de l'affectation des données : message={{message}}",
           params: {message: e.message}, tag: "params", object: componentName, method: "_populateViewModel"});
         vm.hasBackCrudObjectsError.userSchoolRoles = true;
       }
@@ -337,7 +337,7 @@
      * @returns {undefined}
      */
     vm.saveUserSchoolRoles = function () {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.saveRole", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.saveRole", tag: "methodEntry"});
       vm.isSaving = true;
       var hasError = false;
       try {
@@ -382,20 +382,20 @@
           // SINON => pas de changement
         }
         if (toCreateObject.objects.length === 0 && toDeleteObject.objects.length === 0) {
-          abxFlashMessage.showInfo("Aucun changement à effectuer.");
+          pmFlashMessage.showInfo("Aucun changement à effectuer.");
           return;
         }
 
-        abxFlashMessage.showWait();
+        pmFlashMessage.showWait();
 
         if (toCreateObject.objects.length > 0) {
-          createPromise = abxUserSchoolRolesModel.create(toCreateObject);
+          createPromise = pmUserSchoolRolesModel.create(toCreateObject);
         } else {
           createPromise = $q.when();
         }
 
         if (toDeleteObject.objects.length > 0) {
-          deletePromise = abxUserSchoolRolesModel.delete(toDeleteObject);
+          deletePromise = pmUserSchoolRolesModel.delete(toDeleteObject);
         } else {
           deletePromise = $q.when();
         }
@@ -409,7 +409,7 @@
               if (createResult !== undefined) {
                 for (var i = 0, length = createResult.length; i < length; i++) {
                   if (createResult[i].result !== undefined) {
-                    abxLog.error({message: "Erreur lors de la création en back. userSchoolRoles={{{userSchoolRoles}}}",
+                    pmLog.error({message: "Erreur lors de la création en back. userSchoolRoles={{{userSchoolRoles}}}",
                       params: {userSchoolRoles: createResult[i]}, tag: "params", object: createResult[i], method: "saveUserSchoolRoles"});
                     hasError = true;
                   }
@@ -419,7 +419,7 @@
               if (deleteResult !== undefined) {
                 for (var i = 0, length = deleteResult.length; i < length; i++) {
                   if (deleteResult[i].result !== undefined) {
-                    abxLog.error({message: "Erreur lors de la suppression en back. userSchoolRoles={{{userSchoolRoles}}}",
+                    pmLog.error({message: "Erreur lors de la suppression en back. userSchoolRoles={{{userSchoolRoles}}}",
                       params: {userSchoolRoles: deleteResult[i]}, tag: "params", object: deleteResult[i], method: "saveUserSchoolRoles"});
                     hasError = true;
                   }
@@ -430,10 +430,10 @@
             });
 
       } catch (e) {
-        abxLog.error({message: "Erreur lors de l'enregistrement des userSchoolRoles : message={{message}}",
+        pmLog.error({message: "Erreur lors de l'enregistrement des userSchoolRoles : message={{message}}",
           params: {message: e.message}, tag: "params", object: componentName, method: "saveUserSchoolRoles"});
         // FIXME ajouter erreur + charger les données
-        abxFlashMessage.showError({errorMessage: "Une erreur est survenue lors de l'enregistrement des roles d'Isa.",
+        pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de l'enregistrement des roles d'Isa.",
           errorObject: {objectName: "UserSchoolRoles"}
         });
         vm.hasBackCrudObjectsError.roles = true;
@@ -448,7 +448,7 @@
      * @returns {void}
      */
     vm.deleteStaffsLimited = function (selectedStaffLimitedIds) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.deleteStaffsLimited", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.deleteStaffsLimited", tag: "methodEntry"});
       vm.isSaving = true;
       var hasError = false;
 
@@ -469,19 +469,19 @@
         }
 
         if (toDeleteObject.objects.length === 0) {
-          abxFlashMessage.showInfo("Aucun changement à effectuer.");
+          pmFlashMessage.showInfo("Aucun changement à effectuer.");
           return;
         }
 
-        abxFlashMessage.showWait();
+        pmFlashMessage.showWait();
 
-        abxUserSchoolRolesModel.delete(toDeleteObject)
+        pmUserSchoolRolesModel.delete(toDeleteObject)
             .then(function (response) {
 
               if (response !== undefined) {
                 for (var i = 0, length = response.length; i < length; i++) {
                   if (response[i].result !== undefined) {
-                    abxLog.error({message: "Erreur lors de la suppression en back. userSchoolRoles={{{userSchoolRoles}}}",
+                    pmLog.error({message: "Erreur lors de la suppression en back. userSchoolRoles={{{userSchoolRoles}}}",
                       params: {userSchoolRoles: response[i]}, tag: "params", object: response[i], method: "deleteStaffsLimited"});
                     hasError = true;
                   }
@@ -491,10 +491,10 @@
               _readUserSchoolRolesAfterSave(hasError);
             });
       } catch (e) {
-        abxLog.error({message: "Erreur lors de la suppression des userSchoolRoles : message={{message}}",
+        pmLog.error({message: "Erreur lors de la suppression des userSchoolRoles : message={{message}}",
           params: {message: e.message}, tag: "params", object: componentName, method: "saveUserSchoolRoles"});
         // FIXME ajouter erreur + charger les données
-        abxFlashMessage.showError({errorMessage: "Une erreur est survenue lors de la suppression des roles d'Isa.",
+        pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de la suppression des roles d'Isa.",
           errorObject: {objectName: "UserSchoolRoles"}
         });
         vm.hasBackCrudObjectsError.roles = true;
@@ -514,44 +514,44 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function (nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
-      _this.abxAppController.vm.setModule('admin:roles');
+      _this.pmAppController.vm.setModule('admin:roles');
 
       try {
         // récupération des données
         var concatRequests = [
-          {modelMethod: abxYearContainerModel.readCurrent, options: {}},
-          {modelMethod: abxSchoolYearModel.readCurrent, options: {}}
+          {modelMethod: pmYearContainerModel.readCurrent, options: {}},
+          {modelMethod: pmSchoolYearModel.readCurrent, options: {}}
         ];
 
-        abxModelManager.addConcatRequest(concatRequests)
+        pmModelManager.addConcatRequest(concatRequests)
             .then(function (response) {
 
               var yearContainerResult = response[0],
                   schoolYearResult = response[1];
               // erreur ou abscence de YearContainer et/ou de schoolYear
-              if (abxModelManager.checkYearContainerAndSchoolYear(yearContainerResult, schoolYearResult) === false) {
+              if (pmModelManager.checkYearContainerAndSchoolYear(yearContainerResult, schoolYearResult) === false) {
                 return;
               }
 
               _backObjects.schoolYear = schoolYearResult.SchoolYear;
 
               // récupération du school
-              _backObjects.school.id = abxUserService.getSelectedSchoolId();
+              _backObjects.school.id = pmUserService.getSelectedSchoolId();
 
               // récupération des autres paramétrages
               var concatRequests = [],
                   requestMapping = [];
 
-              if (abxAcl.isAllowedManageCrudObject('USERSCHOOLROLE', 'read')) {
-                concatRequests.push({modelMethod: abxUserSchoolRolesModel.readBySchoolId, options: {forceBackRead: true, schoolId: _backObjects.school.id}});
+              if (pmAcl.isAllowedManageCrudObject('USERSCHOOLROLE', 'read')) {
+                concatRequests.push({modelMethod: pmUserSchoolRolesModel.readBySchoolId, options: {forceBackRead: true, schoolId: _backObjects.school.id}});
                 requestMapping.push('USERSCHOOLROLE');
               }
 
               if (concatRequests.length > 0) {
-                abxModelManager.addConcatRequest(concatRequests)
+                pmModelManager.addConcatRequest(concatRequests)
                     .then(function (response) {
                       // userSchoolRoles
                       if (requestMapping.indexOf('USERSCHOOLROLE') > -1) {
@@ -559,7 +559,7 @@
                         // affectation des permissions et des acl
                         vm.isAllowedManageCrudObjects.schoolYearRolePermission = {
                           read: true,
-                          create: abxAcl.isAllowedManageCrudObject('USERSCHOOLROLE', 'create')
+                          create: pmAcl.isAllowedManageCrudObject('USERSCHOOLROLE', 'create')
                         };
 
                         _populateViewModel('USERSCHOOLROLE', rolesResult);
@@ -571,27 +571,27 @@
                     });
 
               } else {
-                abxLog.error({message: "Accès à " + componentName + " sans avoir les droits. Vérifier componentSecurity value.",
+                pmLog.error({message: "Accès à " + componentName + " sans avoir les droits. Vérifier componentSecurity value.",
                   tag: "error", object: componentName, method: "$routerOnActivate"});
                 var options = {
                   errorMessage: "Vous n'avez pas l'autorisation de gérer les rôles."
                 };
-                abxFlashMessage.showError(options);
-                abxRouter.navigate(['Core.home']);
+                pmFlashMessage.showError(options);
+                pmRouter.navigate(['Core.home']);
               }
             });
 
       } catch (e) {
         var errorMessage = "Erreur lors de la récupération des données.";
-        abxLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "$routerOnActivate"});
         var options = {
           errorMessage: errorMessage,
           adviceMessage: "Vous ne pouvez pas modifier les rôles.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(options);
-        abxRouter.navigate(['Core.home']);
+        pmFlashMessage.showError(options);
+        pmRouter.navigate(['Core.home']);
       }
     }
     ;

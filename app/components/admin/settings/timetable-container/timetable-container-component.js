@@ -1,5 +1,5 @@
 /** 
- * Component abx.admin.settings.timetableContainerComponent
+ * Component pm.admin.settings.timetableContainerComponent
  * 
  * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
  * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
@@ -16,33 +16,33 @@
 
   'use strict';
 
-  var componentName = 'abx.admin.settings.timetableContainerComponent';
+  var componentName = 'pm.admin.settings.timetableContainerComponent';
 
   //***********
   // Component
   //***********
   angular
-      .module('abx.components.adminModule')
+      .module('pm.components.adminModule')
       .component(componentName, {
-        $canActivate: ['abx.common.routerService',
-          function(abxRouter) {
-            return abxRouter.canActivate(componentName);
+        $canActivate: ['pm.common.routerService',
+          function(pmRouter) {
+            return pmRouter.canActivate(componentName);
           }],
         require: {
-          abxAppController: '^abx.appComponent'
+          pmAppController: '^pm.appComponent'
         },
         templateUrl: 'app/components/admin/settings/timetable-container/timetable-container-component.html',
         controller: [
           '$q',
           '$filter',
-          'abx.common.logService',
-          'abx.common.aclService',
-          'abx.common.flashMessageService',
-          'abx.common.routerService',
-          'abx.common.modelManagerService',
-          'abx.common.yearContainerModel',
-          'abx.common.schoolYearModel',
-          'abx.common.timetableContainerModel',
+          'pm.common.logService',
+          'pm.common.aclService',
+          'pm.common.flashMessageService',
+          'pm.common.routerService',
+          'pm.common.modelManagerService',
+          'pm.common.yearContainerModel',
+          'pm.common.schoolYearModel',
+          'pm.common.timetableContainerModel',
           Controller]
       });
 
@@ -53,17 +53,17 @@
   function Controller(
       $q,
       $filter,
-      abxLog,
-      abxAcl,
-      abxFlashMessage,
-      abxRouter,
-      abxModelManager,
-      abxYearContainerModel,
-      abxSchoolYearModel,
-      abxTimetableContainerModel
+      pmLog,
+      pmAcl,
+      pmFlashMessage,
+      pmRouter,
+      pmModelManager,
+      pmYearContainerModel,
+      pmSchoolYearModel,
+      pmTimetableContainerModel
       ) {
 
-    abxLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
+    pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
 
     //********************
     // Propriétés privées
@@ -223,8 +223,8 @@
      */
     vm.addTimetable = function(dayOfWeek, index) {
 
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.addTimetable", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.addTimetable", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.addTimetable"});
 
       var timetable = angular.copy(_timetableObjectModel);
@@ -246,12 +246,12 @@
      */
     vm.duplicateTimetables = function(fromDayOfWeek, timetables, toDaysOfWeek) {
 
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.duplicateTimetable", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.duplicateTimetable", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.duplicateTimetable"});
 
       if (toDaysOfWeek === undefined || toDaysOfWeek.length === 0) {
-        abxFlashMessage.showError({errorMessage: "Vous devez sélectionner au moins un jour vers lequel dupliquer les horaires."});
+        pmFlashMessage.showError({errorMessage: "Vous devez sélectionner au moins un jour vers lequel dupliquer les horaires."});
         return;
       }
 
@@ -270,7 +270,7 @@
       } else {
         var textContent = "Il y a " + notEmptyDaysOfWeek + (notEmptyDaysOfWeek === 1 ? " jour sélectionné qui a" : " jours sélectionnés qui ont")
             + " déjà des horaires&nbsp;: ceux-ci seront remplacés lors de la duplication.";
-        promise = abxFlashMessage.showWarningConfirm(textContent);
+        promise = pmFlashMessage.showWarningConfirm(textContent);
       }
 
       promise
@@ -288,10 +288,10 @@
               }
             }
             var textContent = timetables.length === 1 ? "L'horaire a été dupliqué." : "Les horaires ont été dupliqués.";
-            abxFlashMessage.showSuccess(textContent);
+            pmFlashMessage.showSuccess(textContent);
           })
           .catch(function() {
-            abxFlashMessage.showCancel();
+            pmFlashMessage.showCancel();
           });
     };
 
@@ -303,8 +303,8 @@
      * @return {void}
      */
     vm.deleteTimetables = function(dayOfWeek, index) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.deleteTimetable", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.deleteTimetable", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.deleteTimetable"});
 
       // on trie index par ordre inverse pour ne pas modifier les indices à supprimer
@@ -315,7 +315,7 @@
         vm.timetableContainer.daysOfWeek[dayOfWeek].timetables.splice(index[i], 1);
       }
       var textContent = index.length === 1 ? "L'horaire a été supprimé." : "Les horaires ont été supprimés.";
-      abxFlashMessage.showSuccess(textContent);
+      pmFlashMessage.showSuccess(textContent);
     };
 
     /*
@@ -324,10 +324,10 @@
      * @return {void} 
      */
     vm.cancel = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.cancel", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.cancel", tag: "methodEntry"});
 
-      abxFlashMessage.showCancel();
-      abxRouter.navigate(['Admin.settings.home']);
+      pmFlashMessage.showCancel();
+      pmRouter.navigate(['Admin.settings.home']);
     };
 
     /*
@@ -337,8 +337,8 @@
      * @return {void} 
      */
     vm.navigate = function(location) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.navigate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.navigate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "vm.navigate"});
 
       var linkParams;
@@ -350,11 +350,11 @@
           linkParams = ['Admin.settings.timetableContainer', {action: 'update', timetableContainerId: _backObjects.timetableContainer.id}];
           break;
         default :
-          abxLog.error({message: "Paramètre incorrect. {{params}}",
+          pmLog.error({message: "Paramètre incorrect. {{params}}",
             params: {params: arguments}, tag: "params", object: componentName, method: "vm.navigate"});
           return;
       }
-      abxRouter.navigate(linkParams);
+      pmRouter.navigate(linkParams);
     };
 
     /*
@@ -363,7 +363,7 @@
      * @return {void} 
      */
     vm.save = function() {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "vm.save", tag: "methodEntry"});
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.save", tag: "methodEntry"});
 
       // formulaire invalide ou déjà en cours d'enregistrement
       if (!vm.ngForm.TimetableContainer.$valid || vm.isSaving) {
@@ -378,16 +378,16 @@
           promise = $q.when();
         } else {
           var textContent = "Attention&nbsp;: si vous avez modifié ou supprimé des horaires, cela impactera les séances de l'emploi du temps déjà existantes.";
-          promise = abxFlashMessage.showWarningConfirm(textContent);
+          promise = pmFlashMessage.showWarningConfirm(textContent);
         }
 
         promise
             .catch(function() {
-              abxFlashMessage.showCancel();
+              pmFlashMessage.showCancel();
             })
             .then(function() {
 
-              abxFlashMessage.showWait();
+              pmFlashMessage.showWait();
 
               var dayOfWeekObject = {},
                   timetableObject = {};
@@ -421,21 +421,21 @@
 
               }
 
-              abxTimetableContainerModel.createUpdate(formTimetableContainer)
+              pmTimetableContainerModel.createUpdate(formTimetableContainer)
                   .then(function(response) {
                     // succès
                     if (response[0].TimetableContainer !== undefined) {
-                      abxLog.debug({message: "TimetableContainer enregistré avec succès.", tag: "save", object: componentName, method: "vm.save"});
+                      pmLog.debug({message: "TimetableContainer enregistré avec succès.", tag: "save", object: componentName, method: "vm.save"});
                       var textContent = "Le groupe d'horaires a été "
                           + (_formAction === 'create' ? "créé" : "modifié")
                           + " avec succès.";
-                      abxFlashMessage.showSuccess(textContent);
-                      abxRouter.navigate(['Admin.settings.home']);
+                      pmFlashMessage.showSuccess(textContent);
+                      pmRouter.navigate(['Admin.settings.home']);
                       return;
                     }
 
                     // erreur
-                    abxLog.debug({message: "Erreur lors de l'enregistrement du TimetableContainer.", tag: "save", object: componentName, method: "vm.save"});
+                    pmLog.debug({message: "Erreur lors de l'enregistrement du TimetableContainer.", tag: "save", object: componentName, method: "vm.save"});
 
                     // parse l'objet d'erreur pour ajouter les jours en erreurs
                     if (response[0].objects !== undefined && response[0].objects[0] !== undefined
@@ -456,7 +456,7 @@
                           }
                         }
                         if (daysOfWeekError.length > 0) {
-                          daysOfWeekError = $filter('abxCommonOrderByDatetimeFilter')(daysOfWeekError, 'dayOfWeekList');
+                          daysOfWeekError = $filter('pmCommonOrderByDatetimeFilter')(daysOfWeekError, 'dayOfWeekList');
                           var newErrorObject = {
                             FieldErrorResource: {
                               resource: "TimetableContainer",
@@ -468,7 +468,7 @@
                           response[0].objects[0].ErrorResponse.fieldErrors.push(newErrorObject);
 
                           // tri et affectation du dayOfWeek actif
-                          var daysOfWeekList = $filter('abxCommonOrderByDatetimeFilter')([0, 1, 2, 3, 4, 5, 6], 'dayOfWeek');
+                          var daysOfWeekList = $filter('pmCommonOrderByDatetimeFilter')([0, 1, 2, 3, 4, 5, 6], 'dayOfWeek');
                           vm.activeDayOfWeek = daysOfWeekList.indexOf(daysOfWeekError[0]);
                         } else {
                           vm.activeDayOfWeek = 0;
@@ -476,14 +476,14 @@
                         vm.daysOfWeekErrorsCount = daysOfWeekErrorsCount;
 
                       } catch (e) {
-                        abxLog.error({message: "Erreur catchée lors du parsage de l'objet d'erreur. Message d'exception={{exceptionMessage}}",
+                        pmLog.error({message: "Erreur catchée lors du parsage de l'objet d'erreur. Message d'exception={{exceptionMessage}}",
                           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "vm.save"});
                       }
                     } else {
                       vm.daysOfWeekErrorsCount = 0;
                     }
 
-                    vm.ngForm.TimetableContainer.abxFormBackApplyErrors(response[0],
+                    vm.ngForm.TimetableContainer.pmFormBackApplyErrors(response[0],
                         {redirectLinkParams: ['Admin.settings.home'],
                           errorMessage: "Le groupe d'horaires que vous essayez de modifier n'existe pas ou plus."});
 
@@ -492,14 +492,14 @@
             });
 
       } catch (e) {
-        abxLog.error({message: "Erreur catchée lors de l'enregistrement du TimetableContainer. Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: "Erreur catchée lors de l'enregistrement du TimetableContainer. Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "vm.save"});
 
         var errorOptions = {
           errorMessage: "La " + (_formAction === 'create' ? "création" : "modification") + " du groupe d'horaires a échoué.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(errorOptions);
+        pmFlashMessage.showError(errorOptions);
 
         vm.isSaving = false;
       }
@@ -518,18 +518,18 @@
      * @return {void} 
      */
     _this.$routerOnActivate = function(nextInstruction, prevInstruction) {
-      abxLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-      abxLog.debug({message: "Paramètres méthode : {{params}}",
+      pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
+      pmLog.debug({message: "Paramètres méthode : {{params}}",
         params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
-      _this.abxAppController.vm.setModule('admin.settings');
+      _this.pmAppController.vm.setModule('admin.settings');
       
       try {
         // validation des paramètres
         var routeParams = angular.copy(nextInstruction.params);
         // validation :action
         if (["create", "read", "update"].indexOf(routeParams.action) < 0) {
-          abxRouter.navigateToErrorPage('404', 'params');
+          pmRouter.navigateToErrorPage('404', 'params');
           return;
         }
 
@@ -538,10 +538,10 @@
         var timetableContainerId = parseInt(routeParams.timetableContainerId);
         if (isNaN(timetableContainerId)) {
           if (routeParams.action !== 'create') {
-            abxLog.info({message: "TimeTableContainerId incorrect. action={{action}}|timetableContainerId={{timetableContainerId}}",
+            pmLog.info({message: "TimeTableContainerId incorrect. action={{action}}|timetableContainerId={{timetableContainerId}}",
               params: {action: routeParams.action, timetableContainerId: routeParams.timetableContainerId},
               tag: "$routeParams", object: componentName, method: "$routerOnActivate"});
-            abxRouter.navigateToErrorPage('404', 'params');
+            pmRouter.navigateToErrorPage('404', 'params');
             return;
           } else {
             timetableContainerId = undefined;
@@ -551,15 +551,15 @@
 
         // récupération des données
         var concatRequests = [
-          {modelMethod: abxYearContainerModel.readCurrent, options: {}},
-          {modelMethod: abxSchoolYearModel.readCurrent, options: {}}
+          {modelMethod: pmYearContainerModel.readCurrent, options: {}},
+          {modelMethod: pmSchoolYearModel.readCurrent, options: {}}
         ];
         if (routeParams.timetableContainerId !== undefined) {
-          concatRequests.push({modelMethod: abxTimetableContainerModel.readByTimetableContainerId,
+          concatRequests.push({modelMethod: pmTimetableContainerModel.readByTimetableContainerId,
             options: {timetableContainerId: routeParams.timetableContainerId, forceBackRead: true}});
         }
 
-        abxModelManager.addConcatRequest(concatRequests)
+        pmModelManager.addConcatRequest(concatRequests)
             .then(function(response) {
 
               var yearContainerResult = response[0],
@@ -568,7 +568,7 @@
                   timetableContainer = {};
 
               // erreur ou abscence de YearContainer et/ou de schoolYear
-              if (abxModelManager.checkYearContainerAndSchoolYear(yearContainerResult, schoolYearResult) === false) {
+              if (pmModelManager.checkYearContainerAndSchoolYear(yearContainerResult, schoolYearResult) === false) {
                 return;
               }
 
@@ -576,7 +576,7 @@
               if (routeParams.timetableContainerId !== undefined) {
                 // pas de timetableContainer trouvé
                 if (timetableContainerResult === undefined) {
-                  abxLog.debug({message: "TimetableContainerResult inexistant : timetableContainerId={{timetableContainerId}}.",
+                  pmLog.debug({message: "TimetableContainerResult inexistant : timetableContainerId={{timetableContainerId}}.",
                     object: componentName, method: "$routerOnActivate",
                     params: {timetableContainerId: routeParams.timetableContainerId}, tag: "settings"});
 
@@ -588,17 +588,17 @@
                       errorMessage: "Le groupe d'horaires à dupliquer n'existe plus.",
                       adviceMessage: "Vous pouvez créer un nouveau groupe d'horaires."
                     };
-                    abxFlashMessage.showError(errorOptions);
+                    pmFlashMessage.showError(errorOptions);
 
                   } else {
                     // UPDATE | READ
-                    abxFlashMessage.showError({errorMessage: "Le groupe d'horaires n'existe pas ou plus."});
-                    abxRouter.navigate(['Admin.settings.home']);
+                    pmFlashMessage.showError({errorMessage: "Le groupe d'horaires n'existe pas ou plus."});
+                    pmRouter.navigate(['Admin.settings.home']);
                     return;
                   }
 
                 } else if (timetableContainerResult.result !== undefined || timetableContainerResult.TimetableContainer === undefined) {
-                  abxLog.error({message: "Impossible de récupérer un timetableContainer depuis le back : timetableContainerId={{timetableContainerId}}.",
+                  pmLog.error({message: "Impossible de récupérer un timetableContainer depuis le back : timetableContainerId={{timetableContainerId}}.",
                     object: componentName, params: {timetableContainerId: routeParams.timetableContainerId}, tag: "settings", method: "$routerOnActivate"});
 
                   // DUPLICATE
@@ -609,7 +609,7 @@
                       errorMessage: "Erreur lors de la récupération du groupe d'horaires à dupliquer.",
                       adviceMessage: "Vous pouvez créer un nouveau groupe d'horaires."
                     };
-                    abxFlashMessage.showError(errorOptions);
+                    pmFlashMessage.showError(errorOptions);
 
                   } else {
                     var errorOptions = {
@@ -619,8 +619,8 @@
                         objectName: 'timetableContainer',
                         errorMessage: 'timetableContainerId = ' + routeParams.timetableContainerId}
                     };
-                    abxFlashMessage.showError(errorOptions);
-                    abxRouter.navigate(['Admin.settings.home']);
+                    pmFlashMessage.showError(errorOptions);
+                    pmRouter.navigate(['Admin.settings.home']);
                     return;
                   }
                 } else {
@@ -631,8 +631,8 @@
 
               // vérification des ACL
               var aclObjet = (routeParams.action === 'update' ? timetableContainer : 'timetableContainer');
-              if (!abxAcl.isAllowedManageCrudObject(aclObjet, routeParams.action)) {
-                abxRouter.navigateToErrorPage('acl', 'forbidden');
+              if (!pmAcl.isAllowedManageCrudObject(aclObjet, routeParams.action)) {
+                pmRouter.navigateToErrorPage('acl', 'forbidden');
                 return;
               }
 
@@ -661,7 +661,7 @@
               if (_routeParams.timetableContainerId !== undefined) {
 
                 if (routeParams.action === "read") {
-                  vm.isAllowedUpdate = abxAcl.isAllowedManageCrudObject(timetableContainer, 'update');
+                  vm.isAllowedUpdate = pmAcl.isAllowedManageCrudObject(timetableContainer, 'update');
                 }
                 
                 // pas de name si DUPLICATE pour éviter le doublon
@@ -688,15 +688,15 @@
                 }
               }
 
-              abxLog.debug({message: "timetableContainer initialisé : {{timetableContainer}}.", object: componentName,
+              pmLog.debug({message: "timetableContainer initialisé : {{timetableContainer}}.", object: componentName,
                 params: {timetableContainer: vm.timetableContainer}, tag: "vm", method: "$routerOnActivate"});
 
               if (routeParams.action === 'update') {
                 var textContent = "Attention&nbsp;: si vous modifiez ou supprimez des horaires, cela impactera les séances de l'emploi du temps déjà existantes.";
-                abxFlashMessage.showWarningConfirm(textContent)
+                pmFlashMessage.showWarningConfirm(textContent)
                     .catch(function() {
-                      abxFlashMessage.showCancel();
-                      abxRouter.navigate(['Admin.settings.home']);
+                      pmFlashMessage.showCancel();
+                      pmRouter.navigate(['Admin.settings.home']);
                     });
               }
 
@@ -706,15 +706,15 @@
       } catch (e) {
 
         var errorMessage = "Erreur lors de l'affectation des données de formulaire.";
-        abxLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
+        pmLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
           params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "$routerOnActivate"});
         var options = {
           errorMessage: errorMessage,
           adviceMessage: "Vous ne pouvez pas créer, modifier ou afficher ce groupe d'horaires.",
           errorObject: {errorMessage: e.message}
         };
-        abxFlashMessage.showError(options);
-        abxRouter.navigate(['Admin.settings.home']);
+        pmFlashMessage.showError(options);
+        pmRouter.navigate(['Admin.settings.home']);
       }
       ;
     }

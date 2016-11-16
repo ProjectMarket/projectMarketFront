@@ -16,28 +16,28 @@
 
   'use strict';
   
-  var objectName = 'abx.common.logService';
+  var objectName = 'pm.common.logService';
 
   angular
-      .module('abx.commonModule')
+      .module('pm.commonModule')
       .factory(objectName, [
         '$window',
         '$interval',
         '$injector',
         '$q',
-        'abx.common.configService',
-        'abx.common.cronService',
-        'abx.common.stacktraceService',
-        'abx.common.timeService',
+        'pm.common.configService',
+        'pm.common.cronService',
+        'pm.common.stacktraceService',
+        'pm.common.timeService',
         function(
             $window,
             $interval,
             $injector,
             $q,
-            abxConfig,
-            abxCron,
-            abxStacktrace,
-            abxTime) {
+            pmConfig,
+            pmCron,
+            pmStacktrace,
+            pmTime) {
 
           //********************
           // Propriétés privées
@@ -46,7 +46,7 @@
           /*
            * @property {object} Config locale
            */
-          var _config = abxConfig.get();
+          var _config = pmConfig.get();
 
           /*
            * @property {integer} Config locale
@@ -90,14 +90,14 @@
            * Si > 0 : le back est en avance sur le front
            * Si = 0 : le back et le front sont synchronisés
            * Si < 0 : le back est en retard sur le front
-           * Constante générée lors du bootstrap de abxApp
+           * Constante générée lors du bootstrap de pmApp
            */
-          var _frontBackTimestampInterval = window.abxCommonConfigFrontBackTimestampInterval || 0;
+          var _frontBackTimestampInterval = window.pmCommonConfigFrontBackTimestampInterval || 0;
 
           /*
-           * @property {object} abx.common.backComHandlerService
+           * @property {object} pm.common.backComHandlerService
            */
-          var _abxBackComHandler;
+          var _pmBackComHandler;
 
 
           //********************
@@ -105,16 +105,16 @@
           //********************
 
           /*
-           * Renvoie abx.common.backComHandlerService
+           * Renvoie pm.common.backComHandlerService
            * 
-           * @return {object} abx.common.backComHandlerService
+           * @return {object} pm.common.backComHandlerService
            */
-          var _getAbxBackComHandler = function() {
-            if (_abxBackComHandler === undefined) {
+          var _getpmBackComHandler = function() {
+            if (_pmBackComHandler === undefined) {
               // injection pour éviter des références circulaires
-              _abxBackComHandler = $injector.get('abx.common.backComHandlerService');
+              _pmBackComHandler = $injector.get('pm.common.backComHandlerService');
             }
-            return _abxBackComHandler;
+            return _pmBackComHandler;
           };
 
           /*
@@ -181,7 +181,7 @@
                 FrontEndLog: {
                   applicationId: _config.applicationInstanceId,
                   url: $window.location.href,
-                  timestamp: abxTime.moment().unix() + _frontBackTimestampInterval,
+                  timestamp: pmTime.moment().unix() + _frontBackTimestampInterval,
                   level: _logLevelList[logLevel],
                   tag: options.tag,
                   issuerObject: options.object,
@@ -194,7 +194,7 @@
               }
               // ajout de la trace
               if (options.exception !== undefined) {
-                abxStacktrace.StackTrace.fromError(options.exception)
+                pmStacktrace.StackTrace.fromError(options.exception)
                     .then(function(trace) {
                       logObject.FrontEndLog = trace.toString();
                     })
@@ -225,8 +225,8 @@
             }
             try {
               // annulation du CRON s'il existe
-              if (abxCron.isCronExists('abxLog-sendBackend')) {
-                abxCron.cancel('abxLog-sendBackend');
+              if (pmCron.isCronExists('pmLog-sendBackend')) {
+                pmCron.cancel('pmLog-sendBackend');
               }
 
               // création du CRON
@@ -234,7 +234,7 @@
                 _factory.send();
               }, _sendLogsInterval, 0, false);
               // stockage en service
-              abxCron.put('abxLog-sendBackend', _intervalPromise);
+              pmCron.put('pmLog-sendBackend', _intervalPromise);
               _factory.info({message: "Lancement réussi du CRON d'envoi des logs.", tag: "log", object: objectName, method: "_setSendCron"});
             }
             catch (e) {
@@ -328,12 +328,12 @@
              * @return {void}
              */
             send: function() {
-              var abxBackComHandler = _getAbxBackComHandler(),
-                  sendTimestamp = abxTime.moment().unix();
+              var pmBackComHandler = _getpmBackComHandler(),
+                  sendTimestamp = pmTime.moment().unix();
               _sendLogList['ts_' + sendTimestamp] = _waitLogList;
               _waitLogList = [];
 
-              abxBackComHandler.post('log', _sendLogList['ts_' + sendTimestamp])
+              pmBackComHandler.post('log', _sendLogList['ts_' + sendTimestamp])
                   .then(function() {
                     // réinitialistion de l'intervale de logs
                     _sendLogsInterval = _config.log.sendLogsInterval;
