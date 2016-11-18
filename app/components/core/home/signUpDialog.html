@@ -66,7 +66,6 @@
                     </div>
                     <md-input-container flex="50">
                         <label>Mot de passe *</label>
-                        </md-icon>
                         <input ng-model="$ctrl.vm.userDetails.password" 
                                type="password"
                                placeholder="Mot de passe" 
@@ -119,12 +118,11 @@
                     J'accepte les conditions générales d'utilisation *
                 </p>
             </span>
-            <span style="color: gray;"layout="row">
+            <span style="color: gray;" layout="row">
                 Tous les champs portant une * sont obligatoires.
             </span>
             <span layout="column" layout-align="center center">
                 <md-button class="md-primary md-raised"
-                           ng-click="checkInscriptionInfos()"
                            ng-disabled="!formSignUp.$valid">
                     Inscription
                 </md-button>

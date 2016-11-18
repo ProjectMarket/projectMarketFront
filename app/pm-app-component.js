@@ -206,8 +206,35 @@
          * Ouvre le dialog de connexion
          */
         vm.signin = function () {
+            var options = {
+                templateUrl: 'app/components/core/home/signInDialog.html',
+                controller: function ($scope, $mdDialog) {
+                    var vm = this.vm = {};
 
+                    vm.userDetails = {
+                        email: undefined,
+                        password: undefined
+                    };
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                    vm.confirm = function () {
+                        // Vérification du formulaire
+
+                        $mdDialog.hide(vm.userDetails);
+                    };
+                }
+            };
+
+            pmFlashMessage.showCustomDialog(options)
+                    .then(function (data) {
+                        console.info(data);
+                    })
+                    .catch(function (data) {
+                        pmFlashMessage.showCancel();
+                    });
         };
+
 
         //************
         // Listeners

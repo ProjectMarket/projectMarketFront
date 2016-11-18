@@ -1,0 +1,29 @@
+<md-dialog aria-label="Connexion"
+           ng-cloak>
+    <md-dialog-content layout-padding>
+        <form name="formSignIn"  
+              layout="column" flex>
+            <md-input-container>
+                <label>Email</label>
+                <input ng-model="$ctrl.vm.userDetails.email" 
+                       placeholder="Email" 
+                       name="email"
+                       required ng-minlength="4">
+            </md-input-container>
+            <md-input-container>
+                <label>Mot de passe</label>
+                <input ng-model="$ctrl.vm.userDetails.password" 
+                       placeholder="Mot de passe" 
+                       name="password"
+                       required>
+            </md-input-container>
+
+            <span layout="column" layout-align="center center">
+                <md-button class="md-primary md-raised"
+                           ng-disabled="!formSignIn.$valid">
+                    Connexion
+                </md-button>
+            </span>
+        </form>
+    </md-dialog-content>
+</md-dialog>
