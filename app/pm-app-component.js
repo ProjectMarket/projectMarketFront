@@ -247,10 +247,6 @@
         $scope.$on('pm.common.authService:userDisconnected', function () {
             vm.isConnected = false;
         });
-        // réinitialisation des ACL
-        $scope.$on('pm.common.aclService:aclLoaded', function () {
-            _setIsAllowedAccessToComponents();
-        });
 
         // création dans le rootScope de l'objet pmMedia donnant les caractéristiques actuelles de l'affichage
         $scope.pmMedia = $rootScope.pmMedia = {
