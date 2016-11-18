@@ -27,15 +27,13 @@
         'pm.common.cookieService',
         'pm.common.routerService',
         'pm.common.cacheService',
-        'pm.common.aclService',
         function(
             $q,
             $rootScope,
             pmLog,
             pmCookie,
             pmRouter,
-            pmCache,
-            pmAcl
+            pmCache
             ) {
 
           pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
@@ -825,10 +823,6 @@
                       // rejette la promesse
                       return $q.reject(e.message);
                     }
-                  })
-                  .then(function() {
-                    // chargement des ACL
-                    return pmAcl.loadAcl();
                   })
                   .then(function() {
 

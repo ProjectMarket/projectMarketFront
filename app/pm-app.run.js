@@ -24,7 +24,6 @@
             $templateCache,
             $rootRouter
             ) {
-
           // chargement des templates d'erreur de validation
           var templates = [
             {

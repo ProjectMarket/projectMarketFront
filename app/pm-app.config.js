@@ -31,7 +31,6 @@
             $mdThemingProvider,
             $mdDateLocaleProvider,
             uiSelectConfig) {
-
           // passe en mode HTML5 (sans hashtag)
           $locationProvider.html5Mode(true);
 
@@ -51,9 +50,9 @@
 
           // configuration du thème par défaut
           $mdThemingProvider.theme('default')
-              .primaryPalette('brown')  // palette d'origine du thème 'default' : indigo
+              .primaryPalette('cyan')  // palette d'origine du thème 'default' : indigo
               .accentPalette('orange') // palette d'origine du thème 'default' : pink
-              .warnPalette('orange') // palette d'origine du thème 'default' : deep-orange
+              .warnPalette('deep-orange') // palette d'origine du thème 'default' : deep-orange
               .backgroundPalette('grey'); // palette d'origine du thème 'default' : grey
 
           // localisation de moment.js

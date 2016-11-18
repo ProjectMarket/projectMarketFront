@@ -1,0 +1,134 @@
+<md-dialog aria-label="Inscription"
+           ng-cloak>
+    <md-dialog-content layout-padding 
+                       layout="column">
+        <form name="formSignUp" flex layout="column">
+            <span layout="row">
+                <span layout="column">
+                    <div ng-messages="formSignUp.firstname.$error" 
+                         ng-if="formSignUp.firstname.$touched"
+                         class="pm-front-validation-messages">
+                        <div ng-message="required">Merci de saisir votre prénom.</div>
+                        <div ng-message="minlength">Le prénom saisi doit contenir au minimum 3 caractères.</div>
+                        <div ng-message="md-maxlength">Le prénom saisi doit contenir au maximum 50 caractères.</div>
+                    </div>
+                    <md-input-container flex-gt-sm="50">
+                        <label>Prénom *</label>
+                        <input ng-model="$ctrl.vm.userDetails.firstname" 
+                               placeholder="Prénom" 
+                               name="firstname"
+                               required ng-minlength="3" md-maxlength="50">
+                    </md-input-container>
+                </span>
+                <span layout="column">
+                    <div ng-messages="formSignUp.lastname.$error" 
+                         ng-if="formSignUp.lastname.$touched"
+                         class="pm-front-validation-messages">
+                        <div ng-message="required">Merci de saisir votre nom.</div>
+                        <div ng-message="minlength">Le nom saisi doit contenir au minimum 3 caractères.</div>
+                        <div ng-message="md-maxlength">Le nom saisi doit contenir au maximum 50 caractères.</div>
+                    </div>
+                    <md-input-container flex-gt-sm="50">
+                        <label>Nom *</label>
+                        <input ng-model="$ctrl.vm.userDetails.lastname"
+                               placeholder="Nom"
+                               name="lastname"
+                               required ng-minlength="3" md-maxlength="50">
+                    </md-input-container>
+                </span>
+            </span>
+
+
+            <span layout="column">
+                <div ng-messages="formSignUp.email.$error" 
+                     ng-if="formSignUp.email.$touched" 
+                     class="pm-front-validation-messages">
+                    <div ng-message="required">Merci de saisir une adresse mail.</div>
+                    <div ng-message="email">L'adresse mail saisie n'est pas une adresse valide.</div>
+                </div>
+                <md-input-container flex>
+                    <label>Adresse e-mail *</label>
+                    <input type="email"
+                           ng-model="$ctrl.vm.userDetails.mail" 
+                           placeholder="Adresse e-mail" 
+                           name="email"
+                           required>
+                </md-input-container>
+            </span>
+
+
+            <span layout-gt-sm="row">
+                <span layout="column">
+                    <div ng-messages="formSignUp.password.$error" 
+                         ng-if="formSignUp.password.$touched"
+                         class="pm-front-validation-messages">
+                        <div ng-message="minlength">Le mot de passe doit contenir au minimum 4 caractères.</div>
+                    </div>
+                    <md-input-container flex="50">
+                        <label>Mot de passe *</label>
+                        </md-icon>
+                        <input ng-model="$ctrl.vm.userDetails.password" 
+                               type="password"
+                               placeholder="Mot de passe" 
+                               name="password"
+                               required ng-minlength="4">
+                    </md-input-container>
+                </span>
+                <span layout="column">
+                    <div ng-messages="formSignUp.confirm_password.$error"
+                         ng-if="formSignUp.confirm_password.$dirty"
+                         class="pm-front-validation-messages">
+                        <div ng-message="compareTo" 
+                             ng-if="formSignUp.confirm_password.$dirty">Les mots de passes indiqués ne sont pas identiques.</div>
+                    </div>
+                    <md-input-container flex="50">
+                        <label>Vérification du mot de passe *</label>
+                        <input ng-model="$ctrl.vm.userDetails.confirmPassword" 
+                               type="password" 
+                               placeholder="Vérification du mot de passe"
+                               name="confirm_password"
+                               compare-to="$ctrl.vm.userDetails.password">
+                    </md-input-container>
+                </span>
+            </span>
+            <!--<span layout-gt-sm="row" 
+                  layout-wrap>
+                  <div ng-controller="photoUploadCtrl">
+                        <div class="form_line">
+                            <label>Image:</label>
+                            <div class="form_controls">
+                                <div class="upload_button_holder">
+                                    <div href="#" class="upload_button" ngf-select="uploadFiles($files)" multiple title="upload" resetOnClick="true" >Upload</div>
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+            </span>-->
+            <div ng-messages="formSignUp.agreement.$error" 
+                 ng-if="formSignUp.$dirty"
+                 class="pm-front-validation-messages">
+                <div ng-message="required">Veuillez accepter les conditions générales d'utilisation avant de vous inscrire</div>
+            </div>
+            <span layout-gt-sm="row">
+                <input type="checkbox" 
+                       ng-model="$ctrl.vm.userDetails.agreement"
+                       aria-label="Agree conditions"
+                       name="agreement"
+                       required>
+                <p style="margin-left:10px;margin-top: -1px;">
+                    J'accepte les conditions générales d'utilisation *
+                </p>
+            </span>
+            <span style="color: gray;"layout="row">
+                Tous les champs portant une * sont obligatoires.
+            </span>
+            <span layout="column" layout-align="center center">
+                <md-button class="md-primary md-raised"
+                           ng-click="checkInscriptionInfos()"
+                           ng-disabled="!formSignUp.$valid">
+                    Inscription
+                </md-button>
+            </span>
+        </form>
+    </md-dialog-content>
+</md-dialog>

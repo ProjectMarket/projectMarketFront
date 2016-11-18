@@ -19,7 +19,7 @@
             .module('pmApp')
             .component(componentName, {
                 $routeConfig: [
-//                    {path: '/', component: 'pm.core.homeComponent', name: 'Core.home'},
+                    {path: '/', component: 'pm.core.homeComponent', name: 'Core.home'}
 //                    {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
 //                    {path: '/index', component: 'pm.core.indexComponent', name: 'Core.index'},
 //                    {path: '/login-result/:result/:relayPath', component: 'pm.core.loginResultComponent', name: 'Core.loginResult'},
@@ -47,8 +47,8 @@
                 controller: [
                     'pm.common.logService',
                     'pm.common.authService',
-                    'pm.common.aclService',
                     'pm.common.configService',
+                    'pm.common.flashMessageService',
                     '$scope',
                     '$rootScope',
                     '$mdConstant',
@@ -64,8 +64,8 @@
     function Controller(
             pmLog,
             pmAuth,
-            pmAcl,
             pmConfig,
+            pmFlashMessage,
             $scope,
             $rootScope,
             $mdConstant,
@@ -92,24 +92,6 @@
         //******************
         // Méthodes privées
         //******************
-
-        /*
-         * Chargement des droits d'accès aux composants pour le menu latéral
-         * 
-         * @return {void} 
-         */
-        var _setIsAllowedAccessToComponents = function () {
-            var componentsList = [
-                'pm.core.homeComponent',
-                'pm.admin.settings.homeComponent',
-                'pm.admin.permissionsComponent',
-                'pm.admin.userSchoolRolesComponent'
-            ];
-
-            for (var i = 0, length = componentsList.length; i < length; i++) {
-                vm.isAllowedAccessToComponents[componentsList[i]] = pmAcl.isAllowedAccessToComponent(componentsList[i]);
-            }
-        };
 
 
         //*********************
@@ -181,6 +163,51 @@
             return vm.pmMedia.getClass().join(' ');
         };
 
+
+        /*
+         * Ouvre le dialog d'inscription
+         */
+        vm.signup = function () {
+            var options = {
+                templateUrl: 'app/components/core/home/signUpDialog.html',
+                controller: function ($scope, $mdDialog) {
+                    var vm = this.vm = {};
+
+                    vm.userDetails = {
+                        email: undefined,
+                        firstname: undefined,
+                        lastName: undefined,
+                        password: undefined,
+                        confirmPassword: undefined,
+                        avatar: undefined,
+                        agreement: false
+                    };
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                    vm.confirm = function () {
+                        // Vérification du formulaire
+
+                        $mdDialog.hide(vm.userDetails);
+                    };
+                }
+            };
+
+            pmFlashMessage.showCustomDialog(options)
+                    .then(function (data) {
+                        console.info(data);
+                    })
+                    .catch(function (data) {
+                        pmFlashMessage.showCancel();
+                    });
+        };
+
+        /*
+         * Ouvre le dialog de connexion
+         */
+        vm.signin = function () {
+
+        };
 
         //************
         // Listeners

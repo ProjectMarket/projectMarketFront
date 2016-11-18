@@ -39,7 +39,7 @@
                                             "crudObjects": []
                                         },
                                         "home": {
-                                            "isProtected": true,
+                                            "isProtected": false,
                                             "crudObjects": []
                                         },
                                         "login": {

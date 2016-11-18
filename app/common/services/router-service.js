@@ -1,12 +1,9 @@
 /** 
  * Service d'encapsulation du nouveau router d'Angular
  * 
- * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
- * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
- * @author     Steve Van Wassenhoven (steve.vw@ac-bordeaux.fr)
- * @copyright  Copyright (c) 2014-2016, DSI de l'académie de Bordeaux (ce.dsi@ac-bordeaux.fr) - Tous droits réservés
- * @license    http://www.gnu.org/licenses/gpl.html  GNU/GPL License 3.0
- * @version    $Id: router-service.js 684 2016-03-15 14:14:02Z vguede $
+ * @author     Romain Poussin (romain.poussin@ynov.com)
+ * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
+ * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
  */
 
 /* global angular */
@@ -58,11 +55,6 @@
           var _pmAuth;
 
           /*
-           * @property {object} pm.common.aclService
-           */
-          var _pmAcl;
-
-          /*
            * @property {object} accès uniquement en interne
            */
           var _internalAccess = {};
@@ -87,17 +79,6 @@
               _pmAuth = $injector.get('pm.common.authService');
             }
             return _pmAuth;
-          };
-          /*
-           * Renvoie pm.common.aclService
-           * 
-           * @return {object} pm.common.aclService
-           */
-          var _getpmAcl = function() {
-            if (_pmAcl === undefined) {
-              _pmAcl = $injector.get('pm.common.aclService');
-            }
-            return _pmAcl;
           };
 
 
@@ -142,22 +123,6 @@
 
                     var pmAuth = _getpmAuth();
                     return pmAuth.connect();
-                  })
-                  .then(function() {
-                    // procédure d'autorisation (ACL)
-                    var pmAcl = _getpmAcl();
-                    return pmAcl.isAllowedAccessToComponent(component);
-
-                  })
-                  .then(function(aclResult) {
-                    // interprétation du retour des ACL
-                    if (aclResult === true) {
-                      return $q.when();
-                    } else {
-                      _factory.navigateToErrorPage('acl', 'forbidden');
-                      return $q.reject();
-                    }
-
                   })
                   .then(function() {
                     pmLog.trace({message: "Navigation autorisée par $canActivate.", tag: "$canActivate", object: objectName, method: "canActivate"});
