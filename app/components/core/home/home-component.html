@@ -13,13 +13,14 @@
 
 <!-- Testimonials -->
 <div class="testimonials-section">
-    <div class="testimonials-container">
-        <div class="col-xs-12 col-md-4 testimonials-picture-container">
+    <div class="testimonials-container" layout-gt-xs="row" flex layout-margin>
+        <div class="testimonials-picture-container"  flex-gt-xs="25">
             <img class="testimonial-picture" src="{{$ctrl.vm.arrayTestimonial[0].src}}" />
         </div>
-        <div class="col-xs-12 col-md-8 testimonials-text">
-            <span class="quote-left ion-quote"></span><span class="quote-right ion-quote"></span>
-            <div class="testimonials-text-content blockquote">
+        <div class="testimonials-text" layout-gt-xs="75">
+            <!--<span class="quote-left ion-quote"></span><span class="quote-right ion-quote"></span>-->
+            <!--<div class="testimonials-text-content blockquote">-->
+            <div class="testimonials-text-content">
                 J'avais besoin de quelqu'un pour créer un site d'e-commerce. Je l'ai trouvé en moins de 2 jours ! 
             </div>
         </div>
