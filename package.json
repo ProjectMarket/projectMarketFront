@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "express": "~4.9.8"
+    "express": "~4.9.8",
+    "serve-favicon": "^2.3.2"
   },
   "repository": {
     "type": "git",

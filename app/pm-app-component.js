@@ -12,14 +12,14 @@
 (function () {
 
     'use strict';
-
     var componentName = 'pm.appComponent';
-
     angular
             .module('pmApp')
             .component(componentName, {
                 $routeConfig: [
-                    {path: '/', component: 'pm.core.homeComponent', name: 'Core.home'}
+                    {path: '/', component: 'pm.core.homeComponent', name: 'Core.home'},
+                    {path: '/user/:userId', component: 'pm.core.userComponent', name: 'Core.user'},
+                    {path: '/project/:projectId', component: 'pm.core.projectComponent', name: 'Core.project'}
 //                    {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
 //                    {path: '/index', component: 'pm.core.indexComponent', name: 'Core.index'},
 //                    {path: '/login-result/:result/:relayPath', component: 'pm.core.loginResultComponent', name: 'Core.loginResult'},
@@ -56,8 +56,6 @@
                     '$mdMedia',
                     Controller]
             });
-
-
     //************
     // Controller
     //************
@@ -74,7 +72,6 @@
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
-
         //********************
         // Propriétés privées
         //********************
@@ -83,12 +80,10 @@
          * @property {object} this
          */
         var _this = this;
-
         /*
          * @property {object} Config locale d'pm
          */
         var _config = pmConfig.get();
-
         //******************
         // Méthodes privées
         //******************
@@ -102,32 +97,26 @@
          * @property {object} vue-modèle
          */
         var vm = _this.vm = {};
-
         /*
          * @property {boolean} l'utilisateur est-il connecté ?
          */
         vm.isConnected = pmAuth.isConnected();
-
         /*
          * @property {object} liste des ACL d'accès aux composants pour le menu latéral
          */
         vm.isAllowedAccessToComponents = {};
-
         /*
          * @property {string} nom du module sélectionné
          */
         vm.selectedModule = '';
-
         /*
          * @property {object} ajout de pmMedia dans le scope
          */
         vm.pmMedia = $rootScope.pmMedia;
-
         /*
          * @property {boolean} afficher la barre média ?
          */
         vm.displayMediaBar = _config.isDevelopment && _config.layout.displayMediaBar;
-
         //*******************
         // Méthodes du scope
         //*******************
@@ -145,13 +134,10 @@
                 params: {params: arguments}, tag: "params", object: componentName, method: "vm.setModule"});
             vm.selectedModule = module;
         };
-
         vm.toggleSidenav = function () {
             $mdSidenav('left').toggle();
         };
-
         vm.$mdMedia = $mdMedia;
-
         // méthodes permettant d'afficher dans la vue les caractéristiques actuelles du média
         vm.mediaSize = function () {
             return vm.pmMedia.size;
@@ -162,8 +148,6 @@
         vm.mediaClass = function () {
             return vm.pmMedia.getClass().join(' ');
         };
-
-
         /*
          * Ouvre le dialog d'inscription
          */
@@ -172,7 +156,6 @@
                 templateUrl: 'app/components/core/home/signUpDialog.html',
                 controller: function ($scope, $mdDialog) {
                     var vm = this.vm = {};
-
                     vm.userDetails = {
                         email: undefined,
                         firstname: undefined,
@@ -192,7 +175,6 @@
                     };
                 }
             };
-
             pmFlashMessage.showCustomDialog(options)
                     .then(function (data) {
                         console.info(data);
@@ -201,7 +183,6 @@
                         pmFlashMessage.showCancel();
                     });
         };
-
         /*
          * Ouvre le dialog de connexion
          */
@@ -210,7 +191,6 @@
                 templateUrl: 'app/components/core/home/signInDialog.html',
                 controller: function ($scope, $mdDialog) {
                     var vm = this.vm = {};
-
                     vm.userDetails = {
                         email: undefined,
                         password: undefined
@@ -225,7 +205,6 @@
                     };
                 }
             };
-
             pmFlashMessage.showCustomDialog(options)
                     .then(function (data) {
                         console.info(data);
@@ -234,8 +213,6 @@
                         pmFlashMessage.showCancel();
                     });
         };
-
-
         //************
         // Listeners
         //************
@@ -247,7 +224,6 @@
         $scope.$on('pm.common.authService:userDisconnected', function () {
             vm.isConnected = false;
         });
-
         // création dans le rootScope de l'objet pmMedia donnant les caractéristiques actuelles de l'affichage
         $scope.pmMedia = $rootScope.pmMedia = {
             size: '',
@@ -257,7 +233,6 @@
                 return [this.size, this.orientation].concat(this.breakpoints);
             }
         };
-
         // surveillance de la taille d'affichage du navigateur et de son orientation
         $scope.$watch(
                 function () {
@@ -293,7 +268,6 @@
                 },
                 true
                 );
-
         //****************************
         // Méthodes du lifecycle hook
         //****************************
@@ -307,12 +281,9 @@
          */
         _this.$routerOnActivate = function (nextInstruction, prevInstruction) {
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
-
             _setIsAllowedAccessToComponents();
         };
-
     }
     ;
-
 // fin IIFE
 })();
