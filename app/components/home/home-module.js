@@ -1,5 +1,5 @@
 /** 
- * Module pm.commonModule
+ * Module pm.components.core
  * 
  * @author     Romain Poussin (romain.poussin@ynov.com)
  * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
@@ -14,9 +14,7 @@
   'use strict';
 
   angular
-      .module('pm.componentsModule', [
-        'pm.components.coreModule',
-        'pm.components.homeModule'
+      .module('pm.components.homeModule', [
       ]);
 
 // fin IIFE

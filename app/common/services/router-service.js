@@ -122,7 +122,6 @@
                                             pmAuth.connect();
                                             return $q.when();
                                         }
-
                                         
                                         return pmAuth.connect();
                                     })

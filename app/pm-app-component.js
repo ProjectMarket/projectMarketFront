@@ -17,7 +17,7 @@
             .module('pmApp')
             .component(componentName, {
                 $routeConfig: [
-                    {path: '/', component: 'pm.core.homeComponent', name: 'Core.home'},
+                    {path: '/', component: 'pm.home.homeComponent', name: 'Home.home'},
                     {path: '/user/:userId', component: 'pm.core.userComponent', name: 'Core.user'},
                     {path: '/project/:projectId', component: 'pm.core.projectComponent', name: 'Core.project'},
 //                    {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
@@ -241,6 +241,7 @@
          * Déconnexion de l'utilisateur
          */
         vm.signout = function () {
+            //TODO: ajouter dialog de confirmation de déconnection
             pmAuth.logout();
         };
 
