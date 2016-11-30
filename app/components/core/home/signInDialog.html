@@ -20,7 +20,8 @@
 
             <span layout="column" layout-align="center center">
                 <md-button class="md-primary md-raised"
-                           ng-disabled="!formSignIn.$valid">
+                           ng-disabled="!formSignIn.$valid"
+                           ng-click="$ctrl.vm.confirm()">
                     Connexion
                 </md-button>
             </span>

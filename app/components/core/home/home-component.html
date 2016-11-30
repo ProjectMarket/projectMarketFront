@@ -4,69 +4,72 @@
   <p>Pour cette première phase de recette, seuls les menus Paramètres et Droits sont actifs, pour les admins uniquement.</p>
   <p>Vous pouvez changer votre rôle en cliquant dans le menu de gauche dans la partie nom, profil, établissement.</p>
 </md-card>-->
-
-
-<!-- Carousel -->
-<div id="carousel-accueil" class="carousel" data-ride="carousel">
-    <!-- Slides -->
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="{{$ctrl.vm.arraySlider[0].src}}">
-            <div class="slide-text-container">
-                <div class="slide-text">
-                    Les meilleurs <span class="slide-text-strong">professionels</span> pour les meilleurs <span class="slide-text-strong">projets</span>
+<div ng-hide="$ctrl.vm.isConnected">
+    <!-- Carousel -->
+    <div id="carousel-accueil" class="carousel" data-ride="carousel">
+        <!-- Slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="{{$ctrl.vm.arraySlider[0].src}}">
+                <div class="slide-text-container">
+                    <div class="slide-text">
+                        Les meilleurs <span class="slide-text-strong">professionels</span> pour les meilleurs <span class="slide-text-strong">projets</span>
+                    </div>
+                    <div class="button-slider-container">
+                        <!-- ngIf: loggedIn !== true --><a class="button-slider pointer ng-scope" ng-click="showDialogInscription($event)" ng-if="loggedIn !== true">
+                            INSCRIVEZ-VOUS
+                        </a><!-- end ngIf: loggedIn !== true -->
+                    </div>
                 </div>
-                <div class="button-slider-container">
-                    <!-- ngIf: loggedIn !== true --><a class="button-slider pointer ng-scope" ng-click="showDialogInscription($event)" ng-if="loggedIn !== true">
-                        INSCRIVEZ-VOUS
-                    </a><!-- end ngIf: loggedIn !== true -->
+            </div>
+            <div class="item">
+                <img src="{{$ctrl.vm.arraySlider[1].src}}">
+                <div class="slide-text-container">
+                    <div class="slide-text">
+                        Venez discuter de vos idées <br> autour d'un café
+                    </div>
+                    <div class="button-slider-container">
+                        <!-- ngIf: loggedIn !== true --><a class="button-slider pointer ng-scope" ng-click="showDialogInscription($event)" ng-if="loggedIn !== true">
+                            INSCRIVEZ-VOUS
+                        </a><!-- end ngIf: loggedIn !== true -->
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="item">
-            <img src="{{$ctrl.vm.arraySlider[1].src}}">
-            <div class="slide-text-container">
-                <div class="slide-text">
-                    Venez discuter de vos idées <br> autour d'un café
-                </div>
-                <div class="button-slider-container">
-                    <!-- ngIf: loggedIn !== true --><a class="button-slider pointer ng-scope" ng-click="showDialogInscription($event)" ng-if="loggedIn !== true">
-                        INSCRIVEZ-VOUS
-                    </a><!-- end ngIf: loggedIn !== true -->
-                </div>
-            </div>
+        <!-- Controls -->
+        <div class="carrousel-control-left-container">
+            <a class="left carousel-control" href="#carousel-accueil" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </div>
+        <div class="carrousel-control-right-container">
+            <a class="right carousel-control" href="#carousel-accueil" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
-    <!-- Controls -->
-    <div class="carrousel-control-left-container">
-        <a class="left carousel-control" href="#carousel-accueil" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-    </div>
-    <div class="carrousel-control-right-container">
-        <a class="right carousel-control" href="#carousel-accueil" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+    <!-- Fin Carousel-->
+
+
+    <!-- Testimonials -->
+    <div class="testimonials-section">
+        <div class="testimonials-container" layout-gt-xs="row" flex layout-margin>
+            <div class="testimonials-picture-container"  flex-gt-xs="25">
+                <img class="testimonial-picture" src="{{$ctrl.vm.arrayTestimonial[0].src}}" />
+            </div>
+            <div class="testimonials-text" layout-gt-xs="75">
+                <!--<span class="quote-left ion-quote"></span><span class="quote-right ion-quote"></span>-->
+                <!--<div class="testimonials-text-content blockquote">-->
+                <div class="testimonials-text-content">
+                    J'avais besoin de quelqu'un pour créer un site d'e-commerce. Je l'ai trouvé en moins de 2 jours ! 
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
     </div>
 </div>
-<!-- Fin Carousel-->
-
-
-<!-- Testimonials -->
-<div class="testimonials-section">
-    <div class="testimonials-container" layout-gt-xs="row" flex layout-margin>
-        <div class="testimonials-picture-container"  flex-gt-xs="25">
-            <img class="testimonial-picture" src="{{$ctrl.vm.arrayTestimonial[0].src}}" />
-        </div>
-        <div class="testimonials-text" layout-gt-xs="75">
-            <!--<span class="quote-left ion-quote"></span><span class="quote-right ion-quote"></span>-->
-            <!--<div class="testimonials-text-content blockquote">-->
-            <div class="testimonials-text-content">
-                J'avais besoin de quelqu'un pour créer un site d'e-commerce. Je l'ai trouvé en moins de 2 jours ! 
-            </div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
+<div ng-show="$ctrl.vm.isConnected">
+    coucou
 </div>

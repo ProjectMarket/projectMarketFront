@@ -9,7 +9,7 @@
         </h1>
         <span flex></span>
         <div hide show-gt-sm layout="row" layout-align="center center">
-            <md-button aria-label="S'inscrire" ng-click="$ctrl.vm.signup()">
+            <md-button ng-if="!$ctrl.vm.isConnected" aria-label="S'inscrire" ng-click="$ctrl.vm.signup()">
                 <md-icon md-svg-icon="layout:signup" aria-label="S'inscrire"></md-icon>
                 S'inscrire
             </md-button>
@@ -19,7 +19,7 @@
             </md-button>
             <md-button ng-if="$ctrl.vm.isConnected" aria-label="Se déconnecter" ng-click="$ctrl.vm.signout()">
                 <md-icon md-svg-icon="layout:logout" aria-label="Se déconnecter"></md-icon>
-                <md-tooltip>Se déconnecter</md-tooltip>
+                Se déconnecter
             </md-button>
         </div>
         <md-menu md-menu-origin md-position-mode="target-right bottom" hide-gt-sm>
@@ -28,7 +28,7 @@
             </md-button>
             <md-menu-content md-menu-align-target hide-gt-sm>
                 <md-menu-item>
-                    <md-button aria-label="S'inscrire" ng-click="$ctrl.vm.signup()">
+                    <md-button ng-if="!$ctrl.vm.isConnected" aria-label="S'inscrire" ng-click="$ctrl.vm.signup()">
                         <md-icon md-svg-icon="layout:signup" aria-label="S'inscrire"></md-icon>
                         S'inscrire
                     </md-button>

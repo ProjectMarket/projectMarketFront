@@ -32,6 +32,8 @@
                 templateUrl: 'app/components/core/home/home-component.html',
                 controller: [
                     'pm.common.logService',
+                    'pm.common.authService',
+                    '$scope',
                     Controller]
             });
 
@@ -40,7 +42,9 @@
     // Controller
     //************
     function Controller(
-            pmLog
+            pmLog,
+            pmAuth,
+            $scope
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -78,20 +82,38 @@
             {src: '../../../../assets/img/carousel/carousel-accueil-slide-2.jpg'},
             {src: '../../../../assets/img/carousel/carousel-accueil-slide-3.jpg'}
         ];
-        
+
         /*
          * Array des images des témoignages de la page d'accueil (non connecté)
          */
         vm.arrayTestimonial = [
             {src: '../../../../assets/img/testimonials/testimonial.jpg'}
         ];
-        
-        
+
+        /*
+         * @property {boolean} l'utilisateur est-il connecté ?
+         */
+        vm.isConnected = pmAuth.isConnected();
+
+
         //*******************
         // Méthodes du scope
         //*******************
 
 
+
+
+        //***********
+        // Listeners
+        //***********
+
+        // Mise en place d'un « listener » pour mettre à jour l'état de connexion de l'utilisateur
+        $scope.$on('abx.common.authService:userConnected', function () {
+            vm.isConnected = true;
+        });
+        $scope.$on('abx.common.authService:userDisconnected', function () {
+            vm.isConnected = false;
+        });
 
         //****************************
         // Méthodes du lifecycle hook

@@ -200,8 +200,13 @@
                     };
                     vm.confirm = function () {
                         // Vérification du formulaire
-
-                        $mdDialog.hide(vm.userDetails);
+                        pmAuth.login(vm.userDetails)
+                            .then(function () {
+                                $mdDialog.hide(vm.userDetails);
+                            })
+                            .catch(function () {
+                                pmFlashMessage.showValidationError("Mot de passe ou email incorrect");
+                            });
                     };
                 }
             };
@@ -213,6 +218,14 @@
                         pmFlashMessage.showCancel();
                     });
         };
+
+        /*
+         * Déconnexion de l'utilisateur
+         */
+        vm.signout = function () {
+            pmAuth.logout();
+        };
+
         //************
         // Listeners
         //************

@@ -417,8 +417,6 @@
     bottom: 0px;
     left: 0px;
     right: 0px;
-    color: #fff;
-    font-weight: 100;
 }
 
 .slide-text
@@ -483,4 +481,44 @@ footer
     text-align: center;
     font-weight: 300;
     display: block;
+}
+
+
+
+/*****************/
+/*****mdToast*****/
+/*****************/
+
+.pm-message-error {
+    color: #ff0502;
+}
+
+.pm-message-info {
+    color: #02b9ff;
+}
+
+.pm-message-success {
+    color: #02ff21;
+}
+
+
+/*****************/
+/*****dialog******/
+/*****************/
+
+.md-toolbar-tools {
+    height: 48px;
+    max-height: 48px;
+}
+
+.pm-toolbar-warning {
+    
+}
+
+.pm-toolbar-error {
+    
+}
+
+.pm-toolbar-info {
+    
 }
