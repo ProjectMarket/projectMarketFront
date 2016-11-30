@@ -123,10 +123,10 @@
 
                             var deferred = $q.defer();
                             pmBackComHandler.post('signup', options)
-                                    .then(function (response) {console.info("resolve: ", response);
+                                    .then(function (response) {
                                         deferred.resolve(response);
                                     })
-                                    .catch(function (response) {console.info("reject: ", response);
+                                    .catch(function (response) {
                                         deferred.reject(response);
                                     });
 

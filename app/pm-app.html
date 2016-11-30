@@ -17,6 +17,10 @@
                 <md-icon md-svg-icon="layout:login" aria-label="Se connecter"></md-icon>
                 Se connecter
             </md-button>
+            <md-button ng-if="$ctrl.vm.isConnected" aria-label="Mon compte" ng-link="['Core.user', {userId: $ctrl.vm.user.userId}]">
+                <md-icon md-svg-icon="avatars:svg-1" aria-label="Mon compte"></md-icon>
+                Mon compte
+            </md-button>
             <md-button ng-if="$ctrl.vm.isConnected" aria-label="Se déconnecter" ng-click="$ctrl.vm.signout()">
                 <md-icon md-svg-icon="layout:logout" aria-label="Se déconnecter"></md-icon>
                 Se déconnecter
@@ -37,6 +41,12 @@
                     <md-button aria-label="Se connecter" ng-click="$ctrl.vm.signin()">
                         <md-icon md-svg-icon="layout:login" aria-label="Se connecter"></md-icon>
                         Se connecter
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item ng-if="$ctrl.vm.isConnected">
+                    <md-button aria-label="Mon compte" ng-link="['Core.user', {userId: $ctrl.vm.user.userId}]">
+                        <md-icon md-svg-icon="avatars:svg-1" aria-label="Mon compte"></md-icon>
+                        Mon compte
                     </md-button>
                 </md-menu-item>
                 <md-menu-item ng-if="$ctrl.vm.isConnected" >
