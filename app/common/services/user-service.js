@@ -57,6 +57,18 @@
 
                         },
                         /*
+                         * Renvoie l'id du user connecté
+                         * 
+                         * @return {number}
+                         */
+                        getUserId: function () {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "getUserId", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "getUserId"});
+                            return _user.id;
+
+                        },
+                        /*
                          * 
                          * @returns {redirectUrl|String}
                          */

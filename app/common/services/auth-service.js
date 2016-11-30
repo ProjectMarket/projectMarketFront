@@ -178,14 +178,14 @@
                                         $http.get(_config.backend.baseUrl + 'user/me', httpConfig)
                                                 .then(function (response) {
                                                     pmLog.trace({message: "User récupéré du backend avec succès.", tag: "auth", object: objectName, method: "connect"});
-                                                    pmUser.setUser(response);
+                                                    pmUser.setUser(response.data);
                                                     userDeferred.resolve();
                                                 })
                                                 .catch(function (response) {
                                                     if (response.status === 401) {
                                                         pmLog.info({message: "Erreur 401 lors de la récupération de userDetails sur le backend.", tag: "auth", object: objectName, method: "connect"});
                                                         globalDeferred.reject("Erreur 401 lors de la récupération de userDetails sur le backend.");
-                                                        pmRouter.navigate(['Core.home']);
+                                                        pmRouter.navigate(['Home.home']);
                                                         return;
                                                     }
 

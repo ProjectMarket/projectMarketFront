@@ -48,6 +48,7 @@
                     'pm.common.logService',
                     'pm.common.authService',
                     'pm.common.configService',
+                    'pm.common.userService',
                     'pm.common.flashMessageService',
                     '$scope',
                     '$rootScope',
@@ -64,6 +65,7 @@
             pmLog,
             pmAuth,
             pmConfig,
+            pmUser,
             pmFlashMessage,
             $scope,
             $rootScope,
@@ -119,6 +121,13 @@
          * @property {boolean} afficher la barre média ?
          */
         vm.displayMediaBar = _config.isDevelopment && _config.layout.displayMediaBar;
+        /*
+         * 
+         * @property {Object} userId de l'utilisateur connecté
+         */
+        vm.user = {
+            userId : undefined
+        };
         //*******************
         // Méthodes du scope
         //*******************
@@ -155,7 +164,7 @@
          */
         vm.signup = function () {
             var options = {
-                templateUrl: 'app/components/core/home/signUpDialog.html',
+                templateUrl: 'app/components/home/signUpDialog.html',
                 controller: function ($scope, $mdDialog) {
                     var vm = this.vm = {};
                     vm.userDetails = {
@@ -207,7 +216,7 @@
          */
         vm.signin = function () {
             var options = {
-                templateUrl: 'app/components/core/home/signInDialog.html',
+                templateUrl: 'app/components/home/signInDialog.html',
                 controller: function ($scope, $mdDialog) {
                     var vm = this.vm = {};
                     vm.userDetails = {
@@ -252,6 +261,7 @@
         // Mise en place d'un « listener » pour mettre à jour l'état de connexion de l'utilisateur
         $scope.$on('pm.common.authService:userConnected', function () {
             vm.isConnected = true;
+            vm.user.userId = pmUser.getUserId();console.info(vm.user.userId);
         });
         $scope.$on('pm.common.authService:userDisconnected', function () {
             vm.isConnected = false;
