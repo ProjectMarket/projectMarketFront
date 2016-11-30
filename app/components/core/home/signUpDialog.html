@@ -14,7 +14,7 @@
                     </div>
                     <md-input-container flex-gt-sm="50">
                         <label>Prénom *</label>
-                        <input ng-model="$ctrl.vm.userDetails.firstname" 
+                        <input ng-model="$ctrl.vm.userDetails.firstName" 
                                placeholder="Prénom" 
                                name="firstname"
                                required ng-minlength="3" md-maxlength="50">
@@ -30,7 +30,7 @@
                     </div>
                     <md-input-container flex-gt-sm="50">
                         <label>Nom *</label>
-                        <input ng-model="$ctrl.vm.userDetails.lastname"
+                        <input ng-model="$ctrl.vm.userDetails.lastName"
                                placeholder="Nom"
                                name="lastname"
                                required ng-minlength="3" md-maxlength="50">
@@ -123,7 +123,8 @@
             </span>
             <span layout="column" layout-align="center center">
                 <md-button class="md-primary md-raised"
-                           ng-disabled="!formSignUp.$valid">
+                           ng-disabled="!formSignUp.$valid"
+                           ng-click="$ctrl.vm.confirm($ctrl.vm.userDetails)">
                     Inscription
                 </md-button>
             </span>

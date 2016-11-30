@@ -11,7 +11,7 @@
 (function () {
 
     'use strict';
-    var objectName = 'pm.common.alternatingWeeksModel';
+    var objectName = 'pm.common.userModel';
     angular
             .module('pm.commonModule')
             .factory(objectName, [
@@ -65,10 +65,19 @@
                                 throw new Error(e.message);
                             }
                         },
+                        /*
+                         * Renvoie les infos d'un utilisateur
+                         * 
+                         * @param {Object} options: {
+                         *      userId {number}
+                         * }
+                         * @returns {promise}
+                         */
                         read: function (options) {
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "read", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "read"});
+
                             if (options === undefined || options.userId === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "read"});
@@ -79,15 +88,48 @@
 
                             pmBackComHandler.post('user/' + options.userId)
                                     .then(function (response) {
-                                        if (response.status !== 200) {
-                                            deferred.resolve(response.data);
-                                            return;
-                                        }
-                                        deferred.reject(response);
+                                        deferred.resolve(response);
                                     })
                                     .catch(function (response) {
                                         deferred.reject(response);
                                     });
+                            return deferred.promise;
+                        },
+                        /*
+                         * Crée un utilisateur
+                         * 
+                         * @param {Object} options: {
+                         *      firstname: {string},
+                         *      lastname: {string},
+                         *      email: {string},
+                         *      password: {string},
+                         *      avatar: {string||undefined}
+                         * }
+                         * 
+                         * @return {promise}
+                         */
+                        create: function (options) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "create", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "create"});
+
+                            if (options === undefined || options.firstname === undefined
+                                    || options.lastname === undefined || options.email === undefined
+                                    || options.password === undefined) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "create"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+
+                            var deferred = $q.defer();
+                            pmBackComHandler.post('signup', options)
+                                    .then(function (response) {console.info("resolve: ", response);
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {console.info("reject: ", response);
+                                        deferred.reject(response);
+                                    });
+
                             return deferred.promise;
                         }
                     };

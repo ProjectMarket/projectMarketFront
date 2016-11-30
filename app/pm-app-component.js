@@ -19,14 +19,14 @@
                 $routeConfig: [
                     {path: '/', component: 'pm.core.homeComponent', name: 'Core.home'},
                     {path: '/user/:userId', component: 'pm.core.userComponent', name: 'Core.user'},
-                    {path: '/project/:projectId', component: 'pm.core.projectComponent', name: 'Core.project'}
+                    {path: '/project/:projectId', component: 'pm.core.projectComponent', name: 'Core.project'},
 //                    {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
 //                    {path: '/index', component: 'pm.core.indexComponent', name: 'Core.index'},
 //                    {path: '/login-result/:result/:relayPath', component: 'pm.core.loginResultComponent', name: 'Core.loginResult'},
 //                    {path: '/profile', component: 'pm.core.profileComponent', name: 'Core.profile'},
 //                    {path: '/login/:relayPath', component: 'pm.core.loginComponent', name: 'Core.login'},
 //                    {path: '/logout', component: 'pm.core.logoutComponent', name: 'Core.logout'},
-//                    {path: '/error/:type/:code', component: 'pm.core.errorComponent', name: 'Core.error'},
+                    {path: '/error/:type/:code', component: 'pm.core.errorComponent', name: 'Core.error'}
 //                    {path: '/admin/settings/home', component: 'pm.admin.settings.homeComponent', name: 'Admin.settings.home'},
 //                    {path: '/admin/settings/school-year/:action/:schoolYearId', component: 'pm.admin.settings.schoolYearComponent', name: 'Admin.settings.schoolYear'},
 //                    {path: '/admin/settings/period-type/:action/:periodTypeId', component: 'pm.admin.settings.periodTypeComponent', name: 'Admin.settings.periodType'},
@@ -54,6 +54,7 @@
                     '$mdConstant',
                     '$mdSidenav',
                     '$mdMedia',
+                    'pm.common.userModel',
                     Controller]
             });
     //************
@@ -68,7 +69,8 @@
             $rootScope,
             $mdConstant,
             $mdSidenav,
-            $mdMedia
+            $mdMedia,
+            pmUserModel
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -158,7 +160,7 @@
                     var vm = this.vm = {};
                     vm.userDetails = {
                         email: undefined,
-                        firstname: undefined,
+                        firstName: undefined,
                         lastName: undefined,
                         password: undefined,
                         confirmPassword: undefined,
@@ -168,9 +170,28 @@
                     vm.cancel = function () {
                         $mdDialog.cancel();
                     };
-                    vm.confirm = function () {
-                        // Vérification du formulaire
-                        $mdDialog.hide(vm.userDetails);
+                    vm.confirm = function (userDetails) {
+                        // Formatage des infos pour l'envoi au back
+                        var user = {
+                            firstname: userDetails.firstName,
+                            lastname: userDetails.lastName,
+                            email: userDetails.mail,
+                            password: userDetails.password,
+                            avatar: userDetails.avatar
+                        };
+                        pmUserModel.create(user)
+                                .then(function (response) {
+                                    pmAuth.login({email: user.email, password: user.password})
+                                            .then(function () {
+                                                $mdDialog.hide(userDetails);
+                                            })
+                                            .catch(function () {
+                                                pmFlashMessage.showValidationError("Votre inscription a réussie mais nous n'avons pas pu vous connecter");
+                                            });
+                                })
+                                .catch(function (response) {
+                                    pmFlashMessage.showValidationError("Votre inscription a échouée.");
+                                });
                     };
                 }
             };
@@ -199,12 +220,12 @@
                     vm.confirm = function () {
                         // Vérification du formulaire
                         pmAuth.login(vm.userDetails)
-                            .then(function () {
-                                $mdDialog.hide(vm.userDetails);
-                            })
-                            .catch(function () {
-                                pmFlashMessage.showValidationError("Mot de passe ou email incorrect");
-                            });
+                                .then(function () {
+                                    $mdDialog.hide(vm.userDetails);
+                                })
+                                .catch(function () {
+                                    pmFlashMessage.showValidationError("Mot de passe ou email incorrect");
+                                });
                     };
                 }
             };

@@ -82,16 +82,15 @@
                             promise = $http.post(_backendBaseUrl + path, requestObject, httpConfig);
                         }
 
-                        promise
-                                .then(function (response) {
+                        promise.then(function (response) {
                                     if (response.status >= 200 && response.status < 300) {
-                                        $q.resolve(response.data);
+                                        deferred.resolve(response.data);
                                     } else {
-                                        $q.reject(response);
+                                        deferred.reject(response.data);
                                     }
                                 })
                                 .catch(function (response) {
-                                    $q.reject(response);
+                                    deferred.reject(response.data);
                                 });
 
                         return deferred.promise;
