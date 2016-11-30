@@ -15,6 +15,7 @@
 
   angular
       .module('pm.components.homeModule', [
+          'jkAngularCarousel'
       ]);
 
 // fin IIFE

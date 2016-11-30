@@ -417,13 +417,16 @@
     bottom: 0px;
     left: 0px;
     right: 0px;
+    color: #fff;
+    font-weight: 100;
 }
 
 .slide-text
 {
-    font-size: 50px;
+   
     margin-top: 275px;
     line-height: 100px;
+    color: white;
     text-align: center;
     text-shadow: 2px 2px #000000;
 }
@@ -436,21 +439,71 @@
 
 .button-slider-container
 {
-    text-align: center;
-}
-
-.button-slider
-{
+    position: absolute;
+    margin: auto !important;
+    bottom: 50%;
     display: inline-block;
-    font-size: 40px;
-    border: 2px solid #fff;
-    padding: 5px 30px;
-    margin-top: 30px;
     color: #555;
     background-color: #fff;
     transition: all 0.5s ease-out 0s;
+    border: 2px solid #fff;
+ 
+    margin-top: 20px;
 }
 
+.text-slider-container
+{
+    position: absolute;
+    margin: auto !important;
+    bottom: 80%;
+    padding: 5px 30px;
+    margin-top: 20px;
+    
+}
+
+.text-slider-gt-md
+{   
+    font-size: 50px;
+    max-height: 70px;
+}
+
+.text-slider-gt-md
+{   
+    font-size: 50px;
+    max-height: 70px;
+}
+
+
+.text-slider-md
+{   
+    font-size: 30px;
+    max-height: 70px;
+}
+
+.text-slider-sm
+{   
+    font-size: 20px;
+    max-height: 70px;
+}
+.text-slider-xs
+{   
+    font-size: 15px;
+    max-height: 70px;
+}
+.button-slider-gt-sm
+{   
+    padding: 5px 30px;
+    font-size: 20px;
+    max-height: 70px; 
+   
+}
+
+.button-slider-xs
+{   
+    
+    max-height: 40px; 
+   
+}
 .button-slider:hover
 {
     color: #fff;
