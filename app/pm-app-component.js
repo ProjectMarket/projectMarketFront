@@ -170,14 +170,12 @@
                     };
                     vm.confirm = function () {
                         // Vérification du formulaire
-
                         $mdDialog.hide(vm.userDetails);
                     };
                 }
             };
             pmFlashMessage.showCustomDialog(options)
                     .then(function (data) {
-                        console.info(data);
                     })
                     .catch(function (data) {
                         pmFlashMessage.showCancel();
@@ -212,7 +210,6 @@
             };
             pmFlashMessage.showCustomDialog(options)
                     .then(function (data) {
-                        console.info(data);
                     })
                     .catch(function (data) {
                         pmFlashMessage.showCancel();

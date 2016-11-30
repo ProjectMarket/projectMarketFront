@@ -1,12 +1,8 @@
 /** 
  * Service d'affichage des flashMessages
- * 
- * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
- * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
- * @author     Steve Van Wassenhoven (steve.vw@ac-bordeaux.fr)
- * @copyright  Copyright (c) 2014-2016, DSI de l'académie de Bordeaux (ce.dsi@ac-bordeaux.fr) - Tous droits réservés
- * @license    http://www.gnu.org/licenses/gpl.html  GNU/GPL License 3.0
- * @version    $Id: flashMessage-service.js 724 2016-04-01 14:57:55Z zvergne $
+ * @author     Romain Poussin (romain.poussin@ynov.com)
+ * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
+ * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
  */
 
 /* global angular, e */

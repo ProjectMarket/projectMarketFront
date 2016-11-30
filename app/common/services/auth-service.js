@@ -1,12 +1,8 @@
 /** 
  * Service de gestion de la connexion et de la déconnexion de l'utilisateur
- * 
- * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
- * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
- * @author     Steve Van Wassenhoven (steve.vw@ac-bordeaux.fr)
- * @copyright  Copyright (c) 2014-2016, DSI de l'académie de Bordeaux (ce.dsi@ac-bordeaux.fr) - Tous droits réservés
- * @license    http://www.gnu.org/licenses/gpl.html  GNU/GPL License 3.0
- * @version    $Id: auth-service.js 646 2016-03-03 15:21:10Z vguede $
+ * @author     Romain Poussin (romain.poussin@ynov.com)
+ * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
+ * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
  */
 
 /* global angular, e */
@@ -21,7 +17,6 @@
     angular
             .module('pm.commonModule')
             .factory(objectName, [
-                '$interval',
                 '$q',
                 '$http',
                 '$window',
@@ -29,13 +24,11 @@
                 '$rootScope',
                 'pm.common.logService',
                 'pm.common.configService',
-                'pm.common.cronService',
                 'pm.common.cookieService',
                 'pm.common.userService',
                 'pm.common.routerService',
                 'pm.common.timeService',
                 function (
-                        $interval,
                         $q,
                         $http,
                         $window,
@@ -43,7 +36,6 @@
                         $rootScope,
                         pmLog,
                         pmConfig,
-                        pmCron,
                         pmCookie,
                         pmUser,
                         pmRouter,
@@ -244,7 +236,6 @@
 
                             $http.post(_config.backend.baseUrl + 'signin', user)
                                     .then(function (response) {
-                                        console.info("response", response);
                                         if (response.status === 200) {
                                             pmCookie.put('projectMarket', response.data.token);
                                             $rootScope.$broadcast(objectName + ':userConnected');

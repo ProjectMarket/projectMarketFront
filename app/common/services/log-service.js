@@ -26,7 +26,6 @@
         '$injector',
         '$q',
         'pm.common.configService',
-        'pm.common.cronService',
         'pm.common.stacktraceService',
         'pm.common.timeService',
         function(
@@ -35,7 +34,6 @@
             $injector,
             $q,
             pmConfig,
-            pmCron,
             pmStacktrace,
             pmTime) {
 
@@ -211,40 +209,6 @@
             return true;
           };
 
-
-          /*
-           * Lancement de la tâche d'envoi des logs si le writer est backend
-           * + stockage en service CRON
-           * 
-           * @return {void}
-           */
-          var _setSendCron = function() {
-            if ((_config.isDevelopment && _config.log.developmentLogWriter !== 'backend')
-                || (!_config.isDevelopment && _config.log.productionLogWriter !== 'backend')) {
-              return;
-            }
-            try {
-              // annulation du CRON s'il existe
-              if (pmCron.isCronExists('pmLog-sendBackend')) {
-                pmCron.cancel('pmLog-sendBackend');
-              }
-
-              // création du CRON
-              var _intervalPromise = $interval(function() {
-                _factory.send();
-              }, _sendLogsInterval, 0, false);
-              // stockage en service
-              pmCron.put('pmLog-sendBackend', _intervalPromise);
-              _factory.info({message: "Lancement réussi du CRON d'envoi des logs.", tag: "log", object: objectName, method: "_setSendCron"});
-            }
-            catch (e) {
-              _factory.error({message: "Erreur d'enregistrement du CRON d'envoi de log : {{exceptionMessage}}", params: {exceptionMessage: e.message},
-                tag: "log", object: objectName, method: "_setSendCron"});
-            }
-          };
-
-
-
           //********************
           // Factory
           //********************
@@ -353,8 +317,6 @@
 
                     // augmentation de la durée de l'intervale
                     _sendLogsInterval += 60000;
-                    // réinitialisation du cron
-                    _setSendCron();
                     
                     delete _sendLogList['ts_' + sendTimestamp];
                   });
@@ -368,9 +330,6 @@
               return _frontBackTimestampInterval;
             }
           };
-
-          // initialisation
-          _setSendCron();
 
           return _factory;
         }]
