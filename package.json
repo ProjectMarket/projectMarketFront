@@ -1,25 +1,117 @@
 {
-  "name": "projectmarket",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+  "_args": [
+    [
+      {
+        "raw": "angular-jk-carousel",
+        "scope": null,
+        "escapedName": "angular-jk-carousel",
+        "name": "angular-jk-carousel",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\wamp\\www\\projectMarketFront"
+    ]
+  ],
+  "_from": "angular-jk-carousel@latest",
+  "_id": "angular-jk-carousel@0.1.7",
+  "_inCache": true,
+  "_location": "/angular-jk-carousel",
+  "_nodeVersion": "5.2.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/angular-jk-carousel-0.1.7.tgz_1479477830321_0.10726846219040453"
   },
-  "dependencies": {
-    "bootstrap": "^3.3.7",
-    "express": "~4.9.8",
-    "serve-favicon": "^2.3.2"
+  "_npmUser": {
+    "name": "juancr11",
+    "email": "juank.memphis@gmail.com"
   },
+  "_npmVersion": "3.3.12",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "angular-jk-carousel",
+    "scope": null,
+    "escapedName": "angular-jk-carousel",
+    "name": "angular-jk-carousel",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/angular-jk-carousel/-/angular-jk-carousel-0.1.7.tgz",
+  "_shasum": "455ab5f561ec4a944a160d199029a04d1dda238b",
+  "_shrinkwrap": null,
+  "_spec": "angular-jk-carousel",
+  "_where": "C:\\wamp\\www\\projectMarketFront",
+  "author": {
+    "name": "Juan Carlos Morales Mora",
+    "email": "juank.memphis@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/juank11memphis/angular-jk-carousel/issues"
+  },
+  "contributors": [
+    {
+      "name": "Pablo Gonzalez",
+      "email": "pablohgm@gmail.com"
+    }
+  ],
+  "dependencies": {},
+  "description": "Amazing carousel for angular material",
+  "devDependencies": {
+    "del": "2.2.0",
+    "gulp": "3.9.0",
+    "gulp-angular-templatecache": "1.8.0",
+    "gulp-autoprefixer": "3.1.0",
+    "gulp-cache": "0.4.1",
+    "gulp-concat": "2.6.0",
+    "gulp-csso": "1.0.1",
+    "gulp-jshint": "1.10.0",
+    "gulp-rename": "1.2.2",
+    "gulp-sass": "2.1.1",
+    "gulp-size": "2.0.0",
+    "gulp-uglify": "1.5.1",
+    "gulp-util": "3.0.7",
+    "jshint-stylish": "2.1.0",
+    "require-dir": "0.3.0",
+    "run-sequence": "1.1.5",
+    "systemjs-builder": "0.14.15",
+    "uglify-save-license": "0.4.1"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "455ab5f561ec4a944a160d199029a04d1dda238b",
+    "tarball": "https://registry.npmjs.org/angular-jk-carousel/-/angular-jk-carousel-0.1.7.tgz"
+  },
+  "gitHead": "6595b102ae2090423306b5c51db764891d8c1039",
+  "homepage": "https://github.com/juank11memphis/angular-jk-carousel#readme",
+  "keywords": [
+    "angular",
+    "angular-material",
+    "carousel",
+    "slider"
+  ],
+  "license": "MIT",
+  "main": "dist/jk-carousel.js",
+  "maintainers": [
+    {
+      "name": "juancr11",
+      "email": "juank.memphis@gmail.com"
+    }
+  ],
+  "name": "angular-jk-carousel",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ProjectMarket/projectMarketFront.git"
+    "url": "git://github.com/juank11memphis/angular-jk-carousel.git"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ProjectMarket/projectMarketFront/issues"
+  "scripts": {
+    "prepublish": "gulp build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/ProjectMarket/projectMarketFront#readme"
+  "version": "0.1.7"
 }
