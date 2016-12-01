@@ -192,7 +192,7 @@
                                                     pmLog.error({message: "Erreur lors de la récupération du userDetails via le backend. Status : {{status}}, data : {{data}}}",
                                                         params: {status: response.status, data: response.data}, tag: 'auth', object: objectName, method: "connect"});
                                                     // redirection vers page d'erreur
-                                                    pmRouter.destroySessionAndRedirectHTTP(['Core.error', {type: 'auth', code: 'login'}]);
+                                                    pmRouter.destroySessionAndRedirectHTTP(['Home.home']);
                                                     userDeferred.reject();
                                                     return userDeferredPromise;
                                                 });
@@ -214,7 +214,7 @@
                             return globalPromise;
                         },
                         /*
-                         * Redirige vers la page de login du serveur back
+                         * Login d'un User
                          * 
                          * @param {object} user {
                          *  email: {string},
@@ -238,8 +238,8 @@
                                     .then(function (response) {
                                         if (response.status === 200) {
                                             pmCookie.put('projectMarket', response.data.token);
-                                            $rootScope.$broadcast(objectName + ':userConnected');
                                             pmUser.setUser(response.data.user);
+                                            $rootScope.$broadcast(objectName + ':userConnected');
                                             _isConnected = true;
                                             defer.resolve();
                                         } else {
