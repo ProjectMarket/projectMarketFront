@@ -8,7 +8,6 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "angular-jk-carousel": "^0.1.7",
     "bootstrap": "^3.3.7",
     "express": "~4.9.8",
     "serve-favicon": "^2.3.2"
