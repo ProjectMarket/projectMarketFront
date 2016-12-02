@@ -150,7 +150,7 @@
                             }
 
                             // récupération du cookie
-                            var token = pmCookie.get('projectMarket'),
+                            var token = pmCookie.get('projectMarketToken'),
                                     tokenDeferred = $q.defer(),
                                     tokenPromise = tokenDeferred.promise;
                             // pas de cookie
@@ -185,6 +185,7 @@
                                                     if (response.status === 401) {
                                                         pmLog.info({message: "Erreur 401 lors de la récupération de userDetails sur le backend.", tag: "auth", object: objectName, method: "connect"});
                                                         globalDeferred.reject("Erreur 401 lors de la récupération de userDetails sur le backend.");
+                                                        pmCookie.remove("projectMarketToken");
                                                         pmRouter.navigate(['Home.home']);
                                                         return;
                                                     }
@@ -237,7 +238,7 @@
                             $http.post(_config.backend.baseUrl + 'signin', user)
                                     .then(function (response) {
                                         if (response.status === 200) {
-                                            pmCookie.put('projectMarket', response.data.token);
+                                            pmCookie.put('projectMarketToken', response.data.token);
                                             pmUser.setUser(response.data.user);
                                             $rootScope.$broadcast(objectName + ':userConnected');
                                             _isConnected = true;

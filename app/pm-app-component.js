@@ -18,6 +18,7 @@
             .component(componentName, {
                 $routeConfig: [
                     {path: '/', component: 'pm.home.homeComponent', name: 'Home.home'},
+                    {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
                     {path: '/user/:userId', component: 'pm.core.userComponent', name: 'Core.user'},
                     {path: '/project/:projectId', component: 'pm.core.projectComponent', name: 'Core.project'},
 //                    {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
@@ -261,7 +262,7 @@
         // Mise en place d'un « listener » pour mettre à jour l'état de connexion de l'utilisateur
         $scope.$on('pm.common.authService:userConnected', function () {
             vm.isConnected = true;
-            vm.user.userId = pmUser.getUserId();console.info(vm.user.userId);
+            vm.user.userId = pmUser.getUserId();
         });
         $scope.$on('pm.common.authService:userDisconnected', function () {
             vm.isConnected = false;
