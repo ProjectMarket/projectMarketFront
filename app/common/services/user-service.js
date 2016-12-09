@@ -57,6 +57,17 @@
 
                         },
                         /*
+                         * Renvoie le user connecté
+                         * 
+                         * @return {Object}
+                         */
+                        getUserConnected: function () {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "getUserConnected", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "getUserConnected"});
+                            return _user;
+                        },
+                        /*
                          * Renvoie l'id du user connecté
                          * 
                          * @return {number}
@@ -69,10 +80,18 @@
 
                         },
                         /*
+                         * Renvoie si l'utilisateur est admin d'une société
+                         * 
+                         * @returns {boolean}
+                         */
+                        isAdmin: function () {console.info(_user.societyAdmin);
+                            return (_user.societyAdmin !== undefined && _user.societyAdmin !== null);
+                        },
+                        /*
                          * 
                          * @returns {redirectUrl|String}
                          */
-                        removeUser: function() {
+                        removeUser: function () {
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "removeUser", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "removeUser"});

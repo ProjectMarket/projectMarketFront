@@ -193,8 +193,8 @@
                                                     pmLog.error({message: "Erreur lors de la récupération du userDetails via le backend. Status : {{status}}, data : {{data}}}",
                                                         params: {status: response.status, data: response.data}, tag: 'auth', object: objectName, method: "connect"});
                                                     // redirection vers page d'erreur
-                                                    pmRouter.destroySessionAndRedirectHTTP(['Home.home']);
-                                                    userDeferred.reject();
+                                                    pmRouter.navigate(['Home.home']);
+                                                    userDeferred.reject("Erreur from back");
                                                     return userDeferredPromise;
                                                 });
                                         return userDeferredPromise;

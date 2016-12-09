@@ -20,14 +20,11 @@
                     {path: '/', component: 'pm.home.homeComponent', name: 'Home.home'},
                     {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
                     {path: '/user/:userId', component: 'pm.core.userComponent', name: 'Core.user'},
-                    {path: '/project/:projectId', component: 'pm.core.projectComponent', name: 'Core.project'},
-//                    {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
+                    {path: '/project/:action/:projectId', component: 'pm.core.projectComponent', name: 'Core.project'},
 //                    {path: '/index', component: 'pm.core.indexComponent', name: 'Core.index'},
-//                    {path: '/login-result/:result/:relayPath', component: 'pm.core.loginResultComponent', name: 'Core.loginResult'},
-//                    {path: '/profile', component: 'pm.core.profileComponent', name: 'Core.profile'},
 //                    {path: '/login/:relayPath', component: 'pm.core.loginComponent', name: 'Core.login'},
 //                    {path: '/logout', component: 'pm.core.logoutComponent', name: 'Core.logout'},
-                    {path: '/error/:type/:code', component: 'pm.core.errorComponent', name: 'Core.error'}
+                    {path: '/error/:type/:code', component: 'pm.core.errorComponent', name: 'Core.error'},
 //                    {path: '/admin/settings/home', component: 'pm.admin.settings.homeComponent', name: 'Admin.settings.home'},
 //                    {path: '/admin/settings/school-year/:action/:schoolYearId', component: 'pm.admin.settings.schoolYearComponent', name: 'Admin.settings.schoolYear'},
 //                    {path: '/admin/settings/period-type/:action/:periodTypeId', component: 'pm.admin.settings.periodTypeComponent', name: 'Admin.settings.periodType'},
@@ -36,8 +33,7 @@
 //                    {path: '/help', component: 'pm.core.helpComponent', name: 'Core.help'},
 //                    {path: '/admin/roles', component: 'pm.admin.userSchoolRolesComponent', name: 'Admin.userSchoolRoles'},
 //                    {path: '/admin/settings/alternating-weeks/:action/:alternatingWeeksId', component: 'pm.admin.settings.alternatingWeeksComponent', name: 'Admin.settings.alternatingWeeks'},
-//                    {path: '/core/404', component: 'pm.core.404Component', name: 'Core.404'},
-//                    {path: '/admin/settings/year-week/:alternatingWeeksId', component: 'pm.admin.settings.yearWeekComponent', name: 'Admin.settings.yearWeek'},
+                    {path: '/core/404', component: 'pm.core.404Component', name: 'Core.404'}
 //                    {path: '/**', component: 'pm.core.homeComponent', name: 'Core.home'}
                 ],
                 $canActivate: ['pm.common.routerService',
@@ -127,7 +123,7 @@
          * @property {Object} userId de l'utilisateur connecté
          */
         vm.user = {
-            userId : undefined
+            userId: undefined
         };
         //*******************
         // Méthodes du scope

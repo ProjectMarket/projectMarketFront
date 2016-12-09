@@ -3,11 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Programmation/Projets/Project%20Market/lib/jk-carousel/jk-carousel.js</file>
-            <file>file:/D:/Programmation/Projets/Project%20Market/app/components/home/home-component.html</file>
-            <file>file:/D:/Programmation/Projets/Project%20Market/app/common/services/auth-service.js</file>
+            <file>file:/D:/Programmation/Projets/Project%20Market/app/components/core/project/project-component.js</file>
+            <file>file:/D:/Programmation/Projets/Project%20Market/app/common/models/user-model.js</file>
+            <file>file:/D:/Programmation/Projets/Project%20Market/app/components/home/signUpDialog.html</file>
+            <file>file:/D:/Programmation/Projets/Project%20Market/index.js</file>
+            <file>file:/D:/Programmation/Projets/Project%20Market/app/components/core/project/project-component.html</file>
+            <file>file:/D:/Programmation/Projets/Project%20Market/app/common/services/backComHandler-service.js</file>
+            <file>file:/D:/Programmation/Projets/Project%20Market/app/components/core/home/home-component.html</file>
+            <file>file:/D:/Programmation/Projets/Project%20Market/app/common/models/project-model.js</file>
             <file>file:/D:/Programmation/Projets/Project%20Market/index.html</file>
             <file>file:/D:/Programmation/Projets/Project%20Market/package.json</file>
+            <file>file:/D:/Programmation/Projets/Project%20Market/assets/css/main.css</file>
         </group>
     </open-files>
 </project-private>

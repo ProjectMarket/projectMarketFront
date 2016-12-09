@@ -1,1 +1,13 @@
-test
+<md-button ng-link="['Core.project', {action: 'create', projectId: '-'}]">
+    <md-icon md-svg-icon="isa:new-project" aria-label="Créer un projet"></md-icon>
+    Créer un projet
+</md-button>
+<md-button ng-link="['Core.project', {action: 'read', projectId: '-'}]">
+    <md-icon md-svg-icon="isa:new-project" aria-label="Créer un projet"></md-icon>
+    Afficher un projet
+</md-button>
+
+<md-button ng-link="['Core.project', {action: 'coucou', projectId: '-'}]">
+    <md-icon md-svg-icon="isa:new-project" aria-label="Créer un projet"></md-icon>
+    Erreur d'un projet
+</md-button>

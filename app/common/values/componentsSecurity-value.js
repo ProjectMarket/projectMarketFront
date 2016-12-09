@@ -36,6 +36,10 @@
                                   "isProtected": true,
                                   "crudObjects": []
                                 },
+                                "project" : {
+                                  "isProtected": true,
+                                  "crudObjects": []
+                                },
                                 "404": {
                                     "isProtected": true,
                                     "crudObjects": []
