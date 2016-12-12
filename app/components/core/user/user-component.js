@@ -33,6 +33,7 @@
                     'pm.common.logService',
                     'pm.common.routerService',
                     'pm.common.flashMessageService',
+                    'pm.common.userModel',
                     Controller]
             });
 
@@ -44,7 +45,8 @@
     function Controller(
             pmLog,
             pmRouter,
-            pmFlashMessage
+            pmFlashMessage,
+            pmUserModel
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -82,6 +84,16 @@
         // Méthodes privées
         //******************
 
+        /*
+         * Affectation des données pour la vue
+         * 
+         * @param {object} result
+         * @returns {void}
+         */
+
+        var _populateViewModel = function (result) {
+
+        };
 
         //*********************
         // Propriétés du scope
@@ -134,6 +146,25 @@
 
             try {
                 var userId = parseInt(routeParams.userId);
+                userId = isNaN(userId) ? undefined : userId;
+
+                if (userId !== undefined) {
+                    pmUserModel.readById({userId: userId})
+                            .then(function (response) {
+                                _routeParams = routeParams;
+                                _populateViewModel(response);
+                                vm.canDisplayView = true;
+                            })
+                            .catch(function (response) {
+                                pmLog.error({message: "Erreur lors de la récupération de l'utilisateur depuis le back : userId={{userId}}.",
+                                    object: componentName, params: {userId: routeParams.userId}, tag: "settings", method: "$routerOnActivate"});
+                                pmRouter.navigate(['Core.home']);
+                            });
+                } else {
+                    pmLog.error({message: "Impossible de récupérer un User depuis le back : userId={{userId}}.", object: componentName,
+                        params: {userId: routeParams.userId}, tag: "settings", method: "$routerOnActivate"});
+                    pmRouter.navigate(['Core.home']);
+                }
             } catch (e) {
                 var errorMessage = "Erreur lors de la récupération de l'utilisateur.";
                 pmLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
@@ -146,9 +177,6 @@
                 pmFlashMessage.showError(options);
                 pmRouter.navigate(['Home.home']);
             }
-
-            _routeParams = routeParams;
-            vm.canDisplayView = true;
         };
 
     }

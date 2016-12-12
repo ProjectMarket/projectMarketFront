@@ -73,7 +73,7 @@
                          * }
                          * @returns {promise}
                          */
-                        read: function (options) {
+                        readById: function (options) {
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "read", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "read"});
