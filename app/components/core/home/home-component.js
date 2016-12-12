@@ -32,8 +32,9 @@
                 templateUrl: 'app/components/core/home/home-component.html',
                 controller: [
                     'pm.common.logService',
-                    'pm.common.authService',
-                    '$scope',
+                    'pm.common.flashMessageService',
+                    'pm.common.routerService',
+                    'pm.common.projectModel',
                     Controller]
             });
 
@@ -43,8 +44,9 @@
     //************
     function Controller(
             pmLog,
-            pmAuth,
-            $scope
+            pmFlashMessage,
+            pmRouter,
+            pmProjectModel
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -64,6 +66,16 @@
         // Méthodes privées
         //******************
 
+        /*
+         * Affectation des données pour la vue
+         * 
+         * @param {object} result
+         * @returns {void}
+         */
+
+        var _populateViewModel = function (result) {
+
+        };
 
         //*********************
         // Propriétés du scope
@@ -74,6 +86,10 @@
          */
         var vm = _this.vm = {};
 
+        /*
+         * @property {boolean} le hook $routerOnActivate est-t-il terminé ?
+         */
+        vm.canDisplayView = false;
 
         //*******************
         // Méthodes du scope
@@ -103,6 +119,16 @@
                 params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
             _this.pmAppController.vm.setModule('Core.home');
+
+            pmProjectModel.readAll()
+                    .then(function (response) {
+                        _populateViewModel(response);
+                        vm.canDisplayView = true;
+                    })
+                    .catch(function (response) {
+                        pmFlashMessage.showError({errorMessage: "Impossible de récupérer l'ensemble des projets."});
+                        pmRouter.navigate(['Home.home']);
+                    });
         };
 
     }

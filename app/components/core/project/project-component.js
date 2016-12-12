@@ -205,7 +205,7 @@
             routeParams.projectId = projectId;
             if (routeParams.projectId !== undefined) {
                 // Récupération des informations du projet
-                pmProjectModel.read({projectId: routeParams.projectId})
+                pmProjectModel.readById({projectId: routeParams.projectId})
                         .then(function (response) {
 
                             // TODO: Récupérer la liste des catégories

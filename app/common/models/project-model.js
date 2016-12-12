@@ -17,12 +17,10 @@
             .factory(objectName, [
                 '$q',
                 'pm.common.logService',
-                'pm.common.timeService',
                 'pm.common.backComHandlerService',
                 function (
                         $q,
                         pmLog,
-                        pmTime,
                         pmBackComHandler
                         ) {
 
@@ -66,6 +64,27 @@
                             }
                         },
                         /*
+                         * Renvoie la liste de tous les projets
+                         * 
+                         * @returns {promise}
+                         */
+                        readAll: function () {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "readAll", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "readAll"});
+
+                            var deferred = $q.defer;
+
+                            pmBackComHandler.get('project/')
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+                            return deferred.promise;
+                        },
+                        /*
                          * Renvoie les infos d'un projet
                          * 
                          * @param {Object} options: {
@@ -73,14 +92,14 @@
                          * }
                          * @returns {promise}
                          */
-                        read: function (options) {
-                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "read", tag: "methodEntry"});
+                        readById: function (options) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "readById", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
-                                params: {params: arguments}, tag: "params", object: objectName, method: "read"});
+                                params: {params: arguments}, tag: "params", object: objectName, method: "readById"});
 
                             if (options === undefined || options.userId === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
-                                    params: {params: arguments}, tag: "params", object: objectName, method: "read"});
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "readById"});
                                 throw new Error('Erreur de paramètres en entrée de méthode.');
                             }
 
