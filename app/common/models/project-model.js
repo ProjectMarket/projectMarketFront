@@ -1,5 +1,5 @@
 /** 
- * Modèle pour les User
+ * Modèle pour les Project
  * @author     Romain Poussin (romain.poussin@ynov.com)
  * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
  * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
@@ -11,18 +11,16 @@
 (function () {
 
     'use strict';
-    var objectName = 'pm.common.userModel';
+    var objectName = 'pm.common.projectModel';
     angular
             .module('pm.commonModule')
             .factory(objectName, [
                 '$q',
                 'pm.common.logService',
-                'pm.common.timeService',
                 'pm.common.backComHandlerService',
                 function (
                         $q,
                         pmLog,
-                        pmTime,
                         pmBackComHandler
                         ) {
 
@@ -66,27 +64,18 @@
                             }
                         },
                         /*
-                         * Renvoie les infos d'un utilisateur
+                         * Renvoie la liste de tous les projets
                          * 
-                         * @param {Object} options: {
-                         *      userId {number}
-                         * }
                          * @returns {promise}
                          */
-                        readById: function (options) {
-                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "read", tag: "methodEntry"});
+                        readAll: function () {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "readAll", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
-                                params: {params: arguments}, tag: "params", object: objectName, method: "read"});
-
-                            if (options === undefined || options.userId === undefined) {
-                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
-                                    params: {params: arguments}, tag: "params", object: objectName, method: "read"});
-                                throw new Error('Erreur de paramètres en entrée de méthode.');
-                            }
+                                params: {params: arguments}, tag: "params", object: objectName, method: "readAll"});
 
                             var deferred = $q.defer;
 
-                            pmBackComHandler.post('user/' + options.userId)
+                            pmBackComHandler.get('project/')
                                     .then(function (response) {
                                         deferred.resolve(response);
                                     })
@@ -96,14 +85,45 @@
                             return deferred.promise;
                         },
                         /*
-                         * Crée un utilisateur
+                         * Renvoie les infos d'un projet
                          * 
                          * @param {Object} options: {
-                         *      firstname: {string},
-                         *      lastname: {string},
-                         *      email: {string},
-                         *      password: {string},
-                         *      avatar: {string||undefined}
+                         *      projectId {number}
+                         * }
+                         * @returns {promise}
+                         */
+                        readById: function (options) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "readById", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "readById"});
+
+                            if (options === undefined || options.userId === undefined) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "readById"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+
+                            var deferred = $q.defer;
+
+                            pmBackComHandler.get('project/' + options.projectId)
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+                            return deferred.promise;
+                        },
+                        /*
+                         * Crée un projet
+                         * 
+                         * @param {Object} options: {
+                         *      moa: {User || Society},
+                         *      title: {string},
+                         *      description: {string},
+                         *      budget: {number},
+                         *      category: {Object||undefined},
+                         *      image: {string}
                          * }
                          * 
                          * @return {promise}
@@ -113,16 +133,16 @@
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "create"});
 
-                            if (options === undefined || options.firstname === undefined
-                                    || options.lastname === undefined || options.email === undefined
-                                    || options.password === undefined) {
+                            if (options === undefined || options.title === undefined
+                                    || options.description === undefined || options.moa === undefined
+                                    || options.budget === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "create"});
                                 throw new Error('Erreur de paramètres en entrée de méthode.');
                             }
 
                             var deferred = $q.defer();
-                            pmBackComHandler.post('signup', options)
+                            pmBackComHandler.post('project/create', options)
                                     .then(function (response) {
                                         deferred.resolve(response);
                                     })

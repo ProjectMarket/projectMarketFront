@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="lib/material-design-icons/css/materialdesignicons.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
         <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
-        <link href="node_modules/angular-jk-carousel/dist/jk-carousel.css" rel="stylesheet" type="text/css"/>
+        <link href="lib/jk-carousel/jk-carousel.min.css" rel="stylesheet" type="text/css"/>
     </head>
     <body ng-strict-di ng-class="pmMedia.getClass()" layout>
 
@@ -25,7 +25,7 @@
     <script src="local/config.json.js"></script>
     <script src="lib/jquery/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    
+
     <script src="app/pm.init.js"></script>
 
     <script src="lib/stacktrace/stacktrace.min.js"></script>
@@ -48,8 +48,8 @@
     <script src="lib/moment/moment.min.js"></script>
     <script src="lib/moment/locales.min.js"></script>
     <!-- Fin libs & config -->
-    
-    <script src="node_modules/angular-jk-carousel/dist/jk-carousel.js"></script>
+
+    <script src="lib/jk-carousel/jk-carousel.js"></script>
 
     <script src="app/pm-app-module.js"></script>
     <script src="app/pm-app-value.js"></script>
@@ -82,23 +82,24 @@
 
     <!-- Models -->
     <script src="app/common/models/user-model.js"></script>
+    <script src="app/common/models/project-model.js"></script>
     <!-- Fin models -->
 
     <!-- Filters persos -->
-
+    <script src="app/common/filters/datetime-filter.js"></script>
     <!-- Fin filters persos-->
 
     <!-- Directives persos -->
-    <script src="app/common/directives/form/password/compareTo.js" type="text/javascript"></script>
+    <script src="app/common/directives/form/password/compareTo.js"></script>
     <!-- Fin directives persos -->
 
-    <script src="app/common/validators/time-validator.js" type="text/javascript"></script>
+    <script src="app/common/validators/time-validator.js"></script>
 
     <script src="app/components/components-module.js"></script>
-    
+
     <script src="app/components/home/home-module.js"></script>
     <script src="app/components/home/home-component.js"></script>
-    
+
 
     <script src="app/components/core/core-module.js"></script>
     <script src="app/components/core/error/error-component.js"></script>
@@ -106,8 +107,10 @@
     <script src="app/components/core/index/index-component.js"></script>
     <script src="app/components/core/profile/profile-component.js"></script>
     <script src="app/components/core/help/help-component.js"></script>
+    <script src="app/components/core/home/home-component.js"></script>
 
     <script src="app/components/core/user/user-component.js"></script>
+    <script src="app/components/core/project/project-component.js"></script>
     <!--injectFromGulp-->
 </body>
 </html>

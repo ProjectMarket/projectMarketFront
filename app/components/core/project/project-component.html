@@ -1,3 +1,60 @@
-<md-card ng-if="$ctrl.vm.canDisplayView" layout-padding layout-margin>
+<div ng-if="$ctrl.vm.canDisplayView && $ctrl.vm.formAction !== 'read'" layout-padding layout-margin>
+    <form name="formProject" flex layout="column">
+        <md-input-container>
+            <label>Titre</label>
+            <input name="title" ng-model="$ctrl.vm.project.title"
+                   type="text" required ng-minlength="3" md-maxlength="20">
+            <div ng-messages="formProject.title.$error"
+                 ng-show="formProject.title.$touched"
+                 class="pm-front-validation-messages">
+                <div ng-message="required">Un titre est requis.</div>
+                <div ng-message="minlength">Le titre du projet doit contenir au minimum 3 caractères.</div>
+                <div ng-message="md-maxlength">Le titre du projet doit contenir au maximun 20 caractères.</div>
+            </div>
+        </md-input-container>
 
-</md-card>
+        <md-input-container>
+            <label>Description</label>
+            <input name="description" ng-model="$ctrl.vm.project.description"
+                   type="textarea" required ng-minlength="1" md-maxlength="250">
+            <div ng-messages="formProject.description.$error"
+                 ng-show="formProject.description.$touched"
+                 class="pm-front-validation-messages">
+                <div ng-message="required">Une description est requise.</div>
+                <div ng-message="minlength">La description du projet doit contenir au minimum 1 caractères.</div>
+                <div ng-message="md-maxlength">La description du projet doit contenir au maximun 250 caractères.</div>
+            </div>
+        </md-input-container>
+
+        <md-input-container>
+            <label>Catégorie</label>
+            <md-select ng-model="$ctrl.vm.project.category.value">
+                <md-option ng-repeat="category in $ctrl.vm.project.category.data"
+                           ng-value="category.id">
+                    {{category.name}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+
+        <md-input-container>
+            <label>Budget estimé</label>
+            <input type="number" 
+                   name="budget" ng-model="$ctrl.vm.project.budget"
+                   required min="0">
+            <div ng-messages="formProject.budget.$error"
+                 ng-show="formProject.budget.$touched"
+                 class="pm-front-validation-messages">
+                <div ng-message="required">Un budget est requis.</div>
+                <div ng-message="min">Un budget ne peut être négatif.</div>
+            </div>
+        </md-input-container>
+
+        <div layout="row" layout-align="center center">
+            <md-button type="submit" class="md-primary md-raised"
+                       ng-disabled="!formProject.$valid"
+                       ng-click="$ctrl.vm.create()">
+                Créer
+            </md-button>
+        </div>
+    </form>
+</div>

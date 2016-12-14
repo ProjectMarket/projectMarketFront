@@ -32,6 +32,7 @@
                 templateUrl: 'app/components/home/home-component.html',
                 controller: [
                     'pm.common.logService',
+                    'pm.common.routerService',
                     'pm.common.authService',
                     '$scope',
                     Controller]
@@ -43,6 +44,7 @@
     //************
     function Controller(
             pmLog,
+            pmRouter,
             pmAuth,
             $scope
             ) {
@@ -108,10 +110,11 @@
         //***********
 
         // Mise en place d'un « listener » pour mettre à jour l'état de connexion de l'utilisateur
-        $scope.$on('abx.common.authService:userConnected', function () {
+        $scope.$on('pm.common.authService:userConnected', function () {
             vm.isConnected = true;
+            pmRouter.navigate(['Core.home']);
         });
-        $scope.$on('abx.common.authService:userDisconnected', function () {
+        $scope.$on('pm.common.authService:userDisconnected', function () {
             vm.isConnected = false;
         });
 
