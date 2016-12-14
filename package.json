@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "lite-server -c index.config.json"
   },
   "dependencies": {
+    "angularjs-server": "0.0.31",
     "bootstrap": "^3.3.7",
     "express": "~4.9.8",
+    "fs": "0.0.2",
+    "lite-server": "^2.2.2",
     "serve-favicon": "^2.3.2"
   },
   "repository": {
