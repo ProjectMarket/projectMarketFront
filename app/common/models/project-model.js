@@ -118,7 +118,7 @@
                          * Crée un projet
                          * 
                          * @param {Object} options: {
-                         *      moa: {User || Society},
+                         *      id: , // connectedtUserId
                          *      title: {string},
                          *      description: {string},
                          *      budget: {number},
@@ -134,7 +134,7 @@
                                 params: {params: arguments}, tag: "params", object: objectName, method: "create"});
 
                             if (options === undefined || options.title === undefined
-                                    || options.description === undefined || options.moa === undefined
+                                    || options.description === undefined || options.id === undefined
                                     || options.budget === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "create"});

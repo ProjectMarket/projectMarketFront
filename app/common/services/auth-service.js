@@ -268,6 +268,7 @@
                             $rootScope.$broadcast(objectName + ':userDisconnected');
                             pmUser.removeUser();
                             pmCookie.clean();
+                            pmRouter.navigate(['Home.home']);
                         },
                         /*
                          * Gère les erreurs 401

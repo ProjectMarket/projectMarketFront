@@ -145,7 +145,7 @@
                     category: {},
                     // TODO: Gérer l'envoie d'une image pour un projet
                     image: undefined,
-                    moa: pmUser.getUserConnected()
+                    id: pmUser.getUserId()
                 };
 
                 //FIXME: Problème de réception en back du headers Authorization --> 401

@@ -16,12 +16,12 @@
         <md-input-container>
             <label>Description</label>
             <input name="description" ng-model="$ctrl.vm.project.description"
-                   type="textarea" required ng-minlength="1" md-maxlength="250">
+                   type="textarea" required ng-minlength="10" md-maxlength="250">
             <div ng-messages="formProject.description.$error"
                  ng-show="formProject.description.$touched"
                  class="pm-front-validation-messages">
                 <div ng-message="required">Une description est requise.</div>
-                <div ng-message="minlength">La description du projet doit contenir au minimum 1 caractères.</div>
+                <div ng-message="minlength">La description du projet doit contenir au minimum 10 caractères.</div>
                 <div ng-message="md-maxlength">La description du projet doit contenir au maximun 250 caractères.</div>
             </div>
         </md-input-container>

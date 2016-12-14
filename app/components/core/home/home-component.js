@@ -35,6 +35,7 @@
                     'pm.common.flashMessageService',
                     'pm.common.routerService',
                     'pm.common.projectModel',
+                    '$q',
                     Controller]
             });
 
@@ -46,7 +47,8 @@
             pmLog,
             pmFlashMessage,
             pmRouter,
-            pmProjectModel
+            pmProjectModel,
+                    $q
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -120,7 +122,7 @@
 
             _this.pmAppController.vm.setModule('Core.home');
 
-            pmProjectModel.readAll()
+            $q.when()
                     .then(function (response) {
                         _populateViewModel(response);
                         vm.canDisplayView = true;

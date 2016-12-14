@@ -57,17 +57,6 @@
 
                         },
                         /*
-                         * Renvoie le user connecté
-                         * 
-                         * @return {Object}
-                         */
-                        getUserConnected: function () {
-                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "getUserConnected", tag: "methodEntry"});
-                            pmLog.debug({message: "Paramètres méthode : {{params}}",
-                                params: {params: arguments}, tag: "params", object: objectName, method: "getUserConnected"});
-                            return _user;
-                        },
-                        /*
                          * Renvoie l'id du user connecté
                          * 
                          * @return {number}
@@ -84,7 +73,7 @@
                          * 
                          * @returns {boolean}
                          */
-                        isAdmin: function () {console.info(_user.societyAdmin);
+                        isAdmin: function () {
                             return (_user.societyAdmin !== undefined && _user.societyAdmin !== null);
                         },
                         /*

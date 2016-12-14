@@ -68,11 +68,13 @@
                                 httpConfig = {
                                     headers: {}
                                 },
-                        promise;
-
+                        promise;console.info(token);
                         // génération des headers
                         if (token !== undefined) {
-                            httpConfig.headers['Authorization'] = token;
+                            httpConfig = {headers: {
+                                    "Authorization": "JWT " + token,
+                                    "Access-Control-Allow-Origin": "content-type"
+                                }};
                         }
 
                         // lancement de la requête
@@ -83,12 +85,12 @@
                         }
 
                         promise.then(function (response) {
-                                    if (response.status >= 200 && response.status < 300) {
-                                        deferred.resolve(response.data);
-                                    } else {
-                                        deferred.reject(response.data);
-                                    }
-                                })
+                            if (response.status >= 200 && response.status < 300) {
+                                deferred.resolve(response.data);
+                            } else {
+                                deferred.reject(response.data);
+                            }
+                        })
                                 .catch(function (response) {
                                     deferred.reject(response.data);
                                 });
