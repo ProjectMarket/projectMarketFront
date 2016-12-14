@@ -520,6 +520,26 @@
 }
 
 
+/**********/
+/**Content**/
+/**********/
+
+.logo
+{
+    margin-top : 100px;
+    margin-left : 25%;
+    height: 200px;
+    width: 200px;
+}
+
+.logo-content
+{
+    text-align: center;
+}
+
+
+
+
 
 /**********/
 /**Footer**/
