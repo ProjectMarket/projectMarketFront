@@ -63,20 +63,17 @@
                         pmLog.trace({message: "Entrée méthode", object: objectName, method: "_postGet", tag: "methodEntry"});
                         pmLog.debug({message: "Paramètres méthode : {{params}}",
                             params: {params: arguments}, tag: "params", object: objectName, method: "_postGet"});
-                        var deferred = $q.defer(),
-                                token = pmAuth.getToken(),
+                        var token = pmAuth.getToken(),
                                 httpConfig = {
                                     headers: {}
                                 },
-                        promise;console.info(token);
+                        promise;
                         // génération des headers
                         if (token !== undefined) {
                             httpConfig = {headers: {
-                                    "Authorization": "JWT " + token,
-                                    "Access-Control-Allow-Origin": "content-type"
+                                    "Authorization": "JWT " + token
                                 }};
                         }
-
                         // lancement de la requête
                         if (action === 'get') {
                             promise = $http.get(_backendBaseUrl + path, httpConfig);
@@ -84,7 +81,9 @@
                             promise = $http.post(_backendBaseUrl + path, requestObject, httpConfig);
                         }
 
+                        var deferred = $q.defer();
                         promise.then(function (response) {
+
                             if (response.status >= 200 && response.status < 300) {
                                 deferred.resolve(response.data);
                             } else {

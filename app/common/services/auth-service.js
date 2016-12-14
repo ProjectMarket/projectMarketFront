@@ -130,6 +130,7 @@
                          * @return {string} 
                          */
                         getToken: function () {
+                            console.info(_token);
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "getToken", tag: "methodEntry"});
                             return _token;
                         },
@@ -146,6 +147,7 @@
                             if (_factory.isConnected()) {
                                 pmLog.trace({message: "Utilisateur déjà connecté.", tag: "auth", object: objectName, method: "connect"});
                                 globalDeferred.resolve();
+                                _token = pmCookie.get('projectMarketToken');
                                 return globalPromise;
                             }
 
