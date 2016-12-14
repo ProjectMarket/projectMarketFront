@@ -1,9 +1,11 @@
-<!--<md-card layout-padding>
+<!--
+
   <h2>Page d'accueil de l'espace connecté</h2>  
   
   <p>Pour cette première phase de recette, seuls les menus Paramètres et Droits sont actifs, pour les admins uniquement.</p>
   <p>Vous pouvez changer votre rôle en cliquant dans le menu de gauche dans la partie nom, profil, établissement.</p>
 </md-card>-->
+
 <div ng-hide="$ctrl.vm.isConnected">
     <!-- Carousel -->
 
@@ -11,70 +13,69 @@
         data="$ctrl.vm.arraySlider"
         item-template-url="'app/components/home/item-template.html'"
         max-width="1980" 
-        max-height="700" >
+        max-height="922" >
     </jk-carousel>
     <!-- Fin Carousel-->
-    <div flex layout="row" layout-xs="column" layout-sm="column">
-            <div flex class="logo-content"> 
-                <img ng-src="../../../../assets/img/terre.png" class="md-card-image logo" alt="Washed Out">
-                <md-card-title>
-                  <md-card-title-text>
-                    <span class="md-headline">Notre réseaux</span>
-                  </md-card-title-text>
-                </md-card-title>
-                <md-card-content>
-                  <p>
-                    Un réseau unique composé de professionels aguerris
-                  </p>
-                </md-card-content>
-            </div>
-                        <div flex class="logo-content"> 
-                <img ng-src="../../../../assets/img/medaille.png" class="md-card-image logo" alt="Washed Out">
-                <md-card-title>
-                  <md-card-title-text>
-                    <span class="md-headline">Le recrutement</span>
-                  </md-card-title-text>
-                </md-card-title>
-                <md-card-content>
-                  <p>
-                   Un recrutement efficace  simple et plus rapide
-                  </p>
-                </md-card-content>
-            </div>
-            <div flex class="logo-content"> 
-                <img ng-src="../../../../assets/img/planette.png" class="md-card-image logo" alt="Washed Out">
-                <md-card-title>
-                  <md-card-title-text>
-                    <span class="md-headline">Votre projet</span>
-                  </md-card-title-text>
-                </md-card-title>
-                <md-card-content>
-                  <p>
-                    Tout le nécessaire pour mettre votre projet en orbite
-                  </p>
-                </md-card-content>
-            </div>
+
+    <div flex layout="row" layout-xs="column" layout-sm="column" layout-align="center center">
+      <div flex class="logo-content"> 
+        <img ng-src="../../../../assets/img/terre.png" class="md-card-image logo" alt="Washed Out">
+        <h1 class="md-headline">Notre réseaux</h1>
+        <p>
+          Un réseau unique composé de professionels aguerris
+        </p>
+      </div>
+            
+      <div flex class="logo-content"> 
+          <img ng-src="../../../../assets/img/medaille.png" class="md-card-image logo" alt="Washed Out">                
+          <h1 class="md-headline">Le recrutement</h1>
+          <p>
+            Un recrutement efficace  simple et plus rapide
+          </p>
+      </div>
+
+      <div flex class="logo-content"> 
+        <img ng-src="../../../../assets/img/planette.png" class="md-card-image logo" alt="Washed Out">
+        <h1 class="md-headline">Votre projet</h1>
+        <p>
+            Tout le nécessaire pour mettre votre projet en orbite
+        </p>
+      </div>
 
 
-        </div>
+  </div>
 
     <!-- Testimonials -->
-    <div class="testimonials-section">
-        <div class="testimonials-container" layout-gt-xs="row" flex layout-margin>
-            <div class="testimonials-picture-container"  flex-gt-xs="25">
+    <div class="testimonials-section"  flex>
+        <div class="testimonials-container" layout="row"  layout-xs="column" layout-sm="column" flex layout-margin layout-align="center center">
+            <div class="testimonials-picture-container" flex>
                 <img class="testimonial-picture" src="{{$ctrl.vm.arrayTestimonial[0].src}}" />
             </div>
-            <div class="testimonials-text" layout-gt-xs="75">
+            <!-- Affichage taille écran supérieur à 960 px-->
+            <div class="testimonials-text" flex="66" hide-xs hide-sm>
                 <!--<span class="quote-left ion-quote"></span><span class="quote-right ion-quote"></span>-->
                 <!--<div class="testimonials-text-content blockquote">-->
+                <i class="material-icons quote-left">format_quote</i>
+                <div class="testimonials-text-content" >
+                    J'avais besoin de quelqu'un pour créer un site d'e-commerce. Je l'ai trouvé en moins de 2 jours ! 
+                </div>
+                <i class="material-icons quote-right">format_quote</i>
+            </div>
+             <!-- Affichage taille écran inférieur à 960 px-->
+            <div class="testimonials-text-xs" flex="66" hide show-xs show-sm>
+                <!--<span class="quote-left ion-quote"></span><span class="quote-right ion-quote"></span>-->
+                <!--<div class="testimonials-text-content blockquote">-->
+                <i class="material-icons quote-left">format_quote</i>
                 <div class="testimonials-text-content">
                     J'avais besoin de quelqu'un pour créer un site d'e-commerce. Je l'ai trouvé en moins de 2 jours ! 
                 </div>
+                <i class="material-icons quote-right quote-right-xs">format_quote</i>
             </div>
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
+
 <div ng-show="$ctrl.vm.isConnected">
     coucou
 </div>
