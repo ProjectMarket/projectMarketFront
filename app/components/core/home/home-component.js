@@ -122,6 +122,7 @@
 
             _this.pmAppController.vm.setModule('Core.home');
 
+            // TODO : Remplacer $q.when() par pmProjectModel.readAll() quand dispo
             $q.when()
                     .then(function (response) {
                         _populateViewModel(response);

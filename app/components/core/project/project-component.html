@@ -58,3 +58,8 @@
         </div>
     </form>
 </div>
+
+<div ng-if="$ctrl.vm.canDisplayView && $ctrl.vm.formAction === 'read'" layout-padding layout-margin>
+    {{$ctrl.vm.formAction}}
+    {{$ctrl.vm.project.budget}}
+</div>

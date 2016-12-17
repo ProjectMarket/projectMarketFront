@@ -73,7 +73,7 @@
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "readAll"});
 
-                            var deferred = $q.defer;
+                            var deferred = $q.defer();
 
                             pmBackComHandler.get('project/')
                                     .then(function (response) {
@@ -97,13 +97,13 @@
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "readById"});
 
-                            if (options === undefined || options.userId === undefined) {
+                            if (options === undefined || options.projectId === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "readById"});
                                 throw new Error('Erreur de paramètres en entrée de méthode.');
                             }
 
-                            var deferred = $q.defer;
+                            var deferred = $q.defer();
 
                             pmBackComHandler.get('project/' + options.projectId)
                                     .then(function (response) {

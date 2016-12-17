@@ -85,7 +85,16 @@
          */
 
         var _populateViewModel = function (result) {
-
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
+            console.info("_routeParams.action: ", _routeParams.action);
+            if(_routeParams.action === "create") {
+                
+                // READ || UPDATE
+            } else {
+                vm.project.title = result.title;
+                vm.project.budget = result.budget;
+            }
+            
         };
 
         //*********************
@@ -112,6 +121,7 @@
          * @property {object} Projet
          */
         vm.project = {
+            moa: undefined,
             title: undefined,
             description: undefined,
             budget: undefined,
@@ -147,8 +157,6 @@
                     image: undefined,
                     id: pmUser.getUserId()
                 };
-
-                //FIXME: Problème de réception en back du headers Authorization --> 401
 
                 pmProjectModel.create(options)
                         .then(function (response) {
@@ -207,11 +215,10 @@
                 // Récupération des informations du projet
                 pmProjectModel.readById({projectId: routeParams.projectId})
                         .then(function (response) {
-
-                            // TODO: Récupérer la liste des catégories
-
-                            _populateViewModel(response);
+                            // TODO: Récupérer la liste des catégories                            
                             _routeParams = routeParams;
+                            vm.formAction = _routeParams.action;
+                            _populateViewModel(response);
                             vm.canDisplayView = true;
                         })
                         .catch(function (response) {
@@ -221,6 +228,7 @@
             } else {
                 _populateViewModel();
                 _routeParams = routeParams;
+                vm.formAction = _routeParams.action;
                 vm.canDisplayView = true;
             }
         };
