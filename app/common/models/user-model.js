@@ -84,7 +84,7 @@
                                 throw new Error('Erreur de paramètres en entrée de méthode.');
                             }
 
-                            var deferred = $q.defer;
+                            var deferred = $q.defer();
 
                             pmBackComHandler.post('user/' + options.userId)
                                     .then(function (response) {

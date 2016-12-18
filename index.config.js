@@ -3,6 +3,5 @@ module.exports = {
   files: ["./app/**/*.{html,htm,css,js}"],
   server: { "baseDir": "./" },
   open: false,
-  https: false,
   notify: false
 };

@@ -28,22 +28,30 @@
                 },
                 templateUrl: 'app/components/core/project/project-component.html',
                 controller: [
+                    '$q',
+                    '$filter',
                     'pm.common.logService',
                     'pm.common.routerService',
                     'pm.common.userService',
+                    'pm.common.timeService',
                     'pm.common.flashMessageService',
                     'pm.common.projectModel',
+                    'pm.common.userModel',
                     Controller]
             });
     //************
     // Controller
     //************
     function Controller(
+            $q,
+            $filter,
             pmLog,
             pmRouter,
             pmUser,
+            pmTime,
             pmFlashMessage,
-            pmProjectModel
+            pmProjectModel,
+            pmUserModel
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -71,7 +79,8 @@
          * @property {object} 
          */
         var _backObjects = {
-            project: {}
+            project: {},
+            author: {}
         };
         //******************
         // Méthodes privées
@@ -80,21 +89,23 @@
         /*
          * Affectation des données pour la vue
          * 
-         * @param {object} result
          * @returns {void}
          */
 
-        var _populateViewModel = function (result) {
+        var _populateViewModel = function () {
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
-            console.info("_routeParams.action: ", _routeParams.action);
-            if(_routeParams.action === "create") {
-                
-                // READ || UPDATE
-            } else {
-                vm.project.title = result.title;
-                vm.project.budget = result.budget;
+
+            if (_routeParams.action !== "create") {
+                vm.project.title = _backObjects.project.title;
+                vm.project.budget = _backObjects.project.budget;
+                vm.project.description = _backObjects.project.description;
+                vm.project.date_created = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.createdAt), "dd/MM/yyyy");
+                vm.project.date_lastUpdated = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.updatedAt), "dd/MM/yyyy");
+
+                vm.project.moa.id = _backObjects.author.id;
+                vm.project.moa.firstName = _backObjects.author.firstname;
+                vm.project.moa.lastName = _backObjects.author.lastname;
             }
-            
         };
 
         //*********************
@@ -117,11 +128,17 @@
         vm.canDisplayView = false;
 
         /*
+         * L'utilisateur est-il admin d'une société ?
+         * 
+         */
+//        vm.isAdmin = pmUser.isAdmin();
+        vm.isAdmin = true;
+        /*
          * 
          * @property {object} Projet
          */
         vm.project = {
-            moa: undefined,
+            moa: {},
             title: undefined,
             description: undefined,
             budget: undefined,
@@ -129,7 +146,9 @@
                 value: undefined,
                 data: []
             },
-            image: undefined
+            image: undefined,
+            date_created: undefined,
+            date_lastUpdated: undefined
         };
 
 
@@ -144,7 +163,7 @@
          */
         vm.create = function () {
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.create", tag: "methodEntry"});
-            
+
             if (pmUser.isAdmin()) {
                 // TODO: Ajouter un dialog de sélection de MOA perso ou entreprise
             } else {
@@ -163,7 +182,7 @@
                             pmFlashMessage.showSuccess('Le projet a créé avec succès.');
                             pmRouter.navigate(['Core.project', {action: "read", projectId: response.id}]);
                         }).catch(function (response) {
-                            pmFlashMessage.showValidationError("Le projet n'a pu être créé.");
+                    pmFlashMessage.showValidationError("Le projet n'a pu être créé.");
                 });
             }
         };
@@ -218,7 +237,26 @@
                             // TODO: Récupérer la liste des catégories                            
                             _routeParams = routeParams;
                             vm.formAction = _routeParams.action;
-                            _populateViewModel(response);
+                            _backObjects.project = response;
+                        })
+                        .then(function () {
+                            var deferred = $q.defer(),
+                                    promise = deferred.promise;
+                            pmUserModel.readById({userId: _backObjects.project.moa.id})
+                                    .then(function (response) {
+                                        _backObjects.author = response;
+                                        deferred.resolve();
+                                    })
+                                    .catch(function (response) {
+                                        pmFlashMessage.showError({errorMessage: "L'auteur du projet n'existe pas ou plus."});
+                                        pmRouter.navigate(['Core.home']);
+                                        deferred.reject();
+                                    });
+                            return promise;
+                        })
+                        .then(function () {
+                            // TODO : Déplacer les deux lignes suivantes dans le dernier then
+                            _populateViewModel();
                             vm.canDisplayView = true;
                         })
                         .catch(function (response) {
