@@ -31,11 +31,12 @@
                 },
                 templateUrl: 'app/components/core/home/home-component.html',
                 controller: [
+                    '$filter',
                     'pm.common.logService',
                     'pm.common.flashMessageService',
+                    'pm.common.timeService',
                     'pm.common.routerService',
                     'pm.common.projectModel',
-                    '$q',
                     Controller]
             });
 
@@ -44,11 +45,12 @@
     // Controller
     //************
     function Controller(
+            $filter,
             pmLog,
             pmFlashMessage,
+            pmTime,
             pmRouter,
-            pmProjectModel,
-                    $q
+            pmProjectModel
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -75,7 +77,35 @@
          * @returns {void}
          */
 
-        var _populateViewModel = function (result) {
+        var _populateViewModel = function (result) {console.info(result);
+            var projectModel = {
+                id: undefined,
+                moa: {},
+                title: undefined,
+                description: undefined,
+                budget: undefined,
+                category: {
+                    value: undefined,
+                    data: []
+                },
+                image: undefined,
+                date_created: undefined
+            };
+
+            for (var i = 0; i < result.length; i++) {
+                var project = angular.copy(projectModel);
+                project.id = result[i].id;
+                project.title = result[i].title;
+                project.budget = result[i].budget;
+                project.description = result[i].description;
+                project.date_created = $filter('date')(pmTime.convertDateFromBackToDate(result[i].createdAt), "dd/MM/yyyy");
+
+
+                // FIXME : Modifier le retour du back pour récupérer les infos de MOA/MOE directement
+
+
+                vm.projects.push(project);
+            }
 
         };
 
@@ -87,6 +117,13 @@
          * @property {object} vue-modèle
          */
         var vm = _this.vm = {};
+
+        /*
+         * Liste des projects
+         * 
+         * @property {array}
+         */
+        vm.projects = [];
 
         /*
          * @property {boolean} le hook $routerOnActivate est-t-il terminé ?
@@ -122,8 +159,7 @@
 
             _this.pmAppController.vm.setModule('Core.home');
 
-            // TODO : Remplacer $q.when() par pmProjectModel.readAll() quand dispo
-            $q.when()
+            pmProjectModel.readAll()
                     .then(function (response) {
                         _populateViewModel(response);
                         vm.canDisplayView = true;
