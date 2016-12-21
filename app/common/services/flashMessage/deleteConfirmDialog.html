@@ -5,12 +5,7 @@
     </div>
   </md-toolbar>
   <md-dialog-content class="md-dialog-content">
-    Êtes-vous 
-    {{$ctrl.vm.userSex, select,
-          f {sure}                      
-          other {sûr}
-    }}
-    de vouloir supprimer {{$ctrl.vm.textContent}}&nbsp;:
+    Êtes-vous sûr de vouloir supprimer {{$ctrl.vm.textContent}}&nbsp;:
     <ul>
       <li ng-repeat="objectName in $ctrl.vm.objectsDisplayNames">{{objectName}}</li>
     </ul>

@@ -670,6 +670,23 @@ article {
     max-width: 1170px;
 }
 
+.structure_index {
+    height: auto;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-left: auto;
+    padding-top: 0px;
+    padding-right: 15px;
+    padding-bottom: 0px;
+    padding-left: 15px;
+    overflow: hidden;
+    max-width: 1170px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background-color: white;
+}
+
 .project_content {
     float: left;
     width: 100%;
@@ -737,7 +754,7 @@ article {
     position: absolute;
     display: block;
     height: 160px;
-    width: 160px;
+    width: 180px;
 }
 
 .budget_element {
@@ -746,6 +763,8 @@ article {
     margin: auto;
     height: 64px;
     width: 100%;
+    padding: 0px 20px;
+    box-sizing: border-box;
 }
 
 .content_part {
@@ -790,6 +809,7 @@ article {
 }
 
 .button_postulate {
+    float: right;
     overflow: hidden;
     display: block;
     background-color: rgba(2, 165, 193, 1);
@@ -811,11 +831,70 @@ article {
     font-size: 1em;
 }
 
-.structure_index {
-    padding: 0px 20px 0px 0px;
+.fix_height_content {
+    float: left;
+    width: 100%;
+    max-height: 160px;
     overflow: hidden;
-    margin-bottom: 15px;
-    background-color: white;
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
+}
+
+.category {
+    float: left;
+    width: 100%;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+}
+
+#over {
+    position: absolute;
+    max-width: 140px;
+    max-height: 140px;
+    margin-top: 20px;
+    margin-left: 20px;
+    overflow: hidden;
+}
+
+.budget_alone {
+    overflow: hidden;
+    text-align: center;
+    max-height: 34px;
+    padding: 15px 0px 15px 0px;
+}
+
+.project_budget {
+    margin-top: 6px;
+    color: #fe2e12;
+    font-size: 1.5em;
+    font-style: normal;
+    font-weight: bold;
+    text-align: center;
+    line-height: 20px;
+    margin-bottom: 2px;
+    float: left;
+    width: 100%;
+}
+
+.title {
+    float: left;
+    width: 100%;
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333333;
+    margin-top: 10px;
+}
+
+.project_content_index {
+    overflow: hidden;
+    padding: 20px;
+}
+
+#list_project {
+    max-width: 1170px;
+    background-color: #F5F5F5;
 }

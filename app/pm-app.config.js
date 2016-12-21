@@ -50,7 +50,12 @@
 
           // configuration du thème par défaut
           $mdThemingProvider.theme('default')
-              .primaryPalette('cyan')  // palette d'origine du thème 'default' : indigo
+              .primaryPalette('cyan', {
+                  'default': '500',
+                  'hue-1': '200',
+                  'hue-2': '600',
+                  'hue-3': 'A200'
+          })  // palette d'origine du thème 'default' : indigo
               .accentPalette('orange') // palette d'origine du thème 'default' : pink
               .warnPalette('deep-orange') // palette d'origine du thème 'default' : deep-orange
               .backgroundPalette('grey'); // palette d'origine du thème 'default' : grey

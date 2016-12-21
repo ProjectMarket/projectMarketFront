@@ -175,7 +175,7 @@
                     errorObject: {errorMessage: e.message}
                 };
                 pmFlashMessage.showError(options);
-                pmRouter.navigate(['Home.home']);
+                pmRouter.navigate(['Core.home']);
             }
         };
 

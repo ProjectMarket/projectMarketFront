@@ -147,7 +147,6 @@
                                                     vm.errorMessage = options.errorMessage;
                                                     vm.adviceMessage = options.adviceMessage;
                                                     vm.technicalInfo = technicalInfo;
-                                                    vm.userSex = pmUser.getUserSex();
 
                                                     vm.closeDialog = function () {
                                                         $mdDialog.hide();
@@ -244,7 +243,6 @@
                                                     var vm = this.vm = {};
                                                     vm.textContent = textContent;
                                                     vm.objectsDisplayNames = options.objectsDisplayNames;
-                                                    vm.userSex = pmUser.getUserSex();
 
                                                     vm.cancel = function () {
                                                         $mdDialog.hide();

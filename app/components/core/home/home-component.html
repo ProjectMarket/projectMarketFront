@@ -1,47 +1,22 @@
 <div ng-if="$ctrl.vm.canDisplayView">
-    <article class="structure" ng-repeat="project in $ctrl.vm.projects">
-        <div class="project_content">
-            <!-- INFOS PROJECT -->
-            <div class="project_details_part">
-
-                <div class="project_title_part">
-                    <div class="project_postulate">
-                        <md-button class="md-primary md-raised button_postulate" ng-link="['Core.project', {action: 'read', projectId: project.id}]">
-                            AFFICHER
-                        </md-button>
+    <md-content class="md-padding" layout="column" id="list_project">
+        <md-card ng-repeat="project in $ctrl.vm.projects">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-subhead">Categories</span>
+                    <span class="md-headline" ng-bind-html="project.title"></span>
+                </md-card-title-text>
+                <md-card-title-media>
+                    <div class="md-media-md card-media">
+                        <img src="{{project.image}}" alt="{{project.title}}"/>
                     </div>
-                    <div class="title_part">
-                        <h1 ng-bind-html="project.title"></h1>
-                    </div>
-                </div>
-
-                <div class="project_content_part">
-                    <div class="image_part">
-                        <div class="image_part_contener">
-                            <!-- TODO : Ajouter balise img -->
-                            <div class="budget_element">
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content_part">
-                        <p class="description" ng-bind-html="project.description"></p>
-                    </div>
-                </div>
-
-                <div class="project_footer_part">
-                    <!--                        <a class="pseudo" ng-link="['Core.user', {userId: $ctrl.vm.project.moa.id}]" 
-                                               ng-bind-html="$ctrl.vm.project.moa.lastName + '&nbsp;' + $ctrl.vm.project.moa.firstName"></a>-->
-                    TOTO
-                    <p class="date_project">
-                        Créé le {{project.date_created}}<!-- TODO : Ajouter date de création -->
-                    </p>
-                    <!-- TODO : Ajouter infos MOE -->
-                </div>
-
-            </div>
-        </div>
-    </article>
+                </md-card-title-media>
+            </md-card-title>
+            <md-card-content>
+                <p ng-bind-html="project.description"></p>
+            </md-card-content>
+        </md-card>
+    </md-content>
 </div>
 
 

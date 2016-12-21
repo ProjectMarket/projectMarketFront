@@ -88,7 +88,7 @@
                     value: undefined,
                     data: []
                 },
-                image: undefined,
+                image: '../../../assets/img/medaille.png',
                 date_created: undefined
             };
 
