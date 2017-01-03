@@ -17,12 +17,12 @@
             .factory(objectName, [
                 '$q',
                 'pm.common.logService',
-                'pm.common.timeService',
+                'pm.common.userService',
                 'pm.common.backComHandlerService',
                 function (
                         $q,
                         pmLog,
-                        pmTime,
+                        pmUser,
                         pmBackComHandler
                         ) {
 
@@ -129,6 +129,24 @@
                                     .catch(function (response) {
                                         deferred.reject(response);
                                     });
+
+                            return deferred.promise;
+                        },
+                        /*
+                         * Supprime le compte de l'utilisateur courant
+                         * 
+                         * @return {promise}
+                         */
+                        delete: function () {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
+                            var deferred = $q.defer();
+//                            pmBackComHandler.delete('user', {id: pmUser.getUserId()})
+//                                    .then(function (response) {
+//                                        deferred.resolve(response);
+//                                    })
+//                                    .catch(function (response) {
+//                                        deferred.reject(response);
+//                                    });
 
                             return deferred.promise;
                         }

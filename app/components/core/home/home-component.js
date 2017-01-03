@@ -77,7 +77,7 @@
          * @returns {void}
          */
 
-        var _populateViewModel = function (result) {console.info(result);
+        var _populateViewModel = function (result) {
             var projectModel = {
                 id: undefined,
                 moa: {},

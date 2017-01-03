@@ -1,3 +1,99 @@
-<md-card ng-if="$ctrl.vm.canDisplayView" layout-padding layout-margin>
+<div ng-if="$ctrl.vm.canDisplayView" layout-padding layout-margin layout="row">
 
-</md-card>
+    <md-card flex="30">
+
+    </md-card>
+
+    <md-card flex="70">
+        <md-content>
+            <md-tabs>
+                <md-tab>
+                    <md-tab-label>
+                        <md-icon md-svg-icon="layout:signup"></md-icon>
+                        Activité
+                    </md-tab-label>
+                    <md-tab-body>
+
+                    </md-tab-body>
+                </md-tab>
+                <md-tab>
+                    <md-tab-label>
+                        <md-icon md-svg-icon="layout:signup"></md-icon>
+                        Avis
+                    </md-tab-label>
+                </md-tab>
+                <md-tab>
+                    <md-tab-label>
+                        <md-icon md-svg-icon="layout:signup"></md-icon>
+                        Messagerie
+                    </md-tab-label>
+                </md-tab>
+                <md-tab>
+                    <md-tab-label>
+                        <md-icon md-svg-icon="layout:signup"></md-icon>
+                        Paramètres
+                    </md-tab-label>
+                    <md-tab-body>
+                        <nav class="w3-sidenav w3-light-grey w3-card-2" style="width:130px" flex>
+                            <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Profile')">Profil</a>
+                            <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Compte')">Compte: E-mail & mot de passe</a>
+                            <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Entreprise')">Entreprise</a>
+                            <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Suppression')">Suppression du compte</a>
+                        </nav>
+
+                        <div style="margin-left:130px">
+                            <div id="Profile" class="w3-container params" style="display:none">
+                                <h2>Modification du profil</h2>
+                                <p>London is the capital params of England.</p>
+                                <p>It is the most populous params in the United Kingdom, with a metropolitan area of over 13 million inhabitants.</p>
+                            </div>
+
+                            <div id="Compte" class="w3-container params" style="display:none">
+                                <h2>Compte: E-mail & mot de passe</h2>
+                                <p>Paris is the capital of France.</p> 
+                                <p>The Paris area is one of the largest population centers in Europe, with more than 12 million inhabitants.</p>
+                            </div>
+
+                            <div id="Entreprise" class="w3-container params" style="display:none">
+                                <h2>Entreprise</h2>
+                                <p>Tokyo is the capital of Japan.</p>
+                                <p>It is the center of the Greater Tokyo Area, and the most populous metropolitan area in the world.</p>
+                            </div>
+                            
+                            <div id="Suppression" class="w3-container params" style="display:none" layout="column">
+                                <h2>Pour supprimer votre compte, merci d'inscrire "SUPPRIMER" dans le champ ci-dessous</h2>
+                                <md-input-container>
+                                    <input type="text" ng-model="delete_text">
+                                </md-input-container>
+                                <md-input-container>
+                                    <md-button class="md-raised md-warn" 
+                                               ng-disabled="delete_text != 'SUPPRIMER' && delete_text != 'supprimer'"
+                                               ng-click="$ctrl.vm.delete()">
+                                        SUPPRIMER
+                                    </md-button>
+                                </md-input-container>
+                            </div>
+
+                        </div>
+                        <script>
+                            function openCity(evt, paramsName) {
+                                var i, x, tablinks;
+                                x = document.getElementsByClassName("params");
+                                for (i = 0; i < x.length; i++) {
+                                    x[i].style.display = "none";
+                                }
+                                tablinks = document.getElementsByClassName("tablink");
+                                for (i = 0; i < x.length; i++) {
+                                    tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+                                }
+                                document.getElementById(paramsName).style.display = "block";
+                                evt.currentTarget.className += " w3-red";
+                            }
+                        </script>
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </md-card>
+
+</div>

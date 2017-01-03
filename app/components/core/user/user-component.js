@@ -32,6 +32,7 @@
                 controller: [
                     'pm.common.logService',
                     'pm.common.routerService',
+                    'pm.common.authService',
                     'pm.common.flashMessageService',
                     'pm.common.userModel',
                     Controller]
@@ -45,6 +46,7 @@
     function Controller(
             pmLog,
             pmRouter,
+            pmAuth,
             pmFlashMessage,
             pmUserModel
             ) {
@@ -113,6 +115,24 @@
          * @property {boolean} le hook $routerOnActivate est-t-il terminé ?
          */
         vm.canDisplayView = false;
+
+
+        /*
+         * Suppression du compte
+         * 
+         * @returns {void}
+         */
+        vm.delete = function () {
+            pmUserModel.delete()
+                    .then(function (response) {
+                        pmFlashMessage.showSuccess("Votre compte a bien été supprimé.");
+                        pmAuth.logout();
+                    })
+                    .catch(function (response) {
+
+                    });
+        };
+
 
 
         //*******************

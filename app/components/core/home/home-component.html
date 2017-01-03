@@ -1,21 +1,38 @@
 <div ng-if="$ctrl.vm.canDisplayView">
     <md-content class="md-padding" layout="column" id="list_project">
-        <md-card ng-repeat="project in $ctrl.vm.projects">
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-subhead">Categories</span>
-                    <span class="md-headline" ng-bind-html="project.title"></span>
-                </md-card-title-text>
-                <md-card-title-media>
-                    <div class="md-media-md card-media">
-                        <img src="{{project.image}}" alt="{{project.title}}"/>
+
+        <md-card ng-repeat="project in $ctrl.vm.projects" layout="row" layout-margin layout-padding>
+
+            <span layout="column">
+                <div class="md-media-sm">
+                    <img src="{{project.image}}" alt="{{project.title}}" />
+                </div>
+                <div class="project_budget">
+                    <p ng-bind-html="project.budget + '&nbsp;€'"></p>
+                </div>
+            </span>
+
+            <span layout="row" flex>
+                <span layout="column" layout-padding flex="80">
+                    <div flex="10">
+                        <p class="md-subhead" style="color: grey;">Categories</p>
                     </div>
-                </md-card-title-media>
-            </md-card-title>
-            <md-card-content>
-                <p ng-bind-html="project.description"></p>
-            </md-card-content>
+                    <div flex="80" layout-padding>
+                        <p class="md-headline" ng-bind-html="project.title"></p>
+                        <p class="md-content" ng-bind-html="project.description"></p>
+                    </div>
+                    <div flex="10">
+                        <p class="md-subhead" style="color:grey;" ng-bind-html="project.date_created"></p>
+                    </div>
+                </span>
+                <span layout-padding flex="20">
+                    <md-button style="float: right;" class="md-primary md-raised" ng-link="['Core.project', {action: 'read', projectId: {{project.id}}}]">
+                        AFFICHER
+                    </md-button>
+                </span>
+            </span>
         </md-card>
+
     </md-content>
 </div>
 

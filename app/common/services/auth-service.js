@@ -270,6 +270,7 @@
                             $rootScope.$broadcast(objectName + ':userDisconnected');
                             pmUser.removeUser();
                             pmCookie.clean();
+                            _isConnected = false;
                             pmRouter.navigate(['Home.home']);
                         },
                         /*
