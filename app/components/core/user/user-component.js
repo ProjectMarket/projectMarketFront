@@ -33,6 +33,7 @@
                     'pm.common.logService',
                     'pm.common.routerService',
                     'pm.common.authService',
+                    'pm.common.userService',
                     'pm.common.flashMessageService',
                     'pm.common.userModel',
                     Controller]
@@ -47,6 +48,7 @@
             pmLog,
             pmRouter,
             pmAuth,
+            pmUser,
             pmFlashMessage,
             pmUserModel
             ) {
@@ -94,7 +96,17 @@
          */
 
         var _populateViewModel = function (result) {
-
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
+            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
+            
+            vm.userAccount = {
+                firstname: result.firstname,
+                lastname: result.lastname,
+                email: result.email,
+                avatar: result.avatar,
+                createdAt: result.createdAt
+            };
         };
 
         //*********************
@@ -116,6 +128,15 @@
          */
         vm.canDisplayView = false;
 
+        /*
+         * @property {boolean} Ce compte est-il le mien ?
+         */
+        vm.isMyAccount = false;
+        
+        /*
+         * @property {object} Compte à afficher
+         */
+        vm.userAccount = {};
 
         /*
          * Suppression du compte
@@ -168,6 +189,8 @@
                 var userId = parseInt(routeParams.userId);
                 userId = isNaN(userId) ? undefined : userId;
 
+                vm.isMyAccount = userId === pmUser.getUserId();
+
                 if (userId !== undefined) {
                     pmUserModel.readById({userId: userId})
                             .then(function (response) {
@@ -176,8 +199,14 @@
                                 vm.canDisplayView = true;
                             })
                             .catch(function (response) {
-                                pmLog.error({message: "Erreur lors de la récupération de l'utilisateur depuis le back : userId={{userId}}.",
-                                    object: componentName, params: {userId: routeParams.userId}, tag: "settings", method: "$routerOnActivate"});
+                                var errorMessage = "Erreur lors de la récupération de l'utilisateur.";
+                                pmLog.error({message: errorMessage,
+                                    tag: "error", object: componentName, method: "$routerOnActivate"});
+                                var options = {
+                                    errorMessage: errorMessage,
+                                    adviceMessage: "Vous ne pouvez pas visualiser les informations de l'utilisateur."
+                                };
+                                pmFlashMessage.showError(options);
                                 pmRouter.navigate(['Core.home']);
                             });
                 } else {

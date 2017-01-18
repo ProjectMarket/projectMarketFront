@@ -4,7 +4,7 @@
 
     </md-card>
 
-    <md-card flex="70">
+    <md-card flex="70" style="min-height: 500px;">
         <md-content>
             <md-tabs>
                 <md-tab>
@@ -19,39 +19,57 @@
                 <md-tab>
                     <md-tab-label>
                         <md-icon md-svg-icon="layout:signup"></md-icon>
-                        Avis
-                    </md-tab-label>
-                </md-tab>
-                <md-tab>
-                    <md-tab-label>
-                        <md-icon md-svg-icon="layout:signup"></md-icon>
                         Messagerie
                     </md-tab-label>
                 </md-tab>
-                <md-tab>
+                <md-tab ng-if="$ctrl.vm.isMyAccount">
                     <md-tab-label>
                         <md-icon md-svg-icon="layout:signup"></md-icon>
                         Paramètres
                     </md-tab-label>
                     <md-tab-body>
-                        <nav class="w3-sidenav w3-light-grey w3-card-2" style="width:130px" flex>
+                        <nav class="w3-sidenav w3-light-grey w3-card-2" style="width:130px; min-height: 400px">
                             <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Profile')">Profil</a>
                             <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Compte')">Compte: E-mail & mot de passe</a>
                             <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Entreprise')">Entreprise</a>
                             <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Suppression')">Suppression du compte</a>
                         </nav>
 
-                        <div style="margin-left:130px">
+                        <div style="margin-left:130px; min-height: 400px;">
                             <div id="Profile" class="w3-container params" style="display:none">
                                 <h2>Modification du profil</h2>
                                 <p>London is the capital params of England.</p>
                                 <p>It is the most populous params in the United Kingdom, with a metropolitan area of over 13 million inhabitants.</p>
                             </div>
 
-                            <div id="Compte" class="w3-container params" style="display:none">
-                                <h2>Compte: E-mail & mot de passe</h2>
-                                <p>Paris is the capital of France.</p> 
-                                <p>The Paris area is one of the largest population centers in Europe, with more than 12 million inhabitants.</p>
+                            <div id="Compte" class="w3-container params" style="display:none" flex>
+                                <md-list>
+                                    <md-list-item class="md-3-line">
+                                        <md-input-container flex>
+                                            <input type="email" ng-model="$ctrl.vm.userAccount.email">
+                                        </md-input-container>
+                                        <md-button class="md-raised md-warn"
+                                                   ng-click="$ctrl.vm.changeMail()">
+                                            MODIFIER MON E-MAIL
+                                        </md-button>
+                                        <md-divider></md-divider>
+                                    </md-list-item>
+                                    <md-list-item class="md-3-line" layout="column">
+                                        <md-input-container>
+                                            <input type="password" ng-model="$ctrl.vm.userAccount.oldPassword">
+                                        </md-input-container>
+                                        <md-input-container>
+                                            <input type="password" ng-model="$ctrl.vm.userAccount.newPassword">
+                                        </md-input-container>
+                                        <md-input-container>
+                                            <input type="password" ng-model="$ctrl.vm.userAccount.confirmPassword">
+                                        </md-input-container>
+                                        <md-button class="md-raised md-warn"
+                                                   ng-click="$ctrl.vm.changePassword()">
+                                            MODIFIER MON MOT DE PASSE
+                                        </md-button>
+                                    </md-list-item>
+                                </md-list>
                             </div>
 
                             <div id="Entreprise" class="w3-container params" style="display:none">
@@ -59,7 +77,7 @@
                                 <p>Tokyo is the capital of Japan.</p>
                                 <p>It is the center of the Greater Tokyo Area, and the most populous metropolitan area in the world.</p>
                             </div>
-                            
+
                             <div id="Suppression" class="w3-container params" style="display:none" layout="column">
                                 <h2>Pour supprimer votre compte, merci d'inscrire "SUPPRIMER" dans le champ ci-dessous</h2>
                                 <md-input-container>
@@ -67,7 +85,7 @@
                                 </md-input-container>
                                 <md-input-container>
                                     <md-button class="md-raised md-warn" 
-                                               ng-disabled="delete_text != 'SUPPRIMER' && delete_text != 'supprimer'"
+                                               ng-disabled="delete_text !== 'SUPPRIMER'"
                                                ng-click="$ctrl.vm.delete()">
                                         SUPPRIMER
                                     </md-button>
