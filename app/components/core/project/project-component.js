@@ -106,7 +106,7 @@
                 vm.project.moa.id = _backObjects.author.id;
                 vm.project.moa.firstName = _backObjects.author.firstname;
                 vm.project.moa.lastName = _backObjects.author.lastname;
-                vm.project.isMine = vm.project.moa.id === pmUser.getUserId() ? true : false;
+                vm.project.isMine = vm.project.moa.id === pmUser.getAccountId() ? true : false;
             }
         };
 
@@ -176,7 +176,7 @@
                     category: {},
                     // TODO: Gérer l'envoie d'une image pour un projet
                     image: undefined,
-                    id: pmUser.getUserId()
+                    id: pmUser.getAccountId()
                 };
 
                 pmProjectModel.create(options)
@@ -265,9 +265,9 @@
                             // TODO: Récupérer la liste des catégories                            
                             _routeParams = routeParams;
                             vm.formAction = _routeParams.action;
-                            if (vm.formAction === "update" && pmUser.getUserId() !== response.moa.id) {
+                            if (vm.formAction === "update" && pmUser.getAccountId() !== response.moa.id) {
                                 pmLog.info({message: "UserId non correct. action={{action}}|projectId={{projectId}}|userId={{userId}}",
-                                    params: {action: routeParams.action, projectId: routeParams.projectId, userId: pmUser.getUserId()}, tag: "$routeParams", object: componentName, method: "$routerOnActivate"});
+                                    params: {action: routeParams.action, projectId: routeParams.projectId, userId: pmUser.getAccountId()}, tag: "$routeParams", object: componentName, method: "$routerOnActivate"});
                                 pmRouter.navigateToErrorPage('404', 'params');
                                 return;
                             }

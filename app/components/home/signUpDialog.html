@@ -2,38 +2,42 @@
            ng-cloak>
     <md-dialog-content layout-padding 
                        layout="column">
-        <form name="formSignUp" flex layout="column">
-            
+        <md-radio-group ng-model="$ctrl.vm.userDetails.type">
+            <md-radio-button value="user" class="md-primary">Particulier</md-radio-button>
+            <md-radio-button value="society">Professionnel</md-radio-button>
+        </md-radio-group>
+        <form name="formSignUpSingle" flex layout="column" ng-if="$ctrl.vm.userDetails.type === 'user'">
+
             <md-input-container>
                 <label>Prénom *</label>
                 <input ng-model="$ctrl.vm.userDetails.firstName" 
                        placeholder="Prénom" 
                        name="firstname"
                        required ng-minlength="3" md-maxlength="50">
-                <div ng-messages="formSignUp.firstname.$error" 
-                     ng-if="formSignUp.firstname.$touched"
+                <div ng-messages="formSignUpSingle.firstname.$error" 
+                     ng-if="formSignUpSingle.firstname.$touched"
                      class="pm-front-validation-messages">
                     <div ng-message="required">Merci de saisir votre prénom.</div>
                     <div ng-message="minlength">Le prénom saisi doit contenir au minimum 3 caractères.</div>
                     <div ng-message="md-maxlength">Le prénom saisi doit contenir au maximum 50 caractères.</div>
                 </div>
             </md-input-container>
-            
+
             <md-input-container>
                 <label>Nom *</label>
                 <input ng-model="$ctrl.vm.userDetails.lastName"
                        placeholder="Nom"
                        name="lastname"
                        required ng-minlength="3" md-maxlength="50">
-                <div ng-messages="formSignUp.lastname.$error" 
-                     ng-if="formSignUp.lastname.$touched"
+                <div ng-messages="formSignUpSingle.lastname.$error" 
+                     ng-if="formSignUpSingle.lastname.$touched"
                      class="pm-front-validation-messages">
                     <div ng-message="required">Merci de saisir votre nom.</div>
                     <div ng-message="minlength">Le nom saisi doit contenir au minimum 3 caractères.</div>
                     <div ng-message="md-maxlength">Le nom saisi doit contenir au maximum 50 caractères.</div>
                 </div>
             </md-input-container>
-            
+
             <md-input-container>
                 <label>Adresse e-mail *</label>
                 <input type="email"
@@ -41,8 +45,8 @@
                        placeholder="Adresse e-mail" 
                        name="email"
                        required>
-                <div ng-messages="formSignUp.email.$error" 
-                     ng-if="formSignUp.email.$touched" 
+                <div ng-messages="formSignUpSingle.email.$error" 
+                     ng-if="formSignUpSingle.email.$touched" 
                      class="pm-front-validation-messages">
                     <div ng-message="required">Merci de saisir une adresse mail.</div>
                     <div ng-message="email">L'adresse mail saisie n'est pas une adresse valide.</div>
@@ -56,14 +60,14 @@
                        placeholder="Mot de passe" 
                        name="password"
                        required ng-minlength="4">
-                <div ng-messages="formSignUp.password.$error" 
-                     ng-if="formSignUp.password.$touched"
+                <div ng-messages="formSignUpSingle.password.$error" 
+                     ng-if="formSignUpSingle.password.$touched"
                      class="pm-front-validation-messages">
                     <div ng-message="required">Merci de saisir un mot de passe.</div>
                     <div ng-message="minlength">Le mot de passe doit contenir au minimum 4 caractères.</div>
                 </div>
             </md-input-container>
-            
+
             <md-input-container>
                 <label>Vérification du mot de passe *</label>
                 <input ng-model="$ctrl.vm.userDetails.confirmPassword" 
@@ -72,11 +76,11 @@
                        name="confirm_password"
                        compare-to="$ctrl.vm.userDetails.password">
 
-                <div ng-messages="formSignUp.confirm_password.$error"
-                     ng-if="formSignUp.confirm_password.$dirty"
+                <div ng-messages="formSignUpSingle.confirm_password.$error"
+                     ng-if="formSignUpSingle.confirm_password.$dirty"
                      class="pm-front-validation-messages">
                     <div ng-message="compareTo" 
-                         ng-if="formSignUp.confirm_password.$dirty">Les mots de passes indiqués ne sont pas identiques.</div>
+                         ng-if="formSignUpSingle.confirm_password.$dirty">Les mots de passes indiqués ne sont pas identiques.</div>
                 </div>
             </md-input-container>
             <!--<span layout-gt-sm="row" 
@@ -102,8 +106,8 @@
                     J'accepte les conditions générales d'utilisation *
                 </md-checkbox>
 
-                <div ng-messages="formSignUp.agreement.$error" 
-                     ng-if="formSignUp.$dirty"
+                <div ng-messages="formSignUpSingle.agreement.$error" 
+                     ng-if="formSignUpSingle.$dirty"
                      class="pm-front-validation-messages">
                     <div ng-message="required">Veuillez accepter les conditions générales d'utilisation.</div>
                 </div>
@@ -113,11 +117,119 @@
             </div>
             <div layout="row" layout-align="center center">
                 <md-button type="submit" class="md-primary md-raised"
-                           ng-disabled="!formSignUp.$valid"
+                           ng-disabled="!formSignUpSingle.$valid"
                            ng-click="$ctrl.vm.confirm($ctrl.vm.userDetails)">
                     Inscription
                 </md-button>
             </div>
         </form>
+        <form name="formSignUpSociety" flex layout="column" ng-if="$ctrl.vm.userDetails.type === 'society'">
+            
+            <md-input-container>
+                <label>Nom de la société *</label>
+                <input ng-model="$ctrl.vm.userDetails.legalname" 
+                       placeholder="Nom de la société" 
+                       name="legalname"
+                       required ng-minlength="3" md-maxlength="50">
+                <div ng-messages="formSignUpSociety.legalname.$error" 
+                     ng-if="formSignUpSociety.legalname.$touched"
+                     class="pm-front-validation-messages">
+                    <div ng-message="required">Merci de saisir le nom de votre société.</div>
+                    <div ng-message="minlength">Le nom de la société saisi doit contenir au minimum 3 caractères.</div>
+                    <div ng-message="md-maxlength">Le nom de la société saisi doit contenir au maximum 50 caractères.</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container>
+                <label>Numéro SIRET</label>
+                <input ng-model="$ctrl.vm.userDetails.siretnumber" 
+                       placeholder="Numéro SIRET" 
+                       name="siren"
+                       required ng-minlength="14" md-maxlength="14">
+                <div ng-messages="formSignUpSociety.siret.$error" 
+                     ng-if="formSignUpSociety.siret.$touched"
+                     class="pm-front-validation-messages">
+                    <div ng-message="required">Merci de saisir le numéro SIRET de votre entreprise.</div>
+                    <div ng-message="minlength">Le numéro SIRET saisi doit contenir 14 caractères.</div>
+                    <div ng-message="md-maxlength">Le numéro SIRET saisi doit contenir 14 caractères.</div>
+                </div>
+            </md-input-container>
+            
+            
+            
+            
+            
+            <md-input-container>
+                <label>Adresse e-mail *</label>
+                <input type="email"
+                       ng-model="$ctrl.vm.userDetails.mail" 
+                       placeholder="Adresse e-mail" 
+                       name="email"
+                       required>
+                <div ng-messages="formSignUpSingle.email.$error" 
+                     ng-if="formSignUpSingle.email.$touched" 
+                     class="pm-front-validation-messages">
+                    <div ng-message="required">Merci de saisir une adresse mail.</div>
+                    <div ng-message="email">L'adresse mail saisie n'est pas une adresse valide.</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Mot de passe *</label>
+                <input ng-model="$ctrl.vm.userDetails.password" 
+                       type="password"
+                       placeholder="Mot de passe" 
+                       name="password"
+                       required ng-minlength="4">
+                <div ng-messages="formSignUpSingle.password.$error" 
+                     ng-if="formSignUpSingle.password.$touched"
+                     class="pm-front-validation-messages">
+                    <div ng-message="required">Merci de saisir un mot de passe.</div>
+                    <div ng-message="minlength">Le mot de passe doit contenir au minimum 4 caractères.</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container>
+                <label>Vérification du mot de passe *</label>
+                <input ng-model="$ctrl.vm.userDetails.confirmPassword" 
+                       type="password" 
+                       placeholder="Vérification du mot de passe"
+                       name="confirm_password"
+                       compare-to="$ctrl.vm.userDetails.password">
+
+                <div ng-messages="formSignUpSingle.confirm_password.$error"
+                     ng-if="formSignUpSingle.confirm_password.$dirty"
+                     class="pm-front-validation-messages">
+                    <div ng-message="compareTo" 
+                         ng-if="formSignUpSingle.confirm_password.$dirty">Les mots de passes indiqués ne sont pas identiques.</div>
+                </div>
+            </md-input-container>
+            
+            <md-input-container>
+                <md-checkbox type="checkbox" 
+                             ng-model="$ctrl.vm.userDetails.agreement"
+                             aria-label="Agree conditions"
+                             name="agreement"
+                             required>
+                    J'accepte les conditions générales d'utilisation *
+                </md-checkbox>
+
+                <div ng-messages="formSignUpSociety.agreement.$error" 
+                     ng-if="formSignUpSociety.$dirty"
+                     class="pm-front-validation-messages">
+                    <div ng-message="required">Veuillez accepter les conditions générales d'utilisation.</div>
+                </div>
+            </md-input-container>
+            <div style="color: orangered;margin-bottom: 50px;">
+                Tous les champs portant une * sont obligatoires.
+            </div>
+            <div layout="row" layout-align="center center">
+                <md-button type="submit" class="md-primary md-raised"
+                           ng-disabled="!formSignUpSociety.$valid"
+                           ng-click="$ctrl.vm.confirm($ctrl.vm.userDetails)">
+                    Inscription
+                </md-button>
+            </div>
+        </form> 
     </md-dialog-content>
 </md-dialog>

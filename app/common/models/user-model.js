@@ -113,8 +113,7 @@
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "create"});
 
-                            if (options === undefined || options.firstname === undefined
-                                    || options.lastname === undefined || options.email === undefined
+                            if (options === undefined || options.email === undefined
                                     || options.password === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "create"});

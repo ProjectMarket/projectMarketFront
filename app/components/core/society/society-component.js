@@ -1,5 +1,5 @@
 /** 
- * Component pm.core.userComponent
+ * Component pm.core.societyComponent
  * 
  * @author     Romain Poussin (romain.poussin@ynov.com)
  * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
@@ -13,7 +13,7 @@
 
     'use strict';
 
-    var componentName = 'pm.core.userComponent';
+    var componentName = 'pm.core.societyComponent';
 
     //***********
     // Component
@@ -28,7 +28,7 @@
                 require: {
                     pmAppController: '^pm.appComponent'
                 },
-                templateUrl: 'app/components/core/user/user-component.html',
+                templateUrl: 'app/components/core/society/society-component.html',
                 controller: [
                     'pm.common.logService',
                     'pm.common.routerService',
@@ -100,13 +100,6 @@
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
             
-            vm.userAccount = {
-                firstname: result.firstname,
-                lastname: result.lastname,
-                email: result.email,
-                avatar: result.avatar,
-                createdAt: result.createdAt
-            };
         };
 
         //*********************
@@ -144,14 +137,6 @@
          * @returns {void}
          */
         vm.delete = function () {
-            pmUserModel.delete()
-                    .then(function (response) {
-                        pmFlashMessage.showSuccess("Votre compte a bien été supprimé.");
-                        pmAuth.logout();
-                    })
-                    .catch(function (response) {
-
-                    });
         };
 
 
@@ -183,49 +168,7 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "$onActivate", tag: "methodEntry"});
             pmLog.debug({message: "$routeParams : {{routeParams}}", params: {routeParams: routeParams}, tag: "$routeParams", object: componentName});
 
-            _this.pmAppController.vm.setModule('core.user');
-
-            try {
-                var userId = parseInt(routeParams.userId);
-                userId = isNaN(userId) ? undefined : userId;
-
-                vm.isMyAccount = userId === pmUser.getAccountId();
-
-                if (userId !== undefined) {
-                    pmUserModel.readById({userId: userId})
-                            .then(function (response) {
-                                _routeParams = routeParams;
-                                _populateViewModel(response);
-                                vm.canDisplayView = true;
-                            })
-                            .catch(function (response) {
-                                var errorMessage = "Erreur lors de la récupération de l'utilisateur.";
-                                pmLog.error({message: errorMessage,
-                                    tag: "error", object: componentName, method: "$routerOnActivate"});
-                                var options = {
-                                    errorMessage: errorMessage,
-                                    adviceMessage: "Vous ne pouvez pas visualiser les informations de l'utilisateur."
-                                };
-                                pmFlashMessage.showError(options);
-                                pmRouter.navigate(['Core.home']);
-                            });
-                } else {
-                    pmLog.error({message: "Impossible de récupérer un User depuis le back : userId={{userId}}.", object: componentName,
-                        params: {userId: routeParams.userId}, tag: "settings", method: "$routerOnActivate"});
-                    pmRouter.navigate(['Core.home']);
-                }
-            } catch (e) {
-                var errorMessage = "Erreur lors de la récupération de l'utilisateur.";
-                pmLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
-                    params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "$routerOnActivate"});
-                var options = {
-                    errorMessage: errorMessage,
-                    adviceMessage: "Vous ne pouvez pas visualiser les informations de l'utilisateur.",
-                    errorObject: {errorMessage: e.message}
-                };
-                pmFlashMessage.showError(options);
-                pmRouter.navigate(['Core.home']);
-            }
+            
         };
 
     }

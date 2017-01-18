@@ -36,6 +36,10 @@
                                   "isProtected": true,
                                   "crudObjects": []
                                 },
+                                "society" : {
+                                  "isProtected": true,
+                                  "crudObjects": []
+                                },
                                 "project" : {
                                   "isProtected": true,
                                   "crudObjects": []

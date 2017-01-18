@@ -20,6 +20,7 @@
                     {path: '/', component: 'pm.home.homeComponent', name: 'Home.home'},
                     {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
                     {path: '/user/:userId', component: 'pm.core.userComponent', name: 'Core.user'},
+                    {path: '/society/:userId', component: 'pm.core.societyComponent', name: 'Core.society'},
                     {path: '/project/:action/:projectId', component: 'pm.core.projectComponent', name: 'Core.project'},
 //                    {path: '/index', component: 'pm.core.indexComponent', name: 'Core.index'},
 //                    {path: '/login/:relayPath', component: 'pm.core.loginComponent', name: 'Core.login'},
@@ -165,29 +166,36 @@
                 controller: function ($scope, $mdDialog) {
                     var vm = this.vm = {};
                     vm.userDetails = {
-                        email: undefined,
-                        firstName: undefined,
-                        lastName: undefined,
-                        password: undefined,
-                        confirmPassword: undefined,
-                        avatar: undefined,
-                        agreement: false
+                        type: 'user'
                     };
                     vm.cancel = function () {
                         $mdDialog.cancel();
                     };
                     vm.confirm = function (userDetails) {
                         // Formatage des infos pour l'envoi au back
-                        var user = {
-                            firstname: userDetails.firstName,
-                            lastname: userDetails.lastName,
-                            email: userDetails.mail,
-                            password: userDetails.password,
-                            avatar: userDetails.avatar
-                        };
-                        pmUserModel.create(user)
+                        if (userDetails.type === "user") {
+                            var option = {
+                                type: "user",
+                                firstname: userDetails.firstName,
+                                lastname: userDetails.lastName,
+                                email: userDetails.mail,
+                                password: userDetails.password,
+                                avatar: userDetails.avatar
+                            };
+                        } else if (userDetails.type === "society") {
+                            var option = {
+                                type: "society",
+                                legalname: userDetails.legalname,
+                                email: userDetails.mail,
+                                password: userDetails.password,
+                                siretnumber: userDetails.siretnumber,
+                                avatar: userDetails.avatar
+                            };
+                        }
+
+                        pmUserModel.create(option)
                                 .then(function (response) {
-                                    pmAuth.login({email: user.email, password: user.password})
+                                    pmAuth.login({email: option.email, password: option.password})
                                             .then(function () {
                                                 $mdDialog.hide(userDetails);
                                             })
@@ -258,7 +266,8 @@
         // Mise en place d'un « listener » pour mettre à jour l'état de connexion de l'utilisateur
         $scope.$on('pm.common.authService:userConnected', function () {
             vm.isConnected = true;
-            vm.user.userId = pmUser.getUserId();
+            vm.user.userId = pmUser.getAccountId();
+            vm.user.type = pmUser.getType();
         });
         $scope.$on('pm.common.authService:userDisconnected', function () {
             vm.isConnected = false;

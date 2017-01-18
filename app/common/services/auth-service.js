@@ -130,7 +130,6 @@
                          * @return {string} 
                          */
                         getToken: function () {
-                            console.info(_token);
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "getToken", tag: "methodEntry"});
                             return _token;
                         },
@@ -177,10 +176,10 @@
                                                 "Authorization": "JWT " + _token
                                             }};
 
-                                        $http.get(_config.backend.baseUrl + 'user/me', httpConfig)
+                                        $http.get(_config.backend.baseUrl + 'entity/me', httpConfig)
                                                 .then(function (response) {
                                                     pmLog.trace({message: "User récupéré du backend avec succès.", tag: "auth", object: objectName, method: "connect"});
-                                                    pmUser.setUser(response.data);
+                                                    pmUser.setAccount(response.data);
                                                     userDeferred.resolve();
                                                 })
                                                 .catch(function (response) {
@@ -241,7 +240,7 @@
                                     .then(function (response) {
                                         if (response.status === 200) {
                                             pmCookie.put('projectMarketToken', response.data.token);
-                                            pmUser.setUser(response.data.user);
+                                            pmUser.setAccount(response.data);
                                             $rootScope.$broadcast(objectName + ':userConnected');
                                             _isConnected = true;
                                             defer.resolve();

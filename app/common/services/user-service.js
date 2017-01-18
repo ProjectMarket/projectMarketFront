@@ -32,7 +32,9 @@
                     /*
                      * @property {object} user connecté
                      */
-                    var _user = {};
+                    var _account = {
+                        type: undefined
+                    };
 
                     //********************
                     // Méthodes privées
@@ -44,37 +46,52 @@
 
                     var _factory = {
                         /*
-                         * Affecte le user
+                         * Affecte le compte connecté
                          * 
-                         * @param {object} user
+                         * @param {object} account
                          * @return {void}
                          */
-                        setUser: function (user) {
-                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "setUser", tag: "methodEntry"});
+                        setAccount: function (account) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "setAccount", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
-                                params: {params: arguments}, tag: "params", object: objectName, method: "setUser"});
-                            _user = user;
+                                params: {params: arguments}, tag: "params", object: objectName, method: "setAccount"});
+                            if (account.hasOwnProperty("user")) {
+                                _account = account.user.associatedElement;
+                                _account.type = account.user.type;
+                            } else {
+                                _account = account.associatedElement;
+                                _account.type = account.type;
+                            }
+
 
                         },
                         /*
-                         * Renvoie l'id du user connecté
+                         * Renvoie l'id du compte connecté
                          * 
                          * @return {number}
                          */
-                        getUserId: function () {
-                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "getUserId", tag: "methodEntry"});
+                        getAccountId: function () {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "getAccountId", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
-                                params: {params: arguments}, tag: "params", object: objectName, method: "getUserId"});
-                            return _user.id;
+                                params: {params: arguments}, tag: "params", object: objectName, method: "getAccountId"});
+                            return _account.id;
 
+                        },
+                        /*
+                         * Revnoie le type de compte connecté
+                         * 
+                         * @returns {string}
+                         */
+                        getType: function () {
+                            return _account.type;
                         },
                         /*
                          * Renvoie si l'utilisateur est admin d'une société
                          * 
                          * @returns {boolean}
                          */
-                        isAdmin: function () {
-                            return (_user.societyAdmin !== undefined && _user.societyAdmin !== null);
+                        isSociety: function () {
+                            return _account.type === "society";
                         },
                         /*
                          * 
@@ -84,7 +101,7 @@
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "removeUser", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "removeUser"});
-                            _user = {};
+                            _account = {};
                         }
                     };
                     return _factory;
