@@ -1,5 +1,5 @@
-<div ng-if="$ctrl.vm.canDisplayView">
-    <md-content class="md-padding" layout="column" id="list_project">
+<div ng-if="$ctrl.vm.canDisplayView" layout="row">
+    <md-content class="md-padding" layout="column" id="list_project" flex="70">
 
         <md-card ng-repeat="project in $ctrl.vm.projects" layout="row" layout-margin layout-padding>
 
@@ -27,26 +27,17 @@
                 </span>
                 <span layout-padding flex="20">
                     <md-button style="float: right;" class="md-primary md-raised" ng-link="['Core.project', {action: 'read', projectId: {{project.id}}}]">
+                        <md-icon md-svg-icon="showMore" aria-label="Afficher les détails du projet"></md-icon>
                         AFFICHER
                     </md-button>
                 </span>
             </span>
         </md-card>
-
     </md-content>
+    <div layout="column" layout-margin layout-padding>
+        <md-button class="md-primary md-raised" ng-link="['Core.project', {action: 'create', projectId: '-'}]">
+            <md-icon md-svg-icon="newproject" aria-label="Créer un projet"></md-icon>
+            Créer un projet
+        </md-button>
+    </div>
 </div>
-
-
-<md-button ng-link="['Core.project', {action: 'create', projectId: '-'}]">
-    <md-icon md-svg-icon="isa:new-project" aria-label="Créer un projet"></md-icon>
-    Créer un projet
-</md-button>
-<md-button ng-link="['Core.project', {action: 'read', projectId: '-'}]">
-    <md-icon md-svg-icon="isa:new-project" aria-label="Créer un projet"></md-icon>
-    Afficher un projet
-</md-button>
-
-<md-button ng-link="['Core.project', {action: 'coucou', projectId: '-'}]">
-    <md-icon md-svg-icon="isa:new-project" aria-label="Créer un projet"></md-icon>
-    Erreur d'un projet
-</md-button>

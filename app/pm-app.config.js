@@ -44,9 +44,10 @@
           // configuration de la fonte d'icônes par défaut et du jeu d'icônes par défaut
           $mdIconProvider
               .defaultFontSet('mdi') // fonte Material Design Icons
-              .defaultIconSet('assets/svg/isa-icons.svg') // icônes de l'application
+              .defaultIconSet('assets/svg/pm-icons.svg') // icônes de l'application
               .iconSet('layout', 'assets/svg/pm-layout.svg') // icônes du layout
-              .iconSet('action', 'assets/svg/pm-actions.svg'); // icônes des boutons d'action
+              .iconSet('action', 'assets/svg/pm-actions.svg') // icônes des boutons d'action
+              .iconSet('avatars', 'assets/svg/pm-avatars.svg'); // icônes des boutons d'action
 
           // configuration du thème par défaut
           $mdThemingProvider.theme('default')

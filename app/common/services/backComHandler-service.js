@@ -59,10 +59,10 @@
                      * @param {Object} requestObject
                      * @return {object} promise
                      */
-                    var _postGet = function (action, path, requestObject) {
-                        pmLog.trace({message: "Entrée méthode", object: objectName, method: "_postGet", tag: "methodEntry"});
+                    var _postGetPut = function (action, path, requestObject) {
+                        pmLog.trace({message: "Entrée méthode", object: objectName, method: "_postGetPut", tag: "methodEntry"});
                         pmLog.debug({message: "Paramètres méthode : {{params}}",
-                            params: {params: arguments}, tag: "params", object: objectName, method: "_postGet"});
+                            params: {params: arguments}, tag: "params", object: objectName, method: "_postGetPut"});
                         var token = pmAuth.getToken(),
                                 httpConfig = {
                                     headers: {}
@@ -77,8 +77,10 @@
                         // lancement de la requête
                         if (action === 'get') {
                             promise = $http.get(_backendBaseUrl + path, httpConfig);
-                        } else {
+                        } else if(action === 'post') {
                             promise = $http.post(_backendBaseUrl + path, requestObject, httpConfig);
+                        } else {
+                            promise = $http.put(_backendBaseUrl + path, requestObject, httpConfig);
                         }
 
                         var deferred = $q.defer();
@@ -115,7 +117,7 @@
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "post"});
 
-                            return _postGet('post', path, requestObject);
+                            return _postGetPut('post', path, requestObject);
                         },
                         /*
                          * Réalise une requête GET
@@ -128,7 +130,21 @@
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "get"});
 
-                            return _postGet('get', path);
+                            return _postGetPut('get', path);
+                        },
+                        /*
+                         * Réalise une requête PUT
+                         * 
+                         * @param {string] path path sur le serveur back
+                         * @param {Object} requestObject
+                         * @return {object} promise
+                         */
+                        put: function (path, requestObject) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "put", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "put"});
+
+                            return _postGetPut('put', path, requestObject);
                         }
                     };
                     return _factory;

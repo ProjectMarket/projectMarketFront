@@ -51,9 +51,16 @@
 
         <div layout="row" layout-align="center center">
             <md-button type="submit" class="md-primary md-raised"
+                       ng-if="$ctrl.vm.formAction === 'read'"
                        ng-disabled="!formProject.$valid"
                        ng-click="$ctrl.vm.create()">
                 Créer
+            </md-button>
+            <md-button type="submit" class="md-primary md-raised"
+                       ng-if="$ctrl.vm.formAction === 'update'"
+                       ng-disabled="!formProject.$valid"
+                       ng-click="$ctrl.vm.update()">
+                Modifier
             </md-button>
         </div>
     </form>
@@ -77,8 +84,11 @@
 
                 <div class="project_title_part">
                     <div class="project_postulate">
-                        <md-button class="md-primary md-raised button_postulate" ng-if="$ctrl.vm.isAdmin" ng-click="$ctrm.vm.postulate()">
+                        <md-button class="md-primary md-raised button_postulate" ng-if="!$ctrl.vm.project.isMine" ng-click="$ctrm.vm.postulate()">
                             POSTULER
+                        </md-button>
+                        <md-button class="md-primary md-raised" ng-if="$ctrl.vm.project.isMine" ng-link="['Core.project', {action: 'update', projectId: $ctrl.vm.project.id}]">
+                            Modifier
                         </md-button>
                     </div>
                     <div class="title_part">

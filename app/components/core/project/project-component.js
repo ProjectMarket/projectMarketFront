@@ -96,6 +96,7 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
 
             if (_routeParams.action !== "create") {
+                vm.project.id = _backObjects.project.id;
                 vm.project.title = _backObjects.project.title;
                 vm.project.budget = _backObjects.project.budget;
                 vm.project.description = _backObjects.project.description;
@@ -105,6 +106,7 @@
                 vm.project.moa.id = _backObjects.author.id;
                 vm.project.moa.firstName = _backObjects.author.firstname;
                 vm.project.moa.lastName = _backObjects.author.lastname;
+                vm.project.isMine = vm.project.moa.id === pmUser.getUserId() ? true : false;
             }
         };
 
@@ -187,6 +189,32 @@
             }
         };
 
+        /*
+         * Mise à jour d'un projet
+         * 
+         * @returns {void}
+         */
+        vm.update = function () {
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.update", tag: "methodEntry"});
+
+            var options = {
+                title: vm.project.title,
+                description: vm.project.description,
+                budget: vm.project.budget,
+                category: {},
+                // TODO: Gérer l'envoie d'une image pour un projet
+                image: undefined
+            };
+
+            pmProjectModel.update(options, vm.project.id)
+                    .then(function (response) {
+                        pmFlashMessage.showSuccess('Le projet a modifié avec succès.');
+                        pmRouter.navigate(['Core.project', {action: "read", projectId: response.id}]);
+                    }).catch(function (response) {
+                pmFlashMessage.showValidationError("Le projet n'a pu être modifié.");
+            });
+        };
+
         //************
         // Listeners
         //************
@@ -237,9 +265,17 @@
                             // TODO: Récupérer la liste des catégories                            
                             _routeParams = routeParams;
                             vm.formAction = _routeParams.action;
+                            if (vm.formAction === "update" && pmUser.getUserId() !== response.moa.id) {
+                                pmLog.info({message: "UserId non correct. action={{action}}|projectId={{projectId}}|userId={{userId}}",
+                                    params: {action: routeParams.action, projectId: routeParams.projectId, userId: pmUser.getUserId()}, tag: "$routeParams", object: componentName, method: "$routerOnActivate"});
+                                pmRouter.navigateToErrorPage('404', 'params');
+                                return;
+                            }
                             _backObjects.project = response;
                         })
                         .then(function () {
+
+                            // FIXME : Supprimer quand l'Entity sera renvoyé en même temps que la requête
                             var deferred = $q.defer(),
                                     promise = deferred.promise;
                             pmUserModel.readById({userId: _backObjects.project.moa.id})

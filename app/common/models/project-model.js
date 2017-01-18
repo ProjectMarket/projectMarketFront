@@ -151,6 +151,47 @@
                                     });
 
                             return deferred.promise;
+                        },
+                        /*
+                         * Mets à jour un projet
+                         * 
+                         * @param {Object} options: {
+                         *      title: {string},
+                         *      description: {string},
+                         *      budget: {number},
+                         *      category: {Object||undefined},
+                         *      image: {string}
+                         * }
+                         * @param {integer} projectId
+                         * 
+                         * @return {promise}
+                         */
+                        update: function(options, projectId) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "update", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "update"});
+                            
+                            if(options === undefined || projectId === undefined) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "update"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+                            
+                            // FIXME : Supprimer ce test quand les catégories seront implémenter en back
+                            if(angular.equals({}, options.category)) {
+                                options.category = null;
+                            }
+                            
+                            var deferred = $q.defer();
+                            pmBackComHandler.put('project/' + projectId, options)
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+
+                            return deferred.promise;
                         }
                     };
                     return _factory;

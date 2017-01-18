@@ -940,3 +940,6 @@ p {
 .vertical-mdl-tabs.mdl-tabs .mdl-tabs__tab {
     text-align: left;
 }
+#accueil:hover {
+    background: url("../img/home.png") no-repeat center;
+}

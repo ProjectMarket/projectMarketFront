@@ -4,7 +4,7 @@
             <md-icon md-svg-icon="layout:menu" aria-label="Menu"></md-icon>
         </md-button>
         <span flex hide-gt-sm></span>
-        <h1>
+        <h1 id="accueil">
             <a ng-link="['Core.home']">Project Market</a>
         </h1>
         <span flex></span>
@@ -18,7 +18,7 @@
                 Se connecter
             </md-button>
             <md-button ng-if="$ctrl.vm.isConnected" aria-label="Mon compte" ng-link="['Core.user', {userId: $ctrl.vm.user.userId}]">
-                <md-icon md-svg-icon="avatars:svg-1" aria-label="Mon compte"></md-icon>
+                <md-icon md-svg-icon="account" aria-label="Mon compte"></md-icon>
                 Mon compte
             </md-button>
             <md-button ng-if="$ctrl.vm.isConnected" aria-label="Se déconnecter" ng-click="$ctrl.vm.signout()">
@@ -45,7 +45,7 @@
                 </md-menu-item>
                 <md-menu-item ng-if="$ctrl.vm.isConnected">
                     <md-button aria-label="Mon compte" ng-link="['Core.user', {userId: $ctrl.vm.user.userId}]">
-                        <md-icon md-svg-icon="avatars:svg-1" aria-label="Mon compte"></md-icon>
+                        <md-icon md-svg-icon="account" aria-label="Mon compte"></md-icon>
                         Mon compte
                     </md-button>
                 </md-menu-item>
