@@ -3,9 +3,10 @@
         <md-button ng-if="$ctrl.vm.isConnected" ng-click="$ctrl.vm.toggleSidenav()" hide-gt-sm class="md-icon-button" aria-label="Affiche la barre de navigation">
             <md-icon md-svg-icon="layout:menu" aria-label="Menu"></md-icon>
         </md-button>
-        <span flex hide-gt-sm></span>
+
         <h1 id="accueil">
-            <a ng-link="['Core.home']">Project Market</a>
+             <a ng-link="['Core.home']" class="home" hide-xs hide-sm ></a>
+            <a ng-link="['Core.home']" hide show-xs show-sm >Project Market</a>
         </h1>
         <span flex></span>
         <div hide show-gt-sm layout="row" layout-align="center center">
