@@ -133,8 +133,7 @@
          * L'utilisateur est-il admin d'une société ?
          * 
          */
-//        vm.isAdmin = pmUser.isAdmin();
-        vm.isAdmin = true;
+        vm.isSociety = pmUser.isSociety();
         /*
          * 
          * @property {object} Projet
@@ -166,7 +165,7 @@
         vm.create = function () {
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.create", tag: "methodEntry"});
 
-            if (pmUser.isAdmin()) {
+            if (vm.isSociety) {
                 // TODO: Ajouter un dialog de sélection de MOA perso ou entreprise
             } else {
                 var options = {
@@ -274,7 +273,7 @@
                             _backObjects.project = response;
                         })
                         .then(function () {
-
+                            console.info("_backObjects.project: ", _backObjects.project);
                             // FIXME : Supprimer quand l'Entity sera renvoyé en même temps que la requête
                             var deferred = $q.defer(),
                                     promise = deferred.promise;
