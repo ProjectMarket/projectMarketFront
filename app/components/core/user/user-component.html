@@ -6,7 +6,7 @@
 
     <md-card  flex="70" style="min-height: 500px;">
         <md-content>
-            <md-tabs >
+            <md-tabs md-dynamic-height >
                 <md-tab>
                     <md-tab-label>
                         <md-icon md-svg-icon="layout:signup"></md-icon>
@@ -28,36 +28,43 @@
                         Paramètres
                     </md-tab-label>
                     <md-tab-body>
-                        <nav class="w3-sidenav w3-light-grey w3-card-2" style="width:130px; min-height: 400px">
-                            <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Profile')">Profil</a>
-                            <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Compte')">Compte: E-mail & mot de passe</a>
-                            <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Entreprise')">Entreprise</a>
-                            <a href="javascript:void(0)" class="tablink" onclick="openCity(event, 'Suppression')">Suppression du compte</a>
-                        </nav>
+                        <div layout="row" flex class="content-wrapper">
+                            <md-sidenav layout="column" class="md-sidenav-left  primary-col " md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+                              <md-list class="muppet-list">
+                                <md-item ng-repeat="it in $ctrl.vm.muppets">
+                                  <md-item-content>
+                                    <md-button ng-click="$ctrl.vm.selectMuppet(it)" ng-class="{'selected' : it === $ctrl.vm.selected }">
+                                     
+                                      {{it.name}}
+                                    </md-button>
+                                  </md-item-content>
+                                </md-item>
+                              </md-list>
+                            </md-sidenav>
+                            <div layout="column" flex class="content-wrapper" id="primary-col">
+                                <md-content layout="column" flex class="md-padding" ng-if="$ctrl.vm.selected.name == 'Profil'">
+                                  <h2>{{$ctrl.vm.selected.name}}</h2>
+                                  <p>Modifiez les paramètres de votre profil.</p>
+                                  <div class="cell">
 
-                            <div layout="row" flex class="content-wrapper">
-        <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-          <md-list class="muppet-list">
-            <md-item ng-repeat="it in $ctrl.vm.muppets">
-              <md-item-content>
-                <md-button ng-click="$ctrl.vm.selectMuppet(it)" ng-class="{'selected' : it === selected }">
-                  <img ng-src="{{it.iconurl}}" class="face" alt="">
-                  {{it.name}}
-                </md-button>
-              </md-item-content>
-            </md-item>
-          </md-list>
-        </md-sidenav>
-        <div layout="column" flex class="content-wrapper" id="primary-col">
-            <md-content layout="column" flex class="md-padding">
-              <h2>{{$ctrl.vm.selected.name}}</h2>
-              <p>{{$ctrl.vm.selected.content}}</p>
-              <div class="cell">
-                <img ng-src="{{$ctrl.vm.selected.imgurl}}" alt="{{$ctrl.vm.selected.imgalt}}">
-              </div>
-            </md-content>
-        </div>
-    </div>
+                                  </div>
+                                </md-content>
+                                <md-content layout="column" flex class="md-padding" ng-if="$ctrl.vm.selected.name == 'Compte'">
+                                    <h3>{{$ctrl.vm.selected.name}}</h3>
+                                    <p> Modifiez votre mail et/ou votre mot de passe</p>
+                                                             
+                                    <md-input-container>
+                                        <input type="email" ng-model="$ctrl.vm.userAccount.email"  placeholder="E-Mail">
+                                    </md-input-container>
+
+                                    <md-button class="md-raised md-warn"
+                                    ng-click="$ctrl.vm.changePassword()">
+                                        MODIFIER
+                                    </md-button>
+
+                                </md-content>
+                            </div>
+                        </div>
                         <script>
                             function openCity(evt, paramsName) {
                                 var i, x, tablinks;
