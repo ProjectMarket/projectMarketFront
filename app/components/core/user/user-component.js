@@ -239,8 +239,10 @@
 
            var options = {
             entityId: _userId,
-            password: vm.userAccount.newpassword
+            oldpassword : vm.userAccount.oldpassword
+            newpassword : vm.userAccount.newpassword
           }
+          
           pmUserModel.updatePassword(options)
             .then(function (response) {
              
