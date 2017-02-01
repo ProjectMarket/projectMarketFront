@@ -995,3 +995,7 @@ p {
   display: block;
   max-width: 100%;
 }
+
+md-divider{
+    border-top-color: black;
+}

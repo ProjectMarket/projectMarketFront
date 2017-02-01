@@ -43,23 +43,109 @@
                             </md-sidenav>
                             <div layout="column" flex class="content-wrapper" id="primary-col">
                                 <md-content layout="column" flex class="md-padding" ng-if="$ctrl.vm.selected.name == 'Profil'">
-                                  <h2>{{$ctrl.vm.selected.name}}</h2>
-                                  <p>Modifiez les paramètres de votre profil.</p>
-                                  <div class="cell">
+                                <h2>{{$ctrl.vm.selected.name}}</h2>
+                                <p>Modifiez les paramètres de votre profil.</p>
 
-                                  </div>
+                                
+                                <md-list>
+                                    <md-list-item>
+                                        <label>Avatar : </label>
+                                        <img ng-src="../../../assets/img/utilisateur.png" class="md-avatar" alt="utilisateur">
+                                    </md-list-item>
+                                </md-list>
+
+                                 <md-divider></md-divider>
+
+                                <md-input-container>
+                                    <label>Description</label>
+                                    <textarea ng-model="$ctrl.vm.userAccount.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+
+                                </md-input-container>
+                                <md-input-container class="md-block">
+                                <label>Addresse</label>
+                                <input ng-model="$ctrl.vm.userAccount.address">
+                                </md-input-container>
+
+                                <md-input-container md-no-float class="md-block">
+                                    <label>Complement d'adresse</label>
+                                    <input ng-model="$ctrl.vm.userAccount.address2">
+                                </md-input-container>
+
+                                    <div layout-gt-sm="row">
+                                        <md-input-container class="md-block" flex-gt-sm>
+                                            <label>Ville</label>
+                                            <input ng-model="$ctrl.vm.userAccount.city">
+                                        </md-input-container>
+
+                                        <md-input-container class="md-block" flex-gt-sm>
+                                            <label>Pays</label>
+                                            <md-select ng-model="$ctrl.vm.userAccount.state">
+                                                <md-option ng-repeat="pays in $ctrl.vm.pays" value="{{pays}}">
+                                                    {{pays}}
+                                                </md-option>
+                                            </md-select>
+                                        </md-input-container>
+
+                                        <md-input-container class="md-block" flex-gt-sm>
+                                            <label>Code postal</label>
+                                            <input type="text" ng-model="$ctrl.vm.userAccount.postalCode">
+                                        </md-input-container>
+                                    </div>
+
+                                <md-divider></md-divider>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Compétences</label>
+                                    <input type="text" ng-model="$ctrl.vm.userAccount.skill">
+                                </md-input-container>
+
                                 </md-content>
                                 <md-content layout="column" flex class="md-padding" ng-if="$ctrl.vm.selected.name == 'Compte'">
                                     <h3>{{$ctrl.vm.selected.name}}</h3>
                                     <p> Modifiez votre mail et/ou votre mot de passe</p>
                                                              
                                     <md-input-container>
+                                    <md-icon md-svg-src="../../../assets/img/icons/ic_email_24px.svg" class="email"></md-icon>
                                         <input type="email" ng-model="$ctrl.vm.userAccount.email"  placeholder="E-Mail">
                                     </md-input-container>
 
                                     <md-button class="md-raised md-warn"
+                                    ng-click="$ctrl.vm.changeMail()">
+                                        Modifier adresse e-mail
+                                    </md-button>
+
+                                    <md-input-container>
+                                        <label>Mot de passe actuel</label>
+                                        <input type="password" ng-model="$ctrl.vm.userAccount.oldpassword"  >
+                                    </md-input-container>
+
+                                    <md-input-container>
+                                        <label>Nouveau mot de passe</label>
+                                        <input type="password" ng-model="$ctrl.vm.userAccount.newpassword"  >
+                                    </md-input-container>
+                                    
+                                    <md-input-container>
+                                        <label>Confimation</label>
+                                        <input type="password" ng-model="$ctrl.vm.userAccount.passwordConfirm"  >
+                                    </md-input-container>
+                                    <md-button class="md-raised md-warn"
                                     ng-click="$ctrl.vm.changePassword()">
-                                        MODIFIER
+                                        Modifier mot de passe
+                                    </md-button>
+
+                                </md-content>
+
+                                    <md-content layout="column" flex class="md-padding" ng-if="$ctrl.vm.selected.name == 'Suppression'">
+                                    <h3>{{$ctrl.vm.selected.name}}</h3>
+                                    <p> Pour supprimer votre compte, merci d'inscrire "SUPPRIMER" dans le champs ci-dessous</p>
+                                                             
+                                    <md-input-container>
+                                        <input type="text" ng-model="$ctrl.vm.userAccount.suppression"  placeholder="SUPPRIMER">
+                                    </md-input-container>
+
+                                    <md-button class="md-raised md-warn"
+                                    ng-click="$ctrl.vm.changePassword()">
+                                        SUPPRIMER
                                     </md-button>
 
                                 </md-content>

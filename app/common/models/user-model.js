@@ -131,6 +131,106 @@
 
                             return deferred.promise;
                         },
+
+                        /*
+                         * Met à jour les données de l'utilisateur
+                         * 
+                         * @param {Object} options: {
+                         *      entityId {number}
+                         *      email {string|undefined}
+                         *      password {string|undefined}
+                         *      firstname {string|undefined}
+                         *      lastname {string|undefined}
+                         *      legalname {string|undefined}
+                         *      siretnumber {number|undefined}
+                         *      avatar {string|undefined}
+                         *      address {string|undefined}
+                         *      postalcode {number|undefined}
+                         *      city {string|undefined}
+                         *      country {string|undefined}
+                         * }
+                         * 
+                         * @return {promise}
+                         */
+                        update: function (options) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "update", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "update"});
+                           
+                            if (options === undefined || options.entityId === undefined) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "read"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+
+
+                            var deferred = $q.defer();
+                            var params = {
+                                email: options.email,
+                                firstname: options.firstname,
+                                lastname: options.lastname,
+                                legalname: options.legalname,
+                                siretnumber: options.siretnumber,
+                                avatar: options.avatar,
+                                address: options.address,
+                                postalcode: options.postalcode,
+                                city: options.city,
+                                country: options.country
+                            };
+
+                            pmBackComHandler.put('updateProfile/' + options.entityId,params)
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+
+                            return deferred.promise; 
+                        },
+
+                             /*
+                         * Met à jour les mot de passe de l'utilisateur
+                         * 
+                         * @param {Object} options: {
+                         *      entityId {number}
+                         *      email {string|undefined}
+                         *      password {string|undefined}
+                         *      country {string|undefined}
+                         * }
+                         * 
+                         * @return {promise}
+                         */
+                        updatePassword: function (options) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "update", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "update"});
+                           
+                            if (options === undefined || options.entityId === undefined) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "read"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+
+
+                            var deferred = $q.defer();
+
+                            var params = {
+                                oldpassword: options.oldpassword,
+                                newpassword: options.newpassword
+                            };
+
+                            pmBackComHandler.put('updatePassword/' + options.entityId,params)
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+
+                            return deferred.promise; 
+                        },
+
                         /*
                          * Supprime le compte de l'utilisateur courant
                          * 

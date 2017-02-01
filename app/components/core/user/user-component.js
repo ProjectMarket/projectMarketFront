@@ -36,6 +36,7 @@
                     'pm.common.userService',
                     'pm.common.flashMessageService',
                     'pm.common.userModel',
+                    'pm.common.locationService',
                     '$mdSidenav',
                     Controller]
             });
@@ -52,6 +53,7 @@
             pmUser,
             pmFlashMessage,
             pmUserModel,
+            pmLocation,
             $mdSidenav
             ) {
 
@@ -84,6 +86,8 @@
          * @property {object} 
          */
         var _backObjects = {};
+
+        var _userId;
 
 
         var allMuppets = [];
@@ -170,6 +174,91 @@
                     });
         };
 
+        /*
+         * Modification du mail de l'utilisateur
+         * 
+         * @returns {void}
+         */
+        vm.changeMail = function() {
+
+          pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeMail", tag: "methodEntry"});
+           
+          if (vm.userAccount.email === undefined || vm.userAccount.email === ""){
+             var textContent = "Le champ E-mail est vide.";
+
+              pmFlashMessage.showValidationError(textContent);
+              return
+          }
+
+          var options = {
+            entityId: _userId,
+            email: vm.userAccount.email
+          }
+          pmUserModel.update(options)
+            .then(function (response) {
+
+              var textContent = "Vous ne pouvez pas modifier les informations de l'utilisateur.";  
+              pmFlashMessage.showSuccess(textContent);
+
+          })
+            .catch(function (response) {
+              var errorMessage = "Erreur lors de la modification de l'adresse mail de l'utilisateur.";
+              pmLog.error({message: errorMessage,
+              tag: "error", object: componentName, method: "vm.changeMail"});
+              var options = {
+                errorMessage: errorMessage,
+                 adviceMessage: "Vous ne pouvez pas modifier les informations de l'utilisateur."
+              };
+              pmFlashMessage.showError(options);
+              pmRouter.navigate(['Core.home']);
+          });
+
+        }
+
+                /*
+         * Modification du mot de passe de l'utilisateur
+         * 
+         * @returns {void}
+         */
+        vm.changePassword = function() {
+           pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changePassword", tag: "methodEntry"});
+
+          if (vm.userAccount.oldpassword === undefined || vm.userAccount.oldpassword === "" || vm.userAccount.newpassword === undefined
+             ||  vm.userAccount.newpassword === "" || vm.userAccount.passwordConfirm === undefined ||  vm.userAccount.passwordConfirm === ""){
+              var textContent = "Un des champs mot de passe est vide.";
+
+              pmFlashMessage.showValidationError(textContent);
+              return
+          }
+
+          if (vm.userAccount.newpassword !== vm.userAccount.passwordConfirm){
+              var textContent = "Les mots de passe ne correspondent pas.";
+              
+              pmFlashMessage.showValidationError(textContent);
+          }
+
+           var options = {
+            entityId: _userId,
+            password: vm.userAccount.newpassword
+          }
+          pmUserModel.updatePassword(options)
+            .then(function (response) {
+             
+          })
+            .catch(function (response) {
+              var errorMessage = "Erreur lors de la modification du mot de passe de l'utilisateur.";
+              pmLog.error({message: errorMessage,
+              tag: "error", object: componentName, method: "vm.changePassword"});
+              var options = {
+                errorMessage: errorMessage,
+                 adviceMessage: "Vous ne pouvez pas modifier les informations de l'utilisateur."
+              };
+              pmFlashMessage.showError(options);
+              pmRouter.navigate(['Core.home']);
+          });
+
+        }
+
         vm.toggleSidenav = function(name) {
             console.log("toggleSidenav !!!!!",name);
             $mdSidenav(name).toggle();
@@ -226,11 +315,14 @@
                 vm.isMyAccount = userId === pmUser.getAccountId();
 
                 if (userId !== undefined) {
+                    _userId = userId;
                     pmUserModel.readById({entityId: userId})
                             .then(function (response) {
                                 _routeParams = routeParams;
                                 _populateViewModel(response);
                                 vm.canDisplayView = true;
+
+                                vm.pays = pmLocation.getPays();
                             })
                             .catch(function (response) {
                                 var errorMessage = "Erreur lors de la récupération de l'utilisateur.";
