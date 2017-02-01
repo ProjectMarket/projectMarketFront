@@ -28,7 +28,6 @@
                 },
                 templateUrl: 'app/components/core/project/project-component.html',
                 controller: [
-                    '$q',
                     '$filter',
                     'pm.common.logService',
                     'pm.common.routerService',
@@ -36,14 +35,13 @@
                     'pm.common.timeService',
                     'pm.common.flashMessageService',
                     'pm.common.projectModel',
-                    'pm.common.userModel',
+                    'pm.common.categoryModel',
                     Controller]
             });
     //************
     // Controller
     //************
     function Controller(
-            $q,
             $filter,
             pmLog,
             pmRouter,
@@ -51,7 +49,7 @@
             pmTime,
             pmFlashMessage,
             pmProjectModel,
-            pmUserModel
+            pmCategoryModel
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -93,8 +91,14 @@
          */
 
         var _populateViewModel = function () {
-            console.info(_backObjects.project);
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
+
+            for (var i = 0; i < _backObjects.categories.length; i++) {
+                vm.project.category.data.push({
+                    id: _backObjects.categories[i].id,
+                    name: _backObjects.categories[i].name
+                });
+            }
 
             if (_routeParams.action !== "create") {
                 vm.project.id = _backObjects.project.id;
@@ -106,13 +110,14 @@
                 // FIXME:  Vérifier fonctionnement
                 vm.project.moa.type = _backObjects.project.moa.type;
                 vm.project.moa.id = _backObjects.project.moa.id;
+                vm.project.category.value = _backObjects.project.category.name;
                 if (_backObjects.project.moa.type === "user") {
                     vm.project.moa.firstName = _backObjects.project.moa.associatedElement.firstname;
                     vm.project.moa.lastName = _backObjects.project.moa.associatedElement.lastname;
                 } else {
                     vm.project.moa.legalname = _backObjects.project.moa.associatedElement.legalname;
                 }
-                vm.project.moa.avatar = _backObjects.project.moa.associatedElement.avatar
+                vm.project.moa.avatar = _backObjects.project.moa.associatedElement.avatar;
                 vm.project.isMine = vm.project.moa.id === pmUser.getAccountId() ? true : false;
             }
         };
@@ -179,7 +184,7 @@
                     title: vm.project.title,
                     description: vm.project.description,
                     budget: vm.project.budget,
-                    category: {},
+                    categoryId: vm.project.categoryId,
                     // TODO: Gérer l'envoie d'une image pour un projet
                     image: undefined,
                     id: pmUser.getAccountId()
@@ -219,6 +224,52 @@
                     }).catch(function (response) {
                 pmFlashMessage.showValidationError("Le projet n'a pu être modifié.");
             });
+        };
+
+        /*
+         * Postuler à un projet
+         * @returns {void}
+         */
+        vm.postulate = function () {
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.postulate", tag: "methodEntry"});
+            if (!pmUser.isSociety()) {
+                pmLog.error({message: "Erreur de droit d'accès à la méthode. Message d'exception={{exceptionMessage}}",
+                    params: {exceptionMessage: "Ce compte n'est pas cleui d'une société"}, tag: "error", object: componentName, method: "vm.postulate"});
+                pmRouter.navigateToErrorPage('global', 'fatal');
+            }
+            
+            var options = {
+                templateUrl: 'app/components/core/project/postulateDialog.html',
+                controller: function ($scope, $mdDialog) {
+                    var vm = this.vm = {};
+                    console.info(_routeParams.projectId);
+                    vm.candidat = {
+                        projectId: _routeParams.projectId,
+                        entityId: pmUser.getAccountId(),
+                        message: undefined
+                    };
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                    vm.confirm = function () {
+                        // Vérification du formulaire
+                        pmProjectModel.postulate(vm.candidat)
+                                .then(function () {
+                                    $mdDialog.hide(vm.candidat);
+                                    pmFlashMessage.showSuccess("Vous venez bien de postuler à ce projet.");
+                                })
+                                .catch(function () {
+                                    pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de votre candidature."});
+                                });
+                    };
+                }
+            };
+            pmFlashMessage.showCustomDialog(options)
+                    .then(function (data) {
+                    })
+                    .catch(function (data) {
+                        pmFlashMessage.showCancel();
+                    });
         };
 
         //************
@@ -263,37 +314,44 @@
                     projectId = undefined;
                 }
             }
-            routeParams.projectId = projectId;
-            if (routeParams.projectId !== undefined) {
-                // Récupération des informations du projet
-                pmProjectModel.readById({projectId: routeParams.projectId})
-                        .then(function (response) {
-                            // TODO: Récupérer la liste des catégories                            
-                            _routeParams = routeParams;
-                            vm.formAction = _routeParams.action;
-                            if (vm.formAction === "update" && pmUser.getAccountId() !== response.moa.id) {
-                                pmLog.info({message: "UserId non correct. action={{action}}|projectId={{projectId}}|userId={{userId}}",
-                                    params: {action: routeParams.action, projectId: routeParams.projectId, userId: pmUser.getAccountId()}, tag: "$routeParams", object: componentName, method: "$routerOnActivate"});
-                                pmRouter.navigateToErrorPage('404', 'params');
-                                return;
-                            }
-                            _backObjects.project = response;
-                        })
-                        .then(function () {
-                            // TODO : Déplacer les deux lignes suivantes dans le dernier then
-                            _populateViewModel();
-                            vm.canDisplayView = true;
-                        })
-                        .catch(function (response) {
-                            pmFlashMessage.showError({errorMessage: "Le projet n'existe pas ou plus."});
-                            pmRouter.navigate(['Core.home']);
-                        });
-            } else {
-                _populateViewModel();
-                _routeParams = routeParams;
-                vm.formAction = _routeParams.action;
-                vm.canDisplayView = true;
-            }
+
+            // Récupération des catégories
+            pmCategoryModel.readAll()
+                    .then(function (response) {
+                        _backObjects.categories = response;
+                    }).then(function () {
+                routeParams.projectId = projectId;
+                if (routeParams.projectId !== undefined) {
+                    // Récupération des informations du projet
+                    pmProjectModel.readById({projectId: routeParams.projectId})
+                            .then(function (response) {console.info(response);
+                                // TODO: Récupérer la liste des catégories                            
+                                _routeParams = routeParams;
+                                vm.formAction = _routeParams.action;
+                                if (vm.formAction === "update" && pmUser.getAccountId() !== response.moa.id) {
+                                    pmLog.info({message: "EntityId non correct. action={{action}}|projectId={{projectId}}|entityId={{entityId}}",
+                                        params: {action: routeParams.action, projectId: routeParams.projectId, entityId: pmUser.getAccountId()}, tag: "$routeParams", object: componentName, method: "$routerOnActivate"});
+                                    pmRouter.navigateToErrorPage('404', 'params');
+                                    return;
+                                }
+                                _backObjects.project = response;
+                            })
+                            .then(function () {
+                                // TODO : Déplacer les deux lignes suivantes dans le dernier then
+                                _populateViewModel();
+                                vm.canDisplayView = true;
+                            })
+                            .catch(function (response) {
+                                pmFlashMessage.showError({errorMessage: "Le projet n'existe pas ou plus."});
+                                pmRouter.navigate(['Core.home']);
+                            });
+                } else {
+                    _routeParams = routeParams;
+                    _populateViewModel();
+                    vm.formAction = _routeParams.action;
+                    vm.canDisplayView = true;
+                }
+            });
         };
     }
 

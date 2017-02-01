@@ -145,8 +145,8 @@
                             // l'user est déjà connecté
                             if (_factory.isConnected()) {
                                 pmLog.trace({message: "Utilisateur déjà connecté.", tag: "auth", object: objectName, method: "connect"});
-                                globalDeferred.resolve();
                                 _token = pmCookie.get('projectMarketToken');
+                                globalDeferred.resolve(true);
                                 return globalPromise;
                             }
 
@@ -196,7 +196,6 @@
                                                     // redirection vers page d'erreur
                                                     pmRouter.navigate(['Home.home']);
                                                     userDeferred.reject("Erreur from back");
-                                                    return userDeferredPromise;
                                                 });
                                         return userDeferredPromise;
                                     })
@@ -206,7 +205,7 @@
                                         $rootScope.$broadcast(objectName + ':userConnected');
 
                                         pmLog.trace({message: "Connexion réalisée avec succès.", tag: "auth", object: objectName, method: "connect"});
-                                        globalDeferred.resolve();
+                                        globalDeferred.resolve(true);
                                     })
                                     .catch(function (message) {
                                         pmLog.trace({message: "Connexion impossible. Message : {{message}}", params: {message: message},
@@ -241,8 +240,8 @@
                                         if (response.status === 200) {
                                             pmCookie.put('projectMarketToken', response.data.token);
                                             pmUser.setAccount(response.data);
-                                            $rootScope.$broadcast(objectName + ':userConnected');
                                             _isConnected = true;
+                                            $rootScope.$broadcast(objectName + ':userConnected');
                                             defer.resolve();
                                         } else {
                                             return defer.reject();

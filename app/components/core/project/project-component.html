@@ -28,12 +28,17 @@
 
         <md-input-container>
             <label>Catégorie</label>
-            <md-select ng-model="$ctrl.vm.project.category.value">
+            <md-select name="category" ng-model="$ctrl.vm.project.categoryId" required>
                 <md-option ng-repeat="category in $ctrl.vm.project.category.data"
                            ng-value="category.id">
                     {{category.name}}
                 </md-option>
             </md-select>
+            <div ng-messages="formProject.category.$error"
+                 ng-show="formProject.description.$touched"
+                 class="pm-front-validation-messages">
+                <div ng-message="required">Une catégorie est requise.</div>
+            </div>
         </md-input-container>
 
         <md-input-container>
@@ -93,10 +98,12 @@
             </div>
             <!-- INFOS PROJECT -->
             <div class="project_details_part">
-
+                <div flex="10" layout-margin>
+                    <p class="md-subhead" style="color: grey;" ng-bind-html="$ctrl.vm.project.category.value"></p>
+                </div>
                 <div class="project_title_part">
                     <div class="project_postulate">
-                        <md-button class="md-primary md-raised button_postulate" ng-if="!$ctrl.vm.project.isMine" ng-click="$ctrm.vm.postulate()">
+                        <md-button class="md-primary md-raised button_postulate" ng-if="!$ctrl.vm.project.isMine" ng-click="$ctrl.vm.postulate()">
                             POSTULER
                         </md-button>
                         <md-button class="md-primary md-raised" ng-if="$ctrl.vm.project.isMine" ng-link="['Core.project', {action: 'update', projectId: $ctrl.vm.project.id}]">

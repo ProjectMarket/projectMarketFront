@@ -15,14 +15,16 @@
             <span layout="row" flex>
                 <span layout="column" layout-padding flex="80">
                     <div flex="10">
-                        <p class="md-subhead" style="color: grey;">Categories</p>
+                        <p class="md-subhead" style="color: grey;" ng-bind-html="project.category"></p>
                     </div>
                     <div flex="80" layout-padding>
                         <p class="md-headline" ng-bind-html="project.title"></p>
                         <p class="md-content" ng-bind-html="project.description"></p>
                     </div>
                     <div flex="10">
-                        <p class="md-subhead" style="color:grey;" ng-bind-html="project.date_created"></p>
+                        <p class="md-subhead" style="color:grey;">
+                            Créé le {{project.date_created}}
+                        </p>
                     </div>
                 </span>
                 <span layout-padding flex="20">
