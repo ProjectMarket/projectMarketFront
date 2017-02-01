@@ -32,9 +32,7 @@
                     /*
                      * @property {object} user connecté
                      */
-                    var _account = {
-                        type: undefined
-                    };
+                    var _account = {};
 
                     //********************
                     // Méthodes privées
@@ -55,8 +53,11 @@
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "setAccount", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "setAccount"});
-                            _account = account;
-                            console.info(_account);
+                            if (account.hasOwnProperty("user")) {
+                                _account = account.user;
+                            } else {
+                                _account = account;
+                            }
                         },
                         /*
                          * Renvoie l'id du compte connecté

@@ -116,14 +116,17 @@
                                         // authentification
                                         // pas d'authentification quand le component n'est pas protégé
                                         var pmAuth = _getpmAuth();
-                                        if (componentSecurityConfig.isProtected === false) {
-                                            pmLog.trace({message: "Componant {{component}} non protégé.",
-                                                params: {component: component}, tag: "$canActivate", object: objectName, method: "canActivate"});
-                                            pmAuth.connect();
-                                            return $q.when();
-                                        }
-                                        
-                                        return pmAuth.connect();
+                                        pmAuth.connect()
+                                            .finally(function () {
+                                                if (componentSecurityConfig.isProtected === false) {
+                                                    pmLog.trace({message: "Componant {{component}} non protégé.",
+                                                        params: {component: component}, tag: "$canActivate", object: objectName, method: "canActivate"});
+
+                                                    return $q.when();
+                                                }
+
+                                                return pmAuth.connect();
+                                            });
                                     })
                                     .then(function () {
                                         pmLog.trace({message: "Navigation autorisée par $canActivate.", tag: "$canActivate", object: objectName, method: "canActivate"});

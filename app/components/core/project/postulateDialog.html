@@ -1,0 +1,15 @@
+<md-dialog aria-label="Candidature"
+           ng-cloak>
+    <md-input-container>
+        <label>Message pour votre futur client</label>
+        <textarea ng-model="$ctrl.vm.candidat.message" aria-label="Message à votre futur client">
+         
+        </textarea>
+    </md-input-container>
+    <span layout="column" layout-align="center center">
+        <md-button type="submit" class="md-primary md-raised"
+                   ng-click="$ctrl.vm.confirm()">
+            Connexion
+        </md-button>
+    </span>
+</md-dialog>

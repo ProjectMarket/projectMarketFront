@@ -122,7 +122,7 @@
                          *      title: {string},
                          *      description: {string},
                          *      budget: {number},
-                         *      category: {Object||undefined},
+                         *      categoryId: {number},
                          *      image: {string}
                          * }
                          * 
@@ -135,7 +135,7 @@
 
                             if (options === undefined || options.title === undefined
                                     || options.description === undefined || options.id === undefined
-                                    || options.budget === undefined) {
+                                    || options.budget === undefined || options.categoryId === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "create"});
                                 throw new Error('Erreur de paramètres en entrée de méthode.');
@@ -159,31 +159,61 @@
                          *      title: {string},
                          *      description: {string},
                          *      budget: {number},
-                         *      category: {Object||undefined},
+                         *      categoryId: {number},
                          *      image: {string}
                          * }
                          * @param {integer} projectId
                          * 
                          * @return {promise}
                          */
-                        update: function(options, projectId) {
+                        update: function (options, projectId) {
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "update", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "update"});
-                            
-                            if(options === undefined || projectId === undefined) {
+
+                            if (options === undefined || projectId === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "update"});
                                 throw new Error('Erreur de paramètres en entrée de méthode.');
                             }
-                            
-                            // FIXME : Supprimer ce test quand les catégories seront implémenter en back
-                            if(angular.equals({}, options.category)) {
-                                options.category = null;
-                            }
-                            
+
+
                             var deferred = $q.defer();
                             pmBackComHandler.put('project/' + projectId, options)
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+
+                            return deferred.promise;
+                        },
+                        /*
+                         * Postuler à un projet
+                         * 
+                         * @param candidat {Object} : {
+                         *   projectId: {number},
+                         *   entityId: {number},
+                         *   message: {string|undefined}
+                         * }
+                         */
+                        postulate: function (candidat) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "postulate", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "postulate"});
+                            
+                            if (candidat === undefined || candidat.projectId === undefined
+                                    || candidat.entityId === undefined) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "postulate"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+                            
+                            var options = angular.copy(candidat);
+                            delete options.projectId;
+                            var deferred = $q.defer();
+                            pmBackComHandler.post('applyToProject/' + candidat.projectId, options)
                                     .then(function (response) {
                                         deferred.resolve(response);
                                     })
