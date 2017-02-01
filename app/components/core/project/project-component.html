@@ -71,13 +71,24 @@
         <div class="project_content">
             <!-- INFOS AUTHOR PROJECT -->
             <div class="author_part">
-                <div class="profil_part">
-                    <!-- FIXME: Modifier suite à modification Entity -->
+                <div class="profil_part" ng-if="$ctrl.vm.project.moa.type === 'user'">
                     <a class="pseudo" ng-link="['Core.user', {userId: $ctrl.vm.project.moa.id}]" 
                        ng-bind-html="$ctrl.vm.project.moa.lastName + '&nbsp;' + $ctrl.vm.project.moa.firstName"></a>
+                    <div class="md-media-sm">
+                        <img src="{{$ctrl.vm.project.moa.avatar}}" 
+                             alt="{{$ctrl.vm.project.moa.lastName}}" />
+                    </div>
+                </div>
+                <div class="profil_part" ng-if="$ctrl.vm.project.moa.type === 'society'">
+                    <a class="pseudo" ng-link="['Core.society', {userId: $ctrl.vm.project.moa.id}]" 
+                       ng-bind-html="$ctrl.vm.project.moa.legalname"></a>
+                    <div class="md-media-sm">
+                        <img src="{{$ctrl.vm.project.moa.avatar}}" 
+                             alt="{{$ctrl.vm.project.moa.legalname}}" />
+                    </div>
                 </div>
                 <div class="option_part">
-
+                    <!-- FIXME: Ajouter l'image dont la source est $ctrl.vm.project.moa.avatar -->
                 </div>
             </div>
             <!-- INFOS PROJECT -->
@@ -106,9 +117,12 @@
                 <div class="project_content_part">
                     <div class="image_part">
                         <div class="image_part_contener">
+                            <div class="md-media-sm">
+                                <img src="{{$ctrl.vm.project.image}}" alt="{{$ctrl.vm.project.title}}" />
+                            </div>
                             <!-- TODO : Ajouter balise img -->
-                            <div class="budget_element">
-
+                            <div class="project_budget">
+                                <p ng-bind-html="$ctrl.vm.project.budget + '&nbsp;€'"></p>
                             </div>
                         </div>
                     </div>

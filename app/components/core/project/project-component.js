@@ -93,6 +93,7 @@
          */
 
         var _populateViewModel = function () {
+            console.info(_backObjects.project);
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
 
             if (_routeParams.action !== "create") {
@@ -103,9 +104,15 @@
                 vm.project.date_created = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.createdAt), "dd/MM/yyyy");
                 vm.project.date_lastUpdated = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.updatedAt), "dd/MM/yyyy");
                 // FIXME:  Vérifier fonctionnement
-                vm.project.moa.id = _backObjects.author.id;
-                vm.project.moa.firstName = _backObjects.author.firstname;
-                vm.project.moa.lastName = _backObjects.author.lastname;
+                vm.project.moa.type = _backObjects.project.moa.type;
+                vm.project.moa.id = _backObjects.project.moa.id;
+                if (_backObjects.project.moa.type === "user") {
+                    vm.project.moa.firstName = _backObjects.project.moa.associatedElement.firstname;
+                    vm.project.moa.lastName = _backObjects.project.moa.associatedElement.lastname;
+                } else {
+                    vm.project.moa.legalname = _backObjects.project.moa.associatedElement.legalname;
+                }
+                vm.project.moa.avatar = _backObjects.project.moa.associatedElement.avatar
                 vm.project.isMine = vm.project.moa.id === pmUser.getAccountId() ? true : false;
             }
         };
