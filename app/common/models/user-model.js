@@ -69,7 +69,7 @@
                          * Renvoie les infos d'un utilisateur
                          * 
                          * @param {Object} options: {
-                         *      userId {number}
+                         *      entityId {number}
                          * }
                          * @returns {promise}
                          */
@@ -78,7 +78,7 @@
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "read"});
 
-                            if (options === undefined || options.userId === undefined) {
+                            if (options === undefined || options.entityId === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "read"});
                                 throw new Error('Erreur de paramètres en entrée de méthode.');
@@ -86,7 +86,7 @@
 
                             var deferred = $q.defer();
 
-                            pmBackComHandler.post('user/' + options.userId)
+                            pmBackComHandler.post('user/' + options.entityId)
                                     .then(function (response) {
                                         deferred.resolve(response);
                                     })

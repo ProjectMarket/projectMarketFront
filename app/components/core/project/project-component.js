@@ -102,7 +102,7 @@
                 vm.project.description = _backObjects.project.description;
                 vm.project.date_created = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.createdAt), "dd/MM/yyyy");
                 vm.project.date_lastUpdated = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.updatedAt), "dd/MM/yyyy");
-
+                // FIXME:  Vérifier fonctionnement
                 vm.project.moa.id = _backObjects.author.id;
                 vm.project.moa.firstName = _backObjects.author.firstname;
                 vm.project.moa.lastName = _backObjects.author.lastname;
@@ -271,23 +271,6 @@
                                 return;
                             }
                             _backObjects.project = response;
-                        })
-                        .then(function () {
-                            console.info("_backObjects.project: ", _backObjects.project);
-                            // FIXME : Supprimer quand l'Entity sera renvoyé en même temps que la requête
-                            var deferred = $q.defer(),
-                                    promise = deferred.promise;
-                            pmUserModel.readById({userId: _backObjects.project.moa.id})
-                                    .then(function (response) {
-                                        _backObjects.author = response;
-                                        deferred.resolve();
-                                    })
-                                    .catch(function (response) {
-                                        pmFlashMessage.showError({errorMessage: "L'auteur du projet n'existe pas ou plus."});
-                                        pmRouter.navigate(['Core.home']);
-                                        deferred.reject();
-                                    });
-                            return promise;
                         })
                         .then(function () {
                             // TODO : Déplacer les deux lignes suivantes dans le dernier then

@@ -226,7 +226,7 @@
                 vm.isMyAccount = userId === pmUser.getAccountId();
 
                 if (userId !== undefined) {
-                    pmUserModel.readById({userId: userId})
+                    pmUserModel.readById({entityId: userId})
                             .then(function (response) {
                                 _routeParams = routeParams;
                                 _populateViewModel(response);

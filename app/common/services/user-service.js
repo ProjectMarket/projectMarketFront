@@ -55,15 +55,8 @@
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "setAccount", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "setAccount"});
-                            if (account.hasOwnProperty("user")) {
-                                _account = account.user.associatedElement;
-                                _account.type = account.user.type;
-                            } else {
-                                _account = account.associatedElement;
-                                _account.type = account.type;
-                            }
-
-
+                            _account = account;
+                            console.info(_account);
                         },
                         /*
                          * Renvoie l'id du compte connecté

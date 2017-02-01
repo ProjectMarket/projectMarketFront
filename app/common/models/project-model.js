@@ -118,7 +118,7 @@
                          * Crée un projet
                          * 
                          * @param {Object} options: {
-                         *      id: , // connectedtUserId
+                         *      id: , // connectedEntityId
                          *      title: {string},
                          *      description: {string},
                          *      budget: {number},

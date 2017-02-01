@@ -77,7 +77,7 @@
          * @returns {void}
          */
 
-        var _populateViewModel = function (result) {
+        var _populateViewModel = function (result) {console.info(result);
             var projectModel = {
                 id: undefined,
                 moa: {},
@@ -99,7 +99,7 @@
                 project.budget = result[i].budget;
                 project.description = result[i].description;
                 project.date_created = $filter('date')(pmTime.convertDateFromBackToDate(result[i].createdAt), "dd/MM/yyyy");
-
+                project.moa = result[i].moa;
 
                 // FIXME : Modifier le retour du back pour récupérer les infos de MOA/MOE directement
 
