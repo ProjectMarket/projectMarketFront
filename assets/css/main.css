@@ -607,17 +607,16 @@ body {
     background-color: #F5F5F5;
 }
 
-.home {
-   width : 150px;
+
+.home:hover {
+    color: transparent;
+    width : 150px;
     height : 80px;
     display : block; /*Très important, sinon les dimensions ne sont pas prises en compte*/
-     position : relative;
-     left : 10px; 
-     top : 0px;
-    background : url("../img/home2.png") no-repeat;
-}
-.home:hover {
-     background : url("../img/home.png") no-repeat;
+    position : relative;
+    left : 10px; 
+    top : 0px;
+    background : url("../img/home.png") no-repeat;
 }
 
 /*****************/
