@@ -187,17 +187,17 @@
              var textContent = "Le champ E-mail est vide.";
 
               pmFlashMessage.showValidationError(textContent);
-              return
+              return;
           }
 
           var options = {
             entityId: _userId,
             email: vm.userAccount.email
-          }
+          };
           pmUserModel.update(options)
             .then(function (response) {
 
-              var textContent = "Vous ne pouvez pas modifier les informations de l'utilisateur.";  
+              var textContent = "Votre adresse mail a bien été modifiée.";  
               pmFlashMessage.showSuccess(textContent);
 
           })
@@ -213,7 +213,7 @@
               pmRouter.navigate(['Core.home']);
           });
 
-        }
+        };
 
                 /*
          * Modification du mot de passe de l'utilisateur
@@ -228,7 +228,7 @@
               var textContent = "Un des champs mot de passe est vide.";
 
               pmFlashMessage.showValidationError(textContent);
-              return
+              return;
           }
 
           if (vm.userAccount.newpassword !== vm.userAccount.passwordConfirm){
@@ -239,9 +239,9 @@
 
            var options = {
             entityId: _userId,
-            oldpassword : vm.userAccount.oldpassword
+            oldpassword : vm.userAccount.oldpassword,
             newpassword : vm.userAccount.newpassword
-          }
+          };
           
           pmUserModel.updatePassword(options)
             .then(function (response) {
@@ -259,7 +259,7 @@
               pmRouter.navigate(['Core.home']);
           });
 
-        }
+        };
 
         vm.toggleSidenav = function(name) {
             console.log("toggleSidenav !!!!!",name);

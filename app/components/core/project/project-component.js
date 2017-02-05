@@ -119,6 +119,15 @@
                 }
                 vm.project.moa.avatar = _backObjects.project.moa.associatedElement.avatar;
                 vm.project.isMine = vm.project.moa.id === pmUser.getAccountId() ? true : false;
+                
+                vm.project.canPostulate = true;
+                for (var i = 0; i < _backObjects.project.appliants.length; i++) {
+                    if(pmUser.getAccountId() === _backObjects.project.appliants[i].id) {
+                        vm.project.canPostulate = false;
+                    }
+                }
+                console.info("_backObjects.project: ", _backObjects.project);
+                console.info("vm.project: ", vm.project);
             }
         };
 
@@ -237,12 +246,11 @@
                     params: {exceptionMessage: "Ce compte n'est pas cleui d'une société"}, tag: "error", object: componentName, method: "vm.postulate"});
                 pmRouter.navigateToErrorPage('global', 'fatal');
             }
-            
+
             var options = {
                 templateUrl: 'app/components/core/project/postulateDialog.html',
                 controller: function ($scope, $mdDialog) {
                     var vm = this.vm = {};
-                    console.info(_routeParams.projectId);
                     vm.candidat = {
                         projectId: _routeParams.projectId,
                         entityId: pmUser.getAccountId(),
@@ -324,8 +332,7 @@
                 if (routeParams.projectId !== undefined) {
                     // Récupération des informations du projet
                     pmProjectModel.readById({projectId: routeParams.projectId})
-                            .then(function (response) {console.info(response);
-                                // TODO: Récupérer la liste des catégories                            
+                            .then(function (response) {
                                 _routeParams = routeParams;
                                 vm.formAction = _routeParams.action;
                                 if (vm.formAction === "update" && pmUser.getAccountId() !== response.moa.id) {
@@ -337,7 +344,6 @@
                                 _backObjects.project = response;
                             })
                             .then(function () {
-                                // TODO : Déplacer les deux lignes suivantes dans le dernier then
                                 _populateViewModel();
                                 vm.canDisplayView = true;
                             })
