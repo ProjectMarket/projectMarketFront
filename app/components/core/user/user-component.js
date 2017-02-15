@@ -110,12 +110,12 @@
             vm.userAccount = {
                 firstname: result.firstname,
                 lastname: result.lastname,
-                description: result.entity.description,
+                description: result.description,
                 address: result.address,
                 postalcode: result.postalcode,
                 city: result.city,
                 country: result.country,
-                email: result.entity.email,
+                email: result.email,
                 avatar: result.avatar,
                 createdAt: result.createdAt
             };
@@ -169,7 +169,12 @@
          * @returns {void}
          */
         vm.delete = function () {
-            pmUserModel.delete()
+
+          if(vm.userAccount.suppression === "SUPPRIMER"){
+            var options = {
+              entityId: _userId
+            }
+            pmUserModel.delete(options)
                     .then(function (response) {
                         pmFlashMessage.showSuccess("Votre compte a bien été supprimé.");
                         pmAuth.logout();
@@ -177,6 +182,7 @@
                     .catch(function (response) {
 
                     });
+          }
         };
 
 

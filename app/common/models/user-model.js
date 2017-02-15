@@ -86,7 +86,7 @@
 
                             var deferred = $q.defer();
 
-                            pmBackComHandler.post('user/' + options.entityId)
+                            pmBackComHandler.post('entity/' + options.entityId)
                                     .then(function (response) {
                                         deferred.resolve(response);
                                     })
@@ -237,16 +237,16 @@
                          * 
                          * @return {promise}
                          */
-                        delete: function () {
+                        delete: function (options) {
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
                             var deferred = $q.defer();
-//                            pmBackComHandler.delete('user', {id: pmUser.getUserId()})
-//                                    .then(function (response) {
-//                                        deferred.resolve(response);
-//                                    })
-//                                    .catch(function (response) {
-//                                        deferred.reject(response);
-//                                    });
+                            pmBackComHandler.delete('entity/'+ options.entityId)
+                                   .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                   });
 
                             return deferred.promise;
                         }
