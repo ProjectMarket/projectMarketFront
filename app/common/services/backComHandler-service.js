@@ -59,10 +59,10 @@
                      * @param {Object} requestObject
                      * @return {object} promise
                      */
-                    var _postGetPut = function (action, path, requestObject) {
-                        pmLog.trace({message: "Entrée méthode", object: objectName, method: "_postGetPut", tag: "methodEntry"});
+                    var _postGetPutDelete = function (action, path, requestObject) {
+                        pmLog.trace({message: "Entrée méthode", object: objectName, method: "_postGetPutDelete", tag: "methodEntry"});
                         pmLog.debug({message: "Paramètres méthode : {{params}}",
-                            params: {params: arguments}, tag: "params", object: objectName, method: "_postGetPut"});
+                            params: {params: arguments}, tag: "params", object: objectName, method: "_postGetPutDelete"});
                         var token = pmAuth.getToken(),
                                 httpConfig = {
                                     headers: {}
@@ -79,8 +79,10 @@
                             promise = $http.get(_backendBaseUrl + path, httpConfig);
                         } else if(action === 'post') {
                             promise = $http.post(_backendBaseUrl + path, requestObject, httpConfig);
-                        } else {
+                        } else if(action === 'put'){
                             promise = $http.put(_backendBaseUrl + path, requestObject, httpConfig);
+                        } else if (action === "delete"){
+                            promise = $http.delete(_backendBaseUrl + path, httpConfig);
                         }
 
                         var deferred = $q.defer();
@@ -117,7 +119,7 @@
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "post"});
 
-                            return _postGetPut('post', path, requestObject);
+                            return _postGetPutDelete('post', path, requestObject);
                         },
                         /*
                          * Réalise une requête GET
@@ -130,7 +132,7 @@
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "get"});
 
-                            return _postGetPut('get', path);
+                            return _postGetPutDelete('get', path);
                         },
                         /*
                          * Réalise une requête PUT
@@ -144,7 +146,19 @@
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "put"});
 
-                            return _postGetPut('put', path, requestObject);
+                            return _postGetPutDelete('put', path, requestObject);
+                        },
+                        /*
+                         * Réalise une requête DELETE
+                         * @param {string] path path sur le serveur back
+                         * @return {object} promise
+                         */
+                        delete: function(path) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "delete"});
+                            
+                            return _postGetPutDelete('delete', path);
                         }
                     };
                     return _factory;
