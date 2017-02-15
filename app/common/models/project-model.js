@@ -190,6 +190,33 @@
                             return deferred.promise;
                         },
                         /*
+                         * Supprime le projet dont l'id est passé en @param
+                         * 
+                         * @param {integer} projectId
+                         * @returns {promise}
+                         */
+                        delete: function (projectId) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "delete"});
+                            if (isNaN(projectId)) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "delete"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+
+                            var deferred = $q.defer();
+                            pmBackComHandler.delete('project/' + projectId)
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+
+                            return deferred.promise;
+                        },
+                        /*
                          * Postuler à un projet
                          * 
                          * @param candidat {Object} : {
@@ -202,14 +229,14 @@
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "postulate", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "postulate"});
-                            
+
                             if (candidat === undefined || candidat.projectId === undefined
                                     || candidat.entityId === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "postulate"});
                                 throw new Error('Erreur de paramètres en entrée de méthode.');
                             }
-                            
+
                             var options = angular.copy(candidat);
                             delete options.projectId;
                             var deferred = $q.defer();
@@ -221,6 +248,86 @@
                                         deferred.reject(response);
                                     });
 
+                            return deferred.promise;
+                        },
+                        /*
+                         * Supprime la candidature au projet
+                         * 
+                         * @param candidat {Object} : {
+                         *  projectId: {number},
+                         *  entityId: {number}
+                         * }
+                         */
+                        unpostulate: function (candidat) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "unpostulate", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "unpostulate"});
+
+                            if (candidat === undefined || candidat.projectId === undefined
+                                    || candidat.entityId === undefined) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "unpostulate"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+
+                            var options = angular.copy(candidat);
+                            delete options.projectId;
+                            var deferred = $q.defer();
+                            pmBackComHandler.post('unapplyFromProject/' + candidat.projectId, options)
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+
+                            return deferred.promise;
+                        },
+                        /*
+                         * Choix de la MOE du Projet
+                         * 
+                         * @param projectId {number}
+                         * @param selectedEntityId {number}
+                         */
+                        selectMoe: function (projectId, selectedEntityId) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "unpostulate", tag: "methodEntry"});
+                            
+                            if (isNaN(projectId) || isNaN(selectedEntityId)) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "selectMoe"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+                            
+                            var deferred = $q.defer();
+                            pmBackComHandler.post('selectMoeForProject/' + projectId, {entityId: selectedEntityId})
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+                            return deferred.promise;
+                        },
+                        /*
+                         * 
+                         */
+                        endProject: function (projectId) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "unpostulate", tag: "methodEntry"});
+                            
+                            if (isNaN(projectId)) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "endProject"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+                            
+                            var deferred = $q.defer();
+                            pmBackComHandler.post('endProject/' + projectId)
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
                             return deferred.promise;
                         }
                     };

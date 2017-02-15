@@ -3,7 +3,7 @@
         <md-input-container>
             <label>Titre</label>
             <input name="title" ng-model="$ctrl.vm.project.title"
-                   type="text" required ng-minlength="3" md-maxlength="20">
+                   type="text" required ng-minlength="3" md-maxlength="100">
             <div ng-messages="formProject.title.$error"
                  ng-show="formProject.title.$touched"
                  class="pm-front-validation-messages">
@@ -103,14 +103,32 @@
                 </div>
                 <div class="project_title_part">
                     <div class="project_postulate">
+                        <div ng-if="$ctrl.vm.project.isOver">
+                            PROJET TERMINÉ
+                        </div>
                         <md-button class="md-primary md-raised button_postulate" 
                                    ng-if="!$ctrl.vm.project.isMine && $ctrl.vm.project.canPostulate" 
                                    ng-click="$ctrl.vm.postulate()">
-                            POSTULER
+                            Postuler
                         </md-button>
-                        <md-button class="md-primary md-raised" ng-if="$ctrl.vm.project.isMine" 
+                        <md-button class="md-warn md-raised button_postulate" 
+                                   ng-if="!$ctrl.vm.project.isMine && !$ctrl.vm.project.canPostulate && !$ctrl.vm.project.isStarted" 
+                                   ng-click="$ctrl.vm.unpostulate()">
+                            Supprimer ma candidature
+                        </md-button>
+                        <md-button class="md-primary md-raised"
+                                   ng-if="$ctrl.vm.project.isMine && $ctrl.vm.project.isStarted && !$ctrl.vm.project.isOver"
+                                   ng-click="$ctrl.vm.endProject()">
+                            Terminer
+                        </md-button>
+                        <md-button class="md-accent md-raised" ng-if="$ctrl.vm.project.isMine && !$ctrl.vm.project.isStarted" 
                                    ng-link="['Core.project', {action: 'update', projectId: $ctrl.vm.project.id}]">
                             Modifier
+                        </md-button>
+                        <md-button class="md-warn md-raised"
+                                   ng-if="$ctrl.vm.project.isMine && !$ctrl.vm.project.isStarted"
+                                   ng-click="$ctrl.vm.delete()">
+                            Supprimer
                         </md-button>
                     </div>
                     <div class="title_part">
@@ -140,11 +158,35 @@
                         <p class="description" ng-bind-html="$ctrl.vm.project.description"></p>
                     </div>
                 </div>
-
-                <div class="project_footer_part">
-                    <!-- TODO : Ajouter infos MOE -->
+                <md-divider ng-if="$ctrl.vm.project.appliants.length > 0 && $ctrl.vm.project.isMine"></md-divider>
+                <div ng-if="$ctrl.vm.project.appliants.length > 0 && $ctrl.vm.project.isMine" layout="raw" flex="100">
+                    Liste des entreprises postulant à votre projet
+                    <div ng-repeat="appliant in $ctrl.vm.project.appliants" flex="75">
+                        <a class="pseudo" ng-link="['Core.society', {userId: appliant.id}]" 
+                           ng-bind-html="appliant.legalname"></a>
+                        <div class="md-media-sm">
+                            <img src="{{appliant.avatar}}" 
+                                 alt="{{appliant.legalname}}" />
+                        </div>
+                    </div>
+                    <div>
+                        <md-button class="md-primary md-raised"
+                                   ng-if="!$ctrl.vm.project.isStarted && $ctrl.vm.project.appliants.length > 0"
+                                   ng-click="$ctrl.vm.choiceMoe()">
+                            Choisir l'entreprise pour le projet
+                        </md-button>
+                    </div>
                 </div>
-
+                <div ng-if="$ctrl.vm.project.isStarted">
+                    <md-divider></md-divider>
+                    Entreprise réalisant ce projet
+                    <a class="pseudo" ng-link="['Core.society', {userId: $ctrl.vm.project.moe.id}]" 
+                       ng-bind-html="$ctrl.vm.project.moe.legalname"></a>
+                    <div class="md-media-sm">
+                        <img src="{{$ctrl.vm.project.moe.avatar}}" 
+                             alt="{{$ctrl.vm.project.moe.legalname}}" />
+                    </div>
+                </div>
             </div>
         </div>
 

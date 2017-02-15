@@ -100,6 +100,7 @@
                 });
             }
 
+
             if (_routeParams.action !== "create") {
                 vm.project.id = _backObjects.project.id;
                 vm.project.title = _backObjects.project.title;
@@ -107,27 +108,42 @@
                 vm.project.description = _backObjects.project.description;
                 vm.project.date_created = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.createdAt), "dd/MM/yyyy");
                 vm.project.date_lastUpdated = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.updatedAt), "dd/MM/yyyy");
-                // FIXME:  Vérifier fonctionnement
                 vm.project.moa.type = _backObjects.project.moa.type;
                 vm.project.moa.id = _backObjects.project.moa.id;
                 vm.project.category.value = _backObjects.project.category.name;
+
                 if (_backObjects.project.moa.type === "user") {
                     vm.project.moa.firstName = _backObjects.project.moa.associatedElement.firstname;
                     vm.project.moa.lastName = _backObjects.project.moa.associatedElement.lastname;
                 } else {
                     vm.project.moa.legalname = _backObjects.project.moa.associatedElement.legalname;
                 }
+
                 vm.project.moa.avatar = _backObjects.project.moa.associatedElement.avatar;
-                vm.project.isMine = vm.project.moa.id === pmUser.getAccountId() ? true : false;
+                vm.project.isMine = vm.project.moa.id === pmUser.getAccountId();
                 
-                vm.project.canPostulate = true;
+                if (_backObjects.project.started !== null) {
+                    vm.project.moe = {
+                        id: _backObjects.project.moe.id,
+                        legalname: _backObjects.project.moe.associatedElement.legalname
+                    };
+                }
+
+                vm.project.isStarted = _backObjects.project.started !== null;
+                vm.project.isOver = _backObjects.project.over !== null;
+
+                vm.project.canPostulate = _backObjects.project.moe === null;
                 for (var i = 0; i < _backObjects.project.appliants.length; i++) {
-                    if(pmUser.getAccountId() === _backObjects.project.appliants[i].id) {
+                    vm.project.appliants.push({
+                        id: _backObjects.project.appliants[i].id,
+                        legalname: _backObjects.project.appliants[i].associatedElement.legalname,
+                        avatar: _backObjects.project.appliants[i].associatedElement.avatar
+                    });
+                    if (pmUser.getAccountId() === _backObjects.project.appliants[i].id) {
                         vm.project.canPostulate = false;
+                        break;
                     }
                 }
-                console.info("_backObjects.project: ", _backObjects.project);
-                console.info("vm.project: ", vm.project);
             }
         };
 
@@ -160,6 +176,7 @@
          * @property {object} Projet
          */
         vm.project = {
+            appliants: [],
             moa: {},
             title: undefined,
             description: undefined,
@@ -236,6 +253,34 @@
         };
 
         /*
+         * Suppression du projet
+         * 
+         * @returns {void}
+         */
+
+        vm.delete = function () {
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.delete", tag: "methodEntry"});
+            pmFlashMessage.showDeleteConfirm({
+                textContent: {
+                    singular: "le projet",
+                    plural: "les projets"
+                },
+                objectsDisplayNames: [
+                    vm.project.title
+                ]
+            }).then(function () {
+                pmProjectModel.delete(vm.project.id)
+                        .then(function (response) {
+                            pmFlashMessage.showSuccess('Le projet a supprimé avec succès.');
+                            pmRouter.navigate(['Core.home']);
+                        })
+                        .catch(function (response) {
+                            pmFlashMessage.showValidationError("Le projet n'a pu être supprimé.");
+                        });
+            });
+        };
+
+        /*
          * Postuler à un projet
          * @returns {void}
          */
@@ -265,6 +310,7 @@
                                 .then(function () {
                                     $mdDialog.hide(vm.candidat);
                                     pmFlashMessage.showSuccess("Vous venez bien de postuler à ce projet.");
+                                    pmRouter.renavigate();
                                 })
                                 .catch(function () {
                                     pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de votre candidature."});
@@ -272,12 +318,108 @@
                     };
                 }
             };
-            pmFlashMessage.showCustomDialog(options)
-                    .then(function (data) {
-                    })
-                    .catch(function (data) {
-                        pmFlashMessage.showCancel();
-                    });
+            pmFlashMessage.showCustomDialog(options);
+        };
+
+        /*
+         * Supprimer la candidature au projet
+         * 
+         * @returns {void}
+         */
+        vm.unpostulate = function () {
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.unpostulate", tag: "methodEntry"});
+            pmFlashMessage.showDeleteConfirm({
+                textContent: {
+                    singular: "la candidature au projet",
+                    plural: "les candidatures au projet"
+                },
+                objectsDisplayNames: [
+                    vm.project.title
+                ]
+            }).then(function () {
+                var _candidat = {
+                    projectId: _routeParams.projectId,
+                    entityId: pmUser.getAccountId()
+                };
+                pmProjectModel.unpostulate(_candidat)
+                        .then(function (response) {
+                            pmFlashMessage.showSuccess('Votre candidature a bien été supprimée.');
+                            pmRouter.renavigate();
+                        })
+                        .catch(function (response) {
+                            pmFlashMessage.showValidationError("Votre candidature n'a pu être supprimée.");
+                        });
+            });
+        };
+
+        /*
+         * Choix de la MOE du projet
+         * 
+         * @returns {void}
+         */
+        vm.choiceMoe = function () {
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.choiceMoe", tag: "methodEntry"});
+
+            var options = {
+                templateUrl: 'app/components/core/project/choiceMoeDialog.html',
+                controller: function ($scope, $mdDialog) {
+                    var vm = this.vm = {};
+                    vm.appliants = [];
+                    for(var i = 0; i < _backObjects.project.appliants.length; i++) {
+                        vm.appliants.push({
+                           id:  _backObjects.project.appliants[i].id,
+                           legalname: _backObjects.project.appliants[i].associatedElement.legalname
+                        });
+                    }
+                    vm.moeId = undefined;
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                    vm.confirm = function () {
+                        // Vérification du formulaire
+                        pmProjectModel.selectMoe(_backObjects.project.id, vm.moeId)
+                                .then(function () {
+                                    $mdDialog.hide();
+                                    pmFlashMessage.showSuccess("Vous venez bien de choisir l'entreprise pour votre projet.");
+                                    pmRouter.renavigate();
+                                })
+                                .catch(function () {
+                                    pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de la sélection de l'entreprise."});
+                                });
+                    };
+                }
+            };
+            pmFlashMessage.showCustomDialog(options);
+        };
+        
+        /*
+         * Termine la réalisation du projet
+         * 
+         * @returns {void}
+         */
+        vm.endProject = function() {
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.endProject", tag: "methodEntry"});
+            var options = {
+                templateUrl: 'app/components/core/project/confirmEndProject.html',
+                controller: function ($scope, $mdDialog) {
+                    var vm = this.vm = {};
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                    vm.confirm = function () {
+                        pmProjectModel.endProject(_backObjects.project.id)
+                                .then(function () {
+                                    $mdDialog.hide();
+                                    pmFlashMessage.showSuccess("Vous venez de terminer votre projet.");
+                                    pmRouter.navigate(['Core.home']);
+                                })
+                                .catch(function () {
+                                    pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de la fermeture du projet."});
+                                });
+                    };
+                }
+            };
+            pmFlashMessage.showCustomDialog(options);
         };
 
         //************
