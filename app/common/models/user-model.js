@@ -167,6 +167,7 @@
                             var deferred = $q.defer();
                             var params = {
                                 email: options.email,
+                                description: options.description,
                                 firstname: options.firstname,
                                 lastname: options.lastname,
                                 legalname: options.legalname,

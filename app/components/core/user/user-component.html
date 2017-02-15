@@ -43,7 +43,7 @@
                             </md-sidenav>
                             <div layout="column" flex class="content-wrapper" id="primary-col">
                                 <md-content layout="column" flex class="md-padding" ng-if="$ctrl.vm.selected.name == 'Profil'">
-                                    <form name="profilForm">
+                                    <form name="profilForm" >
                                         <h2>{{$ctrl.vm.selected.name}}</h2>
                                         <p>Modifiez les paramètres de votre profil.</p>
 
@@ -58,47 +58,62 @@
                                          <md-divider></md-divider>
 
                                         <md-input-container>
-                                            <label>Description</label>
-                                            <textarea ng-model="$ctrl.vm.userAccount.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+                                            <label>Prénom</label>
+                                            <input ng-model="$ctrl.vm.userAccount.firstname"
+                                            type="text" name="firstname" >
+                                        </md-input-container>
 
+                                        <md-input-container>
+                                            <label>Nom de famille</label>
+                                            <input ng-model="$ctrl.vm.userAccount.lastname"
+                                             name="lastname">
+                                        </md-input-container>
+
+                                        <md-input-container>
+                                            <label>Description</label>
+                                            <textarea ng-model="$ctrl.vm.userAccount.description"
+                                            md-maxlength="150" rows="5" name="biography" md-select-on-focus></textarea>
                                         </md-input-container>
                                         <md-input-container class="md-block">
-                                        <label>Addresse</label>
-                                        <input ng-model="$ctrl.vm.userAccount.address">
+                                            <label>Addresse</label>
+                                            <input name="adress" type="text" ng-model="$ctrl.vm.userAccount.address">
                                         </md-input-container>
 
-                                        <md-input-container md-no-float class="md-block">
-                                            <label>Complement d'adresse</label>
-                                            <input ng-model="$ctrl.vm.userAccount.address2">
-                                        </md-input-container>
+                                        <md-input-container class="md-block" flex-gt-sm>
+                                                <label>Code postal</label>
+                                                <input type="text" name="postalCode" ng-model="$ctrl.vm.userAccount.postalcode">
+                                            </md-input-container>
 
-                                            <div layout-gt-sm="row">
-                                                <md-input-container class="md-block" flex-gt-sm>
-                                                    <label>Ville</label>
-                                                    <input ng-model="$ctrl.vm.userAccount.city">
-                                                </md-input-container>
+                                        <div layout-gt-sm="row">
+                                            <md-input-container class="md-block" flex-gt-sm>
+                                                <label>Ville</label>
+                                                <input name="city" ng-model="$ctrl.vm.userAccount.city">
+                                            </md-input-container>
 
-                                                <md-input-container class="md-block" flex-gt-sm>
-                                                    <label>Pays</label>
-                                                    <md-select ng-model="$ctrl.vm.userAccount.state">
-                                                        <md-option ng-repeat="pays in $ctrl.vm.pays" value="{{pays}}">
-                                                            {{pays}}
-                                                        </md-option>
-                                                    </md-select>
-                                                </md-input-container>
+                                            <md-input-container class="md-block" flex-gt-sm>
+                                                <label>Pays</label>
+                                                <md-select name="country" ng-model="$ctrl.vm.userAccount.country">
+                                                    <md-option ng-repeat="pays in $ctrl.vm.pays" value="{{pays}}">
+                                                        {{pays}}
+                                                    </md-option>
+                                                </md-select>
+                                            </md-input-container>
 
-                                                <md-input-container class="md-block" flex-gt-sm>
-                                                    <label>Code postal</label>
-                                                    <input type="text" ng-model="$ctrl.vm.userAccount.postalCode">
-                                                </md-input-container>
-                                            </div>
+
+                                        </div>
 
                                         <md-divider></md-divider>
 
                                         <md-input-container class="md-block" flex-gt-sm>
                                             <label>Compétences</label>
-                                            <input type="text" ng-model="$ctrl.vm.userAccount.skill">
+                                            <input type="text" name="skill" ng-model="$ctrl.vm.userAccount.skill">
                                         </md-input-container>
+
+                                        <md-button class="md-raised md-warn"
+                                       
+                                        ng-click="$ctrl.vm.changeProfil()">
+                                            Modifier mon profil
+                                        </md-button>
                                     </form>
                                 </md-content>
                                 <md-content layout="column" flex class="md-padding" ng-if="$ctrl.vm.selected.name == 'Compte'">
@@ -182,7 +197,7 @@
                                     </md-input-container>
 
                                     <md-button class="md-raised md-warn"
-                                    ng-click="$ctrl.vm.changePassword()">
+                                    >
                                         SUPPRIMER
                                     </md-button>
 

@@ -106,11 +106,16 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
-            
+            console.log('result !!!',result);
             vm.userAccount = {
                 firstname: result.firstname,
                 lastname: result.lastname,
-                email: result.email,
+                description: result.entity.description,
+                address: result.address,
+                postalcode: result.postalcode,
+                city: result.city,
+                country: result.country,
+                email: result.entity.email,
                 avatar: result.avatar,
                 createdAt: result.createdAt
             };
@@ -174,6 +179,47 @@
                     });
         };
 
+
+                /*
+         * Modification du profil de l'utilisateur
+         * 
+         * @returns {void}
+         */
+        vm.changeProfil = function() {
+
+          pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeProfil", tag: "methodEntry"});
+           
+
+          var options = {
+            entityId: _userId,
+            description: vm.userAccount.description,
+            firstname: vm.userAccount.firstname,
+            lastname: vm.userAccount.lastname,
+            address: vm.userAccount.address,
+            postalcode: vm.userAccount.postalcode,
+            city: vm.userAccount.city,
+            country: vm.userAccount.country
+          };
+          pmUserModel.update(options)
+            .then(function (response) {
+              console.log("response",response);
+              var textContent = "Votre profil a bien été modifiée.";  
+              pmFlashMessage.showSuccess(textContent);
+
+          })
+            .catch(function (response) {
+              var errorMessage = "Erreur lors de la modification du profil de l'utilisateur.";
+              pmLog.error({message: errorMessage,
+              tag: "error", object: componentName, method: "vm.changeProfil"});
+              var options = {
+                errorMessage: errorMessage,
+                 adviceMessage: "Vous ne pouvez pas modifier les informations de l'utilisateur."
+              };
+              pmFlashMessage.showError(options);
+              pmRouter.navigate(['Core.home']);
+          });
+
+        };
         /*
          * Modification du mail de l'utilisateur
          * 
