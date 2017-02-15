@@ -22,7 +22,7 @@
                         Messagerie
                     </md-tab-label>
                 </md-tab>
-                <md-tab ng-if="$ctrl.vm.isMyAccount">
+                <md-tab >
                     <md-tab-label>
                         <md-icon md-svg-icon="layout:signup"></md-icon>
                         Paramètres
@@ -102,39 +102,71 @@
                                     </form>
                                 </md-content>
                                 <md-content layout="column" flex class="md-padding" ng-if="$ctrl.vm.selected.name == 'Compte'">
-                                    <form name="userForm">
+                                    <form name="userFormMail" layout="column">
                                         <h3>{{$ctrl.vm.selected.name}}</h3>
                                         <p> Modifiez votre mail et/ou votre mot de passe</p>
                                                                  
-                                        <md-input-container>
-                                        <md-icon md-svg-src="../../../assets/img/icons/ic_email_24px.svg" class="email"></md-icon>
-                                            <input type="email" name="email" ng-model="$ctrl.vm.userAccount.email"  placeholder="E-Mail" ng-pattern="/^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/">
+                                        <md-input-container>                                   
+                                            <md-icon md-svg-src="../../../assets/img/icons/ic_email_24px.svg" class="email"></md-icon>
+                                            
+                                            <input type="email" name="email" required ng-model="$ctrl.vm.userAccount.email"  placeholder="E-Mail" ng-pattern="/^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/">
+
+                                            <div ng-messages="userFormMail.email.$error">
+                                                <div ng-message="pattern">Adresse E-mail incorrecte</div>
+                                                <div ng-message="required">Merci de saisir une adresse E-mail.</div>
+                                            </div>
                                         </md-input-container>
 
-                                        <div ng-messages="userForm.description.$error">
-                                            <div ng-message="pattern">Adresse E-mail incorrecte</div>
-                                        </div>
 
                                         <md-button class="md-raised md-warn"
+                                        ng-disabled="!userFormMail.$valid"
                                         ng-click="$ctrl.vm.changeMail()">
                                             Modifier adresse e-mail
                                         </md-button>
-
+                                    </form>
+                                    <form name=userFormPassword layout="column">
                                         <md-input-container>
                                             <label>Mot de passe actuel</label>
-                                            <input type="password" ng-model="$ctrl.vm.userAccount.oldpassword"  >
+                                            <input type="password" ng-model="$ctrl.vm.userAccount.oldpassword" 
+                                            name="password"
+                                            required ng-minlength="4">
+                                            <div ng-messages="userFormPassword.password.$error" 
+                                                ng-if="userFormPassword.password.$touched"
+                                                class="pm-front-validation-messages">
+                                                <div ng-message="required">Merci de saisir un mot de passe.</div>
+                                                <div ng-message="minlength">Le mot de passe doit contenir au minimum 4 caractères.</div>
+                                            </div>
                                         </md-input-container>
 
                                         <md-input-container>
                                             <label>Nouveau mot de passe</label>
-                                            <input type="password" ng-model="$ctrl.vm.userAccount.newpassword"  >
+                                            <input type="password" ng-model="$ctrl.vm.userAccount.newpassword"
+                                            name="new_password"
+                                            required ng-minlength="4">
+                                            <div ng-messages="userFormPassword.new_password.$error" 
+                                                ng-if="userFormPassword.new_password.$touched"
+                                                class="pm-front-validation-messages">
+                                                <div ng-message="required">Merci de saisir un mot de passe.</div>
+                                                <div ng-message="minlength">Le mot de passe doit contenir au minimum 4 caractères.</div>
+                                            </div>
                                         </md-input-container>
                                         
                                         <md-input-container>
                                             <label>Confimation</label>
-                                            <input type="password" ng-model="$ctrl.vm.userAccount.passwordConfirm"  >
+                                            <input type="password" ng-model="$ctrl.vm.userAccount.passwordConfirm"  
+                                            name="confirm_password"
+                                            compare-to="$ctrl.vm.userAccount.newpassword"
+                                            >
+                                            <div ng-messages="userFormPassword.confirm_password.$error"
+                                                 ng-if="userFormPassword.confirm_password.$dirty"
+                                                 class="pm-front-validation-messages">
+                                            <div ng-message="compareTo" 
+                                                ng-if="userFormPassword.confirm_password.$dirty">Les mots de passes indiqués ne sont pas identiques.</div>
+                                            </div>
                                         </md-input-container>
+                                    
                                         <md-button class="md-raised md-warn"
+                                        ng-disabled="!userFormPassword.$valid"
                                         ng-click="$ctrl.vm.changePassword()">
                                             Modifier mot de passe
                                         </md-button>
