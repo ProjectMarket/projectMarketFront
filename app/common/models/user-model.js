@@ -86,7 +86,7 @@
 
                             var deferred = $q.defer();
 
-                            pmBackComHandler.post('entity/' + options.entityId)
+                            pmBackComHandler.get('entity/' + options.entityId)
                                     .then(function (response) {
                                         deferred.resolve(response);
                                     })

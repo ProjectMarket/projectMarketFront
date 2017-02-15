@@ -108,15 +108,15 @@
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
             console.log('result !!!',result);
             vm.userAccount = {
-                firstname: result.firstname,
-                lastname: result.lastname,
+                firstname: result.associatedElement.firstname,
+                lastname: result.associatedElement.lastname,
                 description: result.description,
-                address: result.address,
-                postalcode: result.postalcode,
-                city: result.city,
-                country: result.country,
+                address: result.associatedElement.address,
+                postalcode: result.associatedElement.postalcode,
+                city: result.associatedElement.city,
+                country: result.associatedElement.country,
                 email: result.email,
-                avatar: result.avatar,
+                avatar: result.associatedElement.avatar,
                 createdAt: result.createdAt
             };
         };
@@ -130,7 +130,6 @@
                  }];
                 allMuppets = muppets;
                 vm.muppets = [].concat(muppets);
-                console.log("LOAD !!!!: ",vm.muppets);
                 vm.selected = vm.muppets[0];
       };
 
@@ -208,7 +207,6 @@
           };
           pmUserModel.update(options)
             .then(function (response) {
-              console.log("response",response);
               var textContent = "Votre profil a bien été modifiée.";  
               pmFlashMessage.showSuccess(textContent);
 
@@ -314,17 +312,14 @@
         };
 
         vm.toggleSidenav = function(name) {
-            console.log("toggleSidenav !!!!!",name);
+
             $mdSidenav(name).toggle();
         };
   
         vm.selectMuppet = function(muppet) {
-            console.log("selectMuppet !!!!!",muppet);
             vm.selected = angular.isNumber(muppet) ? vm.muppets[muppet] : muppet;
-             console.log("selected !!!!!",vm.selected);
             vm.toggleSidenav('left');
         };
-
 
 
         //*******************
@@ -375,7 +370,6 @@
                                 _routeParams = routeParams;
                                 _populateViewModel(response);
                                 vm.canDisplayView = true;
-
                                 vm.pays = pmLocation.getPays();
                             })
                             .catch(function (response) {
