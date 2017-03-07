@@ -6,15 +6,16 @@
             <md-radio-button value="user" class="md-primary">Particulier</md-radio-button>
             <md-radio-button value="society">Professionnel</md-radio-button>
         </md-radio-group>
-        <form name="formSignUpSingle" flex layout="column" ng-if="$ctrl.vm.userDetails.type === 'user'">
-            
-            <div ng-if="$ctrl.vm.userDetails.avatar !== undefined">
-                <img ng-src="{{$ctrl.vm.userDetails.avatar}}" width="100px" height="100px" />
-            </div>
 
-            <md-input-container>
-                <md-button class="md-primary md-raised" ngf-select="$ctrl.vm.uploadFiles($files)" title="upload" resetOnClick="true" >Upload</md-button>
-            </md-input-container>
+        <div ng-if="$ctrl.vm.userDetails.avatar !== undefined">
+            <img ng-src="{{$ctrl.vm.userDetails.avatar}}" width="100px" height="100px" />
+        </div>
+
+        <md-input-container>
+            <md-button class="md-primary md-raised" ngf-select="$ctrl.vm.uploadFiles($files)" title="upload" resetOnClick="true" >Upload</md-button>
+        </md-input-container>
+
+        <form name="formSignUpSingle" flex layout="column" ng-if="$ctrl.vm.userDetails.type === 'user'">
 
             <md-input-container>
                 <label>Prénom *</label>
