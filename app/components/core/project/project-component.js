@@ -36,6 +36,8 @@
                     'pm.common.flashMessageService',
                     'pm.common.projectModel',
                     'pm.common.categoryModel',
+                    'Upload',
+                    'cloudinary',
                     Controller]
             });
     //************
@@ -49,7 +51,9 @@
             pmTime,
             pmFlashMessage,
             pmProjectModel,
-            pmCategoryModel
+            pmCategoryModel,
+            $upload,
+            cloudinary
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -99,12 +103,13 @@
                     name: _backObjects.categories[i].name
                 });
             }
-
+console.info(_backObjects.project);
 
             if (_routeParams.action !== "create") {
                 vm.project.id = _backObjects.project.id;
                 vm.project.title = _backObjects.project.title;
                 vm.project.budget = _backObjects.project.budget;
+                vm.project.image = _backObjects.project.image;
                 vm.project.description = _backObjects.project.description;
                 vm.project.date_created = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.createdAt), "dd/MM/yyyy");
                 vm.project.date_lastUpdated = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.updatedAt), "dd/MM/yyyy");
@@ -121,7 +126,7 @@
 
                 vm.project.moa.avatar = _backObjects.project.moa.associatedElement.avatar;
                 vm.project.isMine = vm.project.moa.id === pmUser.getAccountId();
-                
+
                 if (_backObjects.project.started !== null) {
                     vm.project.moe = {
                         id: _backObjects.project.moe.id,
@@ -211,8 +216,7 @@
                     description: vm.project.description,
                     budget: vm.project.budget,
                     categoryId: vm.project.categoryId,
-                    // TODO: Gérer l'envoie d'une image pour un projet
-                    image: undefined,
+                    image: vm.project.image,
                     id: pmUser.getAccountId()
                 };
 
@@ -224,6 +228,53 @@
                     pmFlashMessage.showValidationError("Le projet n'a pu être créé.");
                 });
             }
+        };
+
+        vm.uploadFiles = function (files) {
+            var d = new Date();
+            var title = "Image (" + d.getDate() + " - " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ")";
+
+            if (!files)
+                return;
+            angular.forEach(files, function (file) {
+                if (file && !file.$error) {
+                    file.upload = $upload.upload({
+                        url: "https://api.cloudinary.com/v1_1/" + cloudinary.config().cloud_name + "/upload",
+                        data: {
+                            api_key: cloudinary.config().api_key,
+                            api_secret: cloudinary.config().api_secret,
+                            tags: 'myphotoalbum',
+                            context: 'photo=' + title,
+                            file: file,
+                            upload_preset: cloudinary.config().upload_preset
+                        },
+                        withCredentials: false
+                    }).progress(function (e) {
+                        file.progress = Math.round((e.loaded * 100.0) / e.total);
+                        file.status = "Uploading... " + file.progress + "%";
+                    }).success(function (data, status, headers, config) {
+                        vm.project.image = data.url;
+                    }).error(function (data, status, headers, config) {
+                        file.result = data;
+                    });
+                }
+            });
+        };
+
+        vm.dragOverClass = function ($event) {
+            var items = $event.dataTransfer.items;
+            var hasFile = false;
+            if (items != null) {
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].kind == 'file') {
+                        hasFile = true;
+                        break;
+                    }
+                }
+            } else {
+                hasFile = true;
+            }
+            return hasFile ? "dragover" : "dragover-err";
         };
 
         /*
@@ -239,8 +290,7 @@
                 description: vm.project.description,
                 budget: vm.project.budget,
                 category: {},
-                // TODO: Gérer l'envoie d'une image pour un projet
-                image: undefined
+                image: vm.project.image
             };
 
             pmProjectModel.update(options, vm.project.id)
@@ -365,10 +415,10 @@
                 controller: function ($scope, $mdDialog) {
                     var vm = this.vm = {};
                     vm.appliants = [];
-                    for(var i = 0; i < _backObjects.project.appliants.length; i++) {
+                    for (var i = 0; i < _backObjects.project.appliants.length; i++) {
                         vm.appliants.push({
-                           id:  _backObjects.project.appliants[i].id,
-                           legalname: _backObjects.project.appliants[i].associatedElement.legalname
+                            id: _backObjects.project.appliants[i].id,
+                            legalname: _backObjects.project.appliants[i].associatedElement.legalname
                         });
                     }
                     vm.moeId = undefined;
@@ -391,13 +441,13 @@
             };
             pmFlashMessage.showCustomDialog(options);
         };
-        
+
         /*
          * Termine la réalisation du projet
          * 
          * @returns {void}
          */
-        vm.endProject = function() {
+        vm.endProject = function () {
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.endProject", tag: "methodEntry"});
             var options = {
                 templateUrl: 'app/components/core/project/confirmEndProject.html',
