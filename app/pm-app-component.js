@@ -54,6 +54,8 @@
                     '$mdSidenav',
                     '$mdMedia',
                     'pm.common.userModel',
+                    'Upload',
+                    'cloudinary',
                     Controller]
             });
     //************
@@ -70,7 +72,9 @@
             $mdConstant,
             $mdSidenav,
             $mdMedia,
-            pmUserModel
+            pmUserModel,
+            $upload,
+            cloudinary
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -171,6 +175,52 @@
                     vm.cancel = function () {
                         $mdDialog.cancel();
                     };
+                    vm.uploadFiles = function (files) {
+                        var d = new Date();
+                        var title = "Image (" + d.getDate() + " - " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ")";
+
+                        if (!files)
+                            return;
+                        angular.forEach(files, function (file) {
+                            if (file && !file.$error) {
+                                file.upload = $upload.upload({
+                                    url: "https://api.cloudinary.com/v1_1/" + cloudinary.config().cloud_name + "/upload",
+                                    data: {
+                                        api_key: cloudinary.config().api_key,
+                                        api_secret: cloudinary.config().api_secret,
+                                        tags: 'accountfiles',
+                                        context: 'photo=' + title,
+                                        file: file,
+                                        upload_preset: cloudinary.config().upload_preset
+                                    },
+                                    withCredentials: false
+                                }).progress(function (e) {
+                                    file.progress = Math.round((e.loaded * 100.0) / e.total);
+                                    file.status = "Uploading... " + file.progress + "%";
+                                }).success(function (data, status, headers, config) {
+                                    vm.userDetails.avatar = data.url;
+                                }).error(function (data, status, headers, config) {
+                                    file.result = data;
+                                });
+                            }
+                        });
+                    };
+
+                    vm.dragOverClass = function ($event) {
+                        var items = $event.dataTransfer.items;
+                        var hasFile = false;
+                        if (items != null) {
+                            for (var i = 0; i < items.length; i++) {
+                                if (items[i].kind == 'file') {
+                                    hasFile = true;
+                                    break;
+                                }
+                            }
+                        } else {
+                            hasFile = true;
+                        }
+                        return hasFile ? "dragover" : "dragover-err";
+                    };
                     vm.confirm = function (userDetails) {
                         // Formatage des infos pour l'envoi au back
                         if (userDetails.type === "user") {
@@ -216,6 +266,7 @@
                         pmFlashMessage.showCancel();
                     });
         };
+
         /*
          * Ouvre le dialog de connexion
          */

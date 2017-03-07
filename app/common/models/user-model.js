@@ -17,12 +17,10 @@
             .factory(objectName, [
                 '$q',
                 'pm.common.logService',
-                'pm.common.userService',
                 'pm.common.backComHandlerService',
                 function (
                         $q,
                         pmLog,
-                        pmUser,
                         pmBackComHandler
                         ) {
 
@@ -156,7 +154,7 @@
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "update", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "update"});
-                           
+
                             if (options === undefined || options.entityId === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "read"});
@@ -179,7 +177,7 @@
                                 country: options.country
                             };
 
-                            pmBackComHandler.put('updateProfile/' + options.entityId,params)
+                            pmBackComHandler.put('updateProfile/' + options.entityId, params)
                                     .then(function (response) {
                                         deferred.resolve(response);
                                     })
@@ -187,10 +185,10 @@
                                         deferred.reject(response);
                                     });
 
-                            return deferred.promise; 
+                            return deferred.promise;
                         },
 
-                             /*
+                        /*
                          * Met à jour les mot de passe de l'utilisateur
                          * 
                          * @param {Object} options: {
@@ -206,7 +204,7 @@
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "update", tag: "methodEntry"});
                             pmLog.debug({message: "Paramètres méthode : {{params}}",
                                 params: {params: arguments}, tag: "params", object: objectName, method: "update"});
-                           
+
                             if (options === undefined || options.entityId === undefined) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "read"});
@@ -221,7 +219,7 @@
                                 newpassword: options.newpassword
                             };
 
-                            pmBackComHandler.put('updatePassword/' + options.entityId,params)
+                            pmBackComHandler.put('updatePassword/' + options.entityId, params)
                                     .then(function (response) {
                                         deferred.resolve(response);
                                     })
@@ -229,7 +227,7 @@
                                         deferred.reject(response);
                                     });
 
-                            return deferred.promise; 
+                            return deferred.promise;
                         },
 
                         /*
@@ -240,13 +238,13 @@
                         delete: function (options) {
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "delete", tag: "methodEntry"});
                             var deferred = $q.defer();
-                            pmBackComHandler.delete('entity/'+ options.entityId)
-                                   .then(function (response) {
+                            pmBackComHandler.delete('entity/' + options.entityId)
+                                    .then(function (response) {
                                         deferred.resolve(response);
                                     })
                                     .catch(function (response) {
                                         deferred.reject(response);
-                                   });
+                                    });
 
                             return deferred.promise;
                         }

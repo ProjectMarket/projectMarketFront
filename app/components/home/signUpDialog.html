@@ -7,6 +7,14 @@
             <md-radio-button value="society">Professionnel</md-radio-button>
         </md-radio-group>
         <form name="formSignUpSingle" flex layout="column" ng-if="$ctrl.vm.userDetails.type === 'user'">
+            
+            <div ng-if="$ctrl.vm.userDetails.avatar !== undefined">
+                <img ng-src="{{$ctrl.vm.userDetails.avatar}}" width="100px" height="100px" />
+            </div>
+
+            <md-input-container>
+                <md-button class="md-primary md-raised" ngf-select="$ctrl.vm.uploadFiles($files)" title="upload" resetOnClick="true" >Upload</md-button>
+            </md-input-container>
 
             <md-input-container>
                 <label>Prénom *</label>
@@ -124,7 +132,7 @@
             </div>
         </form>
         <form name="formSignUpSociety" flex layout="column" ng-if="$ctrl.vm.userDetails.type === 'society'">
-            
+
             <md-input-container>
                 <label>Nom de la société *</label>
                 <input ng-model="$ctrl.vm.userDetails.legalname" 
@@ -139,7 +147,7 @@
                     <div ng-message="md-maxlength">Le nom de la société saisi doit contenir au maximum 50 caractères.</div>
                 </div>
             </md-input-container>
-            
+
             <md-input-container>
                 <label>Numéro SIRET</label>
                 <input ng-model="$ctrl.vm.userDetails.siretnumber" 
@@ -154,11 +162,11 @@
                     <div ng-message="md-maxlength">Le numéro SIRET saisi doit contenir 14 caractères.</div>
                 </div>
             </md-input-container>
-            
-            
-            
-            
-            
+
+
+
+
+
             <md-input-container>
                 <label>Adresse e-mail *</label>
                 <input type="email"
@@ -204,7 +212,7 @@
                          ng-if="formSignUpSingle.confirm_password.$dirty">Les mots de passes indiqués ne sont pas identiques.</div>
                 </div>
             </md-input-container>
-            
+
             <md-input-container>
                 <md-checkbox type="checkbox" 
                              ng-model="$ctrl.vm.userDetails.agreement"

@@ -103,7 +103,6 @@
                     name: _backObjects.categories[i].name
                 });
             }
-console.info(_backObjects.project);
 
             if (_routeParams.action !== "create") {
                 vm.project.id = _backObjects.project.id;
