@@ -295,6 +295,9 @@
           
           pmUserModel.updatePassword(options)
             .then(function (response) {
+
+              var textContent = "Votre mot de passe a bien été modifiée.";  
+              pmFlashMessage.showSuccess(textContent);
              
           })
             .catch(function (response) {
