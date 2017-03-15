@@ -21,10 +21,12 @@
         'ngSanitize',
         'ngMessages',
         'ngMessageFormat',
+        'ngFileUpload',
         'ui.select',
         'ui.mask',
         'pm.commonModule',
-        'pm.componentsModule'
+        'pm.componentsModule',
+        'cloudinary'
       ]);
 
 // fin IIFE

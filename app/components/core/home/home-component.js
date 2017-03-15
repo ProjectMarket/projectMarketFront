@@ -85,7 +85,7 @@
                 description: undefined,
                 budget: undefined,
                 category: "",
-                image: '../../../assets/img/medaille.png',
+                image: undefined,
                 date_created: undefined
             };
 
@@ -97,6 +97,7 @@
                 project.description = result[i].description;
                 project.date_created = $filter('date')(pmTime.convertDateFromBackToDate(result[i].createdAt), "dd/MM/yyyy");
                 project.category = result[i].category.name;
+                project.image = result[i].image;
 
                 vm.projects.push(project);
             }

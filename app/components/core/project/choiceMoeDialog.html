@@ -1,0 +1,20 @@
+<md-dialog aria-label="Choix de l'entreprise" ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools pm-toolbar-warning">
+            <h2>Choix de l'entreprise</h2>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <md-select name="appliants" ng-model="$ctrl.vm.moeId" required>
+            <md-option ng-repeat="appliant in $ctrl.vm.appliants"
+                       ng-value="appliant.id">
+                {{appliant.legalname}}
+            </md-option>
+        </md-select>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button class="md-primary md-raised" ng-click="$ctrl.vm.confirm()" ng-disabled="$ctrl.vm.moeId === undefined">
+            Sélectionner
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

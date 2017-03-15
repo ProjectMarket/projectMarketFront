@@ -38,6 +38,8 @@
                     'pm.common.userModel',
                     'pm.common.locationService',
                     '$mdSidenav',
+                    'Upload',
+                    'cloudinary',
                     Controller]
             });
 
@@ -54,7 +56,9 @@
             pmFlashMessage,
             pmUserModel,
             pmLocation,
-            $mdSidenav
+            $mdSidenav,
+            $upload,
+            cloudinary
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -106,7 +110,6 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
-            console.log('result !!!',result);
             vm.userAccount = {
                 firstname: result.associatedElement.firstname,
                 lastname: result.associatedElement.lastname,
@@ -120,18 +123,18 @@
                 createdAt: result.createdAt
             };
         };
-        var _loadMuppets = function() {
-             var muppets = [{
-                  name: 'Profil'
-              }, {
-                  name: 'Compte'
-              }, {
-                  name: 'Suppression'
-                 }];
-                allMuppets = muppets;
-                vm.muppets = [].concat(muppets);
-                vm.selected = vm.muppets[0];
-      };
+        var _loadMuppets = function () {
+            var muppets = [{
+                    name: 'Profil'
+                }, {
+                    name: 'Compte'
+                }, {
+                    name: 'Suppression'
+                }];
+            allMuppets = muppets;
+            vm.muppets = [].concat(muppets);
+            vm.selected = vm.muppets[0];
+        };
 
         //*********************
         // Propriétés du scope
@@ -156,11 +159,58 @@
          * @property {boolean} Ce compte est-il le mien ?
          */
         vm.isMyAccount = false;
-        
+
         /*
          * @property {object} Compte à afficher
          */
         vm.userAccount = {};
+
+        vm.uploadFiles = function (files) {
+            var d = new Date();
+            var title = "Image (" + d.getDate() + " - " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ")";
+
+            if (!files)
+                return;
+            angular.forEach(files, function (file) {
+                if (file && !file.$error) {
+                    file.upload = $upload.upload({
+                        url: "https://api.cloudinary.com/v1_1/" + cloudinary.config().cloud_name + "/upload",
+                        data: {
+                            api_key: cloudinary.config().api_key,
+                            api_secret: cloudinary.config().api_secret,
+                            tags: 'accountfiles',
+                            context: 'photo=' + title,
+                            file: file,
+                            upload_preset: cloudinary.config().upload_preset
+                        },
+                        withCredentials: false
+                    }).progress(function (e) {
+                        file.progress = Math.round((e.loaded * 100.0) / e.total);
+                        file.status = "Uploading... " + file.progress + "%";
+                    }).success(function (data, status, headers, config) {
+                        vm.userAccount.avatar = data.url;
+                    }).error(function (data, status, headers, config) {
+                        file.result = data;
+                    });
+                }
+            });
+        };
+
+        vm.dragOverClass = function ($event) {
+            var items = $event.dataTransfer.items;
+            var hasFile = false;
+            if (items != null) {
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].kind == 'file') {
+                        hasFile = true;
+                        break;
+                    }
+                }
+            } else {
+                hasFile = true;
+            }
+            return hasFile ? "dragover" : "dragover-err";
+        };
 
         /*
          * Suppression du compte
@@ -169,59 +219,59 @@
          */
         vm.delete = function () {
 
-          if(vm.userAccount.suppression === "SUPPRIMER"){
-            var options = {
-              entityId: _userId
-            }
-            pmUserModel.delete(options)
-                    .then(function (response) {
-                        pmFlashMessage.showSuccess("Votre compte a bien été supprimé.");
-                        pmAuth.logout();
-                    })
-                    .catch(function (response) {
+            if (vm.userAccount.suppression === "SUPPRIMER") {
+                var options = {
+                    entityId: _userId
+                }
+                pmUserModel.delete(options)
+                        .then(function (response) {
+                            pmFlashMessage.showSuccess("Votre compte a bien été supprimé.");
+                            pmAuth.logout();
+                        })
+                        .catch(function (response) {
 
-                    });
-          }
+                        });
+            }
         };
 
 
-                /*
+        /*
          * Modification du profil de l'utilisateur
          * 
          * @returns {void}
          */
-        vm.changeProfil = function() {
+        vm.changeProfil = function () {
 
-          pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeProfil", tag: "methodEntry"});
-           
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeProfil", tag: "methodEntry"});
 
-          var options = {
-            entityId: _userId,
-            description: vm.userAccount.description,
-            firstname: vm.userAccount.firstname,
-            lastname: vm.userAccount.lastname,
-            address: vm.userAccount.address,
-            postalcode: vm.userAccount.postalcode,
-            city: vm.userAccount.city,
-            country: vm.userAccount.country
-          };
-          pmUserModel.update(options)
-            .then(function (response) {
-              var textContent = "Votre profil a bien été modifiée.";  
-              pmFlashMessage.showSuccess(textContent);
 
-          })
-            .catch(function (response) {
-              var errorMessage = "Erreur lors de la modification du profil de l'utilisateur.";
-              pmLog.error({message: errorMessage,
-              tag: "error", object: componentName, method: "vm.changeProfil"});
-              var options = {
-                errorMessage: errorMessage,
-                 adviceMessage: "Vous ne pouvez pas modifier les informations de l'utilisateur."
-              };
-              pmFlashMessage.showError(options);
-              pmRouter.navigate(['Core.home']);
-          });
+            var options = {
+                entityId: _userId,
+                description: vm.userAccount.description,
+                firstname: vm.userAccount.firstname,
+                lastname: vm.userAccount.lastname,
+                address: vm.userAccount.address,
+                postalcode: vm.userAccount.postalcode,
+                city: vm.userAccount.city,
+                country: vm.userAccount.country
+            };
+            pmUserModel.update(options)
+                    .then(function (response) {
+                        var textContent = "Votre profil a bien été modifiée.";
+                        pmFlashMessage.showSuccess(textContent);
+
+                    })
+                    .catch(function (response) {
+                        var errorMessage = "Erreur lors de la modification du profil de l'utilisateur.";
+                        pmLog.error({message: errorMessage,
+                            tag: "error", object: componentName, method: "vm.changeProfil"});
+                        var options = {
+                            errorMessage: errorMessage,
+                            adviceMessage: "Vous ne pouvez pas modifier les informations de l'utilisateur."
+                        };
+                        pmFlashMessage.showError(options);
+                        pmRouter.navigate(['Core.home']);
+                    });
 
         };
         /*
@@ -229,47 +279,48 @@
          * 
          * @returns {void}
          */
-        vm.changeMail = function() {
+        vm.changeMail = function () {
 
-          pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeMail", tag: "methodEntry"});
-           
-          if (vm.userAccount.email === undefined || vm.userAccount.email === ""){
-             var textContent = "Le champ E-mail est vide.";
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeMail", tag: "methodEntry"});
 
-              pmFlashMessage.showValidationError(textContent);
-              return;
-          }
+            if (vm.userAccount.email === undefined || vm.userAccount.email === "") {
+                var textContent = "Le champ E-mail est vide.";
 
-          var options = {
-            entityId: _userId,
-            email: vm.userAccount.email
-          };
-          pmUserModel.update(options)
-            .then(function (response) {
+                pmFlashMessage.showValidationError(textContent);
+                return;
+            }
 
-              var textContent = "Votre adresse mail a bien été modifiée.";  
-              pmFlashMessage.showSuccess(textContent);
+            var options = {
+                entityId: _userId,
+                email: vm.userAccount.email
+            };
+            pmUserModel.update(options)
+                    .then(function (response) {
 
-          })
-            .catch(function (response) {
-              var errorMessage = "Erreur lors de la modification de l'adresse mail de l'utilisateur.";
-              pmLog.error({message: errorMessage,
-              tag: "error", object: componentName, method: "vm.changeMail"});
-              var options = {
-                errorMessage: errorMessage,
-                 adviceMessage: "Vous ne pouvez pas modifier les informations de l'utilisateur."
-              };
-              pmFlashMessage.showError(options);
-              pmRouter.navigate(['Core.home']);
-          });
+                        var textContent = "Votre adresse mail a bien été modifiée.";
+                        pmFlashMessage.showSuccess(textContent);
+
+                    })
+                    .catch(function (response) {
+                        var errorMessage = "Erreur lors de la modification de l'adresse mail de l'utilisateur.";
+                        pmLog.error({message: errorMessage,
+                            tag: "error", object: componentName, method: "vm.changeMail"});
+                        var options = {
+                            errorMessage: errorMessage,
+                            adviceMessage: "Vous ne pouvez pas modifier les informations de l'utilisateur."
+                        };
+                        pmFlashMessage.showError(options);
+                        pmRouter.navigate(['Core.home']);
+                    });
 
         };
 
-                /*
+        /*
          * Modification du mot de passe de l'utilisateur
          * 
          * @returns {void}
          */
+         
         vm.changePassword = function() {
            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changePassword", tag: "methodEntry"});
 
@@ -311,15 +362,14 @@
               pmFlashMessage.showError(options);
               pmRouter.navigate(['Core.home']);
           });
-
         };
 
-        vm.toggleSidenav = function(name) {
+        vm.toggleSidenav = function (name) {
 
             $mdSidenav(name).toggle();
         };
-  
-        vm.selectMuppet = function(muppet) {
+
+        vm.selectMuppet = function (muppet) {
             vm.selected = angular.isNumber(muppet) ? vm.muppets[muppet] : muppet;
             vm.toggleSidenav('left');
         };

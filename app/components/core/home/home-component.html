@@ -5,7 +5,7 @@
 
             <span layout="column">
                 <div class="md-media-sm">
-                    <img src="{{project.image}}" alt="{{project.title}}" />
+                    <img ng-src="{{project.image}}" alt="{{project.title}}" />
                 </div>
                 <div class="project_budget">
                     <p ng-bind-html="project.budget + '&nbsp;€'"></p>
