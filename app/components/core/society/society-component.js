@@ -217,6 +217,35 @@
             return hasFile ? "dragover" : "dragover-err";
         };
 
+        vm.contact = function () {
+            
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.contact", tag: "methodEntry"});
+
+            var options = {
+                templateUrl: 'app/components/core/society/contact.html',
+                controller: function ($scope, $mdDialog) {
+                    var vm = this.vm = {};
+
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                    vm.confirm = function () {
+                        // Vérification du formulaire
+                        /*pmProjectModel.contact(vm.candidat)
+                                .then(function () {
+                                    $mdDialog.hide(vm.candidat);
+                                    pmFlashMessage.showSuccess("Votre message a été envoyé.");
+                                    pmRouter.renavigate();
+                                })
+                                .catch(function () {
+                                    pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de votre candidature."});
+                                });*/
+                    };
+                }
+            };
+            pmFlashMessage.showCustomDialog(options);    
+        };
+
         /*
          * Suppression du compte
          * 
