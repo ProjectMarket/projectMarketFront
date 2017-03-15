@@ -51,7 +51,7 @@
 
         <md-input-container>
             <label>Budget estimé</label>
-            <input type="number" 
+            <input type="number"
                    name="budget" ng-model="$ctrl.vm.project.budget"
                    required min="0">
             <div ng-messages="formProject.budget.$error"
@@ -84,19 +84,17 @@
         <div class="project_content">
             <!-- INFOS AUTHOR PROJECT -->
             <div class="author_part">
-                <div class="profil_part" ng-if="$ctrl.vm.project.moa.type === 'user'">
-                    <a class="pseudo" ng-link="['Core.user', {userId: $ctrl.vm.project.moa.id}]" 
+                <div class="profil_part" style="text-align:center;" ng-if="$ctrl.vm.project.moa.type === 'user'">
+                    <a class="pseudo" ng-link="['Core.user', {userId: $ctrl.vm.project.moa.id}]"
                        ng-bind-html="$ctrl.vm.project.moa.lastName + '&nbsp;' + $ctrl.vm.project.moa.firstName"></a>
-                    <div style="text-align: center;">
-                        <img ng-src="{{$ctrl.vm.project.moa.avatar}}" 
-                             alt="{{$ctrl.vm.project.moa.lastName}}" class="avatar" layout-margin/>
+                    <div style="background:url({{$ctrl.vm.project.moa.avatar}});background-size:100% 100%;display:inline-block;width:100px;height:100px;border-radius:50px;">
                     </div>
                 </div>
                 <div class="profil_part" ng-if="$ctrl.vm.project.moa.type === 'society'">
-                    <a class="pseudo" ng-link="['Core.society', {userId: $ctrl.vm.project.moa.id}]" 
+                    <a class="pseudo" ng-link="['Core.society', {userId: $ctrl.vm.project.moa.id}]"
                        ng-bind-html="$ctrl.vm.project.moa.legalname"></a>
                     <div class="md-media-sm">
-                        <img ng-src="{{$ctrl.vm.project.moa.avatar}}" 
+                        <img ng-src="{{$ctrl.vm.project.moa.avatar}}"
                              alt="{{$ctrl.vm.project.moa.legalname}}" class="avatar"/>
                     </div>
                 </div>
@@ -114,13 +112,13 @@
                         <div ng-if="$ctrl.vm.project.isOver">
                             PROJET TERMINÉ
                         </div>
-                        <md-button class="md-primary md-raised button_postulate" 
-                                   ng-if="!$ctrl.vm.project.isMine && $ctrl.vm.project.canPostulate" 
+                        <md-button class="md-primary md-raised button_postulate"
+                                   ng-if="!$ctrl.vm.project.isMine && $ctrl.vm.project.canPostulate"
                                    ng-click="$ctrl.vm.postulate()">
                             Postuler
                         </md-button>
-                        <md-button class="md-warn md-raised button_postulate" 
-                                   ng-if="!$ctrl.vm.project.isMine && !$ctrl.vm.project.canPostulate && !$ctrl.vm.project.isStarted" 
+                        <md-button class="md-warn md-raised button_postulate"
+                                   ng-if="!$ctrl.vm.project.isMine && !$ctrl.vm.project.canPostulate && !$ctrl.vm.project.isStarted"
                                    ng-click="$ctrl.vm.unpostulate()">
                             Supprimer ma candidature
                         </md-button>
@@ -129,7 +127,7 @@
                                    ng-click="$ctrl.vm.endProject()">
                             Terminer
                         </md-button>
-                        <md-button class="md-accent md-raised" ng-if="$ctrl.vm.project.isMine && !$ctrl.vm.project.isStarted" 
+                        <md-button class="md-accent md-raised" ng-if="$ctrl.vm.project.isMine && !$ctrl.vm.project.isStarted"
                                    ng-link="['Core.project', {action: 'update', projectId: $ctrl.vm.project.id}]">
                             Modifier
                         </md-button>
@@ -170,10 +168,10 @@
                 <div ng-if="$ctrl.vm.project.appliants.length > 0 && $ctrl.vm.project.isMine" flex>
                     <div flex>Liste des entreprises postulant à votre projet</div>
                     <div ng-repeat="appliant in $ctrl.vm.project.appliants" flex="75">
-                        <a class="pseudo" ng-link="['Core.society', {userId: appliant.id}]" 
+                        <a class="pseudo" ng-link="['Core.society', {userId: appliant.id}]"
                            ng-bind-html="appliant.legalname"></a>
                         <div class="md-media-sm">
-                            <img ng-src="{{appliant.avatar}}" 
+                            <img ng-src="{{appliant.avatar}}"
                                  alt="{{appliant.legalname}}" class="avatar"/>
                         </div>
                     </div>
@@ -188,10 +186,10 @@
                 <div ng-if="$ctrl.vm.project.isStarted">
                     <md-divider></md-divider>
                     Entreprise réalisant ce projet
-                    <a class="pseudo" ng-link="['Core.society', {userId: $ctrl.vm.project.moe.id}]" 
+                    <a class="pseudo" ng-link="['Core.society', {userId: $ctrl.vm.project.moe.id}]"
                        ng-bind-html="$ctrl.vm.project.moe.legalname"></a>
                     <div>
-                        <img ng-src="{{$ctrl.vm.project.moe.avatar}}" 
+                        <img ng-src="{{$ctrl.vm.project.moe.avatar}}"
                              alt="{{$ctrl.vm.project.moe.legalname}}" class="avatar"/>
                     </div>
                 </div>
