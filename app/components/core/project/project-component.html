@@ -17,7 +17,7 @@
             <img ng-src="{{$ctrl.vm.project.image}}" width="100px" height="100px" />
         </div>
         
-        <md-input-container>
+        <md-input-container ng-if="$ctrl.vm.formAction === 'create' || ($ctrl.vm.project.isMine && !$ctrl.vm.project.isStarted)">
             <md-button class="md-primary md-raised" ngf-select="$ctrl.vm.uploadFiles($files)" title="upload" resetOnClick="true" >Upload</md-button>
         </md-input-container>
 

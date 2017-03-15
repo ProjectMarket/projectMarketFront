@@ -6,7 +6,7 @@
  * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
  */
 
-/* global angular */
+/* global angular, vm */
 
 // encapsulation dans une IIFE
 (function () {
@@ -105,6 +105,7 @@
             }
 
             if (_routeParams.action !== "create") {
+                console.info(_backObjects.project);
                 vm.project.id = _backObjects.project.id;
                 vm.project.title = _backObjects.project.title;
                 vm.project.budget = _backObjects.project.budget;
@@ -207,26 +208,22 @@
         vm.create = function () {
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.create", tag: "methodEntry"});
 
-            if (vm.isSociety) {
-                // TODO: Ajouter un dialog de sélection de MOA perso ou entreprise
-            } else {
-                var options = {
-                    title: vm.project.title,
-                    description: vm.project.description,
-                    budget: vm.project.budget,
-                    categoryId: vm.project.categoryId,
-                    image: vm.project.image,
-                    id: pmUser.getAccountId()
-                };
+            var options = {
+                title: vm.project.title,
+                description: vm.project.description,
+                budget: vm.project.budget,
+                categoryId: vm.project.categoryId,
+                image: vm.project.image,
+                id: pmUser.getAccountId()
+            };
 
-                pmProjectModel.create(options)
-                        .then(function (response) {
-                            pmFlashMessage.showSuccess('Le projet a créé avec succès.');
-                            pmRouter.navigate(['Core.project', {action: "read", projectId: response.id}]);
-                        }).catch(function (response) {
-                    pmFlashMessage.showValidationError("Le projet n'a pu être créé.");
-                });
-            }
+            pmProjectModel.create(options)
+                    .then(function (response) {
+                        pmFlashMessage.showSuccess('Le projet a créé avec succès.');
+                        pmRouter.navigate(['Core.project', {action: "read", projectId: response.id}]);
+                    }).catch(function (response) {
+                pmFlashMessage.showValidationError("Le projet n'a pu être créé.");
+            });
         };
 
         vm.uploadFiles = function (files) {

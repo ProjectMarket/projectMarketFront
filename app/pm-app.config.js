@@ -92,9 +92,9 @@
                     uiSelectConfig.theme = 'select2';
 
                     cloudinaryProvider.set("cloud_name", "dwssx4fwb")
-                            .set("api_key", "268627519759846")
-                            .set("api_secret", "FICl9AHpv702J-vMZ3I7ezD1EVA")
-                            .set("upload_preset", "kpe9yfbp");
+                            .set("api_key", "873426494988623")
+                            .set("api_secret", "w7LWpp17WEYxbJ8bP7I-Fc_Rfn0")
+                            .set("upload_preset", "amg4gsaw");
                 }]);
 
 // fin IIFE
