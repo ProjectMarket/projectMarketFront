@@ -6,7 +6,7 @@
  * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
  */
 
-/* global angular */
+/* global angular, vm */
 
 // encapsulation dans une IIFE
 (function () {
