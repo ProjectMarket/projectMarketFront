@@ -2,22 +2,28 @@
 
     <md-card flex="30" layout="column">
 
- 	
-      	<img ng-src="{{$ctrl.vm.userAccount.avatar}}" class="profil_image" alt="">
 
-        <h3>{{$ctrl.vm.userAccount.legalname}}</h3>
-        <p>{{$ctrl.vm.userAccount.description}} </p>
+      	<img ng-src="{{$ctrl.vm.display.avatar}}" class="profil_image" alt="">
+
+        <h3>{{$ctrl.vm.display.legalname}}</h3>
+        <p>{{$ctrl.vm.display.description}} </p>
 
          <md-divider></md-divider>
 
-        <p>{{$ctrl.vm.userAccount.address}} </p>                                 
-		<label>{{$ctrl.vm.userAccount.postalcode}} <label>
-		<label>{{$ctrl.vm.userAccount.city}} <label>
-		<label>{{$ctrl.vm.userAccount.country}} <label>
+        <p>{{$ctrl.vm.display.address}} </p>                                 
+		<label>{{$ctrl.vm.display.postalcode}} <label>
+		<label>{{$ctrl.vm.display.city}} <label>
+		<label>{{$ctrl.vm.display.country}} <label>
 
 		<md-divider></md-divider>
-		
-		<p>{{$ctrl.vm.userAccount.email}} </p>     
+ 
+
+		<md-button class="md-raised md-warn"
+			ng-if="!$ctrl.vm.isMyAccount"
+            ng-click="$ctrl.vm.contact()">
+            Contacter
+        </md-button> 
+
     </md-card>
 
     <md-card  flex="70" style="min-height: 500px;">

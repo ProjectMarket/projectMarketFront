@@ -123,7 +123,8 @@
                 email: result.email,
                 avatar: result.associatedElement.avatar,
                 createdAt: result.createdAt
-            };   
+            };
+             vm.display = angular.copy(vm.userAccount);   
         };
 
         var _loadMuppets = function () {

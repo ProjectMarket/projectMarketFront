@@ -1,7 +1,26 @@
 <div ng-if="$ctrl.vm.canDisplayView" layout-padding layout-margin layout="row">
 
     <md-card flex="30">
+        <img ng-src="{{$ctrl.vm.userAccount.avatar}}" class="profil_image" alt="">
 
+        <h3>{{$ctrl.vm.display.lastname}} {{$ctrl.vm.display.firstname}}</h3>
+
+        <p>{{$ctrl.vm.display.description}} </p>
+
+         <md-divider></md-divider>
+
+        <p>{{$ctrl.vm.display.address}} </p>                                 
+        <label>{{$ctrl.vm.display.postalcode}} <label>
+        <label>{{$ctrl.vm.display.city}} <label>
+        <label>{{$ctrl.vm.display.country}} <label>
+
+        <md-divider></md-divider>  
+
+        <md-button class="md-raised md-warn"
+            ng-if="!$ctrl.vm.isMyAccount"
+            ng-click="$ctrl.vm.contact()">
+            Contacter
+        </md-button> 
     </md-card>
 
     <md-card  flex="70" style="min-height: 500px;">
@@ -52,7 +71,7 @@
                                             <md-list-item>
                                                 <label>Avatar : </label>
                                                 <div ng-if="$ctrl.vm.userAccount.avatar !== undefined">
-                                                    <img ng-src="{{$ctrl.vm.userAccount.avatar}}" width="100px" height="100px" />
+                                                    <img class="avatar"ng-src="{{$ctrl.vm.userAccount.avatar}}" width="100px" height="100px" />
                                                 </div>
 
                                                 <md-input-container>
