@@ -36,6 +36,10 @@
                     'pm.common.userService',
                     'pm.common.flashMessageService',
                     'pm.common.userModel',
+                    'pm.common.locationService',
+                    '$mdSidenav',
+                    'Upload',
+                    'cloudinary',
                     Controller]
             });
 
@@ -50,7 +54,11 @@
             pmAuth,
             pmUser,
             pmFlashMessage,
-            pmUserModel
+            pmUserModel,
+            pmLocation,
+            $mdSidenav,
+            $upload,
+            cloudinary
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -83,6 +91,10 @@
          */
         var _backObjects = {};
 
+        var _societyId;
+
+        var allMuppets = [];
+
 
         //******************
         // Méthodes privées
@@ -100,6 +112,31 @@
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
             
+            console.log("Info society : ", result);
+            vm.userAccount = {
+                legalname: result.associatedElement.legalname,
+                description: result.description,
+                address: result.associatedElement.address,
+                postalcode: result.associatedElement.postalcode,
+                city: result.associatedElement.city,
+                country: result.associatedElement.country,
+                email: result.email,
+                avatar: result.associatedElement.avatar,
+                createdAt: result.createdAt
+            };   
+        };
+
+        var _loadMuppets = function () {
+            var muppets = [{
+                    name: 'Profil'
+                }, {
+                    name: 'Compte'
+                }, {
+                    name: 'Suppression'
+                }];
+            allMuppets = muppets;
+            vm.muppets = [].concat(muppets);
+            vm.selected = vm.muppets[0];
         };
 
         //*********************
@@ -131,12 +168,215 @@
          */
         vm.userAccount = {};
 
+            vm.uploadFiles = function (files) {
+            var d = new Date();
+            var title = "Image (" + d.getDate() + " - " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ")";
+
+            if (!files)
+                return;
+            angular.forEach(files, function (file) {
+                if (file && !file.$error) {
+                    file.upload = $upload.upload({
+                        url: "https://api.cloudinary.com/v1_1/" + cloudinary.config().cloud_name + "/upload",
+                        data: {
+                            api_key: cloudinary.config().api_key,
+                            api_secret: cloudinary.config().api_secret,
+                            tags: 'accountfiles',
+                            context: 'photo=' + title,
+                            file: file,
+                            upload_preset: cloudinary.config().upload_preset
+                        },
+                        withCredentials: false
+                    }).progress(function (e) {
+                        file.progress = Math.round((e.loaded * 100.0) / e.total);
+                        file.status = "Uploading... " + file.progress + "%";
+                    }).success(function (data, status, headers, config) {
+                        vm.userAccount.avatar = data.url; 
+                    }).error(function (data, status, headers, config) {
+                        file.result = data;
+                    });
+                }
+            });
+        };
+
+
+        vm.dragOverClass = function ($event) {
+            var items = $event.dataTransfer.items;
+            var hasFile = false;
+            if (items != null) {
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].kind == 'file') {
+                        hasFile = true;
+                        break;
+                    }
+                }
+            } else {
+                hasFile = true;
+            }
+            return hasFile ? "dragover" : "dragover-err";
+        };
+
         /*
          * Suppression du compte
          * 
          * @returns {void}
          */
         vm.delete = function () {
+
+            if (vm.userAccount.suppression === "SUPPRIMER") {
+                var options = {
+                    entityId: _societyId
+                }
+                pmUserModel.delete(options)
+                        .then(function (response) {
+                            pmFlashMessage.showSuccess("Votre compte a bien été supprimé.");
+                            pmAuth.logout();
+                        })
+                        .catch(function (response) {
+
+                        });
+            }
+        };
+
+
+        /*
+         * Modification du profil de l'utilisateur
+         * 
+         * @returns {void}
+         */
+        vm.changeProfil = function () {
+
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeProfil", tag: "methodEntry"});
+
+
+            var options = {
+                entityId: _societyId,
+                description: vm.userAccount.description,
+                firstname: vm.userAccount.firstname,
+                lastname: vm.userAccount.lastname,
+                address: vm.userAccount.address,
+                postalcode: vm.userAccount.postalcode,
+                city: vm.userAccount.city,
+                avatar : vm.userAccount.avatar,
+                country: vm.userAccount.country
+            };
+            pmUserModel.update(options)
+                    .then(function (response) {
+                        var textContent = "Votre profil a bien été modifiée.";
+                        pmFlashMessage.showSuccess(textContent);
+
+                    })
+                    .catch(function (response) {
+                        var errorMessage = "Erreur lors de la modification du profil de l'utilisateur.";
+                        pmLog.error({message: errorMessage,
+                            tag: "error", object: componentName, method: "vm.changeProfil"});
+                        var options = {
+                            errorMessage: errorMessage,
+                            adviceMessage: "Vous ne pouvez pas modifier les informations de l'utilisateur."
+                        };
+                        pmFlashMessage.showError(options);
+                        pmRouter.navigate(['Core.home']);
+                    });
+
+        };
+        /*
+         * Modification du mail de l'utilisateur
+         * 
+         * @returns {void}
+         */
+        vm.changeMail = function () {
+
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeMail", tag: "methodEntry"});
+
+            if (vm.userAccount.email === undefined || vm.userAccount.email === "") {
+                var textContent = "Le champ E-mail est vide.";
+
+                pmFlashMessage.showValidationError(textContent);
+                return;
+            }
+
+            var options = {
+                entityId: _societyId,
+                email: vm.userAccount.email
+            };
+            pmUserModel.update(options)
+                    .then(function (response) {
+
+                        var textContent = "Votre adresse mail a bien été modifiée.";
+                        pmFlashMessage.showSuccess(textContent);
+
+                    })
+                    .catch(function (response) {
+                        var errorMessage = "Erreur lors de la modification de l'adresse mail de l'utilisateur.";
+                        pmLog.error({message: errorMessage,
+                            tag: "error", object: componentName, method: "vm.changeMail"});
+                        var options = {
+                            errorMessage: errorMessage,
+                            adviceMessage: "Vous ne pouvez pas modifier les informations de l'utilisateur."
+                        };
+                        pmFlashMessage.showError(options);
+                        pmRouter.navigate(['Core.home']);
+                    });
+
+        };
+
+        /*
+         * Modification du mot de passe de l'utilisateur
+         * 
+         * @returns {void}
+         */
+
+        vm.changePassword = function() {
+           pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changePassword", tag: "methodEntry"});
+
+          if (vm.userAccount.oldpassword === undefined || vm.userAccount.oldpassword === "" || vm.userAccount.newpassword === undefined
+             ||  vm.userAccount.newpassword === "" || vm.userAccount.passwordConfirm === undefined ||  vm.userAccount.passwordConfirm === ""){
+              var textContent = "Un des champs mot de passe est vide.";
+
+              pmFlashMessage.showValidationError(textContent);
+              return;
+          }
+
+          if (vm.userAccount.newpassword !== vm.userAccount.passwordConfirm){
+              var textContent = "Les mots de passe ne correspondent pas.";
+              
+              pmFlashMessage.showValidationError(textContent);
+          }
+
+           var options = {
+            entityId: _societyId,
+            oldpassword : vm.userAccount.oldpassword,
+            newpassword : vm.userAccount.newpassword
+          };
+          
+          pmUserModel.updatePassword(options)
+            .then(function (response) {
+
+              var textContent = "Votre mot de passe a bien été modifiée.";  
+              pmFlashMessage.showSuccess(textContent);
+             
+          })
+            .catch(function (response) {
+              var errorMessage = "Erreur lors de la modification du mot de passe de l'utilisateur.";
+              pmLog.error({message: errorMessage,
+              tag: "error", object: componentName, method: "vm.changePassword"});
+              var options = {
+                errorMessage: errorMessage,
+                 adviceMessage: "Vous ne pouvez pas modifier les informations de l'utilisateur."
+              };
+              pmFlashMessage.showError(options);
+              pmRouter.navigate(['Core.home']);
+          });
+        };
+
+        vm.toggleSidenav = function (name) {
+
+            $mdSidenav(name).toggle();
+        };
+
+        vm.selectMuppet = function (muppet) {
+            vm.selected = angular.isNumber(muppet) ? vm.muppets[muppet] : muppet;
+            vm.toggleSidenav('left');
         };
 
 
@@ -168,7 +408,57 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "$onActivate", tag: "methodEntry"});
             pmLog.debug({message: "$routeParams : {{routeParams}}", params: {routeParams: routeParams}, tag: "$routeParams", object: componentName});
 
-            
+            _this.pmAppController.vm.setModule('core.society');
+
+            vm.selected = null;
+            vm.muppets = allMuppets;
+
+            _loadMuppets();
+
+
+            try {
+                var societyId = parseInt(routeParams.userId);
+                societyId = isNaN(societyId) ? undefined : societyId;
+
+                vm.isMyAccount = societyId === pmUser.getAccountId();
+
+                if (societyId !== undefined) {
+                    _societyId = societyId;
+                    pmUserModel.readById({entityId: societyId})
+                            .then(function (response) {
+                                _routeParams = routeParams;
+                                _populateViewModel(response);
+                                vm.canDisplayView = true;
+                                vm.pays = pmLocation.getPays();
+                            })
+                            .catch(function (response) {
+                                var errorMessage = "Erreur lors de la récupération de l'utilisateur.";
+                                pmLog.error({message: errorMessage,
+                                    tag: "error", object: componentName, method: "$routerOnActivate"});
+                                var options = {
+                                    errorMessage: errorMessage,
+                                    adviceMessage: "Vous ne pouvez pas visualiser les informations de l'utilisateur."
+                                };
+                                pmFlashMessage.showError(options);
+                                pmRouter.navigate(['Core.home']);
+                            });
+                } else {
+                    pmLog.error({message: "Impossible de récupérer un User depuis le back : societyId={{societyId}}.", object: componentName,
+                        params: {societyId: routeParams.societyId}, tag: "settings", method: "$routerOnActivate"});
+                    pmRouter.navigate(['Core.home']);
+                }
+            } catch (e) {
+                var errorMessage = "Erreur lors de la récupération de l'utilisateur.";
+                pmLog.error({message: errorMessage + " Message d'exception={{exceptionMessage}}",
+                    params: {exceptionMessage: e.message}, tag: "error", object: componentName, method: "$routerOnActivate"});
+                var options = {
+                    errorMessage: errorMessage,
+                    adviceMessage: "Vous ne pouvez pas visualiser les informations de l'utilisateur.",
+                    errorObject: {errorMessage: e.message}
+                };
+                pmFlashMessage.showError(options);
+                pmRouter.navigate(['Core.home']);
+            }
         };
 
     }

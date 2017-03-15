@@ -188,13 +188,14 @@
                         file.progress = Math.round((e.loaded * 100.0) / e.total);
                         file.status = "Uploading... " + file.progress + "%";
                     }).success(function (data, status, headers, config) {
-                        vm.userAccount.avatar = data.url;
+                        vm.userAccount.avatar = data.url; 
                     }).error(function (data, status, headers, config) {
                         file.result = data;
                     });
                 }
             });
         };
+
 
         vm.dragOverClass = function ($event) {
             var items = $event.dataTransfer.items;
@@ -253,6 +254,7 @@
                 address: vm.userAccount.address,
                 postalcode: vm.userAccount.postalcode,
                 city: vm.userAccount.city,
+                avatar : vm.userAccount.avatar,
                 country: vm.userAccount.country
             };
             pmUserModel.update(options)
@@ -320,7 +322,7 @@
          * 
          * @returns {void}
          */
-         
+
         vm.changePassword = function() {
            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changePassword", tag: "methodEntry"});
 
