@@ -1,7 +1,20 @@
 <div ng-if="$ctrl.vm.canDisplayView" layout-padding layout-margin layout="row">
 
-    <md-card flex="30">
+    <md-card flex="30" layout="column">
+    	
+        <h3>{{$ctrl.vm.userAccount.legalname}}</h3>
+        <p>{{$ctrl.vm.userAccount.description}} </p>
 
+         <md-divider></md-divider>
+
+        <p>{{$ctrl.vm.userAccount.address}} </p>                                 
+		<label>{{$ctrl.vm.userAccount.postalcode}} <label>
+		<label>{{$ctrl.vm.userAccount.city}} <label>
+		<label>{{$ctrl.vm.userAccount.country}} <label>
+
+		<md-divider></md-divider>
+		
+		<p>{{$ctrl.vm.userAccount.email}} </p>             
     </md-card>
 
     <md-card  flex="70" style="min-height: 500px;">
