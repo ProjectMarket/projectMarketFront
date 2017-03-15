@@ -1,12 +1,9 @@
 /** 
  * Service de gestion des components
  * 
- * @author     Vincent Guédé (vincent.guede@ac-bordeaux.fr)
- * @author     Sébastien Monbrun (sebastien.monbrun@ac-bordeaux.fr)
- * @author     Steve Van Wassenhoven (steve.vw@ac-bordeaux.fr)
- * @copyright  Copyright (c) 2014-2016, DSI de l'académie de Bordeaux (ce.dsi@ac-bordeaux.fr) - Tous droits réservés
- * @license    http://www.gnu.org/licenses/gpl.html  GNU/GPL License 3.0
- * @version    $Id: component-service.js 693 2016-03-17 14:45:26Z vguede $
+ * @author     Romain Poussin (romain.poussin@ynov.com)
+ * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
+ * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
  */
 
 /* global angular */
