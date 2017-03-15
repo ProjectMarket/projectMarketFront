@@ -199,22 +199,6 @@
         };
 
 
-        vm.dragOverClass = function ($event) {
-            var items = $event.dataTransfer.items;
-            var hasFile = false;
-            if (items != null) {
-                for (var i = 0; i < items.length; i++) {
-                    if (items[i].kind == 'file') {
-                        hasFile = true;
-                        break;
-                    }
-                }
-            } else {
-                hasFile = true;
-            }
-            return hasFile ? "dragover" : "dragover-err";
-        };
-
         /*
          * Suppression du compte
          * 
