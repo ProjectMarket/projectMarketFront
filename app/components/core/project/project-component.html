@@ -14,7 +14,7 @@
         </md-input-container>
         
         <div ng-if="$ctrl.vm.project.image !== undefined">
-            <img ng-src="{{$ctrl.vm.project.image}}" width="100px" height="100px" />
+            <img ng-src="{{$ctrl.vm.project.image}}" class="project_image"/>
         </div>
         
         <md-input-container ng-if="$ctrl.vm.formAction === 'create' || ($ctrl.vm.project.isMine && !$ctrl.vm.project.isStarted)">
@@ -87,9 +87,9 @@
                 <div class="profil_part" ng-if="$ctrl.vm.project.moa.type === 'user'">
                     <a class="pseudo" ng-link="['Core.user', {userId: $ctrl.vm.project.moa.id}]" 
                        ng-bind-html="$ctrl.vm.project.moa.lastName + '&nbsp;' + $ctrl.vm.project.moa.firstName"></a>
-                    <div class="md-media-sm">
+                    <div style="text-align: center;">
                         <img src="{{$ctrl.vm.project.moa.avatar}}" 
-                             alt="{{$ctrl.vm.project.moa.lastName}}" width="50" height="50"/>
+                             alt="{{$ctrl.vm.project.moa.lastName}}" class="avatar" layout-margin/>
                     </div>
                 </div>
                 <div class="profil_part" ng-if="$ctrl.vm.project.moa.type === 'society'">
@@ -97,7 +97,7 @@
                        ng-bind-html="$ctrl.vm.project.moa.legalname"></a>
                     <div class="md-media-sm">
                         <img src="{{$ctrl.vm.project.moa.avatar}}" 
-                             alt="{{$ctrl.vm.project.moa.legalname}}" width="50" height="50"/>
+                             alt="{{$ctrl.vm.project.moa.legalname}}" class="avatar"/>
                     </div>
                 </div>
                 <div class="option_part">
@@ -106,7 +106,7 @@
             </div>
             <!-- INFOS PROJECT -->
             <div class="project_details_part">
-                <div flex="10" layout-margin>
+                <div layout-margin>
                     <p class="md-subhead" style="color: grey;" ng-bind-html="$ctrl.vm.project.category.value"></p>
                 </div>
                 <div class="project_title_part">
@@ -145,7 +145,7 @@
                             Créé le {{$ctrl.vm.project.date_created}}<!-- TODO : Ajouter date de création -->
                         </p>
                         <p class="date_project">
-                            Dernière modification le {{$ctrl.vm.project.date_lastUpdated}}<!-- TODO : Ajouter date de dernière modification -->
+                            Dernière modification le {{$ctrl.vm.project.date_lastUpdated}}
                         </p>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                     <div class="image_part">
                         <div class="image_part_contener">
                             <div class="md-media-sm">
-                                <img ng-src="{{$ctrl.vm.project.image}}" alt="{{$ctrl.vm.project.title}}"  width="300" height="300"/>
+                                <img ng-src="{{$ctrl.vm.project.image}}" alt="{{$ctrl.vm.project.title}}" class="project_image"/>
                             </div>
                             <!-- TODO : Ajouter balise img -->
                             <div class="project_budget">
@@ -174,7 +174,7 @@
                            ng-bind-html="appliant.legalname"></a>
                         <div class="md-media-sm">
                             <img src="{{appliant.avatar}}" 
-                                 alt="{{appliant.legalname}}" />
+                                 alt="{{appliant.legalname}}" class="avatar"/>
                         </div>
                     </div>
                     <div>
@@ -192,7 +192,7 @@
                        ng-bind-html="$ctrl.vm.project.moe.legalname"></a>
                     <div class="md-media-sm">
                         <img src="{{$ctrl.vm.project.moe.avatar}}" 
-                             alt="{{$ctrl.vm.project.moe.legalname}}" />
+                             alt="{{$ctrl.vm.project.moe.legalname}}" class="avatar"/>
                     </div>
                 </div>
             </div>

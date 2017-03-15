@@ -924,8 +924,8 @@ p {
 }
 .vertical-mdl-tabs .mdl-tabs__tab-bar {
     -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
     padding-bottom: 35px;
     height: inherit;
     border-bottom: none;
@@ -934,7 +934,7 @@ p {
 
 .vertical-mdl-tabs .mdl-tabs__tab {
     width: 100%;
-  
+
     line-height: 35px;
     box-sizing: border-box;
     letter-spacing: 2px;
@@ -956,46 +956,56 @@ p {
     text-align: left;
 }
 .md-button.md-icon-button.menuBtn {
-  margin-top: 6px;
-  margin-right: 0;
+    margin-top: 6px;
+    margin-right: 0;
 }
 
 .muppet-list .md-button {
-  color: inherit;
-  text-align: left;
-  width: 100%;
+    color: inherit;
+    text-align: left;
+    width: 100%;
 }
 .muppet-list .selected {
-  color: #03a9f4;
+    color: #03a9f4;
 }
 .face {
-  border-radius: 30px;
-  border: 1px solid #ddd;
-  display: inline-block;
-  margin: 4px 16px; 
-  vertical-align: middle;
-  width: 48px;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    margin: 4px 16px; 
+    vertical-align: middle;
+    width: 48px;
 }
 .content-wrapper {
-  position: relative;
+    position: relative;
 }
 #primary-col {
-  overflow: hidden;
+    overflow: hidden;
 }
 .primary-col {
-  overflow: hidden;
+    overflow: hidden;
 }
 #primary-col .md-button {
-  margin: 8px auto 16px 0;
+    margin: 8px auto 16px 0;
 }
 #primary-col .cell {
-  flex: 1 1 auto;
+    flex: 1 1 auto;
 }
 #primary-col img {
-  display: block;
-  max-width: 100%;
+    display: block;
+    max-width: 100%;
 }
 
 md-divider{
     border-top-color: black;
+}
+
+.project_image {
+    width: 150px !important;
+    height: 150px !important;
+}
+
+.avatar{
+    width: 100px !important;
+    height: 100px !important;
 }

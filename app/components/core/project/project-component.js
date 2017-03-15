@@ -104,8 +104,7 @@
                 });
             }
 
-            if (_routeParams.action !== "create") {
-                console.info(_backObjects.project);
+            if (_routeParams.action !== "create") {console.info(_backObjects.project);
                 vm.project.id = _backObjects.project.id;
                 vm.project.title = _backObjects.project.title;
                 vm.project.budget = _backObjects.project.budget;
@@ -115,6 +114,7 @@
                 vm.project.date_lastUpdated = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.updatedAt), "dd/MM/yyyy");
                 vm.project.moa.type = _backObjects.project.moa.type;
                 vm.project.moa.id = _backObjects.project.moa.id;
+                vm.project.categoryId = _backObjects.project.category.id;
                 vm.project.category.value = _backObjects.project.category.name;
 
                 if (_backObjects.project.moa.type === "user") {
@@ -285,7 +285,7 @@
                 title: vm.project.title,
                 description: vm.project.description,
                 budget: vm.project.budget,
-                category: {},
+                categoryId: vm.project.categoryId,
                 image: vm.project.image
             };
 
