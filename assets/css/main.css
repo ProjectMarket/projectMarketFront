@@ -603,7 +603,7 @@ footer
 /**********/
 /***Body***/
 /**********/
-body {
+html, body {
     background-color: #F5F5F5;
 }
 
@@ -758,6 +758,7 @@ article {
     float: left;
     width: 160px;
     height: 224px;
+    text-align: center;
 }
 
 .image_part_contener {

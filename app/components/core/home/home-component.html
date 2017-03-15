@@ -4,7 +4,7 @@
         <md-card ng-repeat="project in $ctrl.vm.projects" layout="row" layout-margin layout-padding>
 
             <span layout="column">
-                <div class="md-media-sm">
+                <div layout-margin>
                     <img ng-src="{{project.image}}" alt="{{project.title}}" class="project_image"/>
                 </div>
                 <div class="project_budget">
