@@ -1010,3 +1010,8 @@ md-divider{
     width: 100px !important;
     height: 100px !important;
 }
+
+.profil_image{
+    border-radius: 99%;
+    width: 40%;
+}
