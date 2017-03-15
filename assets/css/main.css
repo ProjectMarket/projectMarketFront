@@ -1,7 +1,7 @@
 @charset "UTF-8";
-/** 
- * Fichier CSS de l'application 
- * 
+/**
+ * Fichier CSS de l'application
+ *
  * @author     Romain Poussin (romain.poussin@ynov.com)
  * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
  * @author     Zineddine Vergne (zineddine.vergne@ynov.com)
@@ -478,46 +478,46 @@
 }
 
 .text-slider-gt-md
-{   
+{
     font-size: 50px;
     max-height: 70px;
 }
 
 .text-slider-gt-md
-{   
+{
     font-size: 50px;
     max-height: 70px;
 }
 
 
 .text-slider-md
-{   
+{
     font-size: 30px;
     max-height: 70px;
 }
 
 .text-slider-sm
-{   
+{
     font-size: 20px;
     max-height: 70px;
 }
 .text-slider-xs
-{   
+{
     font-size: 15px;
     max-height: 70px;
 }
 .button-slider-gt-sm
-{   
+{
     padding: 5px 30px;
     font-size: 20px;
-    max-height: 70px; 
+    max-height: 70px;
 
 }
 
 .button-slider-xs
-{   
+{
 
-    max-height: 40px; 
+    max-height: 40px;
 
 }
 .button-slider:hover
@@ -614,7 +614,7 @@ html, body {
     height : 80px;
     display : block; /*Très important, sinon les dimensions ne sont pas prises en compte*/
     position : relative;
-    left : 10px; 
+    left : 10px;
     top : 0px;
     background : url("../img/home.png") no-repeat;
 }
@@ -802,14 +802,9 @@ article {
 }
 
 .pseudo {
-    text-align: center;
     color: #02a5c1;
     font-size: 1.1em;
     font-weight: bold;
-    display: inline-block;
-    width: 100%;
-    margin-top: 20px;
-    float: left;
     cursor: pointer;
 }
 
@@ -973,7 +968,7 @@ p {
     border-radius: 30px;
     border: 1px solid #ddd;
     display: inline-block;
-    margin: 4px 16px; 
+    margin: 4px 16px;
     vertical-align: middle;
     width: 48px;
 }

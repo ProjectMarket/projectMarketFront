@@ -122,6 +122,8 @@
                 avatar: result.associatedElement.avatar,
                 createdAt: result.createdAt
             };
+
+            vm.display = angular.copy(vm.userAccount);
         };
         var _loadMuppets = function () {
             var muppets = [{

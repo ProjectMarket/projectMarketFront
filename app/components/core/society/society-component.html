@@ -13,11 +13,15 @@
 
 		<md-divider></md-divider>
 
-		<p>{{$ctrl.vm.userAccount.email}} </p>
-
-         <md-divider></md-divider>
-
         <p style="font-size:12px;">{{$ctrl.vm.userAccount.address}} - {{$ctrl.vm.userAccount.postalcode}} {{$ctrl.vm.userAccount.city}} {{$ctrl.vm.userAccount.country}}</p>
+
+		<md-divider></md-divider>
+
+		<md-button class="md-raised md-warn"
+			ng-if="!$ctrl.vm.isMyAccount"
+            ng-click="$ctrl.vm.contact()">
+            Contacter
+        </md-button>
     </md-card>
 
     <md-card  flex="70" style="min-height: 500px;">
