@@ -181,24 +181,24 @@
                 </div>
                 <div ng-if="$ctrl.vm.project.isStarted">
                     <md-divider></md-divider>
-                    Entreprise réalisant ce projet
+                    <h4>Entreprise réalisant ce projet</h4>
                     <div style="text-align:center;width:100%;">
                         <div style="width:100%;text-align:center;height:10px;margin-top:20px;">
-                          <a class="pseudo" ng-link="['Core.society', {userId: $ctrl.vm.project.moe.id}]"
-                           ng-bind-html="$ctrl.vm.project.moe.legalname"></a>
+                            <a class="pseudo" ng-link="['Core.society', {userId: $ctrl.vm.project.moe.id}]"
+                               ng-bind-html="$ctrl.vm.project.moe.legalname"></a>
                         </div>
                         <div style="background:url({{$ctrl.vm.project.moe.avatar}});background-size:100% 100%;display:inline-block;width:100px;height:100px;border-radius:50px;margin-top:20px;"></div>
                     </div>
                 </div>
                 <div ng-if="$ctrl.vm.project.canShowDoc" layout-align="start center">
                     <md-divider></md-divider>
-                    Liste des documents du projet
+                    <h4>Liste des documents du projet</h4>
                     <md-input-container ng-if="$ctrl.vm.project.canEdit">
                         <md-button ng-click="$ctrl.vm.showPicker()" class="md-raised md-accent">Ajouter un document</md-button>
                     </md-input-container>
                     <div ng-repeat="doc in $ctrl.vm.project.documents">
                         <md-icon md-svg-icon="docs" aria-label="Document"></md-icon>
-                        <p ng-bind-html="doc.title"></p>
+                        <p ng-bind-html="doc.title" style="display: inline-block;"></p>
                         <md-button ng-href="{{doc.url}}" class="md-primary md-raised">
                             Télécharger
                         </md-button>
