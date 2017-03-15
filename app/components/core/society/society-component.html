@@ -1,7 +1,10 @@
 <div ng-if="$ctrl.vm.canDisplayView" layout-padding layout-margin layout="row">
 
     <md-card flex="30" layout="column">
-    	
+
+ 	
+      	<img ng-src="{{$ctrl.vm.userAccount.avatar}}" class="profil_image" alt="">
+
         <h3>{{$ctrl.vm.userAccount.legalname}}</h3>
         <p>{{$ctrl.vm.userAccount.description}} </p>
 
@@ -14,7 +17,7 @@
 
 		<md-divider></md-divider>
 		
-		<p>{{$ctrl.vm.userAccount.email}} </p>             
+		<p>{{$ctrl.vm.userAccount.email}} </p>     
     </md-card>
 
     <md-card  flex="70" style="min-height: 500px;">
