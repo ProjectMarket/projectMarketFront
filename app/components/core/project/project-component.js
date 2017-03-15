@@ -38,6 +38,7 @@
                     'pm.common.categoryModel',
                     'Upload',
                     'cloudinary',
+                    'pm.common.filepickerService',
                     Controller]
             });
     //************
@@ -53,7 +54,8 @@
             pmProjectModel,
             pmCategoryModel,
             $upload,
-            cloudinary
+            cloudinary,
+            filePicker
             ) {
 
         pmLog.trace({message: "Instanciation objet", object: componentName, tag: "objectInstantiation"});
@@ -105,11 +107,13 @@
             }
 
             if (_routeParams.action !== "create") {console.info(_backObjects.project);
+                console.info(_backObjects.project);
                 vm.project.id = _backObjects.project.id;
                 vm.project.title = _backObjects.project.title;
                 vm.project.budget = _backObjects.project.budget;
                 vm.project.image = _backObjects.project.image;
                 vm.project.description = _backObjects.project.description;
+                vm.project.documents = _backObjects.project.documents;
                 vm.project.date_created = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.createdAt), "dd/MM/yyyy");
                 vm.project.date_lastUpdated = $filter('date')(pmTime.convertDateFromBackToDate(_backObjects.project.updatedAt), "dd/MM/yyyy");
                 vm.project.moa.type = _backObjects.project.moa.type;
@@ -130,12 +134,15 @@
                 if (_backObjects.project.started !== null) {
                     vm.project.moe = {
                         id: _backObjects.project.moe.id,
-                        legalname: _backObjects.project.moe.associatedElement.legalname
+                        legalname: _backObjects.project.moe.associatedElement.legalname,
+                        avatar: _backObjects.project.moa.associatedElement.avatar
                     };
                 }
 
                 vm.project.isStarted = _backObjects.project.started !== null;
                 vm.project.isOver = _backObjects.project.over !== null;
+                vm.project.canEdit = vm.project.isStarted && !vm.project.isOver && (vm.project.isMine || vm.project.moe.id === pmUser.getAccountId());
+                vm.project.canShowDoc = vm.project.isStarted && (vm.project.isMine || vm.project.moe.id === pmUser.getAccountId());
 
                 vm.project.canPostulate = _backObjects.project.moe === null;
                 for (var i = 0; i < _backObjects.project.appliants.length; i++) {
@@ -324,6 +331,37 @@
                             pmFlashMessage.showValidationError("Le projet n'a pu être supprimé.");
                         });
             });
+        };
+
+        /*
+         * Affiche un sélecteur de documents
+         * Envoie les docments sur le serveur
+         * 
+         * @returns {void}
+         */
+        vm.showPicker = function () {
+            var client = filePicker.getInstanceOfFilePicker();
+            client.setKey('AEHFjCrpJRKWBRofHJavKz');
+            client.pick({
+                fromSources: 'local_file_system',
+                minFiles: 1,
+                maxFiles: 1
+            }, function (result) {
+                var lastIndex = result.filename.lastIndexOf('.');
+                pmProjectModel.addDocument(_backObjects.project.id, {
+                    title: result.filename.substr(0, lastIndex),
+                    url: result.url,
+                    extension: result.filename.substr(lastIndex + 1)
+                })
+                        .then(function (response) {
+                            pmFlashMessage.showSuccess('Le document a bien été ajouté avec succès.');
+                            pmRouter.navigate(['Core.project', {action: "read", projectId: _backObjects.project.id}]);
+                        })
+                        .catch(function (response) {
+                            pmFlashMessage.showValidationError("Le document n'a pu être ajouté.");
+                        });
+            });
+
         };
 
         /*

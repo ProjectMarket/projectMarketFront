@@ -291,13 +291,13 @@
                          */
                         selectMoe: function (projectId, selectedEntityId) {
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "unpostulate", tag: "methodEntry"});
-                            
+
                             if (isNaN(projectId) || isNaN(selectedEntityId)) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "selectMoe"});
                                 throw new Error('Erreur de paramètres en entrée de méthode.');
                             }
-                            
+
                             var deferred = $q.defer();
                             pmBackComHandler.post('selectMoeForProject/' + projectId, {entityId: selectedEntityId})
                                     .then(function (response) {
@@ -309,17 +309,19 @@
                             return deferred.promise;
                         },
                         /*
+                         * Met fin à la réalisation du projet
                          * 
+                         * @param projectId {number} id du projet
                          */
                         endProject: function (projectId) {
                             pmLog.trace({message: "Entrée méthode", object: objectName, method: "unpostulate", tag: "methodEntry"});
-                            
+
                             if (isNaN(projectId)) {
                                 pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
                                     params: {params: arguments}, tag: "params", object: objectName, method: "endProject"});
                                 throw new Error('Erreur de paramètres en entrée de méthode.');
                             }
-                            
+
                             var deferred = $q.defer();
                             pmBackComHandler.post('endProject/' + projectId)
                                     .then(function (response) {
@@ -328,6 +330,35 @@
                                     .catch(function (response) {
                                         deferred.reject(response);
                                     });
+                            return deferred.promise;
+                        },
+                        /*
+                         * Ajoute des documents au projet
+                         * 
+                         * @param projectId {number} id du projet
+                         * @param documents {object} document à envoyer au back
+                         *  {
+                         *      title: {string},
+                         *      url: {string},
+                         *      extension: {string}
+                         *  }
+                         */
+                        addDocument: function (projectId, document) {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "addDocument", tag: "methodEntry"});
+
+                            if (isNaN(projectId) || document.title === undefined || document.url === undefined || document.extension === undefined) {
+                                pmLog.error({message: "Erreur de paramètres en entrée de méthode.",
+                                    params: {params: arguments}, tag: "params", object: objectName, method: "addDocument"});
+                                throw new Error('Erreur de paramètres en entrée de méthode.');
+                            }
+
+                            var deferred = $q.defer();
+                            pmBackComHandler.post('project/' + projectId + '/addDocument', document)
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    }).catch(function (response) {
+                                deferred.reject(response);
+                            });
                             return deferred.promise;
                         }
                     };

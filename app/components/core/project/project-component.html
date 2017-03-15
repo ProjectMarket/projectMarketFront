@@ -12,11 +12,11 @@
                 <div ng-message="md-maxlength">Le titre du projet doit contenir au maximun 20 caractères.</div>
             </div>
         </md-input-container>
-        
+
         <div ng-if="$ctrl.vm.project.image !== undefined">
             <img ng-src="{{$ctrl.vm.project.image}}" class="project_image"/>
         </div>
-        
+
         <md-input-container ng-if="$ctrl.vm.formAction === 'create' || ($ctrl.vm.project.isMine && !$ctrl.vm.project.isStarted)">
             <md-button class="md-primary md-raised" ngf-select="$ctrl.vm.uploadFiles($files)" title="upload" resetOnClick="true" >Upload</md-button>
         </md-input-container>
@@ -88,7 +88,7 @@
                     <a class="pseudo" ng-link="['Core.user', {userId: $ctrl.vm.project.moa.id}]" 
                        ng-bind-html="$ctrl.vm.project.moa.lastName + '&nbsp;' + $ctrl.vm.project.moa.firstName"></a>
                     <div style="text-align: center;">
-                        <img src="{{$ctrl.vm.project.moa.avatar}}" 
+                        <img ng-src="{{$ctrl.vm.project.moa.avatar}}" 
                              alt="{{$ctrl.vm.project.moa.lastName}}" class="avatar" layout-margin/>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                     <a class="pseudo" ng-link="['Core.society', {userId: $ctrl.vm.project.moa.id}]" 
                        ng-bind-html="$ctrl.vm.project.moa.legalname"></a>
                     <div class="md-media-sm">
-                        <img src="{{$ctrl.vm.project.moa.avatar}}" 
+                        <img ng-src="{{$ctrl.vm.project.moa.avatar}}" 
                              alt="{{$ctrl.vm.project.moa.legalname}}" class="avatar"/>
                     </div>
                 </div>
@@ -167,13 +167,13 @@
                     </div>
                 </div>
                 <md-divider ng-if="$ctrl.vm.project.appliants.length > 0 && $ctrl.vm.project.isMine"></md-divider>
-                <div ng-if="$ctrl.vm.project.appliants.length > 0 && $ctrl.vm.project.isMine" layout="raw" flex="100">
-                    Liste des entreprises postulant à votre projet
+                <div ng-if="$ctrl.vm.project.appliants.length > 0 && $ctrl.vm.project.isMine" flex>
+                    <div flex>Liste des entreprises postulant à votre projet</div>
                     <div ng-repeat="appliant in $ctrl.vm.project.appliants" flex="75">
                         <a class="pseudo" ng-link="['Core.society', {userId: appliant.id}]" 
                            ng-bind-html="appliant.legalname"></a>
                         <div class="md-media-sm">
-                            <img src="{{appliant.avatar}}" 
+                            <img ng-src="{{appliant.avatar}}" 
                                  alt="{{appliant.legalname}}" class="avatar"/>
                         </div>
                     </div>
@@ -190,9 +190,23 @@
                     Entreprise réalisant ce projet
                     <a class="pseudo" ng-link="['Core.society', {userId: $ctrl.vm.project.moe.id}]" 
                        ng-bind-html="$ctrl.vm.project.moe.legalname"></a>
-                    <div class="md-media-sm">
-                        <img src="{{$ctrl.vm.project.moe.avatar}}" 
+                    <div>
+                        <img ng-src="{{$ctrl.vm.project.moe.avatar}}" 
                              alt="{{$ctrl.vm.project.moe.legalname}}" class="avatar"/>
+                    </div>
+                </div>
+                <div ng-if="$ctrl.vm.project.canShowDoc" layout-align="start center">
+                    <md-divider></md-divider>
+                    Liste des documents du projet
+                    <md-input-container ng-if="$ctrl.vm.project.canEdit">
+                        <md-button ng-click="$ctrl.vm.showPicker()" class="md-raised md-accent">Ajouter un document</md-button>
+                    </md-input-container>
+                    <div ng-repeat="doc in $ctrl.vm.project.documents">
+                        <md-icon md-svg-icon="docs" aria-label="Document"></md-icon>
+                        <p ng-bind-html="doc.title"></p>
+                        <md-button ng-href="{{doc.url}}" class="md-primary md-raised">
+                            Télécharger
+                        </md-button>
                     </div>
                 </div>
             </div>
