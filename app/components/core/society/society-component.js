@@ -200,7 +200,6 @@
             });
         };
 
-
         vm.dragOverClass = function ($event) {
             var items = $event.dataTransfer.items;
             var hasFile = false;

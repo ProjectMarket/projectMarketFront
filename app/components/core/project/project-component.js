@@ -106,7 +106,7 @@
                 });
             }
 
-            if (_routeParams.action !== "create") {console.info(_backObjects.project);
+            if (_routeParams.action !== "create") {
                 console.info(_backObjects.project);
                 vm.project.id = _backObjects.project.id;
                 vm.project.title = _backObjects.project.title;
@@ -135,7 +135,7 @@
                     vm.project.moe = {
                         id: _backObjects.project.moe.id,
                         legalname: _backObjects.project.moe.associatedElement.legalname,
-                        avatar: _backObjects.project.moa.associatedElement.avatar
+                        avatar: _backObjects.project.moe.associatedElement.avatar
                     };
                 }
 
@@ -156,6 +156,8 @@
                         break;
                     }
                 }
+            } else {
+                vm.project.image = "http://res.cloudinary.com/htfvk4l8n/image/upload/v1485958037/defaultProject_bh1177.png";
             }
         };
 
@@ -262,22 +264,6 @@
                     });
                 }
             });
-        };
-
-        vm.dragOverClass = function ($event) {
-            var items = $event.dataTransfer.items;
-            var hasFile = false;
-            if (items != null) {
-                for (var i = 0; i < items.length; i++) {
-                    if (items[i].kind == 'file') {
-                        hasFile = true;
-                        break;
-                    }
-                }
-            } else {
-                hasFile = true;
-            }
-            return hasFile ? "dragover" : "dragover-err";
         };
 
         /*

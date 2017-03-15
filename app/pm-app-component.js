@@ -170,11 +170,24 @@
                 controller: function ($scope, $mdDialog) {
                     var vm = this.vm = {};
                     vm.userDetails = {
-                        type: 'user'
+                        type: 'user',
+                        avatar: "http://res.cloudinary.com/htfvk4l8n/image/upload/v1485957950/defaultUser_hgae8v.png"
                     };
                     vm.cancel = function () {
                         $mdDialog.cancel();
                     };
+                    
+                    $scope.$watch(function(){
+                        return vm.userDetails.type;
+                    }, function(newValue, oldValue) {
+                       if(newValue !== oldValue) {
+                           if(newValue === "user") {
+                               vm.userDetails.avatar = "http://res.cloudinary.com/htfvk4l8n/image/upload/v1485957950/defaultUser_hgae8v.png";
+                           } else {
+                               vm.userDetails.avatar = "http://res.cloudinary.com/htfvk4l8n/image/upload/v1485957953/defaultSociety_bqg3ue.png";
+                           }
+                       } 
+                    });
                     vm.uploadFiles = function (files) {
                         var d = new Date();
                         var title = "Image (" + d.getDate() + " - " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ")";

@@ -2,28 +2,26 @@
 
     <md-card flex="30" layout="column">
 
+        <section>
+          	<div style="background:url({{$ctrl.vm.userAccount.avatar}});background-size:100% 100%;display:inline-block;width:40%;height:100px;float:left;"></div>
 
-      	<img ng-src="{{$ctrl.vm.display.avatar}}" class="profil_image" alt="">
-
-        <h3>{{$ctrl.vm.display.legalname}}</h3>
-        <p>{{$ctrl.vm.display.description}} </p>
-
-         <md-divider></md-divider>
-
-        <p>{{$ctrl.vm.display.address}} </p>                                 
-		<label>{{$ctrl.vm.display.postalcode}} <label>
-		<label>{{$ctrl.vm.display.city}} <label>
-		<label>{{$ctrl.vm.display.country}} <label>
+            <div style="display:inline-block;width:40%;height:100px;float:right;">
+                <h3 style="display:block;font-size:18px;color:rgb(0,172,193);height:80%;padding-top:10%;vertical-align:middle;">{{$ctrl.vm.userAccount.legalname}}</h3>
+            </div>
+        </section>
+        <p style="text-align:justify;font-size:14px;">{{$ctrl.vm.userAccount.description}} </p>
 
 		<md-divider></md-divider>
- 
+
+        <p style="font-size:12px;">{{$ctrl.vm.userAccount.address}} - {{$ctrl.vm.userAccount.postalcode}} {{$ctrl.vm.userAccount.city}} {{$ctrl.vm.userAccount.country}}</p>
+
+		<md-divider></md-divider>
 
 		<md-button class="md-raised md-warn"
 			ng-if="!$ctrl.vm.isMyAccount"
             ng-click="$ctrl.vm.contact()">
             Contacter
-        </md-button> 
-
+        </md-button>
     </md-card>
 
     <md-card  flex="70" style="min-height: 500px;">
@@ -149,7 +147,7 @@
                                         <h3>{{$ctrl.vm.selected.name}}</h3>
                                         <p> Modifiez votre mail et/ou votre mot de passe</p>
 
-                                        <md-input-container>                                   
+                                        <md-input-container>
                                             <md-icon md-svg-src="../../../assets/img/icons/ic_email_24px.svg" class="email"></md-icon>
 
                                             <input type="email" name="email" required ng-model="$ctrl.vm.userAccount.email"  placeholder="E-Mail" ng-pattern="/^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/">
@@ -167,13 +165,13 @@
                                             Modifier adresse e-mail
                                         </md-button>
                                     </form>
-                                    <form name=userFormPassword layout="column">
+                                    <form name="userFormPassword" layout="column">
                                         <md-input-container>
                                             <label>Mot de passe actuel</label>
-                                            <input type="password" ng-model="$ctrl.vm.userAccount.oldpassword" 
+                                            <input type="password" ng-model="$ctrl.vm.userAccount.oldpassword"
                                                    name="password"
                                                    required ng-minlength="4">
-                                            <div ng-messages="userFormPassword.password.$error" 
+                                            <div ng-messages="userFormPassword.password.$error"
                                                  ng-if="userFormPassword.password.$touched"
                                                  class="pm-front-validation-messages">
                                                 <div ng-message="required">Merci de saisir un mot de passe.</div>
@@ -186,7 +184,7 @@
                                             <input type="password" ng-model="$ctrl.vm.userAccount.newpassword"
                                                    name="new_password"
                                                    required ng-minlength="4">
-                                            <div ng-messages="userFormPassword.new_password.$error" 
+                                            <div ng-messages="userFormPassword.new_password.$error"
                                                  ng-if="userFormPassword.new_password.$touched"
                                                  class="pm-front-validation-messages">
                                                 <div ng-message="required">Merci de saisir un mot de passe.</div>
@@ -196,14 +194,14 @@
 
                                         <md-input-container>
                                             <label>Confimation</label>
-                                            <input type="password" ng-model="$ctrl.vm.userAccount.passwordConfirm"  
+                                            <input type="password" ng-model="$ctrl.vm.userAccount.passwordConfirm"
                                                    name="confirm_password"
                                                    compare-to="$ctrl.vm.userAccount.newpassword"
                                                    >
                                             <div ng-messages="userFormPassword.confirm_password.$error"
                                                  ng-if="userFormPassword.confirm_password.$dirty"
                                                  class="pm-front-validation-messages">
-                                                <div ng-message="compareTo" 
+                                                <div ng-message="compareTo"
                                                      ng-if="userFormPassword.confirm_password.$dirty">Les mots de passes indiqués ne sont pas identiques.</div>
                                             </div>
                                         </md-input-container>
@@ -247,7 +245,7 @@
                                 evt.currentTarget.className += " w3-red";
                             }
                         </script>
-                    </md-tab-body>  
+                    </md-tab-body>
                 </md-tab>
             </md-tabs>
         </md-content>

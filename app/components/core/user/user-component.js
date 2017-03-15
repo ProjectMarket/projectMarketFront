@@ -199,6 +199,7 @@
         };
 
 
+<<<<<<< HEAD
         vm.dragOverClass = function ($event) {
             var items = $event.dataTransfer.items;
             var hasFile = false;
@@ -244,6 +245,8 @@
             pmFlashMessage.showCustomDialog(options);    
         };
 
+=======
+>>>>>>> 933de67247bacd6e91718ceff5f4dfd01c7c17d9
         /*
          * Suppression du compte
          * 
