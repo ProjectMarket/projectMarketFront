@@ -46,7 +46,6 @@ window.pmLocalConfig = {
   backend: {
     // base url du serveur de backend, avec le / final
     // {string}
-    //baseUrl: 'http://isa-back-emulated.local.ac-bordeaux.fr/'
     baseUrl: 'http://projectmarketapi.herokuapp.com/'
   },
   // serveur back

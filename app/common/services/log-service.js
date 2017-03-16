@@ -22,19 +22,15 @@
       .module('pm.commonModule')
       .factory(objectName, [
         '$window',
-        '$interval',
         '$injector',
         '$q',
         'pm.common.configService',
-        'pm.common.stacktraceService',
         'pm.common.timeService',
         function(
             $window,
-            $interval,
             $injector,
             $q,
             pmConfig,
-            pmStacktrace,
             pmTime) {
 
           //********************
@@ -192,14 +188,6 @@
               }
               // ajout de la trace
               if (options.exception !== undefined) {
-                pmStacktrace.StackTrace.fromError(options.exception)
-                    .then(function(trace) {
-                      logObject.FrontEndLog = trace.toString();
-                    })
-                    .finally(function() {
-                      // enregistrement pour envoi ultérieur au serveur back
-                      _waitLogList.push(logObject);
-                    });
               } else {
                 // enregistrement pour envoi ultérieur au serveur back
                 _waitLogList.push(logObject);
