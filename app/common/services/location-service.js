@@ -1,5 +1,5 @@
 /** 
- * Service de gestion des données de l'utilisateur connecté
+ * Service de gestion de la localisation
  * 
  * @author     Romain Poussin (romain.poussin@ynov.com)
  * @author     Baptiste Lanusse (baptiste.lanusse@ynov.com)
@@ -303,8 +303,8 @@
                                         "Zambie (ZM)", 
                                         "Zimbabwe (ZW)"];
 
-                            return pays 
-                        },
+                            return pays; 
+                        }
                     };
                     return _factory;
                 }]

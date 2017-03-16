@@ -217,6 +217,7 @@
                                 });
                             }
                         });
+                       
                     };
 
                     vm.dragOverClass = function ($event) {

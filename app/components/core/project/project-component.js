@@ -34,10 +34,9 @@
                     'pm.common.userService',
                     'pm.common.timeService',
                     'pm.common.flashMessageService',
+                    'pm.common.imagesService',
                     'pm.common.projectModel',
                     'pm.common.categoryModel',
-                    'Upload',
-                    'cloudinary',
                     'pm.common.filepickerService',
                     Controller]
             });
@@ -51,10 +50,9 @@
             pmUser,
             pmTime,
             pmFlashMessage,
+            pmImages,
             pmProjectModel,
             pmCategoryModel,
-            $upload,
-            cloudinary,
             filePicker
             ) {
 
@@ -236,34 +234,10 @@
         };
 
         vm.uploadFiles = function (files) {
-            var d = new Date();
-            var title = "Image (" + d.getDate() + " - " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ")";
-
-            if (!files)
-                return;
-            angular.forEach(files, function (file) {
-                if (file && !file.$error) {
-                    file.upload = $upload.upload({
-                        url: "https://api.cloudinary.com/v1_1/" + cloudinary.config().cloud_name + "/upload",
-                        data: {
-                            api_key: cloudinary.config().api_key,
-                            api_secret: cloudinary.config().api_secret,
-                            tags: 'myphotoalbum',
-                            context: 'photo=' + title,
-                            file: file,
-                            upload_preset: cloudinary.config().upload_preset
-                        },
-                        withCredentials: false
-                    }).progress(function (e) {
-                        file.progress = Math.round((e.loaded * 100.0) / e.total);
-                        file.status = "Uploading... " + file.progress + "%";
-                    }).success(function (data, status, headers, config) {
-                        vm.project.image = data.url;
-                    }).error(function (data, status, headers, config) {
-                        file.result = data;
+            pmImages.uploadFiles(files, 'project')
+                    .then(function (response) {
+                        vm.project.image = response;
                     });
-                }
-            });
         };
 
         /*
