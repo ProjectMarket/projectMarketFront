@@ -1,0 +1,19 @@
+<md-dialog aria-label="Candidature"
+           ng-cloak>
+    <md-toolbar> <div class="md-toolbar-tools"> <h2> Message privé</h2> <span flex></span>
+      <md-button class="md-icon-button" ng-click="$ctrl.vm.cancel()">
+        X
+      </md-button></div> </md-toolbar>
+    <md-input-container>
+        <label>Entrez votre message</label>
+        <textarea ng-model="$ctrl.vm.candidat.message" aria-label="Message à votre futur client">
+         
+        </textarea>
+    </md-input-container>
+    <span layout="column" layout-align="center center">
+        <md-button type="submit" class="md-primary md-raised"
+                   ng-click="$ctrl.vm.confirm()">
+            Envoyer
+        </md-button>
+    </span>
+</md-dialog>
