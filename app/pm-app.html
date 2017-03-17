@@ -5,7 +5,7 @@
         </md-button>
 
         <h1 id="accueil">
-             <a ng-link="['Core.home']" class="home" >Project Market</a>
+            <a ng-link="['Core.home']" class="home" >Project Market</a>
         </h1>
         <span flex></span>
         <div hide show-gt-sm layout="row" layout-align="center center">
@@ -20,6 +20,10 @@
             <md-button ng-if="$ctrl.vm.isConnected" aria-label="Mon compte" ng-link="['Core.' + $ctrl.vm.user.type, {userId: $ctrl.vm.user.userId}]">
                 <md-icon md-svg-icon="account" aria-label="Mon compte"></md-icon>
                 Mon compte
+            </md-button>
+            <md-button ng-if="$ctrl.vm.isConnected" aria-label="Mon compte" ng-link="['Core.message']">
+                <md-icon md-svg-icon="mail" aria-label="Ma messagerie"></md-icon>
+                Ma messagerie
             </md-button>
             <md-button ng-if="$ctrl.vm.isConnected" aria-label="Se déconnecter" ng-click="$ctrl.vm.signout()">
                 <md-icon md-svg-icon="layout:logout" aria-label="Se déconnecter"></md-icon>
@@ -37,7 +41,7 @@
                         S'inscrire
                     </md-button>
                 </md-menu-item>
-                <md-menu-item ng-if="!$ctrl.vm.isConnected" >
+                <md-menu-item ng-if="!$ctrl.vm.isConnected">
                     <md-button aria-label="Se connecter" ng-click="$ctrl.vm.signin()">
                         <md-icon md-svg-icon="layout:login" aria-label="Se connecter"></md-icon>
                         Se connecter
@@ -49,7 +53,13 @@
                         Mon compte
                     </md-button>
                 </md-menu-item>
-                <md-menu-item ng-if="$ctrl.vm.isConnected" >
+                <md-menu-item ng-if="$ctrl.vm.isConnected">
+                    <md-button ng-if="$ctrl.vm.isConnected" aria-label="Mon compte" ng-link="['Core.message']">
+                        <md-icon md-svg-icon="mail" aria-label="Ma messagerie"></md-icon>
+                        Ma messagerie
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item ng-if="$ctrl.vm.isConnected">
                     <md-button aria-label="Se déconnecter" ng-click="$ctrl.vm.signout()">
                         <md-icon md-svg-icon="layout:logout" aria-label="Se déconnecter"></md-icon>
                         Se déconnecter

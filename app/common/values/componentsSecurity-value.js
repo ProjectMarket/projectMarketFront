@@ -75,6 +75,10 @@
                                 "help": {
                                     "isProtected": true,
                                     "crudObjects": []
+                                },
+                                "message": {
+                                    "isProtected": true,
+                                    "crudObjects": []
                                 }
                             },
                             "admin": {

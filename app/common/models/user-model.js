@@ -42,28 +42,6 @@
 
                     var _factory = {
                         /*
-                         * Renvoie le nom des alternatingWeeks
-                         * 
-                         * @param {array} objects
-                         * @return {array} strings
-                         */
-                        getObjectsDisplayNames: function (objects) {
-                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "getObjectsDisplayNames", tag: "methodEntry"});
-                            pmLog.debug({message: "Paramètres méthode : {{params}}",
-                                params: {params: arguments}, tag: "params", object: objectName, method: "getObjectsDisplayNames"});
-                            try {
-                                var names = [];
-                                for (var i = 0, length = objects.length; i < length; i++) {
-                                    names.push(objects[i].AlternatingWeeks.name);
-                                }
-                                return names;
-                            } catch (e) {
-                                pmLog.error({message: "Erreur de paramètres en entrée de méthode. Message d'exception={{exceptionMessage}}",
-                                    params: {exceptionMessage: e.message}, tag: "error", object: objectName, method: "getObjectsDisplayNames"});
-                                throw new Error(e.message);
-                            }
-                        },
-                        /*
                          * Renvoie les infos d'un utilisateur
                          * 
                          * @param {Object} options: {

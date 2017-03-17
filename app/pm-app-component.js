@@ -19,6 +19,7 @@
                 $routeConfig: [
                     {path: '/', component: 'pm.home.homeComponent', name: 'Home.home'},
                     {path: '/home', component: 'pm.core.homeComponent', name: 'Core.home'},
+                    {path: '/message', component: 'pm.core.messageComponent', name: 'Core.message'},
                     {path: '/user/:userId', component: 'pm.core.userComponent', name: 'Core.user'},
                     {path: '/society/:userId', component: 'pm.core.societyComponent', name: 'Core.society'},
                     {path: '/project/:action/:projectId', component: 'pm.core.projectComponent', name: 'Core.project'},
