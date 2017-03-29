@@ -435,6 +435,7 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "$onActivate", tag: "methodEntry"});
             pmLog.debug({message: "$routeParams : {{routeParams}}", params: {routeParams: routeParams}, tag: "$routeParams", object: componentName});
 
+            _this.pmAppController.vm.setColorMail();
 
             try {
                 _loadMessages();

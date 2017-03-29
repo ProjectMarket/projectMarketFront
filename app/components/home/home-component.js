@@ -97,7 +97,6 @@
          */
         vm.isConnected = pmAuth.isConnected();
 
-
         //*******************
         // Méthodes du scope
         //*******************

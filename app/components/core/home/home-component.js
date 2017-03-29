@@ -153,6 +153,7 @@
                 params: {params: arguments}, tag: "params", object: componentName, method: "$routerOnActivate"});
 
             _this.pmAppController.vm.setModule('Core.home');
+            _this.pmAppController.vm.setColorMail();
 
             pmProjectModel.readAll()
                     .then(function (response) {

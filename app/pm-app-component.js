@@ -23,20 +23,8 @@
                     {path: '/user/:userId', component: 'pm.core.userComponent', name: 'Core.user'},
                     {path: '/society/:userId', component: 'pm.core.societyComponent', name: 'Core.society'},
                     {path: '/project/:action/:projectId', component: 'pm.core.projectComponent', name: 'Core.project'},
-//                    {path: '/index', component: 'pm.core.indexComponent', name: 'Core.index'},
-//                    {path: '/login/:relayPath', component: 'pm.core.loginComponent', name: 'Core.login'},
-//                    {path: '/logout', component: 'pm.core.logoutComponent', name: 'Core.logout'},
                     {path: '/error/:type/:code', component: 'pm.core.errorComponent', name: 'Core.error'},
-//                    {path: '/admin/settings/home', component: 'pm.admin.settings.homeComponent', name: 'Admin.settings.home'},
-//                    {path: '/admin/settings/school-year/:action/:schoolYearId', component: 'pm.admin.settings.schoolYearComponent', name: 'Admin.settings.schoolYear'},
-//                    {path: '/admin/settings/period-type/:action/:periodTypeId', component: 'pm.admin.settings.periodTypeComponent', name: 'Admin.settings.periodType'},
-//                    {path: '/admin/settings/timetable-container/:action/:timetableContainerId', component: 'pm.admin.settings.timetableContainerComponent', name: 'Admin.settings.timetableContainer'},
-//                    {path: '/admin/permissions', component: 'pm.admin.permissionsComponent', name: 'Admin.permissions'},
-//                    {path: '/help', component: 'pm.core.helpComponent', name: 'Core.help'},
-//                    {path: '/admin/roles', component: 'pm.admin.userSchoolRolesComponent', name: 'Admin.userSchoolRoles'},
-//                    {path: '/admin/settings/alternating-weeks/:action/:alternatingWeeksId', component: 'pm.admin.settings.alternatingWeeksComponent', name: 'Admin.settings.alternatingWeeks'},
                     {path: '/core/404', component: 'pm.core.404Component', name: 'Core.404'}
-//                    {path: '/**', component: 'pm.core.homeComponent', name: 'Core.home'}
                 ],
                 $canActivate: ['pm.common.routerService',
                     function (pmRouter) {
@@ -55,6 +43,7 @@
                     '$mdSidenav',
                     '$mdMedia',
                     'pm.common.userModel',
+                    'pm.common.userService',
                     'Upload',
                     'cloudinary',
                     Controller]
@@ -74,6 +63,7 @@
             $mdSidenav,
             $mdMedia,
             pmUserModel,
+            pmUserService,
             $upload,
             cloudinary
             ) {
@@ -131,10 +121,32 @@
         vm.user = {
             userId: undefined
         };
+        /*
+         * @property {boolean} l'utilisateur a-t-il des messages non lus ?
+         */
+        vm.hasMailNotRead = false;
+
         //*******************
         // Méthodes du scope
         //*******************
-
+        vm.setColorMail = function () {
+            console.info("pute de méthode");
+            if (vm.isConnected) {
+                console.info("maj color mail");
+                pmUserModel.readById({entityId: pmUserService.getAccountId()})
+                        .then(function (response) {
+                            for (var i = 0; i < response.messages.length; i++) {
+                                if (!response.messages[i].read) {
+                                    vm.hasMailNotRead = true;
+                                    return;
+                                }
+                            }
+                            vm.hasMailNotRead = false;
+                        }).catch(function (response) {
+                    vm.hasMailNotRead = false;
+                });
+            }
+        };
 
         /*
          * Affecation du module en cours pour affichage
@@ -177,17 +189,17 @@
                     vm.cancel = function () {
                         $mdDialog.cancel();
                     };
-                    
-                    $scope.$watch(function(){
+
+                    $scope.$watch(function () {
                         return vm.userDetails.type;
-                    }, function(newValue, oldValue) {
-                       if(newValue !== oldValue) {
-                           if(newValue === "user") {
-                               vm.userDetails.avatar = "http://res.cloudinary.com/htfvk4l8n/image/upload/v1485957950/defaultUser_hgae8v.png";
-                           } else {
-                               vm.userDetails.avatar = "http://res.cloudinary.com/htfvk4l8n/image/upload/v1485957953/defaultSociety_bqg3ue.png";
-                           }
-                       } 
+                    }, function (newValue, oldValue) {
+                        if (newValue !== oldValue) {
+                            if (newValue === "user") {
+                                vm.userDetails.avatar = "http://res.cloudinary.com/htfvk4l8n/image/upload/v1485957950/defaultUser_hgae8v.png";
+                            } else {
+                                vm.userDetails.avatar = "http://res.cloudinary.com/htfvk4l8n/image/upload/v1485957953/defaultSociety_bqg3ue.png";
+                            }
+                        }
                     });
                     vm.uploadFiles = function (files) {
                         var d = new Date();
@@ -218,7 +230,7 @@
                                 });
                             }
                         });
-                       
+
                     };
 
                     vm.dragOverClass = function ($event) {
@@ -331,9 +343,11 @@
 
         // Mise en place d'un « listener » pour mettre à jour l'état de connexion de l'utilisateur
         $scope.$on('pm.common.authService:userConnected', function () {
+            console.info("listener en place");
             vm.isConnected = true;
             vm.user.userId = pmUser.getAccountId();
             vm.user.type = pmUser.getType();
+            vm.setColorMail();
         });
         $scope.$on('pm.common.authService:userDisconnected', function () {
             vm.isConnected = false;
@@ -396,6 +410,7 @@
         _this.$routerOnActivate = function (nextInstruction, prevInstruction) {
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "$routerOnActivate", tag: "methodEntry"});
             _setIsAllowedAccessToComponents();
+            vm.setColorMail();
         };
     }
     ;

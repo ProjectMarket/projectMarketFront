@@ -21,8 +21,12 @@
                 <md-icon md-svg-icon="account" aria-label="Mon compte"></md-icon>
                 Mon compte
             </md-button>
-            <md-button ng-if="$ctrl.vm.isConnected" aria-label="Mon compte" ng-link="['Core.message']">
+            <md-button ng-if="$ctrl.vm.isConnected && !$ctrl.vm.hasMailNotRead" aria-label="Mon compte" ng-link="['Core.message']">
                 <md-icon md-svg-icon="mail" aria-label="Ma messagerie"></md-icon>
+                Ma messagerie
+            </md-button>
+            <md-button ng-if="$ctrl.vm.isConnected && $ctrl.vm.hasMailNotRead" aria-label="Mon compte" ng-link="['Core.message']">
+                <md-icon md-svg-icon="mailNotRead" aria-label="Ma messagerie"></md-icon>
                 Ma messagerie
             </md-button>
             <md-button ng-if="$ctrl.vm.isConnected" aria-label="Se déconnecter" ng-click="$ctrl.vm.signout()">
@@ -54,8 +58,12 @@
                     </md-button>
                 </md-menu-item>
                 <md-menu-item ng-if="$ctrl.vm.isConnected">
-                    <md-button ng-if="$ctrl.vm.isConnected" aria-label="Mon compte" ng-link="['Core.message']">
+                    <md-button ng-if="$ctrl.vm.isConnected && !$ctrl.vm.hasMailNotRead" aria-label="Mon compte" ng-link="['Core.message']">
                         <md-icon md-svg-icon="mail" aria-label="Ma messagerie"></md-icon>
+                        Ma messagerie
+                    </md-button>
+                    <md-button ng-if="$ctrl.vm.isConnected && $ctrl.vm.hasMailNotRead" aria-label="Mon compte" ng-link="['Core.message']">
+                        <md-icon md-svg-icon="mailNotRead" aria-label="Ma messagerie"></md-icon>
                         Ma messagerie
                     </md-button>
                 </md-menu-item>

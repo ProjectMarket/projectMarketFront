@@ -409,6 +409,7 @@
             pmLog.debug({message: "$routeParams : {{routeParams}}", params: {routeParams: routeParams}, tag: "$routeParams", object: componentName});
 
             _this.pmAppController.vm.setModule('core.user');
+            _this.pmAppController.vm.setColorMail();
 
             vm.selected = null;
             vm.muppets = allMuppets;

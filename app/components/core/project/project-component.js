@@ -488,6 +488,7 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "$onActivate", tag: "methodEntry"});
             pmLog.debug({message: "$routeParams : {{routeParams}}", params: {routeParams: routeParams}, tag: "$routeParams", object: componentName});
             _this.pmAppController.vm.setModule('Core.project');
+            _this.pmAppController.vm.setColorMail();
             if (['read', 'create', 'update'].indexOf(routeParams.action) < 0
                     || (['read', 'update'].indexOf(routeParams.action) >= 0
                             && isNaN(parseInt(routeParams.projectId)))) {
