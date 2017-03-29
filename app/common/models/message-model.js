@@ -18,10 +18,12 @@
                 '$q',
                 'pm.common.logService',
                 'pm.common.backComHandlerService',
+                'pm.common.userService',
                 function (
                         $q,
                         pmLog,
-                        pmBackComHandler
+                        pmBackComHandler,
+                        pmUserService
                         ) {
 
                     pmLog.trace({message: "Instanciation objet", object: objectName, tag: "objectInstantiation"});
@@ -41,6 +43,24 @@
                     //********************
 
                     var _factory = {
+                        /*
+                         * Read des messages de l'Entity connecté
+                         * 
+                         * @returns {promise}
+                         */
+                        read: function () {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "send", tag: "methodEntry"});
+                            var deferred = $q.defer();
+
+                            pmBackComHandler.get('messages/' + pmUserService.getAccountId())
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+                            return deferred.promise;
+                        },
                         /*
                          * Envoie un message à une Entity
                          * 
@@ -62,8 +82,10 @@
 
                             var deferred = $q.defer();
 
-                            pmBackComHandler.get('message/' + entityId, {
-                                message: message
+                            pmBackComHandler.post('sendMessage', {
+                                senderId: pmUserService.getAccountId(),
+                                message: message,
+                                receiverId: entityId
                             })
                                     .then(function (response) {
                                         deferred.resolve(response);
@@ -72,7 +94,8 @@
                                         deferred.reject(response);
                                     });
                             return deferred.promise;
-                        },
+                        }
+                        ,
                         /*
                          * Marque une liste de message comme lus
                          * 
@@ -153,7 +176,7 @@
                             }
 
                             var deferred = $q.defer();
-                            pmBackComHandler.delete('message/', {
+                            pmBackComHandler.delete('messages', {
                                 messageIds: messageIds
                             })
                                     .then(function (response) {

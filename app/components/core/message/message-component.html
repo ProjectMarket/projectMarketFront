@@ -1,1 +1,33 @@
-<div></div>
+<div ng-if="$ctrl.vm.canDisplayView" layout-padding layout-margin layout="row">
+    <md-card flex>
+        <md-subheader class="md-primary">
+            <md-button class="md-primary md-raised" ng-click="$ctrl.vm.markedAllAsRead()">
+                Marqué(s) tous comme lus
+            </md-button>
+            <md-button class="md-primary md-raised" ng-click="$ctrl.vm.markedAsRead()" ng-disabled="!$ctrl.vm.canMarked">
+                Marqué(s) comme lus
+            </md-button>
+            <md-button class="md-primary md-raised" ng-click="$ctrl.vm.markedAllAsNotRead()">
+                Marqué(s) tous comme non lus
+            </md-button>
+            <md-button class="md-primary md-raised" ng-click="$ctrl.vm.markedAsNotRead()" ng-disabled="!$ctrl.vm.canMarked">
+                Marqué(s) comme non lus
+            </md-button>
+            <md-button class="md-primary md-raised" ng-click="$ctrl.vm.deleteAll()">
+                Tout supprimer
+            </md-button>
+        </md-subheader>
+        <md-list layout-padding>
+            <md-list-item ng-repeat="message in $ctrl.vm.messages" ng-class="{messageRead : message.read, messageNotRead : !message.read}">
+                <md-checkbox class="md-primary" ng-model="message.checked"></md-checkbox>
+                <md-button aria-label="Supprimer" ng-click="$ctrl.vm.delete(message.id)">
+                    <md-icon md-svg-icon="action:delete" aria-label="Supprimer"></md-icon>
+                    Supprimer
+                </md-button>
+                <div class="md-list-item-text">
+                    <h3>{{message.description}}</h3>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-card>
+</div>
