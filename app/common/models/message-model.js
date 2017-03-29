@@ -176,7 +176,7 @@
                             }
 
                             var deferred = $q.defer();
-                            pmBackComHandler.delete('messages', {
+                            pmBackComHandler.post('deleteMessages', {
                                 messageIds: messageIds
                             })
                                     .then(function (response) {

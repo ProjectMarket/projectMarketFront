@@ -220,7 +220,7 @@
          */
         vm.markedAllAsNotRead = function () {
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.markedAllAsNotRead", tag: "methodEntry"});
-            
+
             var messageIds = [];
             for (var i = 0; i < vm.messages.length; i++) {
                 messageIds.push(vm.messages[i].id);
@@ -275,6 +275,8 @@
          */
         vm.delete = function (messageId) {
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.delete", tag: "methodEntry"});
+            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                params: {params: arguments}, tag: "params", object: componentName, method: "vm.delete"});
 
             var description;
             for (var i = 0; i < vm.messages.length; i++) {
@@ -323,7 +325,7 @@
             for (var i = 0; i < vm.messages.length; i++) {
                 description.push(vm.messages[i].description);
             }
-            
+
             pmFlashMessage.showDeleteConfirm({
                 textContent: {
                     singular: "le message",
@@ -335,7 +337,7 @@
                 for (var i = 0; i < vm.messages.length; i++) {
                     messageIds.push(vm.messages[i].id);
                 }
-
+                
                 pmMessageModel.delete(messageIds)
                         .then(function (response) {
 
@@ -353,6 +355,41 @@
                 });
             });
         };
+
+        /*
+         * Répondre à un mail
+         * 
+         * @param {number} senderId
+         * @returns {void}
+         */
+        vm.answer = function (senderId) {
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.answer", tag: "methodEntry"});
+            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                params: {params: arguments}, tag: "params", object: componentName, method: "vm.answer"});
+            var options = {
+                templateUrl: 'app/components/core/user/contact.html',
+                controller: function ($scope, $mdDialog) {
+                    var vm = this.vm = {};
+                    
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                    vm.confirm = function () {
+                        // Utiliser le modèle pmMessageModel et la fonction send
+                        pmMessageModel.send(vm.candidat.message, senderId)
+                                .then(function (response) {
+                                    $mdDialog.hide();
+                                    pmFlashMessage.showSuccess("Votre message a été envoyé.");
+                                })
+                                .catch(function (response) {
+                                    pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de l'envoi du message."});
+                                });
+                    };
+                }
+            };
+            pmFlashMessage.showCustomDialog(options);
+        };
+
 
         vm.toggleSidenav = function (name) {
             $mdSidenav(name).toggle();

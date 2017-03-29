@@ -198,6 +198,7 @@
                         $mdDialog.cancel();
                     };
                     vm.confirm = function () {
+                        
                         // Vérification du formulaire
                         /* pmProjectModel.contact(vm.candidat)
                          .then(function () {

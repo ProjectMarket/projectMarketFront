@@ -20,7 +20,11 @@
         <md-list layout-padding>
             <md-list-item ng-repeat="message in $ctrl.vm.messages" ng-class="{messageRead : message.read, messageNotRead : !message.read}">
                 <md-checkbox class="md-primary" ng-model="message.checked"></md-checkbox>
-                <md-button aria-label="Supprimer" ng-click="$ctrl.vm.delete(message.id)">
+                <md-button aria-label="Répondre" ng-click="$ctrl.vm.answer(message.sender)" class="md-raised">
+                    <md-icon md-svg-icon="answer" aria-label="Répondre"></md-icon>
+                    Répondre
+                </md-button>
+                <md-button aria-label="Supprimer" ng-click="$ctrl.vm.delete(message.id)" class="md-raised">
                     <md-icon md-svg-icon="action:delete" aria-label="Supprimer"></md-icon>
                     Supprimer
                 </md-button>
