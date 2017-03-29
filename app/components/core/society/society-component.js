@@ -109,7 +109,8 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
-
+            
+            console.info("salut : ",result);
             vm.userAccount = {
                 legalname: result.associatedElement.legalname,
                 description: result.description,
@@ -118,6 +119,7 @@
                 city: result.associatedElement.city,
                 country: result.associatedElement.country,
                 email: result.email,
+                skill2: result.associatedElement.skills,
                 avatar: result.associatedElement.avatar,
                 createdAt: result.createdAt,
                 projectCreated: 0,
@@ -276,7 +278,7 @@
         vm.changeProfil = function () {
 
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeProfil", tag: "methodEntry"});
-
+            
             var options = {
                 entityId: _societyId,
                 description: vm.userAccount.description,
@@ -286,8 +288,10 @@
                 postalcode: vm.userAccount.postalcode,
                 city: vm.userAccount.city,
                 avatar: vm.userAccount.avatar,
-                country: vm.userAccount.country
+                country: vm.userAccount.country,
+                skills: vm.userAccount.skill
             };
+            console.info("skill",options);
             pmUserModel.update(options)
                     .then(function (response) {
                         var textContent = "Votre profil a bien été modifiée.";
@@ -457,6 +461,22 @@
                                 _populateViewModel(response);
                                 vm.canDisplayView = true;
                                 vm.pays = pmLocation.getPays();
+                                pmUserModel.getSkills()
+                                        .then(function (response) {
+                                            console.info("coucou : ", response);
+                                            vm.userAccount.skills = response;
+                                        })
+                                        .catch(function (response) {
+                                            var errorMessage = "Erreur lors de la récupération des compétences de l'utilisateur.";
+                                            pmLog.error({message: errorMessage,
+                                                tag: "error", object: componentName, method: "$routerOnActivate"});
+                                            var options = {
+                                                errorMessage: errorMessage,
+                                                adviceMessage: "Vous ne pouvez pas visualiser les informations de l'utilisateur."
+                                            };
+                                            pmFlashMessage.showError(options);
+                                            pmRouter.navigate(['Core.home']);
+                                        });
                             })
                             .catch(function (response) {
                                 var errorMessage = "Erreur lors de la récupération de l'utilisateur.";
@@ -469,6 +489,7 @@
                                 pmFlashMessage.showError(options);
                                 pmRouter.navigate(['Core.home']);
                             });
+
                 } else {
                     pmLog.error({message: "Impossible de récupérer un User depuis le back : societyId={{societyId}}.", object: componentName,
                         params: {societyId: routeParams.societyId}, tag: "settings", method: "$routerOnActivate"});

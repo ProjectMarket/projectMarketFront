@@ -71,6 +71,27 @@
                                     });
                             return deferred.promise;
                         },
+                                                 /*
+                         * Renvoie les compétence d'un utilisateur
+                         * 
+                         * @returns {promise}
+                         */
+                        getSkills: function () {
+                            pmLog.trace({message: "Entrée méthode", object: objectName, method: "getSkills", tag: "methodEntry"});
+                            pmLog.debug({message: "Paramètres méthode : {{params}}",
+                                params: {params: arguments}, tag: "params", object: objectName, method: "read"});
+
+                            var deferred = $q.defer();
+
+                            pmBackComHandler.get('skills')
+                                    .then(function (response) {
+                                        deferred.resolve(response);
+                                    })
+                                    .catch(function (response) {
+                                        deferred.reject(response);
+                                    });
+                            return deferred.promise;
+                        },
                         /*
                          * Crée un utilisateur
                          * 
@@ -152,7 +173,8 @@
                                 address: options.address,
                                 postalcode: options.postalcode,
                                 city: options.city,
-                                country: options.country
+                                country: options.country,
+                                skills: options.skills
                             };
 
                             pmBackComHandler.put('updateProfile/' + options.entityId, params)

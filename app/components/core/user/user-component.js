@@ -108,7 +108,7 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
-            var nbproject = 0;
+
             vm.userAccount = {
                 firstname: result.associatedElement.firstname,
                 lastname: result.associatedElement.lastname,
@@ -120,6 +120,7 @@
                 email: result.email,
                 avatar: result.associatedElement.avatar,
                 createdAt: result.createdAt,
+                skills: result.skills,
                 projectCreated: 0,
                 projectInProgressForMe: 0,
                 projectEndForMe: 0
@@ -133,7 +134,6 @@
                     vm.userAccount.projectEndForMe++;
                 }
             }
-            vm.userAccount.projectsPosted = nbproject;
             vm.display = angular.copy(vm.userAccount);
         };
         var _loadMuppets = function () {
