@@ -1,6 +1,6 @@
 <div ng-if="$ctrl.vm.canDisplayView" layout-padding layout-margin layout="row">
     <md-card flex layout-align="center center">
-        <img ng-src="{{$ctrl.vm.userAccount.avatar}}" class="profil_image" alt="">
+        <img ng-src="{{$ctrl.vm.userAccount.avatar}}" class="profil_image" alt="avatar">
         <h3>{{$ctrl.vm.display.lastname}} {{$ctrl.vm.display.firstname}}</h3>       
         <md-button class="md-raised md-warn"
                    ng-if="!$ctrl.vm.isMyAccount"
