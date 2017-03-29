@@ -119,13 +119,18 @@
                 country: result.associatedElement.country,
                 email: result.email,
                 avatar: result.associatedElement.avatar,
-                createdAt: result.createdAt
+                createdAt: result.createdAt,
+                projectCreated: 0,
+                projectInProgressForMe: 0,
+                projectEndForMe: 0
             };
-            for (var i=0, length=result.projectsPosted.length; i<length; i++){
-                console.log("Entre boucle");
-                if (result.projectsPosted[i].over !== null && result.projectsPosted[i].started !== null){
-                    console.log("coucou ");
-                    nbproject = nbproject+1;
+            // Calcul du nombre de projets créés, en cours et réalisés
+            for (var i = 0; i < result.projectsPosted.length; i++) {
+                vm.userAccount.projectCreated++;
+                if (result.projectsPosted[i].started !== null && result.projectsPosted[i].over === null) {
+                    vm.userAccount.projectInProgressForMe++;
+                } else if (result.projectsPosted[i].over !== null) {
+                    vm.userAccount.projectEndForMe++;
                 }
             }
             vm.userAccount.projectsPosted = nbproject;
