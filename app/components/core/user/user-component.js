@@ -108,7 +108,7 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
-            console.log("result §§ : ",result)
+            var nbproject = 0;
             vm.userAccount = {
                 firstname: result.associatedElement.firstname,
                 lastname: result.associatedElement.lastname,
@@ -121,7 +121,14 @@
                 avatar: result.associatedElement.avatar,
                 createdAt: result.createdAt
             };
-
+            for (var i=0, length=result.projectsPosted.length; i<length; i++){
+                console.log("Entre boucle");
+                if (result.projectsPosted[i].over !== null && result.projectsPosted[i].started !== null){
+                    console.log("coucou ");
+                    nbproject = nbproject+1;
+                }
+            }
+            vm.userAccount.projectsPosted = nbproject;
             vm.display = angular.copy(vm.userAccount);
         };
         var _loadMuppets = function () {
