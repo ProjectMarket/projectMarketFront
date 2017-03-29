@@ -38,6 +38,7 @@
                     'pm.common.userModel',
                     'pm.common.locationService',
                     'pm.common.imagesService',
+                    'pm.common.messageModel',
                     '$mdSidenav',
                     Controller]
             });
@@ -56,6 +57,7 @@
             pmUserModel,
             pmLocation,
             pmImages,
+            pmMessageModel,
             $mdSidenav
             ) {
 
@@ -109,8 +111,8 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
-            
-            console.info("salut : ",result);
+
+            console.info("salut : ", result);
             vm.userAccount = {
                 legalname: result.associatedElement.legalname,
                 description: result.description,
@@ -232,15 +234,17 @@
                     };
                     vm.confirm = function () {
                         // Vérification du formulaire
-                        /*pmProjectModel.contact(vm.candidat)
-                         .then(function () {
-                         $mdDialog.hide(vm.candidat);
-                         pmFlashMessage.showSuccess("Votre message a été envoyé.");
-                         pmRouter.renavigate();
-                         })
-                         .catch(function () {
-                         pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de votre candidature."});
-                         });*/
+                        console.info("vm.candidat.message",vm.candidat.message);
+                        console.info("_routeParams.societyId",_routeParams.societyId);
+                        pmMessageModel.send(vm.candidat.message, _societyId)
+                                .then(function () {
+                                    $mdDialog.hide();
+                                    pmFlashMessage.showSuccess("Votre message a été envoyé.");
+                                    pmRouter.renavigate();
+                                })
+                                .catch(function () {
+                                    pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de votre candidature."});
+                                });
                     };
                 }
             };
@@ -278,7 +282,7 @@
         vm.changeProfil = function () {
 
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeProfil", tag: "methodEntry"});
-            
+
             var options = {
                 entityId: _societyId,
                 description: vm.userAccount.description,
@@ -291,7 +295,7 @@
                 country: vm.userAccount.country,
                 skills: vm.userAccount.skill
             };
-            console.info("skill",options);
+            console.info("skill", options);
             pmUserModel.update(options)
                     .then(function (response) {
                         var textContent = "Votre profil a bien été modifiée.";
@@ -452,7 +456,9 @@
                 societyId = isNaN(societyId) ? undefined : societyId;
 
                 vm.isMyAccount = societyId === pmUser.getAccountId();
-
+                console.info("nikk",societyId);
+                _routeParams.societyId = societyId;
+                console.info("_routeParams.societyId",_routeParams.societyId);
                 if (societyId !== undefined) {
                     _societyId = societyId;
                     pmUserModel.readById({entityId: societyId})

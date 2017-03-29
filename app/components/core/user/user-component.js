@@ -38,6 +38,7 @@
                     'pm.common.userModel',
                     'pm.common.locationService',
                     'pm.common.imagesService',
+                    'pm.common.messageModel',
                     '$mdSidenav',
                     Controller]
             });
@@ -56,6 +57,7 @@
             pmUserModel,
             pmLocation,
             pmImages,
+            pmMessageModel,
             $mdSidenav
             ) {
 
@@ -199,15 +201,15 @@
                     };
                     vm.confirm = function () {
                         // Vérification du formulaire
-                        /* pmProjectModel.contact(vm.candidat)
+                        pmMessageModel.send(vm.candidat.message,_routeParams.userId )
                          .then(function () {
-                         $mdDialog.hide(vm.candidat);
+                         $mdDialog.hide();
                          pmFlashMessage.showSuccess("Votre message a été envoyé.");
                          pmRouter.renavigate();
                          })
                          .catch(function () {
                          pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de l'envoi du message."});
-                         }); */
+                         }); 
                     };
                 }
             };
@@ -418,7 +420,7 @@
                 userId = isNaN(userId) ? undefined : userId;
 
                 vm.isMyAccount = userId === pmUser.getAccountId();
-
+                _routeParams.userId = userId;
                 if (userId !== undefined) {
                     _userId = userId;
                     pmUserModel.readById({entityId: userId})
