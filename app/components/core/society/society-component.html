@@ -7,7 +7,7 @@
                    ng-click="$ctrl.vm.contact()">
             Contacter
         </md-button>
-        <div style='text-align: left;' layout-margin>
+        <div layout-margin>
             <p>Mes projets&nbsp;: {{$ctrl.vm.userAccount.projectCreated}}</p>
             <p>Mes projets en cours&nbsp;: {{$ctrl.vm.userAccount.projectInProgressForMe}}</p>
             <p>Mes projets terminés&nbsp;: {{$ctrl.vm.userAccount.projectEndForMe}}</p>
@@ -15,6 +15,17 @@
             <p>Les projets que je réalise&nbsp;: {{$ctrl.vm.userAccount.projectIProgress}}</p>
             <p>Les projets que j'ai réalisé&nbsp;: {{$ctrl.vm.userAccount.projectIEnd}}</p>
         </div>
+        <md-chips class="custom-chips" ng-model="$ctrl.vm.userAccount.skill2" readonly="true"
+                  md-transform-chip="$ctrl.vm.userAccount.skill($chip)" md-removable="false">
+            <md-chip-template>
+                <span>
+                    <strong>{{$chip.name}}</strong>
+                </span>
+            </md-chip-template>
+            <button md-chip-remove class="md-primary">
+                <md-icon md-svg-icon="md-close"></md-icon>
+            </button>
+        </md-chips>
     </md-card>
     <md-card  flex="70" style="min-height: 500px;">
         <md-content>
@@ -94,13 +105,11 @@
                                     <form name="profilForm" >
                                         <h2>{{$ctrl.vm.selected.name}}</h2>
                                         <p>Modifiez les paramètres de votre profil.</p>
-
-
                                         <md-list>
                                             <md-list-item>
                                                 <label>Avatar : </label>
                                                 <div ng-if="$ctrl.vm.userAccount.avatar !== undefined">
-                                                    <img ng-src="{{$ctrl.vm.userAccount.avatar}}" width="100px" height="100px" />
+                                                    <img ng-src="{{$ctrl.vm.userAccount.avatar}}" class="avatar" />
                                                 </div>
 
                                                 <md-input-container>
@@ -146,22 +155,25 @@
                                                     </md-option>
                                                 </md-select>
                                             </md-input-container>
-
-
                                         </div>
 
                                         <md-divider></md-divider>
+                                        <div layout="column">
+                                            <md-input-container>
+                                                <label>Compétences</label>
+                                                <md-select ng-model="$ctrl.vm.userAccount.skill" multiple>
+                                                    <md-optgroup label="Compétences">
+                                                        <md-option ng-value="skill.id" ng-repeat="skill in $ctrl.vm.userAccount.skills">{{skill.name}}</md-option>
+                                                    </md-optgroup>
+                                                </md-select>
+                                            </md-input-container>
+                                           
+                                            <md-button class="md-raised md-warn"
 
-                                        <md-input-container class="md-block" flex-gt-sm>
-                                            <label>Compétences</label>
-                                            <input type="text" name="skill" ng-model="$ctrl.vm.userAccount.skill">
-                                        </md-input-container>
-
-                                        <md-button class="md-raised md-warn"
-
-                                                   ng-click="$ctrl.vm.changeProfil()">
-                                            Modifier mon profil
-                                        </md-button>
+                                                       ng-click="$ctrl.vm.changeProfil()">
+                                                Modifier mon profil
+                                            </md-button>
+                                        </div>
                                     </form>
                                 </md-content>
                                 <md-content layout="column" flex class="md-padding" ng-if="$ctrl.vm.selected.name == 'Compte'">

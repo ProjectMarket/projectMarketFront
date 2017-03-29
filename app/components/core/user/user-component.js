@@ -38,6 +38,7 @@
                     'pm.common.userModel',
                     'pm.common.locationService',
                     'pm.common.imagesService',
+                    'pm.common.messageModel',
                     '$mdSidenav',
                     Controller]
             });
@@ -56,6 +57,7 @@
             pmUserModel,
             pmLocation,
             pmImages,
+            pmMessageModel,
             $mdSidenav
             ) {
 
@@ -108,7 +110,7 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
-            var nbproject = 0;
+
             vm.userAccount = {
                 firstname: result.associatedElement.firstname,
                 lastname: result.associatedElement.lastname,
@@ -120,6 +122,7 @@
                 email: result.email,
                 avatar: result.associatedElement.avatar,
                 createdAt: result.createdAt,
+                skills: result.skills,
                 projectCreated: 0,
                 projectInProgressForMe: 0,
                 projectEndForMe: 0
@@ -133,7 +136,6 @@
                     vm.userAccount.projectEndForMe++;
                 }
             }
-            vm.userAccount.projectsPosted = nbproject;
             vm.display = angular.copy(vm.userAccount);
         };
         var _loadMuppets = function () {
@@ -200,15 +202,15 @@
                     vm.confirm = function () {
                         
                         // Vérification du formulaire
-                        /* pmProjectModel.contact(vm.candidat)
+                        pmMessageModel.send(vm.candidat.message,_routeParams.userId )
                          .then(function () {
-                         $mdDialog.hide(vm.candidat);
+                         $mdDialog.hide();
                          pmFlashMessage.showSuccess("Votre message a été envoyé.");
                          pmRouter.renavigate();
                          })
                          .catch(function () {
                          pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de l'envoi du message."});
-                         }); */
+                         }); 
                     };
                 }
             };
@@ -419,7 +421,7 @@
                 userId = isNaN(userId) ? undefined : userId;
 
                 vm.isMyAccount = userId === pmUser.getAccountId();
-
+                _routeParams.userId = userId;
                 if (userId !== undefined) {
                     _userId = userId;
                     pmUserModel.readById({entityId: userId})

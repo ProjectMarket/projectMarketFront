@@ -38,6 +38,7 @@
                     'pm.common.userModel',
                     'pm.common.locationService',
                     'pm.common.imagesService',
+                    'pm.common.messageModel',
                     '$mdSidenav',
                     Controller]
             });
@@ -56,6 +57,7 @@
             pmUserModel,
             pmLocation,
             pmImages,
+            pmMessageModel,
             $mdSidenav
             ) {
 
@@ -110,6 +112,7 @@
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
 
+            console.info("salut : ", result);
             vm.userAccount = {
                 legalname: result.associatedElement.legalname,
                 description: result.description,
@@ -118,6 +121,7 @@
                 city: result.associatedElement.city,
                 country: result.associatedElement.country,
                 email: result.email,
+                skill2: result.associatedElement.skills,
                 avatar: result.associatedElement.avatar,
                 createdAt: result.createdAt,
                 projectCreated: 0,
@@ -230,15 +234,17 @@
                     };
                     vm.confirm = function () {
                         // Vérification du formulaire
-                        /*pmProjectModel.contact(vm.candidat)
-                         .then(function () {
-                         $mdDialog.hide(vm.candidat);
-                         pmFlashMessage.showSuccess("Votre message a été envoyé.");
-                         pmRouter.renavigate();
-                         })
-                         .catch(function () {
-                         pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de votre candidature."});
-                         });*/
+                        console.info("vm.candidat.message",vm.candidat.message);
+                        console.info("_routeParams.societyId",_routeParams.societyId);
+                        pmMessageModel.send(vm.candidat.message, _societyId)
+                                .then(function () {
+                                    $mdDialog.hide();
+                                    pmFlashMessage.showSuccess("Votre message a été envoyé.");
+                                    pmRouter.renavigate();
+                                })
+                                .catch(function () {
+                                    pmFlashMessage.showError({errorMessage: "Une erreur est survenue lors de votre candidature."});
+                                });
                     };
                 }
             };
@@ -286,8 +292,10 @@
                 postalcode: vm.userAccount.postalcode,
                 city: vm.userAccount.city,
                 avatar: vm.userAccount.avatar,
-                country: vm.userAccount.country
+                country: vm.userAccount.country,
+                skills: vm.userAccount.skill
             };
+            console.info("skill", options);
             pmUserModel.update(options)
                     .then(function (response) {
                         var textContent = "Votre profil a bien été modifiée.";
@@ -448,7 +456,9 @@
                 societyId = isNaN(societyId) ? undefined : societyId;
 
                 vm.isMyAccount = societyId === pmUser.getAccountId();
-
+                console.info("nikk",societyId);
+                _routeParams.societyId = societyId;
+                console.info("_routeParams.societyId",_routeParams.societyId);
                 if (societyId !== undefined) {
                     _societyId = societyId;
                     pmUserModel.readById({entityId: societyId})
@@ -457,6 +467,22 @@
                                 _populateViewModel(response);
                                 vm.canDisplayView = true;
                                 vm.pays = pmLocation.getPays();
+                                pmUserModel.getSkills()
+                                        .then(function (response) {
+                                            console.info("coucou : ", response);
+                                            vm.userAccount.skills = response;
+                                        })
+                                        .catch(function (response) {
+                                            var errorMessage = "Erreur lors de la récupération des compétences de l'utilisateur.";
+                                            pmLog.error({message: errorMessage,
+                                                tag: "error", object: componentName, method: "$routerOnActivate"});
+                                            var options = {
+                                                errorMessage: errorMessage,
+                                                adviceMessage: "Vous ne pouvez pas visualiser les informations de l'utilisateur."
+                                            };
+                                            pmFlashMessage.showError(options);
+                                            pmRouter.navigate(['Core.home']);
+                                        });
                             })
                             .catch(function (response) {
                                 var errorMessage = "Erreur lors de la récupération de l'utilisateur.";
@@ -469,6 +495,7 @@
                                 pmFlashMessage.showError(options);
                                 pmRouter.navigate(['Core.home']);
                             });
+
                 } else {
                     pmLog.error({message: "Impossible de récupérer un User depuis le back : societyId={{societyId}}.", object: componentName,
                         params: {societyId: routeParams.societyId}, tag: "settings", method: "$routerOnActivate"});

@@ -62,6 +62,7 @@
                                     });
                             return deferred.promise;
                         },
+
                         /*
                          * Renvoie les infos d'un projet
                          * 
