@@ -124,6 +124,25 @@
             vm.display = angular.copy(vm.userAccount);
         };
 
+        var _reloadSociety = function () {
+            pmLog.trace({message: "Entrée méthode", object: componentName, method: "_reloadSociety", tag: "methodEntry"});
+            pmUserModel.readById({entityId: _societyId})
+                    .then(function (response) {
+                        _populateViewModel(response);
+                    })
+                    .catch(function (response) {
+                        var errorMessage = "Erreur lors de la récupération de l'utilisateur.";
+                        pmLog.error({message: errorMessage,
+                            tag: "error", object: componentName, method: "$routerOnActivate"});
+                        var options = {
+                            errorMessage: errorMessage,
+                            adviceMessage: "Vous ne pouvez pas visualiser les informations de l'utilisateur."
+                        };
+                        pmFlashMessage.showError(options);
+                        pmRouter.navigate(['Core.home']);
+                    });
+        };
+
         var _loadMuppets = function () {
             var muppets = [{
                     name: 'Profil'
@@ -235,7 +254,6 @@
 
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "vm.changeProfil", tag: "methodEntry"});
 
-
             var options = {
                 entityId: _societyId,
                 description: vm.userAccount.description,
@@ -251,7 +269,7 @@
                     .then(function (response) {
                         var textContent = "Votre profil a bien été modifiée.";
                         pmFlashMessage.showSuccess(textContent);
-
+                        _reloadSociety();
                     })
                     .catch(function (response) {
                         var errorMessage = "Erreur lors de la modification du profil de l'utilisateur.";
@@ -291,7 +309,7 @@
 
                         var textContent = "Votre adresse mail a bien été modifiée.";
                         pmFlashMessage.showSuccess(textContent);
-
+                        _reloadSociety();
                     })
                     .catch(function (response) {
                         var errorMessage = "Erreur lors de la modification de l'adresse mail de l'utilisateur.";
@@ -341,7 +359,7 @@
 
                         var textContent = "Votre mot de passe a bien été modifiée.";
                         pmFlashMessage.showSuccess(textContent);
-
+                        _reloadSociety();
                     })
                     .catch(function (response) {
                         var errorMessage = "Erreur lors de la modification du mot de passe de l'utilisateur.";
@@ -357,7 +375,6 @@
         };
 
         vm.toggleSidenav = function (name) {
-
             $mdSidenav(name).toggle();
         };
 
