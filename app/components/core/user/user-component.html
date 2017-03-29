@@ -2,7 +2,12 @@
     <md-card flex layout-align="center center">
         <img ng-src="{{$ctrl.vm.userAccount.avatar}}" class="profil_image" alt="avatar">
         <h3>{{$ctrl.vm.display.lastname}} {{$ctrl.vm.display.firstname}}</h3>  
-        <h4>Nombre de projets : {{$ctrl.vm.userAccount.projectsPosted}}</h4>
+        <div style='text-align: left;' layout-margin>
+            <p>Mes projets&nbsp;: {{$ctrl.vm.userAccount.projectCreated}}</p>
+            <p>Mes projets en cours&nbsp;: {{$ctrl.vm.userAccount.projectInProgressForMe}}</p>
+            <p>Mes projets terminés&nbsp;: {{$ctrl.vm.userAccount.projectEndForMe}}</p>
+            <hr>
+        </div>
         <md-button class="md-raised md-warn"
                    ng-if="!$ctrl.vm.isMyAccount"
                    ng-click="$ctrl.vm.contact()">
