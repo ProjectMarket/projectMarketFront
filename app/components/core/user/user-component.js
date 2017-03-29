@@ -108,6 +108,7 @@
             pmLog.trace({message: "Entrée méthode", object: componentName, method: "_populateViewModel", tag: "methodEntry"});
             pmLog.debug({message: "Paramètres méthode : {{params}}",
                 params: {params: arguments}, tag: "params", object: componentName, method: "_populateViewModel"});
+            console.log("result §§ : ",result)
             vm.userAccount = {
                 firstname: result.associatedElement.firstname,
                 lastname: result.associatedElement.lastname,
