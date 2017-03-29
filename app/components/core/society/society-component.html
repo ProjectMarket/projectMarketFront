@@ -7,6 +7,14 @@
                    ng-click="$ctrl.vm.contact()">
             Contacter
         </md-button>
+        <div style='text-align: left;' layout-margin>
+            <p>Mes projets&nbsp;: {{$ctrl.vm.userAccount.projectCreated}}</p>
+            <p>Mes projets en cours&nbsp;: {{$ctrl.vm.userAccount.projectInProgressForMe}}</p>
+            <p>Mes projets terminés&nbsp;: {{$ctrl.vm.userAccount.projectEndForMe}}</p>
+            <hr>
+            <p>Les projets que je réalise&nbsp;: {{$ctrl.vm.userAccount.projectIProgress}}</p>
+            <p>Les projets que j'ai réalisé&nbsp;: {{$ctrl.vm.userAccount.projectIEnd}}</p>
+        </div>
     </md-card>
     <md-card  flex="70" style="min-height: 500px;">
         <md-content>

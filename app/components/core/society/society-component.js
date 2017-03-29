@@ -119,8 +119,31 @@
                 country: result.associatedElement.country,
                 email: result.email,
                 avatar: result.associatedElement.avatar,
-                createdAt: result.createdAt
+                createdAt: result.createdAt,
+                projectCreated: 0,
+                projectInProgressForMe: 0,
+                projectEndForMe: 0,
+                projectIProgress: 0,
+                projectIEnd: 0
             };
+
+            // Calcul du nombre de projets créés, en cours et réalisés
+            for (var i = 0; i < result.projectsPosted.length; i++) {
+                vm.userAccount.projectCreated++;
+                if (result.projectsPosted[i].started !== null && result.projectsPosted[i].over === null) {
+                    vm.userAccount.projectInProgressForMe++;
+                } else if (result.projectsPosted[i].over !== null) {
+                    vm.userAccount.projectEndForMe++;
+                }
+            }
+            for (var i = 0; i < result.moeForProjects.length; i++) {
+                if (result.moeForProjects[i].started !== null && result.moeForProjects[i].over === null) {
+                    vm.userAccount.projectIProgress++;
+                } else if (result.moeForProjects[i].over !== null) {
+                    vm.userAccount.projectIEnd++;
+                }
+            }
+
             vm.display = angular.copy(vm.userAccount);
         };
 
